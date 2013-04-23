@@ -26,9 +26,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                     function(i, cluster) {
                         if(cluster.getSize() > config.clustererConf.minimumClusterSize)
                             return;
-                        jQuery.each(cluster.getMarkers(), function(j, marker) {
+                        /*jQuery.each(cluster.getMarkers(), function(j, marker) {
                             marker.location.ObjectOfInterest.runWhenMetadataLoaded();
-                        });
+                        });*/
             });
     });
 
@@ -83,8 +83,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                 });
             }, 1000);
         });
-
     clusterer.on("click", function(cluster) {
+    	
         var markers = cluster.getMarkers();
         if(!markers || !markers.length) return;
         jQuery(".artmaps-popup").remove();
@@ -92,26 +92,67 @@ ArtMaps.Map.MapObject = function(container, config) {
         if(!cluster.overlay) {
             firstLoad = true;
             cluster.overlay = jQuery("<div class=\"artmaps-object-list-popup\"></div>");
+            
         }
         
-        var loadObjects = function () {
-            jQuery.each(markers, function(i, marker) {
-                var content = jQuery(document.createElement("div"))
-                    .addClass("artmaps-object-popup");
-                content.html("<img src=\"" + ArtMapsConfig.ThemeDirUrl + "/content/loading/25x25.gif\" alt=\"\" />");
-                cluster.overlay.append(content);
-                marker.location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata){
-                    content.replaceWith(ArtMaps.UI.formatMetadata(
-                            marker.location.ObjectOfInterest,
-                            metadata,
-                            marker.location));
-                });
-            });
+        var loadObjects = function (pageNo) {
+        	//console.log(pageNo);
+        	cluster.overlay.empty();
+        	var numPages = Math.floor(markers.length/10) + 1;
+        	if(markers.length%10 == 0){
+        		numPages = Math.floor(markers.length/10); 
+        		//console.log(numPages);
+        	}
+        	//console.log(numPages);
+        	var startMarker = 10*pageNo;
+    		var endMarker = 10*(pageNo+1);       	
+        	//var pageMarkers =  markers.slice(0,10);
+    		//for (var i = 1; i <= numPages; i++) {
+    		var pageMarkers =  markers.slice(startMarker,endMarker); 
+        	jQuery.each(pageMarkers, function(i, marker) {
+	                var content = jQuery(document.createElement("div"))
+	                    .addClass("artmaps-object-popup");
+	                content.html("<img src=\"" + ArtMapsConfig.ThemeDirUrl + "/content/loading/25x25.gif\" alt=\"\" />");
+	                cluster.overlay.append(content);
+	                marker.location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata){
+	                    content.replaceWith(ArtMaps.UI.formatMetadata(
+	                            marker.location.ObjectOfInterest,
+	                            metadata,
+	                            marker.location));
+	                });
+	            });
+        		pageNo++;
+        		var buttonPrev = jQuery("<div class=\"artmaps-previous-button\"> Previous </div>")
+           		var buttonNext = jQuery("<div class=\"artmaps-next-button\"> Next </div>")
+           		var page = jQuery("<div class=\"artmaps-page-number\">" + pageNo + "</div>")
+        		/*var buttonPrev = jQuery("<div> Previous </div>")
+           		var buttonNext = jQuery("<div> Next </div>")
+           		var page = jQuery("<div>" + pageNo + "</div>")*/
+        		buttonPrev.click(function() {
+        			loadObjects(pageNo-2);
+        		});
+        		buttonNext.click(function() {
+        			loadObjects(pageNo);
+        		});
+        		if(numPages>1){
+	        		if(pageNo<numPages){        			   		
+		        		if(pageNo>1){
+	        				cluster.overlay.append(buttonPrev);
+		        		}
+		        		cluster.overlay.append(page);
+		        		cluster.overlay.append(buttonNext);
+	        		}else{
+	        			if(pageNo>1){
+	        				cluster.overlay.append(buttonPrev);
+		        		}
+		        		cluster.overlay.append(page);
+	        		}
+        		}        	
         };
                 
         cluster.overlay.dialog({
             "autoOpen": true,
-            "show": { "effect": "fade", "speed": 1, "complete": firstLoad ? loadObjects : function() {} },
+            "show": { "effect": "fade", "speed": 1, "complete": firstLoad ? function() { loadObjects(0) } : function() {} },
             "hide": { "effect": "fade", "speed": 1 },
             "resizable": false,
             "dialogClass": "artmaps-popup"

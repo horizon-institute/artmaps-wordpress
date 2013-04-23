@@ -3,20 +3,20 @@ if(class_exists('ArtMapsNetwork')) {
 add_action('init', function() {
     $network = new ArtMapsNetwork();
     wp_register_script('google-jsapi',
-            'http://www.google.com/jsapi?key=' . $network->getGoogleMapsKey());
+            'https://www.google.com/jsapi?key=' . $network->getGoogleMapsKey());
     wp_register_script('google-maps',
-            'http://maps.google.com/maps/api/js?libraries=places&sensor=true&key=' . $network->getGoogleMapsKey());
+            'https://maps.google.com/maps/api/js?libraries=places&sensor=true&key=' . $network->getGoogleMapsKey());
     wp_register_script('jquery-xcolor', get_stylesheet_directory_uri() . '/js/lib/jquery.xcolor.min.js');
     wp_register_script('jquery-outside-event', get_stylesheet_directory_uri() . '/js/lib/jquery.ba-outside-events.min.js');
     wp_register_script('markerclusterer', get_stylesheet_directory_uri() . '/js/lib/markerclusterer.js');
     wp_register_script('jquery-bbq', get_stylesheet_directory_uri() . '/js/lib/jquery.ba-bbq.min.js');
     wp_register_script('styledmarker', get_stylesheet_directory_uri() . '/js/lib/styledmarker.js');
-    wp_register_script('jquery-ui-complete', "http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js");
+    wp_register_script('jquery-ui-complete', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js");
 
     wp_register_script('artmaps-map', get_stylesheet_directory_uri() . '/js/map/artmaps.js.php');
     wp_register_script('artmaps-object', get_stylesheet_directory_uri() . '/js/object/artmaps.js.php');
 
-    wp_register_style('jquery-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css');
+    wp_register_style('jquery-theme', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css');
 
     if(is_user_logged_in())
         wp_register_style('artmaps-template-general', get_stylesheet_directory_uri() . '/css/template-general-loggedin.css');

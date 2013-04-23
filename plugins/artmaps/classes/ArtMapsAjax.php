@@ -5,15 +5,16 @@ class ArtMapsAjax {
     private $rpc;
 
     public function __construct() {
+    	error_log("in function _construct");
         require_once('ArtMapsRpc.php');
         $this->rpc = new ArtMapsRpc();
     }
 
     public function createDraftComment($objectID) {
+   		error_log("in function createDraftComment");
         require_once('ArtMapsUser.php');
         $user = ArtMapsUser::currentUser();
-        $blog = $user->getExternalBlog();
-
+        $blog = $user->getExternalBlog();		
         $tmpl = $this->rpc->generateCommentTemplate($objectID);
 
         require(ABSPATH . '/wp-includes/class-IXR.php');
@@ -36,6 +37,7 @@ class ArtMapsAjax {
     }
 
     public function publishComment($objectID, $text) {
+    	error_log("in function publishComment");
         require_once('ArtMapsUser.php');
         $user = ArtMapsUser::currentUser();
         $blog = $user->getExternalBlog();

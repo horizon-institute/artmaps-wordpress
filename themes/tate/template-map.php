@@ -58,6 +58,7 @@ var config = {
     }
 };
 jQuery(function($) {
+	console.log(ArtMaps);
     var map = new ArtMaps.Map.MapObject($("#artmaps-mapcontainer"), config);
     map.registerAutocomplete(new google.maps.places.Autocomplete($("#artmaps-search-location-input").get(0)));
 

@@ -46,22 +46,30 @@ ArtMaps.UI.Marker = function(location, map) {
             : ArtMaps.UI.UserMarkerColor;
     color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
     var image = ArtMapsConfig.ThemeDirUrl + '/content/pins/icon-1.png';
-   var marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
         position: new google.maps.LatLng(location.Latitude, location.Longitude),
         icon: image
-        styleIcon: new StyledIcon(
-                StyledIconTypes.MARKER,
-                {"color": ArtMaps.UI.SuggestionMarkerColor, "starcolor": "000000"})
         });
     marker.setClickable(false);
     marker.location = location;
-    location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata) {
+    google.maps.event.addListener(marker, 'mouseover', function() {
+    	console.log("mouseover");
+    	location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata) {
+            marker.setTitle(ArtMaps.UI.getTitleFromMetadata(metadata));
+            var iw = new ArtMaps.UI.InfoWindow(location);
+            marker.setClickable(true);
+            marker.on("click", function() {
+                iw.toggle(map, marker);
+            });
+        });
+    });
+    /*location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata) {
         marker.setTitle(ArtMaps.UI.getTitleFromMetadata(metadata));
         var iw = new ArtMaps.UI.InfoWindow(location);
         marker.setClickable(true);
         marker.on("click", function() {
             iw.toggle(map, marker);
         });
-    });
+    });*/
     return marker;
 };

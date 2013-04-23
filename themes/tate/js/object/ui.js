@@ -113,12 +113,6 @@ ArtMaps.UI.Marker = function(location, map) {
             : ArtMaps.UI.UserMarkerColor;
     color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
     var image = ArtMapsConfig.ThemeDirUrl + '/content/pins/icon-2.png';
-    //var image 'icon-1.png'
-    /*var image = new google.maps.MarkerImage(ArtMapsConfig.ThemeDirUrl + '/content/pins/icon-1.png',
-    		new google.maps.Size(32,42),
-    		new google.maps.Point(0,0),
-    		new google.maps.Point(50,50)
-    	);*/
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(location.Latitude, location.Longitude),
         icon: image

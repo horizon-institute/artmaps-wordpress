@@ -32,6 +32,7 @@ class ArtMapsBlog {
     }
 
     public function getBlogID() {
+    error_log("in function getBlogID");
         return $this->blogID;
     }
 

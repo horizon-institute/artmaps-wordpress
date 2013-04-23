@@ -20,12 +20,18 @@ try {
     $coreUserID = $user->getCoreID($blog);
 }
 catch(Exception $e) { }
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") { 
+     $ajaxUrl = str_replace('http://', 'https://', admin_url('admin-ajax.php'));  
+} else { 
+     $ajaxUrl = str_replace('https://', 'http://', admin_url('admin-ajax.php'));
+}
+
 wp_localize_script('artmaps-object', 'ArtMapsConfig',
         array(
                 'CoreServerPrefix' => $core->getPrefix(),
                 'SiteUrl' => get_site_url(),
                 'ThemeDirUrl' => get_stylesheet_directory_uri(),
-                'AjaxUrl' => admin_url('admin-ajax.php'),
+                'AjaxUrl' => $ajaxUrl,
                 'IsUserLoggedIn' => is_user_logged_in(),
                 'CoreUserID' => $coreUserID
         ));
@@ -61,6 +67,7 @@ else
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 <?php wp_head(); ?>
+<script type="text/javascript" src="/artmaps/tate/wp-content/themes/tate2/js/tatekiosk.js"></script>
 </head>
 <body <?php body_class(); ?>>
 <div id="artmaps-navigation-top" class="artmaps-navigation-container">
@@ -76,8 +83,8 @@ var config = {
         "mapConf": {
             "scrollwheel": true,
             "center": new google.maps.LatLng(51.5171, 0.1062),
-            "streetViewControl": false,
-            "zoom": 12,
+            "streetViewControl": true,
+            "maxZoom": 18,
             "mapTypeId": google.maps.MapTypeId.SATELLITE,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
@@ -148,7 +155,8 @@ jQuery(document).ready(function($) {
 		var p = jQuery(document.createElement("p"));
 		p.html("Artist: " + metadata.artist + " " + metadata.artistdate
 		        + "<br />Title: " + metadata.title
-		        + "<br />Date: " + metadata.artworkdate);
+		        + "<br />Date: " + metadata.artworkdate
+		        + "<br /><a href=\"http://www.tate.org.uk/art/artworks/" + metadata.reference + "\">View on Tate Online</a>");
 		con.append(p);
 		
 		if(metadata.places) {
@@ -308,6 +316,106 @@ jQuery(document).ready(function($) {
         <?php } ?>
     });
 
+	function blog(event){
+		console.log("blogging");
+		<?php
+        if(is_user_logged_in()) {
+            $user = ArtMapsUser::currentUser();
+            if($user->getExternalBlog()->isConfigured) {
+        ?>
+        		 jQuery.post(ArtMapsConfig.AjaxUrl,
+		            {
+		                "action": "artmaps.createDraftComment",
+		                "objectID": <?= $objectID ?>
+		            },
+                    function(data) {
+                    	console.log(data); 
+                    	window.open(data.BlogUrl);
+                    	var con = jQuery(document.createElement("div"));
+		        		var text = jQuery(document.createElement("div"))
+		        		    .addClass("artmaps-action-comment-popup-body")
+				         	.text("If the pop-up is blocked and it does not take you to your blog, please click the button Open My Blog");
+				         			        
+		               var open= jQuery(document.createElement("a"))
+		                    .text("Open My Blog")
+		                    .attr("href", data.BlogUrl)                   
+		                	  		        
+				        var close = jQuery(document.createElement("div"))
+		                	.text("Close")
+		                	.click(function() {
+		                    	con.dialog("close");
+		                	});
+		                	
+		                	//btns.append(edit).append(close);
+		                var btns = jQuery(document.createElement("div"))
+		                 	.addClass("artmaps-action-comment-popup-buttons")
+		                	.append(open)
+		                	.append(close);
+                	
+		                con.append(text).append(btns).dialog({
+		                "dialogClass": "artmaps-action-comment-popup",
+		                "modal": true
+		        		});
+                    });               
+        <?php
+            } else {
+        ?>
+        var con = jQuery(document.createElement("div"));
+        var text = jQuery(document.createElement("div"))
+                .addClass("artmaps-action-comment-popup-body")
+                .text("There's still a bit more setup to be done on your account "
+                        + "before you can comment. We need the details of a "
+                        + "Wordpress blog that you can publish to to be configured "
+                        + "in your account settings.");
+        var configure = jQuery(document.createElement("a"))
+                .attr("href", "<?= admin_url(
+                        '/profile.php?artmaps_redirect='
+                        . get_permalink()) . '#artmaps' ?>")
+                .text("Configure account");
+        var close = jQuery(document.createElement("div"))
+                .text("Close")
+                .click(function() {
+                    con.dialog("close");
+                });
+        var btns = jQuery(document.createElement("div"))
+                .addClass("artmaps-action-comment-popup-buttons")
+                .append(configure)
+                .append(close);
+        con.append(text).append(btns).dialog({
+                "dialogClass": "artmaps-action-comment-popup",
+                "modal": true
+            });
+        <?php
+            }
+        } else {
+        ?>
+        var con = jQuery(document.createElement("div"));
+        var text = jQuery(document.createElement("div"))
+                .addClass("artmaps-action-comment-popup-body")
+                .html("Before you can comment, we ask that you sign in with an "
+                        + "<a href=\"http://openid.net/get-an-openid/\" target=\"_blank\">OpenID</a>. "
+                        + "If you don't know what an OpenID is, don't worry, you most likely already "
+                        + "have one without realising it. For more information please use this link: "
+                        + "<a href=\"http://openid.net/get-an-openid/\" target=\"_blank\">Get an OpenID</a>.");
+        var signin = jQuery(document.createElement("a"))
+                .attr("href", "<?= wp_login_url(get_permalink()) ?>")
+                .text("Sign in");
+        var close = jQuery(document.createElement("div"))
+                .text("Close")
+                .click(function() {
+                    con.dialog("close");
+                });
+        var btns = jQuery(document.createElement("div"))
+                .addClass("artmaps-action-comment-popup-buttons")
+                .append(signin)
+                .append(close);
+        con.append(text).append(btns).dialog({
+                "dialogClass": "artmaps-action-comment-popup",
+                "modal": true
+            });
+        <?php } ?>
+	}
+
     function comment(event) {
         <?php
         if(is_user_logged_in()) {
@@ -360,6 +468,11 @@ jQuery(document).ready(function($) {
                                     con.dialog("close");
                                 });
                         loading.remove();
+                        var close = jQuery(document.createElement("div"))
+                			.text("Close")
+                			.click(function() {
+                   				 con.dialog("close");
+                			});
                         btns.append(edit).append(close);
                     });
                 });
@@ -369,6 +482,7 @@ jQuery(document).ready(function($) {
                     con.dialog("close");
                 });
         btns
+        		//.append(blog)
                 .append(submit)
                 .append(close);
         con.append(text).append(canvas).append(btns).dialog({
@@ -433,8 +547,10 @@ jQuery(document).ready(function($) {
             });
         <?php } ?>
         $(".artmaps-action-comment-button").one("click", comment);
+        $(".artmaps-action-blog-button").one("click", blog);
     }
-    $(".artmaps-action-comment-button").one("click", comment);
+    $(".artmaps-action-comment-button").on("click", comment);
+    $(".artmaps-action-blog-button").on("click", blog);
 });
 </script>
 <div id="artmaps-objectcontainer"></div>
@@ -449,6 +565,8 @@ jQuery(document).ready(function($) {
     <div class="artmaps-mapview-link-button">Change Map View</div>
     <ul class="artmaps-mapview-menu" style="display: none;">
         <li><label><input type="radio" name="maptype" value="hybrid" />Hybrid</label></li>
+        <li><label><input type="radio" name="maptype" value="roadmap" />Roadmap</label></li>
+        <li><label><input type="radio" name="maptype" value="terrain" />Terrain</label></li>
         <li><label><input type="radio" name="maptype" value="satellite" checked="checked" />Satellite</label></li>
     </ul>
     <div class="artmaps-action-suggest-button">Suggest a location</div>
@@ -457,6 +575,7 @@ jQuery(document).ready(function($) {
 <div id="artmaps-commentcontainer">
 <H3 id="artmaps-ask-location">We think this artwork is associated with this location. What do you think?</H3>
 <div class="artmaps-action-comment-button">Add Comment</div>
+<div class="artmaps-action-blog-button">Use My Blog</div>
 <div class="artmaps-comments-text">
 Comments:
 <?php

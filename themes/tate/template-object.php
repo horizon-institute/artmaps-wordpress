@@ -29,6 +29,12 @@ wp_localize_script('artmaps-object', 'ArtMapsConfig',
                 'IsUserLoggedIn' => is_user_logged_in(),
                 'CoreUserID' => $coreUserID
         ));
+        
+/*if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") { 
+    echo "something";
+} else { 
+    echo "something other";
+}*/
 
 add_filter("body_class", function($classes) {
     $classes = array("artmaps-object");
@@ -61,6 +67,7 @@ else
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 <?php wp_head(); ?>
+<script type="text/javascript" src="/artmaps/tate/wp-content/themes/tate/js/tatekiosk.js"></script>
 </head>
 <body <?php body_class(); ?>>
 <div id="artmaps-navigation-top" class="artmaps-navigation-container">
@@ -441,9 +448,9 @@ jQuery(document).ready(function($) {
 <div id="artmaps-map-dialogcontainer">
 <div id="artmaps-mapcontainer"></div>
 <div class="artmaps-map-key">
-    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/red.jpg" alt="" />Original Location</span>
-    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/blue.jpg" alt="" />Suggested Location</span>
-    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/green.jpg" alt="" />Your Active Suggestion</span>
+    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/icon-1.png" alt="" />Original Location</span>
+    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/icon-2.png" alt="" />Suggested Location</span>
+    <span><img src="<?= get_stylesheet_directory_uri() ?>/content/pins/icon-3.png" alt="" />Your Active Suggestion</span>
 </div>
 <div id="artmaps-actionscontainer">
     <div class="artmaps-mapview-link-button">Change Map View</div>

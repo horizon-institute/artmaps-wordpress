@@ -131,6 +131,7 @@ ArtMaps.ObjectOfInterest = function(o) {
     var loadMetadata = function() {
         if(mdLoaded || mdIsLoading) return;
         mdIsLoading = true;
+        //console.log("Loading md");
 	metadataLoaderPool.queueTask(
 		ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" 
                         + o.ID + "/metadata",
