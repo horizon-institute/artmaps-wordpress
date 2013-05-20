@@ -66,6 +66,9 @@ else
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+<script type="text/javascript">
+suggestWindowOpen=false;
+</script>
 <?php wp_head(); ?>
 <script type="text/javascript" src="/artmaps/tate/wp-content/themes/tate2/js/tatekiosk.js"></script>
 </head>
@@ -78,6 +81,8 @@ else
 
 </div>
 <script type="text/javascript">
+//var suggestWindowOpen = false;
+//isOpen = false;
 var config = {
         "objectID": <?= $objectID ?>,
         "mapConf": {
@@ -259,6 +264,7 @@ jQuery(document).ready(function($) {
                 t.removeClass();
                 $("#artmaps-mapcontainer").one("click", dialogMap);
                 resetMapViewToggle();
+                 t.dialog("close");
             },
             "open": function() {
                 var centre = map.getCenter();
@@ -283,11 +289,19 @@ jQuery(document).ready(function($) {
         <?php
         if(is_user_logged_in()) {
         ?>
-        if(jQuery("#artmaps-map-dialogcontainer").dialog("isOpen") !== true)
-            dialogMap();
-        map.suggest();
+        if(jQuery("#artmaps-mapcontainer").dialog("isOpen") !== true){
+        	//console.log(map);
+        	console.log(suggestWindowOpen);
+            //dialogMap();
+            if(!suggestWindowOpen){
+        		map.suggest();
+        		//isOpen = true;
+        		suggestWindowOpen = true;
+        		}
+        	//console.log("suggestion dialog box open");
+        	}
         <?php } else { ?>
-
+        
         var con = jQuery(document.createElement("div"));
         var text = jQuery(document.createElement("div"))
                 .addClass("artmaps-action-comment-popup-body")
@@ -417,6 +431,7 @@ jQuery(document).ready(function($) {
 	}
 
     function comment(event) {
+    	console.log("commenting");
         <?php
         if(is_user_logged_in()) {
             $user = ArtMapsUser::currentUser();
@@ -576,6 +591,7 @@ jQuery(document).ready(function($) {
 <H3 id="artmaps-ask-location">We think this artwork is associated with this location. What do you think?</H3>
 <div class="artmaps-action-comment-button">Add Comment</div>
 <div class="artmaps-action-blog-button">Use My Blog</div>
+
 <div class="artmaps-comments-text">
 Comments:
 <?php

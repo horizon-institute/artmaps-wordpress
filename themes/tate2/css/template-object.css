@@ -162,6 +162,7 @@ min-height:200px;
 .artmaps-comment-date {padding:10px 10px 0 0; display:block; float:left; font-size:12px;}
 
 .artmaps-mapview-link-button,
+.artmaps-comments-link-button,
 .artmaps-action-comment-button,
 .artmaps-action-blog-button,
 .artmaps-action-suggest-button,
@@ -196,9 +197,11 @@ min-height:200px;
     text-transform:uppercase;
 }
 #artmaps-actionscontainer .artmaps-mapview-link-button,
+#artmaps-actionscontainer .artmaps-comments-link-button,
 #artmaps-actionscontainer .artmaps-action-suggest-button {margin:0; margin-right:5px;}
 
 .artmaps-mapview-link-button:hover,
+.artmaps-comments-link-button:hover,
 .artmaps-action-comment-button:hover,
 .artmaps-action-blog-button:hover,
 .artmaps-action-suggest-button:hover,
@@ -211,6 +214,7 @@ min-height:200px;
 }
 
 .artmaps-mapview-link-button,
+.artmaps-comments-link-button,
 .artmaps-action-comment-button,
 .artmaps-action-blog-button,
 .artmaps-action-suggest-confirm-button,

@@ -1,4 +1,5 @@
 /* Namespace: ArtMaps.UI */
+//<script type="text/javascript" src="template-object.php"></script>
 ArtMaps.UI = ArtMaps.UI || {};
 
 ArtMaps.UI.SystemMarkerColor = "#ff0000";
@@ -7,7 +8,7 @@ ArtMaps.UI.SuggestionMarkerColor = "#0CF52F";
 
 ArtMaps.UI.InfoWindow = function(location) {
     
-    var isOpen = false;
+    //var isOpen = null;
     var marker = null;
     var map = null;
 
@@ -73,14 +74,19 @@ ArtMaps.UI.InfoWindow = function(location) {
     this.setContent(content.get(0));
     
     this.on("closeclick", function() {
-        isOpen = false;
+        //isOpen = false;
+        suggestWindowOpen = false;
+        console.log("dialog not open");
     });
 
     this.open = function(_map, _marker) {
-        if(isOpen) return;
+        //if(isOpen) return;
+    	if(suggestWindowOpen) return;
         map = _map;
         marker = _marker;
-        isOpen = true;
+        //isOpen = true;
+        suggestWindowOpen = true;
+        console.log("dialog open");
         google.maps.event.addListener(this, "domready", function() {
             var iw = this;
             suggest.one("click", function() {
@@ -91,13 +97,21 @@ ArtMaps.UI.InfoWindow = function(location) {
     };
 
     this.close = function() {
-        if(!isOpen) return;
-        isOpen = false;
+        //if(!isOpen) return;
+    	if(!suggestWindowOpen) return;
+        //isOpen = false;
+        suggestWindowOpen = false;
+        console.log("dialog not open");
         google.maps.InfoWindow.prototype.close.call(this);
     };
 
     this.toggle = function(map, marker) {
-        if(isOpen) this.close();
+        //if(isOpen) {
+    	if(suggestWindowOpen){
+        	this.close();
+        	//suggestWindowOpen = false;
+        	console.log(suggestWindowOpen);
+        }
         else this.open(map, marker);
     };
     
@@ -133,7 +147,7 @@ ArtMaps.UI.Marker = function(location, map) {
 };
 
 ArtMaps.UI.SuggestionInfoWindow = function(marker, object) {
-    var self = this;
+	var self = this;
     var content = jQuery(document.createElement("div"));
         content.html("<div>Drag this pin and hit confirm</div>");
         
@@ -197,7 +211,12 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object) {
                                             var loc = new ArtMaps.Location(location, object, [action]);
                                             var mkr = new ArtMaps.UI.Marker(loc, map);
                                             mkr.setMap(map);
-                                            
+                                            //console.log("location confirmed");
+                                            /*var centre = map.getCenter();
+                                            map.resize();
+                                            map.setCenter(centre);
+                                            resetMapViewToggle();
+                                             jQuery(window).resize(resizeHandler);*/
                                         },
                                         "error": suggestionError
                                     });
@@ -218,13 +237,16 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object) {
         var cancel = jQuery(document.createElement("div"))
                 .addClass("artmaps-action-suggest-cancel-button")
                 .text("Cancel");
-        cancel.click(function() { marker.setMap(null); });
+        cancel.click(function() { marker.setMap(null);
+        suggestWindowOpen = false;
+        });
         content.append(cancel);
         
     this.setContent(content.get(0));
         
     this.on("closeclick", function() {
         marker.setMap(null);
+        suggestWindowOpen = false;
     });
 };
 ArtMaps.UI.SuggestionInfoWindow.prototype = new google.maps.InfoWindow();

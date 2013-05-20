@@ -33,7 +33,8 @@ add_action('login_head', function() {
 
 add_action('template_redirect', function() {
     global $wp;
-    if(stripos($wp->request, 'map') === 0) {
+
+    if(is_home() || stripos($wp->request, 'map') === 0) {
         header("HTTP/1.1 200 OK");
         load_template(locate_template('template-map.php'));
         exit;

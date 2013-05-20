@@ -35,9 +35,12 @@ get_header();
 <script type="text/javascript">
 var config = {
     "mapConf": {
-        "center": new google.maps.LatLng(51.5171, 0.1062),
+        /*"center": new google.maps.LatLng(51.5171, 0.1062),*/
+        "center": new google.maps.LatLng(51.507854, -0.099462), //Tate Britain coordinates
         "streetViewControl": false,
         "zoom": 15,
+        "maxZoom": 16,
+        "minZoom":3,
         "mapTypeId": google.maps.MapTypeId.SATELLITE,
         "zoomControlOptions": {
             "position": google.maps.ControlPosition.LEFT_CENTER
@@ -57,6 +60,7 @@ var config = {
         }]
     }
 };
+
 jQuery(function($) {
     var map = new ArtMaps.Map.MapObject($("#artmaps-mapcontainer"), config);
     map.registerAutocomplete(new google.maps.places.Autocomplete($("#artmaps-search-location-input").get(0)));
@@ -95,6 +99,15 @@ jQuery(function($) {
             return;
         }
     });
+
+	$("#artmaps-comment-link").toggle( function() { 
+			$(".artmaps-comment-menu").stop().show(); },
+            function() { $(".artmaps-mapview-menu").stop().hide(); });
+            
+        /*$(".artmaps-mapview-menu").find("input").change(function(){
+        
+        }*/
+    	$(".artmaps-comments-link-button").click();
 
     $(".artmaps-mapview-link-button").toggle(
             function() { $(".artmaps-mapview-menu").stop().show(); },
@@ -207,5 +220,22 @@ function artmapsSwitchSearch(option) {
         <br />
         <span class="artmaps-searching-by">You are searching the map for locations</span>
     </div>
+</div>
+
+<div class="artmaps-comments-link"><div class="artmaps-comments-button">Latest Comments</div></div>
+<div id"artmaps-comment-dialog" style="display: none;">
+<div class="artmaps-comments-text">
+Latest Comments:
+<?php
+foreach(get_approved_comments($post->ID) as $comment) {
+    ?><div class="artmaps-commentcontainer">
+    <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
+    <span><?= $comment->comment_content ?></span>
+    <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
+    <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
+    </div><?php
+}
+?>
+</div>
 </div>
 <?php get_footer(); ?>

@@ -18,7 +18,7 @@ else
 <body <?php body_class(); ?>>
 <div id="artmaps-navigation-top" class="artmaps-navigation-container">
 	<div id="artmaps-navigation-home" class="artmaps-navigation-link">
-	    <a href="<?= get_home_url() ?>">Home</a></div>
+	    <a href="<?= get_site_url() ?>/?p=1">Home</a></div>
 	<div id="artmaps-navigation-map" class="artmaps-navigation-link">
 	    <a href="<?= get_site_url() ?>/map">The Art Map</a></div>
 

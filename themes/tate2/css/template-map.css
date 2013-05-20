@@ -28,6 +28,7 @@ body {
 
 .artmaps-navigation-link,
 .artmaps-search-link,
+.artmaps-comments-link,
 .artmaps-mapview-link {
     position:absolute;;
     width: 120px;;
@@ -57,8 +58,13 @@ body {
     left: 260px;
 }
 
+.artmaps-comments-link {
+    left: 620px;
+}
+
 .artmaps-navigation-link a,
 .artmaps-mapview-link .artmaps-mapview-link-button,
+.artmaps-comments-link .artmaps-comments-link-button,
 .artmaps-search-link .artmaps-search-link-button
     {
     color: #fff;
@@ -76,6 +82,7 @@ body {
 }
 .artmaps-navigation-link a:hover,
 .artmaps-mapview-link .artmaps-mapview-link-button:hover,
+.artmaps-comments-link .artmaps-comments-link-button:hover,
 .artmaps-search-link .artmaps-search-link-button:hover {cursor:pointer;}
 
 #artmaps-navigation-home a {
@@ -92,6 +99,10 @@ body {
 
 .artmaps-mapview-link .artmaps-mapview-link-button {
     background:url('../content/icons-v2.png') no-repeat 0 -40px;
+}
+
+.artmaps-comments-link .artmaps-comments-link-button {
+    background:url('../content/icons-v2.png') no-repeat 0 -120px;
 }
 
 .artmaps-search-link .artmaps-search-link-button {

@@ -4,9 +4,11 @@ ArtMaps.UI = ArtMaps.UI || {};
 ArtMaps.UI.SystemMarkerColor = "#ff0000";
 ArtMaps.UI.UserMarkerColor = "#00EEEE";
 
+var isOpen = false;
+
 ArtMaps.UI.InfoWindow = function(location) {
 
-    var isOpen = false;
+    //var isOpen = false;
     var map = null;  
     var marker = null;
 
@@ -20,6 +22,7 @@ ArtMaps.UI.InfoWindow = function(location) {
     });
 
     this.open = function(_map, _marker) {
+    	//console.log(isOpen);
         if(isOpen) return;
         map = _map;
         marker = _marker;
@@ -53,6 +56,18 @@ ArtMaps.UI.Marker = function(location, map) {
     });
     marker.setClickable(false);
     marker.location = location;
+    //console.log(marker);
+    /*google.maps.event.addListener(marker, 'mouseover', function() {
+    	console.log("mouseover");
+    	location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata) {
+            marker.setTitle(ArtMaps.UI.getTitleFromMetadata(metadata));
+            var iw = new ArtMaps.UI.InfoWindow(location);
+            marker.setClickable(true);
+            marker.on("click", function() {
+                iw.toggle(map, marker);
+            });
+        });
+    });*/
     location.ObjectOfInterest.runWhenMetadataLoaded(function(metadata) {
         marker.setTitle(ArtMaps.UI.getTitleFromMetadata(metadata));
         var iw = new ArtMaps.UI.InfoWindow(location);
