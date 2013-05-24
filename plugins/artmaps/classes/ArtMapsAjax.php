@@ -47,6 +47,22 @@ class ArtMapsAjax {
     public function publishComment($objectID, $text) {
         require_once('ArtMapsUser.php');
         $user = ArtMapsUser::currentUser();
+        require_once('ArtMapsNetwork.php');
+        $nw = new ArtMapsNetwork();
+        require_once('ArtMapsBlog.php');
+        $blog = $nw->getCurrentBlog();
+
+        $postID = $blog->getPageForObject($objectID);
+
+        global $wpdb;
+        wp_insert_comment(array(
+                        'comment_post_ID' => (int)$postID,
+                        'comment_author' => $wpdb->escape($user->getLogin()),
+                        'comment_content' => $wpdb->escape($text),
+                        'comment_type' => 'comment',
+                        'user_id' => (int)$user->getID()
+                ));
+
         return "{}";
     }
 

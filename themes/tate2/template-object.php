@@ -133,46 +133,24 @@ jQuery(document).ready(function($) {
         }
     });
 
+    /* Map reset handler */
+    $(".artmaps-action-show-all-button").click(map.reset);
+
     /* Suggestion handler */
     $(".artmaps-action-suggest-button").click(function() {
         <?php if(is_user_logged_in()) { ?>
         map.suggest();
+        <?php } else { ?>
+        window.open("<?= wp_login_url($_SERVER['REQUEST_URI']) ?>"
+                + encodeURIComponent(location.hash), "_self");
         <?php } ?>
     });
 
-    function blogthis(event) {
-        var canvas = jQuery(document.createElement("textarea"))
-                .addClass("artmaps-editor-canvas");
-        jQuery.post(ArtMapsConfig.AjaxUrl,
-	            {
-	                "action": "artmaps.generateCommentTemplate",
-	                "objectID": <?= $objectID ?>
-	            },
-                function(data) {
-	                canvas.val(data);
-	                canvas.select();
-	            }
-	    );
-        var btns = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-buttons");
-        var con = jQuery(document.createElement("div"));
-        var close = jQuery(document.createElement("div"))
-                .text("Close")
-                .click(function() {
-                    con.dialog("close");
-                });
-        btns.append(close);
-        con.append(canvas).append(btns).dialog({
-            "dialogClass": "artmaps-action-comment-popup",
-            "modal": true
-            });
-    }
-
-    function comment(event) {
+    /* Comment handler */
+    $(".artmaps-action-comment-button").click(function (event) {
         <?php
         if(is_user_logged_in()) {
             $user = ArtMapsUser::currentUser();
-
         ?>
         var btns = jQuery(document.createElement("div"))
                 .addClass("artmaps-action-comment-popup-buttons");
@@ -219,37 +197,40 @@ jQuery(document).ready(function($) {
 
         } else {
         ?>
+        window.open("<?= wp_login_url($_SERVER['REQUEST_URI']) ?>"
+                + encodeURIComponent(location.hash), "_self");
+        <?php } ?>
+    });
+
+    /*function blogthis(event) {
+        var canvas = jQuery(document.createElement("textarea"))
+                .addClass("artmaps-editor-canvas");
+        jQuery.post(ArtMapsConfig.AjaxUrl,
+	            {
+	                "action": "artmaps.generateCommentTemplate",
+	                "objectID": <?= $objectID ?>
+	            },
+                function(data) {
+	                canvas.val(data);
+	                canvas.select();
+	            }
+	    );
+        var btns = jQuery(document.createElement("div"))
+                .addClass("artmaps-action-comment-popup-buttons");
         var con = jQuery(document.createElement("div"));
-        var text = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-body")
-                .html("Before you can comment, we ask that you sign in with an "
-                        + "<a href=\"http://openid.net/get-an-openid/\" target=\"_blank\">OpenID</a>. "
-                        + "If you don't know what an OpenID is, don't worry, you most likely already "
-                        + "have one without realising it. For more information please use this link: "
-                        + "<a href=\"http://openid.net/get-an-openid/\" target=\"_blank\">Get an OpenID</a>.");
-        var signin = jQuery(document.createElement("a"))
-                .attr("href", "<?= wp_login_url(get_permalink()) ?>")
-                .text("Sign in");
         var close = jQuery(document.createElement("div"))
                 .text("Close")
                 .click(function() {
                     con.dialog("close");
                 });
-        var btns = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-buttons")
-                .append(signin)
-                .append(close);
-        con.append(text).append(btns).dialog({
-                "dialogClass": "artmaps-action-comment-popup",
-                "modal": true
+        btns.append(close);
+        con.append(canvas).append(btns).dialog({
+            "dialogClass": "artmaps-action-comment-popup",
+            "modal": true
             });
-        <?php } ?>
-        $(".artmaps-action-comment-button").one("click", comment);
-        $(".artmaps-action-blog-button").one("click", blog);
     }
-    $(".artmaps-action-comment-button").on("click", comment);
-    $(".artmaps-action-blog-button").on("click", blogthis);
-    $(".artmaps-action-show-all-button").on("click", map.reset);
+    $(".artmaps-action-blog-button").on("click", blogthis);*/
+
 });
 </script>
 <div id="artmaps-objectcontainer">
@@ -291,7 +272,7 @@ jQuery(document).ready(function($) {
 <div id="artmaps-commentcontainer">
     <h3 id="artmaps-ask-location">We think this artwork is associated with this location. What do you think?</h3>
     <div class="artmaps-action-comment-button">Add Comment</div>
-    <div class="artmaps-action-blog-button">Use My Blog</div>
+    <!--<div class="artmaps-action-blog-button">Use My Blog</div>-->
     <div class="artmaps-comments-text">
     Comments:
     <?php
