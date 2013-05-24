@@ -84,27 +84,6 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $importAdmin->register();
     });
 
-    add_action('edit_user_profile', function($wpUser) {
-        require_once('classes/ArtMapsUser.php');
-        $u = new ArtMapsUser($wpUser);
-        $u->displayProfileFields();
-    });
-    add_action('show_user_profile', function($wpUser) {
-        require_once('classes/ArtMapsUser.php');
-        $u = new ArtMapsUser($wpUser);
-        $u->displayProfileFields();
-    });
-    add_action('personal_options_update', function($userID){
-        require_once('classes/ArtMapsUser.php');
-        $u = ArtMapsUser::fromID($userID);
-        $u->updateProfileFields();
-    });
-    add_action('edit_user_profile_update', function($userID){
-        require_once('classes/ArtMapsUser.php');
-        $u = ArtMapsUser::fromID($userID);
-        $u->updateProfileFields();
-    });
-
     add_filter('xmlrpc_methods', function($methods) {
         require_once('classes/ArtMapsXmlRpc.php');
         $svc = new ArtMapsXmlRpc();
@@ -121,6 +100,14 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         echo $ajax->publishComment(
                 $_POST['objectID'],
                 stripslashes($_POST['text']));
+        exit;
+    });
+
+    add_action('wp_ajax_artmaps.generateCommentTemplate', function() {
+        require_once('classes/ArtMapsAjax.php');
+        $ajax = new ArtMapsAjax();
+        header('Content-Type: application/json');
+        echo $ajax->generateCommentTemplate($_POST['objectID']);
         exit;
     });
 

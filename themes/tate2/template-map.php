@@ -35,7 +35,6 @@ get_header();
 <script type="text/javascript">
 var config = {
     "mapConf": {
-        /*"center": new google.maps.LatLng(51.5171, 0.1062),*/
         "center": new google.maps.LatLng(51.507854, -0.099462), //Tate Britain coordinates
         "streetViewControl": false,
         "zoom": 15,
@@ -50,7 +49,7 @@ var config = {
     },
     "clustererConf" : {
         "gridSize": 150,
-        "minimumClusterSize": 2,
+        "minimumClusterSize": 1,
         "zoomOnClick": false,
         "imageSizes": [56],
         "styles": [{
@@ -62,6 +61,7 @@ var config = {
 };
 
 jQuery(function($) {
+
     var map = new ArtMaps.Map.MapObject($("#artmaps-mapcontainer"), config);
     map.registerAutocomplete(new google.maps.places.Autocomplete($("#artmaps-search-location-input").get(0)));
 
@@ -94,24 +94,19 @@ jQuery(function($) {
                 searchInput.autocomplete("search", ui);
                 return;
             }
-            //window.open("<?= get_site_url() ?>/object/" + ui.item.value);
             window.location = "<?= get_site_url() ?>/object/" + ui.item.value;
             return;
         }
     });
 
-	$("#artmaps-comment-link").toggle( function() { 
-			$(".artmaps-comment-menu").stop().show(); },
-            function() { $(".artmaps-mapview-menu").stop().hide(); });
-            
-        /*$(".artmaps-mapview-menu").find("input").change(function(){
-        
-        }*/
-    	$(".artmaps-comments-link-button").click();
+	$(".artmaps-comments-button").toggle(
+	        function() { $(".artmaps-comments-text").stop().show(); },
+            function() { $(".artmaps-comments-text").stop().hide(); });
 
     $(".artmaps-mapview-link-button").toggle(
             function() { $(".artmaps-mapview-menu").stop().show(); },
             function() { $(".artmaps-mapview-menu").stop().hide(); });
+
     $(".artmaps-mapview-menu").find("input").change(function(){
         switch($(this).val()) {
         case "hybrid":
@@ -136,24 +131,22 @@ jQuery(function($) {
 		var h = "";
 		h += "<a href=\"" + ArtMapsConfig.SiteUrl + "/object/"
 		        + object.ID + "#maptype=" + map.getMapType()
-		        + "\" style=\"padding:0px;\" >" 
-		        + "<img src=\"" + 
+		        + "\" style=\"padding:0px;\" >"
+		        + "<img src=\"" +
 		        ((typeof metadata.imageurl != "undefined") ? metadata.imageurl : ArtMapsConfig.ThemeDirUrl + "/content/unavailable.jpg")
 		        + "\" /></a>";
 		h +=
 		        "<b>" + metadata.title + "</b><br />"
 		        + "by <b>" + metadata.artist + "</b><br />"
-		        + "<a href=\"" + ArtMapsConfig.SiteUrl + "/object/"
-		        + object.ID + "#maptype=" + map.getMapType()
+		        + "<a class=\"artmaps-view-artwork-link\" href=\"" + ArtMapsConfig.SiteUrl + "/object/"
+		        + object.ID + "#" + window.location.hash
 		        + "\">View Artwork</a>";
 		con.html(h);
-		jQuery(window).bind("hashchange", function() {
+		jQuery(window).bind("hashchange", function(e) {
 		    con.find("a").each(function(i, a) {
-		        var a = jQuery(a);
-		        var href = a.attr("href");
-		        a.attr("href", 
-		            jQuery.param.fragment(href,
-		                    { "maptype": map.getMapType() }));
+		        var ax = jQuery(a);
+		        var href = ax.attr("href");
+		        ax.attr("href", jQuery.param.fragment(href, e.fragment));
 		    });
 		});
 		var suggestions = jQuery(document.createElement("span"))
@@ -161,15 +154,15 @@ jQuery(function($) {
 		con.append(suggestions)
 		        .append(jQuery(document.createElement("br")));
 		return con;
-    }
+    };
 
     ArtMaps.UI.getTitleFromMetadata = function(metadata) {
         return metadata.title;
-    }
+    };
 
     ArtMaps.Search.formatResultTitle = function(metadata) {
         return metadata.title + " by " + metadata.artist;
-    }
+    };
 });
 
 function artmapsSwitchSearch(option) {
@@ -186,7 +179,7 @@ function artmapsSwitchSearch(option) {
         jQuery("#artmaps-search-keyword-input").val(jQuery("#artmaps-search-location-input").val());
         jQuery("#artmaps-search-keyword-input").autocomplete("search");
         jQuery("#artmaps-search-keyword-input").focus();
-        break
+        break;
     }
 }
 </script>
@@ -222,18 +215,18 @@ function artmapsSwitchSearch(option) {
     </div>
 </div>
 
-<div class="artmaps-comments-link"><div class="artmaps-comments-button">Latest Comments</div></div>
-<div id"artmaps-comment-dialog" style="display: none;">
-<div class="artmaps-comments-text">
-Latest Comments:
+<div class="artmaps-comments-link">
+<div class="artmaps-comments-button">Latest Comments</div>
+<div class="artmaps-comments-text" style="display: none;">
 <?php
-foreach(get_approved_comments($post->ID) as $comment) {
-    ?><div class="artmaps-commentcontainer">
-    <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
-    <span><?= $comment->comment_content ?></span>
-    <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
-    <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
-    </div><?php
+foreach(get_comments(array('number' => 5, 'status' => 'approve')) as $comment) {
+    $commentPost = get_post($comment->comment_post_ID);
+?>
+    <div class="artmaps-commentcontainer">
+        <span><?= $comment->comment_content ?></span>
+        on <a href="<?= get_permalink($comment->comment_post_ID)?>"> <?= $commentPost->post_title ?></a><br />
+    </div>
+<?php
 }
 ?>
 </div>

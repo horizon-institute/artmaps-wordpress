@@ -25,8 +25,6 @@ class ArtMapsXmlRpc {
     function doPingback($args) {
         global $wp_xmlrpc_server;
 
-        error_log('Getting a pingback');
-
         if(count($args) != 2)
             return $wp_xmlrpc_server->pingback_ping($args);
 
@@ -41,11 +39,11 @@ class ArtMapsXmlRpc {
         $matches = array();
         $objectID = '';
         $postID = '';
-	$site = home_url();
-	$site = str_replace('http://', '', $site);
-	$site = str_replace('https://', '', $site);
-	$site = str_replace('/', '\\/', $site);
-	$site = str_replace('.', '\\.', $site);
+    	$site = home_url();
+    	$site = str_replace('http://', '', $site);
+    	$site = str_replace('https://', '', $site);
+    	$site = str_replace('/', '\\/', $site);
+    	$site = str_replace('.', '\\.', $site);
         if(preg_match('/^https?:\\/\\/' . $site . '\\/object\\/(\\d+)\\/?.*$/', $localUrl, $matches)) {
             $objectID = $matches[1];
             $postID = $blog->getPageForObject($objectID);
@@ -112,8 +110,6 @@ class ArtMapsXmlRpc {
                 'comment_content' => $wpdb->escape($comment),
                 'comment_type' => 'pingback'
         ));
-
-	error_log('Pingback done');
 
         return "Pingback from $remoteUrl to $localUrl registered.";
     }

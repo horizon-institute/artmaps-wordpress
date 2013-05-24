@@ -50,14 +50,6 @@ class ArtMapsTemplating {
         return $smarty->fetch('import_admin_page.tpl');
     }
 
-    public function renderUserProfileFields($externalBlog, $redirect) {
-        $smarty = $this->initSmartyForPlugin();
-        $smarty->setCaching(false);
-        $smarty->assign('blog', $externalBlog);
-        $smarty->assign('redirect', $redirect);
-        return $smarty->fetch('user_profile_fields.tpl');
-    }
-
     public function renderCommentTemplate(
             ArtMapsBlog $blog, $objectID, $link, $metadata) {
         $smarty = $this->initSmartyForTheme();
@@ -70,7 +62,7 @@ class ArtMapsTemplating {
             return $smarty->fetch('string:' . $tpl, $objectID);
         return $smarty->fetch('comment_template.tpl', $objectID);
     }
-    
+
     public function renderObjectPageTitleTemplate(ArtMapsBlog $blog, $metadata) {
     	$smarty = $this->initSmartyForTheme();
     	$smarty->setCaching(false);

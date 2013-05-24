@@ -19,7 +19,7 @@ class ArtMapsBlog {
     const ObjectPageTitleTemplateKey = 'ObjectPageTitleTemplate';
 
     const ObjectPageMapTableSuffix = 'artmaps_object_pages';
-    
+
     const ImportTableSuffix = 'artmaps_imports';
 
     private $blogID, $remoteID, $name, $key;
@@ -32,7 +32,6 @@ class ArtMapsBlog {
     }
 
     public function getBlogID() {
-    error_log("in function getBlogID");
         return $this->blogID;
     }
 
@@ -49,10 +48,9 @@ class ArtMapsBlog {
     }
 
     public function initialise() {
-    	error_log('init');
     	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     	global $wpdb;
-        
+
         $mapDbName = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
         $mapDbSql = "
             CREATE TABLE $mapDbName (
@@ -61,7 +59,7 @@ class ArtMapsBlog {
             PRIMARY KEY  (object_id)
         );";
         dbDelta($mapDbSql, true);
-        
+
         $importDbName = $wpdb->get_blog_prefix($this->blogID) . self::ImportTableSuffix;
         $importDbSql = "
         	CREATE TABLE $importDbName (
@@ -132,7 +130,7 @@ class ArtMapsBlog {
                 . ArtMapsBlog::CommentTemplateOptionKey;
         update_blog_option($this->getBlogID(), $k, $template);
     }
-    
+
     public function getSearchSource() {
         $k = ArtMapsBlog::BlogConfigPrefix
                 . ArtMapsBlog::SearchSourceOptionKey;

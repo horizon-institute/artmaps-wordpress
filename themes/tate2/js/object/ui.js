@@ -1,5 +1,4 @@
 /* Namespace: ArtMaps.UI */
-//<script type="text/javascript" src="template-object.php"></script>
 ArtMaps.UI = ArtMaps.UI || {};
 
 ArtMaps.UI.SystemMarkerColor = "#ff0000";
@@ -8,9 +7,11 @@ ArtMaps.UI.SuggestionMarkerColor = "#0CF52F";
 
 ArtMaps.UI.InfoWindow = function(location) {
     
-    //var isOpen = null;
+    var self = this;
     var marker = null;
     var map = null;
+    var mapObj = null;
+    var isOpen = false;
 
     var content = jQuery(document.createElement("div"));
         var confirmed = jQuery(document.createElement("span"))
@@ -74,22 +75,19 @@ ArtMaps.UI.InfoWindow = function(location) {
     this.setContent(content.get(0));
     
     this.on("closeclick", function() {
-        //isOpen = false;
-        suggestWindowOpen = false;
-        console.log("dialog not open");
+        isOpen = false;
     });
 
-    this.open = function(_map, _marker) {
-        //if(isOpen) return;
-    	if(suggestWindowOpen) return;
+    this.open = function(_map, _marker, _mapObj) {
+    	if(isOpen) return;
         map = _map;
         marker = _marker;
-        //isOpen = true;
-        suggestWindowOpen = true;
-        console.log("dialog open");
+        mapObj = _mapObj;
+        isOpen = true;
         google.maps.event.addListener(this, "domready", function() {
             var iw = this;
             suggest.one("click", function() {
+                mapObj.suggest();
                 iw.close();
             });
         });
@@ -97,31 +95,27 @@ ArtMaps.UI.InfoWindow = function(location) {
     };
 
     this.close = function() {
-        //if(!isOpen) return;
-    	if(!suggestWindowOpen) return;
-        //isOpen = false;
-        suggestWindowOpen = false;
-        console.log("dialog not open");
+    	if(!isOpen) return;
+        isOpen = false;
         google.maps.InfoWindow.prototype.close.call(this);
     };
 
-    this.toggle = function(map, marker) {
-        //if(isOpen) {
-    	if(suggestWindowOpen){
-        	this.close();
-        	//suggestWindowOpen = false;
-        	console.log(suggestWindowOpen);
-        }
-        else this.open(map, marker);
+    this.toggle = function(map, marker, mapObj) {
+    	if(isOpen) this.close();
+        else this.open(map, marker, mapObj);
     };
     
     this.reset = function() {
         confirm.unbind("click").bind("click", cfunc);
     };
+    
+    jQuery(ArtMaps.UI).bind("suggest", function() {
+        self.close(); 
+    });
 };
 ArtMaps.UI.InfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.UI.Marker = function(location, map) {
+ArtMaps.UI.Marker = function(location, map, mapObj) {
     var color = location.Source == "SystemImport"
             ? ArtMaps.UI.SystemMarkerColor
             : ArtMaps.UI.UserMarkerColor;
@@ -136,7 +130,7 @@ ArtMaps.UI.Marker = function(location, map) {
     marker.setTitle(location.Confirmations + " confirmations");
     var iw = new ArtMaps.UI.InfoWindow(location);
     marker.on("click", function() {
-        iw.toggle(map, marker);
+        iw.toggle(map, marker, mapObj);
     });
     
     marker.reset = function() {
@@ -146,122 +140,146 @@ ArtMaps.UI.Marker = function(location, map) {
     return marker;
 };
 
-ArtMaps.UI.SuggestionInfoWindow = function(marker, object) {
-	var self = this;
-    var content = jQuery(document.createElement("div"));
-        content.html("<div>Drag this pin and hit confirm</div>");
+ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
+	
+    var self = this;
+    
+    var initialContent = jQuery(document.createElement("div"));
+    initialContent.html("<div>Drag this pin and hit confirm</div>");
+    
+    var processingContent = jQuery(document.createElement("div"));
+    processingContent.html("<img src=\"" + ArtMapsConfig.ThemeDirUrl 
+            + "/content/loading/50x50.gif\" alt=\"\" />");
+    
+    var errorContent = jQuery(document.createElement("div"));
+    errorContent.html("<div>Unfortunately, an error occurred. "
+                + "Please close this popup and try again.</div>");
         
-        var confirm = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-suggest-confirm-button")
-                .text("Confirm");
+    var confirm = jQuery(document.createElement("div"))
+            .addClass("artmaps-action-suggest-confirm-button")
+            .text("Confirm");
+    
+    function suggestionError(jqXHR, textStatus, errorThrown) {
+        self.setContent(errorContent.get(0));
+    }
         
-        function suggestionError(jqXHR, textStatus, errorThrown) {
-            content.html("<div>Unfortunately, an error occurred. "
-                    + "Please close this popup and try again.</div>");
-        }
+    confirm.click(function() {
         
-        confirm.click(function() {
-            
-            marker.setDraggable(false);
-            var pos = marker.getPosition();
-            content.html("<img src=\"" + ArtMapsConfig.ThemeDirUrl 
-                    + "/content/loading/50x50.gif\" alt=\"\" />");
-            
-            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-                "type": "post",
+        marker.setDraggable(false);
+        var pos = marker.getPosition();
+        self.setContent(processingContent.get(0));
+        
+        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+            "type": "post",
+            "data": {
+                "action": "artmaps.signData",
                 "data": {
-                    "action": "artmaps.signData",
-                    "data": {
-                        "error": 0,
-                        "latitude": ArtMaps.Util.toIntCoord(pos.lat()),
-                        "longitude": ArtMaps.Util.toIntCoord(pos.lng())
-                    }
-                },
-                "success": function(slocation) {
-                    
-                    jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
-                            + "objectsofinterest/" + object.ID + "/locations", {
-                        "type": "post",
-                        "data": JSON.stringify(slocation),
-                        "dataType": "json",
-                        "contentType": "application/json",
-                        "processData": false,
-                        "success" : function(location) {
-                            
-                            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-                                "type": "post",
+                    "error": 0,
+                    "latitude": ArtMaps.Util.toIntCoord(pos.lat()),
+                    "longitude": ArtMaps.Util.toIntCoord(pos.lng())
+                }
+            },
+            "success": function(slocation) {
+                
+                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+                        + "objectsofinterest/" + object.ID + "/locations", {
+                    "type": "post",
+                    "data": JSON.stringify(slocation),
+                    "dataType": "json",
+                    "contentType": "application/json",
+                    "processData": false,
+                    "success" : function(location) {
+                        
+                        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                            "type": "post",
+                            "data": {
+                                "action": "artmaps.signData",
                                 "data": {
-                                    "action": "artmaps.signData",
-                                    "data": {
-                                        "URI": "suggestion://{\"LocationID\":" + location.ID + "}"
-                                    }
-                                },
-                                "success": function(saction) {
-                                    jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
-                                            + "objectsofinterest/" + object.ID + "/actions", {
-                                        "type": "post",
-                                        "data": JSON.stringify(saction),
-                                        "dataType": "json",
-                                        "contentType": "application/json",
-                                        "processData": false,
-                                        "success": function(action) {
-                                            
-                                            self.close();
-                                            var map = marker.getMap();
-                                            var loc = new ArtMaps.Location(location, object, [action]);
-                                            var mkr = new ArtMaps.UI.Marker(loc, map);
-                                            mkr.setMap(map);
-                                            //console.log("location confirmed");
-                                            /*var centre = map.getCenter();
-                                            map.resize();
-                                            map.setCenter(centre);
-                                            resetMapViewToggle();
-                                             jQuery(window).resize(resizeHandler);*/
-                                        },
-                                        "error": suggestionError
-                                    });
-                                },
-                                "error": suggestionError
-                            });
-
-                        },
-                        "error": suggestionError
-                    });                    
-                },
-                "error": suggestionError
-            });
-            
+                                    "URI": "suggestion://{\"LocationID\":" + location.ID + "}"
+                                }
+                            },
+                            "success": function(saction) {
+                                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+                                        + "objectsofinterest/" + object.ID + "/actions", {
+                                    "type": "post",
+                                    "data": JSON.stringify(saction),
+                                    "dataType": "json",
+                                    "contentType": "application/json",
+                                    "processData": false,
+                                    "success": function(action) {
+                                        
+                                        marker.hide();
+                                        var map = marker.getMap();
+                                        var loc = new ArtMaps.Location(location, object, [action]);
+                                        var mkr = new ArtMaps.UI.Marker(loc, map);
+                                        clusterer.addMarkers([mkr]);
+                                        clusterer.fitMapToMarkers();
+                                    },
+                                    "error": suggestionError
+                                });
+                            },
+                            "error": suggestionError
+                        });
+                    },
+                    "error": suggestionError
+                });                    
+            },
+            "error": suggestionError
         });
-        content.append(confirm);
         
-        var cancel = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-suggest-cancel-button")
-                .text("Cancel");
-        cancel.click(function() { marker.setMap(null);
-        suggestWindowOpen = false;
-        });
-        content.append(cancel);
+    });
+    initialContent.append(confirm);
+    
+    var cancel = jQuery(document.createElement("div"))
+            .addClass("artmaps-action-suggest-cancel-button")
+            .text("Cancel");
+    cancel.click(function() { 
+        marker.hide();
+    });
+    initialContent.append(cancel);
         
-    this.setContent(content.get(0));
+    this.setContent(initialContent.get(0));
+    
+    this.close = function() {
+        this.setContent(initialContent.get(0));
+        google.maps.InfoWindow.prototype.close.call(this);
+    };
         
     this.on("closeclick", function() {
-        marker.setMap(null);
-        suggestWindowOpen = false;
+        marker.hide();
     });
 };
 ArtMaps.UI.SuggestionInfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.UI.SuggestionMarker = function(map, object) {
+ArtMaps.UI.SuggestionMarker = function(map, object, clusterer) {
     var marker = new StyledMarker({
-        "draggable": true,
-        "map": map,
-        "position": map.getCenter(),
         "styleIcon": new StyledIcon(
                 StyledIconTypes.MARKER,
                 {"color": ArtMaps.UI.SuggestionMarkerColor, "starcolor": "000000"})
     });
+    google.maps.event.addListener(marker, 'dragend', function() {
+        map.panTo(marker.getPosition());
+    });
     marker.setTitle("Drag me");
-    var iw = new ArtMaps.UI.SuggestionInfoWindow(marker, object);
-    iw.open(map, marker);
+    var iw = new ArtMaps.UI.SuggestionInfoWindow(marker, object, clusterer);
+    var isVisible = false;
+    
+    marker.show = function() {
+        marker.setPosition(map.getCenter());
+        if(isVisible) return;
+        isVisible = true;
+        marker.setMap(map);
+        marker.setPosition(map.getCenter());
+        marker.setDraggable(true);
+        iw.open(map, marker);
+    };
+    
+    marker.hide = function() {
+        if(!isVisible) return;
+        isVisible = false;
+        iw.close();
+        marker.setMap(null);
+    };
+    
     return marker;
 };

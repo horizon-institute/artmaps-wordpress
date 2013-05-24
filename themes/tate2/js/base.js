@@ -1,6 +1,3 @@
-
-
-
 /* Namespace: ArtMaps */
 var ArtMaps = ArtMaps || (function(){
     
@@ -12,22 +9,6 @@ var ArtMaps = ArtMaps || (function(){
         google.maps.event.removeListener(listener);
     };
 
-    /* Extend google.maps.Map */
-    google.maps.Map.prototype.putObjectMarker = function(reference, marker) {
-        if(!this.hasOwnProperty("_objectMarkers_")) this._objectMarkers_ = {};
-        this._objectMarkers_[reference] = marker;
-    };
-    google.maps.Map.prototype.hasObjectMarker = function(reference) {
-        if(!this.hasOwnProperty("_objectMarkers_")) this._objectMarkers_ = {};
-        return this._objectMarkers_.hasOwnProperty(reference);
-    };
-    google.maps.Map.prototype.getObjectMarker = function(reference) {
-        if(!this.hasOwnProperty("_objectMarkers_")) this._objectMarkers_ = {};
-        return this._objectMarkers_.hasOwnProperty(reference)
-            ? this._objectMarkers_[reference]
-            : null;
-    };
-
     /* Extend MarkerClusterer */
     MarkerClusterer.prototype.on = function(eventName, handler) {
         return google.maps.event.addListener(this, eventName, handler);
@@ -36,45 +17,45 @@ var ArtMaps = ArtMaps || (function(){
         google.maps.event.removeListener(listener);
     };
 
-    return {};
+    return new Object();
 }());
 
-ArtMaps.WorkerPool = function WorkerPool(size, script) {
-        var _this = this;
-        var availableWorkers = [];
-        var queuedTasks = [];
-         for(var i = 0; i < size; i++) {
-                availableWorkers.push(new Worker(script));
-            }
+ArtMaps.WorkerPool = function(size, script) {
 
-            var runTask = function(worker, data, callback) {
-                var l = function(e) {
-                            worker.removeEventListener("message", l, false);
-                            window.setTimeout(function() { callback(e.data); }, 0);
-                            var next = queuedTasks.pop();
-                            if (next) {
-                                runTask(worker, next.data, next.callback);
-                            } else {
-                                availableWorkers.push(worker);
-                            }
-                        }
-                worker.addEventListener("message", l, false);
-                worker.postMessage(data);
-            }
+    var availableWorkers = [];
+    var queuedTasks = [];
+    for(var i = 0; i < size; i++) {
+        availableWorkers.push(new Worker(script));
+    }
 
-            _this.queueTask = function(data, callback) {
-                var w = availableWorkers.pop();
-                if (w) {
-                    runTask(w, data, callback);
-                } else {
-                    queuedTasks.push({
-                        "data": data,
-                        "callback": callback
-                    });
-                }
+    var runTask = function(worker, data, callback) {
+        var l = null;
+        l = function(e) {
+            worker.removeEventListener("message", l, false);
+            window.setTimeout(function() { callback(e.data); }, 0);
+            var next = queuedTasks.pop();
+            if (next) {
+                runTask(worker, next.data, next.callback);
+            } else {
+                availableWorkers.push(worker);
             }
+        };
+        worker.addEventListener("message", l, false);
+        worker.postMessage(data);
+    };
+
+    this.queueTask = function(data, callback) {
+        var w = availableWorkers.pop();
+        if (w) {
+            runTask(w, data, callback);
+        } else {
+            queuedTasks.push({
+                "data": data,
+                "callback": callback
+            });
         }
-
+    };
+};
 
 ArtMaps.Location = function(l, o, as) {
     this.ID = l.ID;
@@ -93,8 +74,13 @@ ArtMaps.Location = function(l, o, as) {
             this.Confirmations++;
 };
 
-var metadataLoaderPool = new ArtMaps.WorkerPool(50, ArtMapsConfig.ThemeDirUrl + "/js/do-get.js");
 ArtMaps.ObjectOfInterest = function(o) {
+    
+    if(this.cache[o.ID])
+        return this.cache[o.ID];
+    this.cache[o.ID] = this;
+    
+    var self = this;
     this.ID = o.ID;
     this.URI = o.URI;
     this.Locations = [];
@@ -123,37 +109,24 @@ ArtMaps.ObjectOfInterest = function(o) {
         this.Locations[this.Locations.length] = new ArtMaps.Location(loc, this, as);
         if(loc.source != "SystemImport") this.SuggestionCount++;            
     }
-    // Fetch metadata
-    var self = this;
-    var mdLoaded = false;
-    var mdIsLoading = false;
-    var fQueue = new Array();
-    var loadMetadata = function() {
-        if(mdLoaded || mdIsLoading) return;
-        mdIsLoading = true;
-	metadataLoaderPool.queueTask(
-		ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" 
-                        + o.ID + "/metadata",
-		function(data) {
-		    self.Metadata = data;
-                    mdLoaded = true;
-                    jQuery.each(fQueue, function(i, f) {
-                       f(data); 
-                    });
-		});	
-    };
     
+    // Fetch metadata
+    // Note, not thread safe, may mean that metadata is fetched more than once
+    // but not a major current problem.  Will amend when time allows - Dominic
     this.runWhenMetadataLoaded = function(func) {
-            if(mdLoaded) {
-                if(func) 
-                    func(self.Metadata);
-                return;
-            }
-            if(func) {
-                fQueue.push(func);
-                loadMetadata();
-            }
+        this.workerPool.queueTask(
+                ArtMapsConfig.CoreServerPrefix + "objectsofinterest/"
+                        + o.ID + "/metadata",
+                function(data) {
+                    self.Metadata = data;
+                    self.runWhenMetadataLoaded = function(f) {
+                        f(self.Metadata);
+                    };
+                    func(data); 
+                }
+        );
     };
 };
-
-
+ArtMaps.ObjectOfInterest.prototype.workerPool = 
+        new ArtMaps.WorkerPool(20, ArtMapsConfig.ThemeDirUrl + "/js/do-get.js");
+ArtMaps.ObjectOfInterest.prototype.cache = {};

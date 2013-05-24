@@ -166,6 +166,7 @@ min-height:200px;
 .artmaps-action-comment-button,
 .artmaps-action-blog-button,
 .artmaps-action-suggest-button,
+.artmaps-action-show-all-button,
 .artmaps-action-confirm-button,
 .artmaps-action-suggest-confirm-button,
 .artmaps-action-suggest-cancel-button,
@@ -198,13 +199,15 @@ min-height:200px;
 }
 #artmaps-actionscontainer .artmaps-mapview-link-button,
 #artmaps-actionscontainer .artmaps-comments-link-button,
-#artmaps-actionscontainer .artmaps-action-suggest-button {margin:0; margin-right:5px;}
+#artmaps-actionscontainer .artmaps-action-suggest-button,
+#artmaps-actionscontainer .artmaps-action-show-all-button {margin:0; margin-right:5px;}
 
 .artmaps-mapview-link-button:hover,
 .artmaps-comments-link-button:hover,
 .artmaps-action-comment-button:hover,
 .artmaps-action-blog-button:hover,
 .artmaps-action-suggest-button:hover,
+.artmaps-action-show-all-button:hover,
 .artmaps-action-confirm-button:hover,
 .artmaps-action-suggest-confirm-button:hover,
 .artmaps-action-suggest-cancel-button:hover,
@@ -219,6 +222,7 @@ min-height:200px;
 .artmaps-action-blog-button,
 .artmaps-action-suggest-confirm-button,
 .artmaps-action-suggest-cancel-button,
+.artmaps-action-show-all-button,
 .artmaps-action-comment-popup-buttons div,
 .artmaps-action-comment-popup-buttons a {
     background: #1f1f1f;

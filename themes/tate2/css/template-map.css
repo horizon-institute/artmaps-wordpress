@@ -64,9 +64,7 @@ body {
 
 .artmaps-navigation-link a,
 .artmaps-mapview-link .artmaps-mapview-link-button,
-.artmaps-comments-link .artmaps-comments-link-button,
-.artmaps-search-link .artmaps-search-link-button
-    {
+.artmaps-search-link .artmaps-search-link-button {
     color: #fff;
     text-decoration: none;
     display: block;
@@ -76,13 +74,25 @@ body {
     font-family: TateNewRegular, arial, sans-serif;
     font-size:14px;
     text-transform:uppercase;
-    height:20px;
-   
-    
+    height:20px;  
 }
+
+.artmaps-comments-link .artmaps-comments-button {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin: 0 auto;
+    /*padding-left: 120px;*/
+    /*overflow:hidden;*/
+    font-family: TateNewRegular, arial, sans-serif;
+    font-size:14px;
+    text-transform:uppercase;
+    height:20px;  
+}
+
 .artmaps-navigation-link a:hover,
 .artmaps-mapview-link .artmaps-mapview-link-button:hover,
-.artmaps-comments-link .artmaps-comments-link-button:hover,
+.artmaps-comments-link .artmaps-comments-button:hover,
 .artmaps-search-link .artmaps-search-link-button:hover {cursor:pointer;}
 
 #artmaps-navigation-home a {
@@ -113,7 +123,8 @@ body {
     background:url('../content/icons-v2.png') no-repeat 0 -100px;
 }
 
-.artmaps-mapview-menu {
+.artmaps-mapview-menu,
+.artmaps-comments-text {
     background-color: #fff;
     list-style-type: none;
     line-height: 21px;
@@ -148,6 +159,12 @@ body {
 
 .artmaps-mapview-menu li label {
     display: block;
+}
+
+.artmaps-comments-text .artmaps-commentcontainer {
+    text-transform: none;
+    color: black;
+    border-bottom: 1px solid black;
 }
 
 #artmaps-search-dialog {
