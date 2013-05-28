@@ -112,6 +112,9 @@ jQuery(document).ready(function($) {
     });
 
     /* Map view handler */
+    $(".artmaps-mapview-menu").find("input:radio[name=maptype]")
+            .filter("[value=" + config.mapConf.mapTypeId + "]")
+            .prop("checked", true);
     $(".artmaps-mapview-link-button").click(function() {
         $(".artmaps-mapview-menu").toggle();
     });
@@ -202,7 +205,8 @@ jQuery(document).ready(function($) {
         <?php } ?>
     });
 
-    /*function blogthis(event) {
+    /* Blog handler */
+    $(".artmaps-action-blog-button").click(function (event) {
         var canvas = jQuery(document.createElement("textarea"))
                 .addClass("artmaps-editor-canvas");
         jQuery.post(ArtMapsConfig.AjaxUrl,
@@ -228,9 +232,7 @@ jQuery(document).ready(function($) {
             "dialogClass": "artmaps-action-comment-popup",
             "modal": true
             });
-    }
-    $(".artmaps-action-blog-button").on("click", blogthis);*/
-
+    });
 });
 </script>
 <div id="artmaps-objectcontainer">
@@ -263,7 +265,7 @@ jQuery(document).ready(function($) {
             <li><label><input type="radio" name="maptype" value="hybrid" />Hybrid</label></li>
             <li><label><input type="radio" name="maptype" value="roadmap" />Roadmap</label></li>
             <li><label><input type="radio" name="maptype" value="terrain" />Terrain</label></li>
-            <li><label><input type="radio" name="maptype" value="satellite" checked="checked" />Satellite</label></li>
+            <li><label><input type="radio" name="maptype" value="satellite" />Satellite</label></li>
         </ul>
         <div class="artmaps-action-suggest-button">Suggest a location</div>
         <div class="artmaps-action-show-all-button">Show all locations</div>
@@ -272,19 +274,17 @@ jQuery(document).ready(function($) {
 <div id="artmaps-commentcontainer">
     <h3 id="artmaps-ask-location">We think this artwork is associated with this location. What do you think?</h3>
     <div class="artmaps-action-comment-button">Add Comment</div>
-    <!--<div class="artmaps-action-blog-button">Use My Blog</div>-->
+    <div class="artmaps-action-blog-button">Blog about this artwork</div>
     <div class="artmaps-comments-text">
     Comments:
-    <?php
-    foreach(get_approved_comments($post->ID) as $comment) {
-        ?><div class="artmaps-commentcontainer-comment">
+    <?php foreach(get_approved_comments($post->ID) as $comment) { ?>
+        <div class="artmaps-commentcontainer-comment">
         <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
         <span><?= $comment->comment_content ?></span>
         <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
         <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
-        </div><?php
-    }
-    ?>
+        </div>
+    <?php } ?>
     </div>
 </div>
 <?php get_footer(); ?>
