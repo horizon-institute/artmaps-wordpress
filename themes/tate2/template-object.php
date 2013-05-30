@@ -20,7 +20,7 @@ wp_localize_script('artmaps-object', 'ArtMapsConfig',
                 'CoreServerPrefix' => $core->getPrefix(),
                 'SiteUrl' => get_site_url(),
                 'ThemeDirUrl' => themeUri(),
-                'AjaxUrl' => admin_url('admin-ajax.php', isHttps('https', 'http')),
+                'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                 'IsUserLoggedIn' => is_user_logged_in()
         ));
 

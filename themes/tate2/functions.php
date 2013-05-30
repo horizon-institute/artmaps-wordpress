@@ -5,10 +5,6 @@ function themeUri($path = '') {
     return get_stylesheet_directory_uri() . $path;
 }
 
-function isHttps($yes = true, $no = false) {
-    return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on" ? $yes : $no;
-}
-
 add_action('init', function() {
     $network = new ArtMapsNetwork();
     wp_register_script('google-jsapi', 'https://www.google.com/jsapi?key=' . $network->getGoogleMapsKey());
@@ -40,12 +36,6 @@ add_action('template_redirect', function() {
         exit;
     }
 }, 0);
-
-/*add_action('login_init', function() {
-    header("HTTP/1.1 200 OK");
-    load_template(locate_template('template-login.php'));
-    exit;
-});*/
 
 } else {
 	error_log('The ArtMaps plugin is either not present or has not been activated.');

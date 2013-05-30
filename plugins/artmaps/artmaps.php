@@ -130,6 +130,18 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         exit;
     });
 
+    add_action('login_head', function() {
+        require_once('classes/ArtMapsOpenID.php');
+        $openID = new ArtMapsOpenID();
+        $openID->displayHead();
+    });
+
+    add_action('login_form', function() {
+        require_once('classes/ArtMapsOpenID.php');
+        $openID = new ArtMapsOpenID();
+        $openID->displayForm();
+    });
+
     require_once('classes/ArtMapsNetwork.php');
     require_once('classes/ArtMapsCoreServer.php');
     require_once('classes/ArtMapsTemplating.php');

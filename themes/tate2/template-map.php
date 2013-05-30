@@ -65,6 +65,14 @@ jQuery(function($) {
     var map = new ArtMaps.Map.MapObject($("#artmaps-mapcontainer"), config);
     map.registerAutocomplete(new google.maps.places.Autocomplete($("#artmaps-search-location-input").get(0)));
 
+    var loginlink = jQuery("#artmaps-navigation-loginout").find("a");
+    var loginurl = loginlink.attr("href");
+    var separator = loginurl.indexOf("?") > -1 ? "&" : "?";
+    loginlink.attr("href", loginurl + separator + "redirect_to=" + encodeURIComponent(location.href));
+    jQuery(window).bind("hashchange", function(e) {
+        loginlink.attr("href", loginurl + separator + "redirect_to=" + encodeURIComponent(location.href));
+	});
+
     var searchInput = $("#artmaps-search-keyword-input");
     $(".artmaps-search-link").click(function() {
         $(".artmaps-popup").remove();
@@ -139,7 +147,7 @@ jQuery(function($) {
 		        "<b>" + metadata.title + "</b><br />"
 		        + "by <b>" + metadata.artist + "</b><br />"
 		        + "<a class=\"artmaps-view-artwork-link\" href=\"" + ArtMapsConfig.SiteUrl + "/object/"
-		        + object.ID + "#" + window.location.hash
+		        + object.ID  + window.location.hash
 		        + "\">View Artwork</a>";
 		con.html(h);
 		jQuery(window).bind("hashchange", function(e) {
