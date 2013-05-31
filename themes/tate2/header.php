@@ -18,10 +18,11 @@ else
 <body <?php body_class(); ?>>
 <div id="artmaps-navigation-top" class="artmaps-navigation-container">
 	<div id="artmaps-navigation-home" class="artmaps-navigation-link">
-	    <a href="<?= get_site_url() ?>/?p=1">Home</a></div>
+	    <a href="<?= get_site_url() ?>/?p=1">Home</a>
+	</div>
 	<div id="artmaps-navigation-map" class="artmaps-navigation-link">
-	    <a href="<?= get_site_url() ?>/map">The Art Map</a></div>
-
+	    <a href="<?= get_site_url() ?>/map">The Art Map</a>
+	</div>
 	<div id="artmaps-navigation-loginout" class="artmaps-navigation-link">
 	    <span class="<?= is_user_logged_in()
 	        ? 'artmaps-navigation-logout'
@@ -29,5 +30,4 @@ else
 	    <?= wp_loginout($echo = false) ?>
 	    </span>
 	</div>
-
 </div>

@@ -142,6 +142,23 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $openID->displayForm();
     });
 
+    add_action('user_register', function($id) {
+        require_once('classes/ArtMapsUser.php');
+        $user = ArtMapsUser::fromID($id);
+        if(array_key_exists('artmaps_display_name', $_SESSION)) {
+            $user->setDisplayName($_SESSION['artmaps_display_name']);
+        }
+        if(array_key_exists('artmaps_blog_url', $_SESSION)) {
+            $user->setBlogUrl($_SESSION['artmaps_blog_url']);
+        }
+    });
+
+    add_action('authenticate', function() {
+        @session_start();
+        $_SESSION['artmaps_display_name']= $_POST['artmaps_display_name'];
+        $_SESSION['artmaps_blog_url'] = $_POST['artmaps_blog_url'];
+    }, 1);
+
     require_once('classes/ArtMapsNetwork.php');
     require_once('classes/ArtMapsCoreServer.php');
     require_once('classes/ArtMapsTemplating.php');

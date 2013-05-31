@@ -78,7 +78,30 @@ class ArtMapsOpenID {
     }
 
     public function displayForm() {
+        ?>
+        <p>
+            <label for="artmaps_display_name">This is a new account:
+                <input name="artmaps_new_account" id="artmaps_new_account" type="checkbox" class="input" size="10" />
+            </label>
+        </p>
+        <script type="text/javascript">
+        jQuery(function($) {
+            $("#artmaps_new_account").click(function() {
+                $("#artmaps-new-account-section").toggle();
+            });
+        });
+        </script>
+        <p id="artmaps-new-account-section" style="display:none;">
+            <label for="artmaps_display_name">Display name:<br />
+                <input name="artmaps_display_name" id="artmaps_display_name" type="text" class="input" size="10" />
+            </label>
 
+            <label for="artmaps_blog_url">Blog URL:<br />
+                <input name="artmaps_blog_url" id="artmaps_blog_url" type="text" class="input" size="20" />
+            </label>
+        </p>
+        <hr style="height: 1px;" />
+        <?php
         $providers = array(
                 'google' => 'Google',
                 'yahoo' => 'Yahoo',

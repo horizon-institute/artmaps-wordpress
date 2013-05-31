@@ -63,6 +63,26 @@ class ArtMapsUser {
         return $this->wpUser->user_login;
     }
 
+    public function getDisplayName() {
+        return $this->wpUser->display_name;
+    }
+
+    public function setDisplayName($displayName) {
+        $this->wpUser->user_nicename = $displayName;
+        $this->wpUser->display_name = $displayName;
+        wp_update_user(array('ID' => $this->wpUser->ID, 'user_nicename' => $displayName));
+        wp_update_user(array('ID' => $this->wpUser->ID, 'display_name' => $displayName));
+    }
+
+    public function getBlogUrl() {
+        return $this->wpUser->user_url;
+    }
+
+    public function setBlogUrl($url) {
+        $this->wpUser->user_url = $url;
+        wp_update_user(array( 'ID' => $this->wpUser->ID, 'user_url' => $url));
+    }
+
     public function getRoles() {
         return $this->wpUser->roles;
     }
