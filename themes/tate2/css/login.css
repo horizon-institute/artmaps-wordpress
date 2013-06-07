@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+#login {
+    padding-top: 20px;
+    width: 70%;
+}
+
+#login h1 {
+    display: none;
+}
+
+#nav {
+    display: none;
+}
+
+#backtoblog {
+    display: none;
+}
+
+#artmaps-login-tabs {
+    padding-bottom: 20px;
+}
+
+.artmaps-openid-provider:hover {
+    cursor: pointer;
+}

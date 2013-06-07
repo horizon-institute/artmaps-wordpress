@@ -1,7 +1,4 @@
 <?php
-add_filter('show_admin_bar', '__return_false');
-remove_action('wp_head', '_admin_bar_bump_cb');
-
 foreach(array(
                 'google-maps', 'jquery', 'jquery-ui-core', 'jquery-ui-button',
                 'jquery-ui-dialog', 'jquery-xcolor','jquery-outside-event', 'json2', 'markerclusterer',
@@ -15,20 +12,6 @@ $network = new ArtMapsNetwork();
 $blog = $network->getCurrentBlog();
 $core = new ArtMapsCoreServer($blog);
 
-wp_localize_script('artmaps-object', 'ArtMapsConfig',
-        array(
-                'CoreServerPrefix' => $core->getPrefix(),
-                'SiteUrl' => get_site_url(),
-                'ThemeDirUrl' => themeUri(),
-                'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
-                'IsUserLoggedIn' => is_user_logged_in()
-        ));
-
-add_filter("body_class", function($classes) {
-    $classes = array("artmaps-object");
-    return $classes;
-}, 99);
-
 $objectID = get_query_var('objectid');
 if(!isset($objectID) || !$objectID)
     $objectID = $blog->getObjectForPage($post->ID);
@@ -38,83 +21,59 @@ if(!isset($objectID) || !$objectID) {
 }
 
 $metadata = $core->fetchObjectMetadata($objectID);
+
+function content($path) {
+    return get_stylesheet_directory_uri() . "/content/" . $path;
+}
+
+wp_localize_script('artmaps-object', 'ArtMapsConfig',
+        array(
+                'CoreServerPrefix' => $core->getPrefix(),
+                'SiteUrl' => get_site_url(),
+                'ThemeDirUrl' => get_stylesheet_directory_uri(),
+                'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
+                'IsUserLoggedIn' => is_user_logged_in()
+        ));
+
+get_header();
 ?>
-<!DOCTYPE html>
-<html <?php language_attributes(); ?>>
-<head>
-<meta charset="<?php bloginfo('charset'); ?>" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title><?php wp_title('|', true, 'right'); bloginfo('name');?></title>
-<link rel="profile" href="http://gmpg.org/xfn/11" />
-<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo('stylesheet_url'); ?>" />
-<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-<?php wp_head(); ?>
-</head>
-<body <?php body_class(); ?>>
-<div id="artmaps-navigation-top" class="artmaps-navigation-container">
-	<div id="artmaps-navigation-map" class="artmaps-navigation-link">
-	    <a class="artmaps-map-link" href="<?= get_site_url() ?>/map">Back to Map</a>
-	</div>
-</div>
 <script type="text/javascript">
-var config = {
-        "objectID": <?= $objectID ?>,
-        "mapConf": {
-            "scrollwheel": true,
-            "center": new google.maps.LatLng(0, 0),
-            "streetViewControl": true,
-            "zoom": 1,
-            "mapTypeId": google.maps.MapTypeId.SATELLITE,
-            "zoomControlOptions": {
-                "position": google.maps.ControlPosition.LEFT_CENTER
-            },
-            "panControl": false,
-            "mapTypeControl": false
-        },
-        "clustererConf" : {
-            "gridSize": 150,
-            "minimumClusterSize": 2,
-            "zoomOnClick": true,
-            "imageSizes": [56],
-            "styles": [{
-                "url": "<?= themeUri('/content/cluster.png') ?>",
-                "height": 56,
-                "width": 56
-            }]
-        }
-    };
 jQuery(document).ready(function($) {
 
-    var map = new ArtMaps.Map.MapObject($("#artmaps-mapcontainer"), config);
+    var map = new ArtMaps.Map.MapObject($("#artmaps-object-container-map-canvas"), { "objectID": <?= $objectID ?> });
 
-    /* Update the back to map link to return to the map in the last viewed state */
-    $(".artmaps-map-link").attr("href", $.param.fragment("<?= get_site_url() ?>/map", location.hash));
+    $("#artmaps-nav-bar-map a").attr("href", $.param.fragment("<?= get_site_url() ?>/map", location.hash));
 
-    /* Image zoom handler */
-    $(".artmaps-object-image").click(function(e) {
-        e.stopPropagation();
-        var t = jQuery(e.target).clone();
-        t.dialog({
-            "dialogClass": "artmaps-large-image-popup",
-            "modal": true,
-            "draggable": false,
-            "height": $(window).height(),
-            "width": $(window).width(),
-            "open": function() {
-                t.bind("clickoutside", function() {
-                    t.dialog("close");
-                });
-                t.bind("click", function() {
-                    t.dialog("close");
-                });
-            }
+    (function() {
+        var small = $("#artmaps-object-container-object img");
+        var large = small.clone();
+        large.bind("clickoutside", function() {
+            large.dialog("close");
+        }).bind("click", function() {
+            large.dialog("close");
         });
-    });
+        small.click(function(e) {
+            e.stopPropagation();
+            large.dialog({
+                "dialogClass": "artmaps-object-image-large",
+                "modal": true,
+                "draggable": false,
+                "height": $(window).height(),
+                "width": $(window).width()
+            });
+        });
+    })();
+
+    /*****************/
+
+
+
+
 
     /* Map view handler */
-    $(".artmaps-mapview-menu").find("input:radio[name=maptype]")
+    /*$(".artmaps-mapview-menu").find("input:radio[name=maptype]")
             .filter("[value=" + config.mapConf.mapTypeId + "]")
-            .prop("checked", true);
+            .prop("checked", true);*/
     $(".artmaps-mapview-link-button").click(function() {
         $(".artmaps-mapview-menu").toggle();
     });
@@ -235,56 +194,64 @@ jQuery(document).ready(function($) {
     });
 });
 </script>
-<div id="artmaps-objectcontainer">
-    <div>
-    <?php
-    if(property_exists($metadata, 'imageurl')) {
-        ?><img class="artmaps-object-image" src="<?= $metadata->imageurl ?>" alt="<?= $metadata->title ?>" /><?php
-    } else {
-        ?><img src="<?= themeUri('/content/unavailable.jpg') ?>" alt="<?= $metadata->title ?>" /><?php
-    }
-    ?>
-        <p>
-            Artist: <?= $metadata->artist ?> <?= $metadata->artistdate ?><br/>
-            Title: <?= $metadata->title ?><br />
-            Date: <?= $metadata->artworkdate ?><br />
-            <a href="http://www.tate.org.uk/art/artworks/<?= $metadata->reference ?>">View on Tate Online</a>
-        </p>
+
+<div id="artmaps-object-container">
+
+    <div id="artmaps-object-container-object">
+        <?php
+        if(property_exists($metadata, 'imageurl')) {
+            ?><img src="<?= $metadata->imageurl ?>" alt="<?= $metadata->title ?>" /><?php
+        } else {
+            ?><img src="<?= content('unavailable.jpg') ?>" alt="<?= $metadata->title ?>" /><?php
+        }
+        ?>
+            <p>
+                Artist: <?= $metadata->artist ?> <?= $metadata->artistdate ?><br/>
+                Title: <?= $metadata->title ?><br />
+                Date: <?= $metadata->artworkdate ?><br />
+                <a href="http://www.tate.org.uk/art/artworks/<?= $metadata->reference ?>">View on Tate Online</a>
+            </p>
     </div>
-</div>
-<div id="artmaps-map-dialogcontainer">
-    <div id="artmaps-mapcontainer"></div>
-    <div class="artmaps-map-key">
-        <span><img src="<?= themeUri('/content/pins/red.jpg') ?>" alt="" />Original Location</span>
-        <span><img src="<?= themeUri('/content/pins/blue.jpg') ?>" alt="" />Suggested Location</span>
-        <span><img src="<?= themeUri('/content/pins/green.jpg') ?>" alt="" />Your Active Suggestion</span>
-    </div>
-    <div id="artmaps-actionscontainer">
-        <div class="artmaps-mapview-link-button">Change Map View</div>
-        <ul class="artmaps-mapview-menu" style="display: none;">
-            <li><label><input type="radio" name="maptype" value="hybrid" />Hybrid</label></li>
-            <li><label><input type="radio" name="maptype" value="roadmap" />Roadmap</label></li>
-            <li><label><input type="radio" name="maptype" value="terrain" />Terrain</label></li>
-            <li><label><input type="radio" name="maptype" value="satellite" />Satellite</label></li>
-        </ul>
-        <div class="artmaps-action-suggest-button">Suggest a location</div>
-        <div class="artmaps-action-show-all-button">Show all locations</div>
-    </div>
-</div>
-<div id="artmaps-commentcontainer">
-    <h3 id="artmaps-ask-location">We think this artwork is associated with this location. What do you think?</h3>
-    <div class="artmaps-action-comment-button">Add Comment</div>
-    <div class="artmaps-action-blog-button">Blog about this artwork</div>
-    <div class="artmaps-comments-text">
-    Comments:
-    <?php foreach(get_approved_comments($post->ID) as $comment) { ?>
-        <div class="artmaps-commentcontainer-comment">
-        <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
-        <span><?= $comment->comment_content ?></span>
-        <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
-        <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
+
+    <div id="artmaps-object-container-map">
+        <div id="artmaps-object-container-map-canvas"></div>
+        <div class="artmaps-map-key">
+            <span><img src="<?= content('pins/red.jpg') ?>" alt="" />Original Location</span>
+            <span><img src="<?= content('pins/blue.jpg') ?>" alt="" />Suggested Location</span>
+            <span><img src="<?= content('pins/green.jpg') ?>" alt="" />Your Active Suggestion</span>
         </div>
-    <?php } ?>
+        <div id="artmaps-actionscontainer">
+            <div class="artmaps-mapview-link-button">Change Map View</div>
+            <ul class="artmaps-mapview-menu" style="display: none;">
+                <li><label><input type="radio" name="maptype" value="hybrid" />Hybrid</label></li>
+                <li><label><input type="radio" name="maptype" value="roadmap" />Roadmap</label></li>
+                <li><label><input type="radio" name="maptype" value="terrain" />Terrain</label></li>
+                <li><label><input type="radio" name="maptype" value="satellite" />Satellite</label></li>
+            </ul>
+            <div class="artmaps-action-suggest-button">Suggest a location</div>
+            <div class="artmaps-action-show-all-button">Show all locations</div>
+        </div>
+    </div>
+
+</div>
+
+<div id="artmaps-comment-container">
+    <div>
+        <h3 id="artmaps-ask-location">We think that this artwork is associated with this location. What do you think?</h3>
+        <div class="artmaps-action-comment-button">Add Comment</div>
+        <div class="artmaps-action-blog-button">Blog about this artwork</div>
+        <div class="artmaps-comments-text">
+            Comments:
+            <?php foreach(get_approved_comments($post->ID) as $comment) { ?>
+            <div class="artmaps-commentcontainer-comment">
+            <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
+            <span><?= $comment->comment_content ?></span>
+            <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
+            <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
+            </div>
+            <?php } ?>
+        </div>
     </div>
 </div>
+
 <?php get_footer(); ?>

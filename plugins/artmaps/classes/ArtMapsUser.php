@@ -13,8 +13,15 @@ extends Exception {
     public function __construct($message = '', $code = 0, $previous = null) {
         parent::__construct($message, $code, $previous);
     }
-}
-}
+}}
+
+if(!class_exists('ArtMapsUserCreationException')){
+class ArtMapsUserCreationException
+extends Exception {
+    public function __construct($message = '', $code = 0, $previous = null) {
+        parent::__construct($message, $code, $previous);
+    }
+}}
 
 if(!class_exists('ArtMapsUser')) {
 class ArtMapsUser {
@@ -45,6 +52,13 @@ class ArtMapsUser {
 
     public static function fromLogin($login) {
         return ArtMapsUser::from('login', $login);
+    }
+
+    public static function create($username, $password, $email) {
+        $id = wp_create_user($username, $password, $email);
+        if(is_wp_error($id))
+            throw new ArtMapsUserCreationException($id->get_error_message());
+        return ArtMapsUser::fromID($id);
     }
 
     private static function from($field, $value) {

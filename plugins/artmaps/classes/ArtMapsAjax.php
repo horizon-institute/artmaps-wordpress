@@ -14,8 +14,10 @@ class ArtMapsAjax {
             return json_encode($this->rpc->generateCommentTemplate($objectID));
         }
         catch(ArtMapsCoreServerException $e) {
-            return '{"ErrorCode":"' . $e->getCode() . '",'
-                    . '"ErrorMessage":"' . $e->getMessage() . '"}';
+            return json_encode(
+                    array(
+                            'ErrorCode' => $e->getCode(),
+                            'ErrorMessage' => $e->getMessage()));
         }
     }
 
@@ -35,13 +37,14 @@ class ArtMapsAjax {
                         $blog->password,
                         $tmpl,
                         false)))
-            return '{"ErrorCode":"' . $client->getErrorCode() . '",'
-                    . '"ErrorMessage":"' . $client->getErrorMessage() . '"}';
+            return json_encode(
+                    array(
+                            'ErrorCode' => $e->getCode(),
+                            'ErrorMessage' => $e->getMessage()));
 
-        return '{"BlogUrl":"'
-                . $blog->url . '/wp-admin/post.php?action=edit&post='
-                . $client->getResponse()
-                . '"}';
+        return json_encode(array(
+                'BlogUrl' => $blog->url . '/wp-admin/post.php?action=edit&post='
+                        . $client->getResponse()));
     }
 
     public function publishComment($objectID, $text) {
@@ -63,7 +66,7 @@ class ArtMapsAjax {
                         'user_id' => (int)$user->getID()
                 ));
 
-        return "{}";
+        return json_encode(true);
     }
 
     public function signData($data) {
@@ -78,6 +81,18 @@ class ArtMapsAjax {
                 $b->getKey(),
                 ArtMapsUser::currentUser());
         return json_encode($signed);
+    }
+
+    public function createUser($username, $password, $email, $displayName, $blog) {
+        require_once('ArtMapsUser.php');
+        try {
+            $user = ArtMapsUser::create($username, $password, $email);
+            $user->setBlogUrl($blog);
+            $user->setDisplayName($displayName);
+            return json_encode(true);
+        } catch(ArtMapsUserCreationException $e) {
+            return json_encode($e->getMessage());
+        }
     }
 }}
 ?>

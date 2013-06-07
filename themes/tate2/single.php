@@ -1,13 +1,8 @@
 <?php
-add_filter('show_admin_bar', '__return_false');
-remove_action('wp_head', '_admin_bar_bump_cb');
-
-foreach(array('artmaps-template-general') as $style)
-    wp_enqueue_style($style);
-if(have_posts())
-    the_post();
-global $ArtmapsPageTitle;
-$ArtmapsPageTitle = the_title('', '', false);
+the_post();
+add_filter('wp_title', function() {
+    return the_title($echo = false) . ' | ' . get_bloginfo('name');
+});
 get_header();
 ?>
 <article>

@@ -20,6 +20,41 @@ var ArtMaps = ArtMaps || (function(){
     return new Object();
 }());
 
+ArtMaps.RunOnce = function(script) {
+    var workers = new Array(new Worker(script));
+    var queuedTask = false;
+    
+    var runTask = function(worker, data, pre, callback) {
+        pre();
+        var l = null;
+        l = function(e) {
+            worker.removeEventListener("message", l, false);
+            callback(e.data);
+            if(queuedTask) {
+                runTask(worker, queuedTask.data, queuedTask.pre, queuedTask.callback);
+            } else {
+                workers.push(worker);
+            }
+            queuedTask = false;
+        };
+        worker.addEventListener("message", l, false);
+        worker.postMessage(data);
+    };
+    
+    this.queueTask = function(data, pre, callback) {
+        var w = workers.pop();
+        if (w) {
+            runTask(w, data, pre, callback);
+        } else {
+            queuedTask = {
+                "data": data,
+                "pre": pre,
+                "callback": callback
+            };
+        }
+    };
+};
+
 ArtMaps.WorkerPool = function(size, script) {
 
     var availableWorkers = [];
@@ -32,9 +67,9 @@ ArtMaps.WorkerPool = function(size, script) {
         var l = null;
         l = function(e) {
             worker.removeEventListener("message", l, false);
-            window.setTimeout(function() { callback(e.data); }, 0);
+            callback(e.data);
             var next = queuedTasks.pop();
-            if (next) {
+            if(next) {
                 runTask(worker, next.data, next.callback);
             } else {
                 availableWorkers.push(worker);
@@ -76,15 +111,10 @@ ArtMaps.Location = function(l, o, as) {
 
 ArtMaps.ObjectOfInterest = function(o) {
     
-    if(this.cache[o.ID])
-        return this.cache[o.ID];
-    this.cache[o.ID] = this;
-    
     var self = this;
     this.ID = o.ID;
     this.URI = o.URI;
     this.Locations = [];
-    this.Metadata = {};
     this.SuggestionCount = 0;
     
     // Sort actions by location
@@ -100,7 +130,9 @@ ArtMaps.ObjectOfInterest = function(o) {
     }
     // Sort actions into timestamp order (ascending)
     for(var as in abl)
-        abl[as].sort(ArtMaps.Util.actionArraySort);
+        abl[as].sort(function(a, b) {
+            return a.timestamp - b.timestamp;
+        });
     // Create location objects
     l = o.locations.length;
     for(var i = 0; i < l; i++) {
@@ -110,16 +142,12 @@ ArtMaps.ObjectOfInterest = function(o) {
         if(loc.source != "SystemImport") this.SuggestionCount++;            
     }
     
-    // Fetch metadata
-    // Note, not thread safe, may mean that metadata is fetched more than once
-    // but not a major current problem.  Will amend when time allows - Dominic
-    this.runWhenMetadataLoaded = function(func) {
+    this.Metadata = function(func) {
         this.workerPool.queueTask(
-                ArtMapsConfig.CoreServerPrefix + "objectsofinterest/"
-                        + o.ID + "/metadata",
+                ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + o.ID + "/metadata",
                 function(data) {
                     self.Metadata = data;
-                    self.runWhenMetadataLoaded = function(f) {
+                    self.Metadata = function(f) {
                         f(self.Metadata);
                     };
                     func(data); 
@@ -129,4 +157,3 @@ ArtMaps.ObjectOfInterest = function(o) {
 };
 ArtMaps.ObjectOfInterest.prototype.workerPool = 
         new ArtMaps.WorkerPool(20, ArtMapsConfig.ThemeDirUrl + "/js/do-get.js");
-ArtMaps.ObjectOfInterest.prototype.cache = {};

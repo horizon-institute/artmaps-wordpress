@@ -5,10 +5,41 @@ ArtMaps.Map.MapObject = function(container, config) {
 
     var self = this;
     
+    var mapconf = {
+            "scrollwheel": true,
+            "center": new google.maps.LatLng(0, 0),
+            "streetViewControl": true,
+            "zoom": 1,
+            "mapTypeId": google.maps.MapTypeId.SATELLITE,
+            "zoomControlOptions": {
+                "position": google.maps.ControlPosition.LEFT_CENTER
+            },
+            "panControl": false,
+            "mapTypeControl": false
+    };
+    
+    var clusterconf = {
+            "gridSize": 150,
+            "minimumClusterSize": 2,
+            "zoomOnClick": true,
+            "imageSizes": [56],
+            "styles": [{
+                "url": ArtMapsConfig.ThemeDirUrl + "/content/cluster.png",
+                "height": 56,
+                "width": 56
+            }] 
+    };
+    
+    jQuery.extend(true, mapconf, config.map);
     var mapType = jQuery.bbq.getState("maptype");
-    if(mapType) config.mapConf.mapTypeId = mapType;
-    var map = new google.maps.Map(container.get(0), config.mapConf);
-    var clusterer = new MarkerClusterer(map, [], config.clustererConf);
+    if(mapType) mapconf.mapTypeId = mapType;
+    var lat = jQuery.bbq.getState("lat");
+    var lng = jQuery.bbq.getState("lng");
+    if(lat && lng) mapconf.center = new google.maps.LatLng(lat, lng);
+    var zoom = jQuery.bbq.getState("zoom");
+    if(zoom) mapconf.zoom =  parseInt(zoom);
+    var map = new google.maps.Map(container.get(0), mapconf);
+    var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     
     var suggestionRequested = false;
         

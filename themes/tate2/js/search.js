@@ -1,6 +1,10 @@
 /* Namespace: ArtMaps.Search */
 ArtMaps.Search = ArtMaps.Search || {};
 
+ArtMaps.Search.formatSearchResult = function(metadata) {
+    return String(metadata);
+};
+
 ArtMaps.Search.objectSearch = function(query, callback) {
     callback([{"label": "Searching...", "value": "-1"}]);
     var page = 0;
@@ -17,8 +21,7 @@ ArtMaps.Search.objectSearch = function(query, callback) {
         callback(res);
     jQuery.ajax(
         ArtMapsConfig.CoreServerPrefix + "external/search?s=" 
-                + ArtMapsConfig.SearchSource 
-                + "://" + term + "&p=" + page,
+                + ArtMapsConfig.SearchSource + "://" + term + "&p=" + page,
         {
             "dataType": "json",
             "success": function(data) {
@@ -32,7 +35,7 @@ ArtMaps.Search.objectSearch = function(query, callback) {
                                     "dataType": "json",
                                     "success": function(metadata) {
                                         res.unshift({
-                                            "label": ArtMaps.Search.formatResultTitle(metadata),
+                                            "label": ArtMaps.Search.formatSearchResult(metadata),
                                             "value": o.ID
                                         });
                                         callback(res);

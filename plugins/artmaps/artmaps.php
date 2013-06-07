@@ -130,34 +130,18 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         exit;
     });
 
-    add_action('login_head', function() {
-        require_once('classes/ArtMapsOpenID.php');
-        $openID = new ArtMapsOpenID();
-        $openID->displayHead();
+    add_action('wp_ajax_nopriv_artmaps.createUser', function() {
+        require_once('classes/ArtMapsAjax.php');
+        $ajax = new ArtMapsAjax();
+        header('Content-Type: application/json');
+        echo $ajax->createUser(
+                $_POST['username'],
+                $_POST['password'],
+                $_POST['email'],
+                $_POST['displayName'],
+                $_POST['blog']);
+        exit;
     });
-
-    add_action('login_form', function() {
-        require_once('classes/ArtMapsOpenID.php');
-        $openID = new ArtMapsOpenID();
-        $openID->displayForm();
-    });
-
-    add_action('user_register', function($id) {
-        require_once('classes/ArtMapsUser.php');
-        $user = ArtMapsUser::fromID($id);
-        if(array_key_exists('artmaps_display_name', $_SESSION)) {
-            $user->setDisplayName($_SESSION['artmaps_display_name']);
-        }
-        if(array_key_exists('artmaps_blog_url', $_SESSION)) {
-            $user->setBlogUrl($_SESSION['artmaps_blog_url']);
-        }
-    });
-
-    add_action('authenticate', function() {
-        @session_start();
-        $_SESSION['artmaps_display_name']= $_POST['artmaps_display_name'];
-        $_SESSION['artmaps_blog_url'] = $_POST['artmaps_blog_url'];
-    }, 1);
 
     require_once('classes/ArtMapsNetwork.php');
     require_once('classes/ArtMapsCoreServer.php');
