@@ -15,7 +15,7 @@ $core = new ArtMapsCoreServer($blog);
 wp_localize_script('artmaps-map', 'ArtMapsConfig',
         array(
                 'CoreServerPrefix' => $core->getPrefix(),
-                'SiteUrl' => get_site_url(),
+                'SiteUrl' => site_url(),
                 'ThemeDirUrl' => get_stylesheet_directory_uri(),
                 'IpInfoDbApiKey' => $network->getIpInfoDbApiKey(),
                 'SearchSource' => $blog->getSearchSource()
@@ -50,14 +50,16 @@ jQuery(function($) {
     })();
 
     (function() {
+        var type = map.getMapType();
         var button = $("#artmaps-mapview-bar span");
         var dropdown = $("#artmaps-mapview-bar ul");
+        dropdown.find("input:radio[name=artmaps-maptype]").filter("[value=" + type + "]").prop("checked", true);
         button.toggle(
                 function() { dropdown.stop().show(); },
                 function() { dropdown.stop().hide(); });
         dropdown.find("input").change(function(){
             map.setMapType($(this).val());
-            button.click();
+            dropdown.toggle(false);
         });
     })();
 
@@ -108,8 +110,7 @@ jQuery(function($) {
                     keyword.autocomplete("search", ui);
                     return;
                 }
-                window.location = "<?= get_site_url() ?>/object/"
-                        + ui.item.value + window.location.hash;
+                window.location = "<?= site_url() ?>/object/" + ui.item.value + window.location.hash;
                 return;
             }
         });

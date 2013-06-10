@@ -110,8 +110,8 @@ input[type=text] {
 }
 
 #artmaps-comments-bar span {
-    color: #000;
     /*background: url('../content/icons.png') no-repeat 0 -120px;*/
+    padding-left: 0px;
 }
 
 #artmaps-comments-bar ul {

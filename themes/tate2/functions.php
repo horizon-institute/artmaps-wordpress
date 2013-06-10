@@ -23,7 +23,7 @@ add_action('init', function() {
 
 add_action('template_redirect', function() {
     if(is_home()) {
-        wp_redirect(get_site_url() . '/map', 301);
+        wp_redirect(site_url('/map'), 301);
         exit;
     }
     global $wp;
@@ -43,7 +43,7 @@ add_action('login_form', function() {
 });
 
 add_filter('login_redirect', function($redirect) {
-    if($redirect != null && $redirect != '' && strpos($redirect, 'wp-admin') < 0)
+    if(!empty($redirect) && strpos($redirect, 'wp-admin') === false)
         return $redirect;
     return site_url() . '/map';
 });

@@ -43,7 +43,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     
     var suggestionRequested = false;
         
-    jQuery.getJSON(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + config.objectID,
+    jQuery.getJSON(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + ArtMapsConfig.ObjectID,
 		function(object) {
         
             var obj = new ArtMaps.ObjectOfInterest(object);
@@ -71,7 +71,10 @@ ArtMaps.Map.MapObject = function(container, config) {
 
     this.setMapType = function(type) {
         map.setMapTypeId(type);
-        jQuery.bbq.pushState({"maptype" : type});
+    };
+    
+    this.getMapType = function() { 
+        return map.getMapTypeId(); 
     };
     
     this.getCenter = map.getCenter;

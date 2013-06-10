@@ -12,10 +12,10 @@
 <body <?php body_class(); ?>>
     <div id="artmaps-nav-bar">
     	<div id="artmaps-nav-bar-home" class="artmaps-nav-bar-link">
-    	    <a href="<?= get_site_url() ?>/?p=1">Home</a>
+    	    <a href="<?= site_url() ?>/?p=1">Home</a>
     	</div>
     	<div id="artmaps-nav-bar-map" class="artmaps-nav-bar-link">
-    	    <a href="<?= get_site_url() ?>/map">The Art Map</a>
+    	    <a href="<?= site_url('/map') ?>">The Art Map</a>
     	</div>
     	<div id="artmaps-nav-bar-<?= is_user_logged_in() ? 'logout' : 'login' ?>" class="artmaps-nav-bar-link">
     	    <?php wp_loginout() ?>

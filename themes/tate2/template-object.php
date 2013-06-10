@@ -28,8 +28,9 @@ function content($path) {
 
 wp_localize_script('artmaps-object', 'ArtMapsConfig',
         array(
+                'ObjectID' => $objectID,
                 'CoreServerPrefix' => $core->getPrefix(),
-                'SiteUrl' => get_site_url(),
+                'SiteUrl' => site_url(),
                 'ThemeDirUrl' => get_stylesheet_directory_uri(),
                 'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                 'IsUserLoggedIn' => is_user_logged_in()
@@ -40,9 +41,20 @@ get_header();
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 
-    var map = new ArtMaps.Map.MapObject($("#artmaps-object-container-map-canvas"), { "objectID": <?= $objectID ?> });
+    var map = new ArtMaps.Map.MapObject($("#artmaps-object-container-map-canvas"), {});
 
-    $("#artmaps-nav-bar-map a").attr("href", $.param.fragment("<?= get_site_url() ?>/map", location.hash));
+    $("#artmaps-nav-bar-map a").attr("href", $.param.fragment("<?= site_url('/map') ?>", location.hash));
+
+    (function() {
+        var link = jQuery("#artmaps-nav-bar-login").find("a");
+        var url = link.attr("href");
+        if(!url) return;
+        var sep = url.indexOf("?") > -1 ? "&" : "?";
+        link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+        $(window).bind("hashchange", function(e) {
+            link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+    	});
+    })();
 
     (function() {
         var small = $("#artmaps-object-container-object img");
@@ -64,49 +76,66 @@ jQuery(document).ready(function($) {
         });
     })();
 
+    (function() {
+        var type = map.getMapType();
+        var menu = $("#artmaps-object-container-map-canvas-actions-maptype-menu");
+        menu.find("input:radio[name=artmaps-maptype]").filter("[value=" + type + "]").prop("checked", true);
+        $("#artmaps-object-container-map-canvas-actions-maptype").click(function() {
+            menu.toggle();
+        });
+        menu.find("input").change(function(){
+            map.setMapType($(this).val());
+            menu.toggle(false);
+        });
+    })();
+
+    $("#artmaps-object-container-map-canvas-actions-suggest").click(function() {
+        <?php if(is_user_logged_in()) { ?>
+        map.suggest();
+        <?php } else { ?>
+        var url = "<?= wp_login_url() ?>";
+        var sep = url.indexOf("?") > -1 ? "&" : "?";
+        window.open(url + sep + "redirect_to=" + encodeURIComponent(location.href), "_self");
+        <?php } ?>
+    });
+
+    $("#artmaps-object-container-map-canvas-actions-reset").click(map.reset);
+
+    (function() {
+        var con = $("#artmaps-blogthis-container");
+        con.detach();
+        var canvas = con.find("textarea");
+        jQuery.post(ArtMapsConfig.AjaxUrl,
+	            {
+	                "action": "artmaps.generateCommentTemplate",
+	                "objectID": <?= $objectID ?>
+	            },
+                function(data) { canvas.val(data); }
+	    );
+        $("#artmaps-comment-container-action-blog").click(function() {
+            con.dialog({
+                "dialogClass": "artmaps-blogthis-dialog",
+                "modal": true,
+                "draggable": false,
+                "open": function() {
+                    canvas.select();
+                },
+                "width": 600,
+                "height": 400
+            });
+        });
+        con.find("#artmaps-blogthis-container-action-close").click(function() {
+            con.dialog("close");
+        });
+    })();
+
+
     /*****************/
 
 
 
 
 
-    /* Map view handler */
-    /*$(".artmaps-mapview-menu").find("input:radio[name=maptype]")
-            .filter("[value=" + config.mapConf.mapTypeId + "]")
-            .prop("checked", true);*/
-    $(".artmaps-mapview-link-button").click(function() {
-        $(".artmaps-mapview-menu").toggle();
-    });
-    $(".artmaps-mapview-menu").find("input").change(function(){
-        $(".artmaps-mapview-menu").toggle(false);
-        switch($(this).val()) {
-        case "hybrid":
-            map.setMapType(google.maps.MapTypeId.HYBRID);
-            break;
-        case "roadmap":
-            map.setMapType(google.maps.MapTypeId.ROADMAP);
-            break;
-        case "satellite":
-            map.setMapType(google.maps.MapTypeId.SATELLITE);
-            break;
-        case "terrain":
-            map.setMapType(google.maps.MapTypeId.TERRAIN);
-            break;
-        }
-    });
-
-    /* Map reset handler */
-    $(".artmaps-action-show-all-button").click(map.reset);
-
-    /* Suggestion handler */
-    $(".artmaps-action-suggest-button").click(function() {
-        <?php if(is_user_logged_in()) { ?>
-        map.suggest();
-        <?php } else { ?>
-        window.open("<?= wp_login_url($_SERVER['REQUEST_URI']) ?>"
-                + encodeURIComponent(location.hash), "_self");
-        <?php } ?>
-    });
 
     /* Comment handler */
     $(".artmaps-action-comment-button").click(function (event) {
@@ -163,35 +192,6 @@ jQuery(document).ready(function($) {
                 + encodeURIComponent(location.hash), "_self");
         <?php } ?>
     });
-
-    /* Blog handler */
-    $(".artmaps-action-blog-button").click(function (event) {
-        var canvas = jQuery(document.createElement("textarea"))
-                .addClass("artmaps-editor-canvas");
-        jQuery.post(ArtMapsConfig.AjaxUrl,
-	            {
-	                "action": "artmaps.generateCommentTemplate",
-	                "objectID": <?= $objectID ?>
-	            },
-                function(data) {
-	                canvas.val(data);
-	                canvas.select();
-	            }
-	    );
-        var btns = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-buttons");
-        var con = jQuery(document.createElement("div"));
-        var close = jQuery(document.createElement("div"))
-                .text("Close")
-                .click(function() {
-                    con.dialog("close");
-                });
-        btns.append(close);
-        con.append(canvas).append(btns).dialog({
-            "dialogClass": "artmaps-action-comment-popup",
-            "modal": true
-            });
-    });
 });
 </script>
 
@@ -215,21 +215,21 @@ jQuery(document).ready(function($) {
 
     <div id="artmaps-object-container-map">
         <div id="artmaps-object-container-map-canvas"></div>
-        <div class="artmaps-map-key">
+        <div id="artmaps-object-container-map-canvas-actions">
+            <div id="artmaps-object-container-map-canvas-actions-maptype" class="artmaps-button">Change Map View</div>
+            <ul id="artmaps-object-container-map-canvas-actions-maptype-menu" style="display: none;">
+                <li><label><input type="radio" name="artmaps-maptype" value="hybrid" />Hybrid</label></li>
+                <li><label><input type="radio" name="artmaps-maptype" value="roadmap" />Roadmap</label></li>
+                <li><label><input type="radio" name="artmaps-maptype" value="terrain" />Terrain</label></li>
+                <li><label><input type="radio" name="artmaps-maptype" value="satellite" />Satellite</label></li>
+            </ul>
+            <div id="artmaps-object-container-map-canvas-actions-suggest" class="artmaps-button">Suggest a location</div>
+            <div id="artmaps-object-container-map-canvas-actions-reset" class="artmaps-button">Show all locations</div>
+        </div>
+        <div id="artmaps-object-container-map-canvas-key">
             <span><img src="<?= content('pins/red.jpg') ?>" alt="" />Original Location</span>
             <span><img src="<?= content('pins/blue.jpg') ?>" alt="" />Suggested Location</span>
             <span><img src="<?= content('pins/green.jpg') ?>" alt="" />Your Active Suggestion</span>
-        </div>
-        <div id="artmaps-actionscontainer">
-            <div class="artmaps-mapview-link-button">Change Map View</div>
-            <ul class="artmaps-mapview-menu" style="display: none;">
-                <li><label><input type="radio" name="maptype" value="hybrid" />Hybrid</label></li>
-                <li><label><input type="radio" name="maptype" value="roadmap" />Roadmap</label></li>
-                <li><label><input type="radio" name="maptype" value="terrain" />Terrain</label></li>
-                <li><label><input type="radio" name="maptype" value="satellite" />Satellite</label></li>
-            </ul>
-            <div class="artmaps-action-suggest-button">Suggest a location</div>
-            <div class="artmaps-action-show-all-button">Show all locations</div>
         </div>
     </div>
 
@@ -237,20 +237,33 @@ jQuery(document).ready(function($) {
 
 <div id="artmaps-comment-container">
     <div>
-        <h3 id="artmaps-ask-location">We think that this artwork is associated with this location. What do you think?</h3>
-        <div class="artmaps-action-comment-button">Add Comment</div>
-        <div class="artmaps-action-blog-button">Blog about this artwork</div>
-        <div class="artmaps-comments-text">
+        <h3>We think that this artwork is associated with this location. What do you think?</h3>
+        <div id="artmaps-comment-container-action-comment" class="artmaps-button">Add Comment</div>
+        <div id="artmaps-comment-container-action-blog" class="artmaps-button">Blog This</div>
+        <div id="artmaps-comment-container-comments">
             Comments:
             <?php foreach(get_approved_comments($post->ID) as $comment) { ?>
-            <div class="artmaps-commentcontainer-comment">
-            <a href="<?= $comment->comment_author_url ?>" target="_blank"><?= $comment->comment_author ?></a><br />
-            <span><?= $comment->comment_content ?></span>
-            <span class = "artmaps-comment-date"><?= $comment->comment_date?></span>
-            <span class = "artmaps-repport-comments"><?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?></span>
+            <div>
+                <span><?= $comment->comment_content ?></span>
+                <?php if(!empty($comment->comment_author_url)) { ?>
+                <a href="<?= $comment->comment_author_url ?>" target="_blank">(Full text)</a>
+                <?php } ?><br />
+                <span>
+                    Posted by <?= $comment->comment_author ?> on <?= $comment->comment_date?>
+                    (<?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?> )
+                </span>
             </div>
             <?php } ?>
         </div>
+    </div>
+</div>
+
+<div id="artmaps-blogthis-container" style="display: hidden;">
+    <div>
+        <textarea readonly="readonly"></textarea>
+    </div>
+    <div>
+        <div id="artmaps-blogthis-container-action-close" class="artmaps-button">Close</div>
     </div>
 </div>
 
