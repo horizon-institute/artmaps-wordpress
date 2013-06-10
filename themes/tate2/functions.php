@@ -23,7 +23,7 @@ add_action('init', function() {
 
 add_action('template_redirect', function() {
     if(is_home()) {
-        wp_redirect("map", 301);
+        wp_redirect(get_site_url() . '/map', 301);
         exit;
     }
     global $wp;
