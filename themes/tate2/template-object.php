@@ -105,13 +105,6 @@ jQuery(document).ready(function($) {
         var con = $("#artmaps-blogthis-container");
         con.detach();
         var canvas = con.find("textarea");
-        jQuery.post(ArtMapsConfig.AjaxUrl,
-	            {
-	                "action": "artmaps.generateCommentTemplate",
-	                "objectID": <?= $objectID ?>
-	            },
-                function(data) { canvas.val(data); }
-	    );
         $("#artmaps-comment-container-action-blog").click(function() {
             con.dialog({
                 "dialogClass": "artmaps-blogthis-dialog",
@@ -129,69 +122,46 @@ jQuery(document).ready(function($) {
         });
     })();
 
-
-    /*****************/
-
-
-
-
-
-
-    /* Comment handler */
-    $(".artmaps-action-comment-button").click(function (event) {
-        <?php
-        if(is_user_logged_in()) {
-            $user = ArtMapsUser::currentUser();
-        ?>
-        var btns = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-buttons");
-        var con = jQuery(document.createElement("div"));
-        var text = jQuery(document.createElement("div"))
-                .addClass("artmaps-action-comment-popup-body")
-                .text("Please enter your comment below:");
-        var canvas = jQuery(document.createElement("textarea"))
-                .addClass("artmaps-editor-canvas");
-        var loading = jQuery(document.createElement("img"))
-                .attr("src", "<?= get_stylesheet_directory_uri() . '/content/loading/25x25.gif' ?>")
-                .attr("alt", "");
-        var submit = jQuery(document.createElement("div"))
-                .text("Submit")
-                .click(function() {
-                    btns.empty().append(loading);
-                    canvas.attr("readonly", "readonly");
-                    jQuery.post(ArtMapsConfig.AjaxUrl,
-                            {
-                                "action": "artmaps.publishComment",
-                                "objectID": <?= $objectID ?>,
-                                "text": canvas.val()
-                            },
-                            function(data) {
-                                con.dialog("close");
-                                window.location.reload();
-                            });
-
-                });
-
-        var close = jQuery(document.createElement("div"))
-                .text("Close")
-                .click(function() {
-                    con.dialog("close");
-                });
-        btns
-                .append(submit)
-                .append(close);
-        con.append(text).append(canvas).append(btns).dialog({
-                "dialogClass": "artmaps-action-comment-popup",
-                "modal": true
+    (function() {
+        var con = $("#artmaps-commenton-container");
+        con.detach();
+        var canvas = con.find("textarea");
+        $("#artmaps-comment-container-action-comment").click(function() {
+            <?php if(!is_user_logged_in()) { ?>
+            var url = "<?= wp_login_url() ?>";
+            var sep = url.indexOf("?") > -1 ? "&" : "?";
+            window.open(url + sep + "redirect_to=" + encodeURIComponent(location.href), "_self");
+            <?php } else { ?>
+            con.dialog({
+                "dialogClass": "artmaps-commenton-dialog",
+                "modal": true,
+                "draggable": false,
+                "open": function() {
+                    canvas.focus();
+                },
+                "width": 600,
+                "height": 400
             });
-        <?php
-
-        } else {
-        ?>
-        window.open("<?= wp_login_url($_SERVER['REQUEST_URI']) ?>"
-                + encodeURIComponent(location.hash), "_self");
-        <?php } ?>
-    });
+            <?php } ?>
+        });
+        con.find("#artmaps-commenton-container-action-close").click(function() {
+            con.dialog("close");
+        });
+        con.find("#artmaps-commenton-container-action-comment").click(function() {
+            var val = canvas.val();
+            canvas.val("");
+            con.dialog("close");
+            jQuery.post(ArtMapsConfig.AjaxUrl,
+                    {
+                        "action": "artmaps.publishComment",
+                        "objectID": <?= $objectID ?>,
+                        "text": val
+                    },
+                    function(data) {
+                        window.location.reload();
+                    });
+        });
+    })();
 });
 </script>
 
@@ -258,9 +228,23 @@ jQuery(document).ready(function($) {
     </div>
 </div>
 
+<div id="artmaps-commenton-container" style="display: hidden;">
+    <div>
+        <textarea></textarea>
+    </div>
+    <div>
+        <div id="artmaps-commenton-container-action-close" class="artmaps-button">Close</div>
+        <div id="artmaps-commenton-container-action-comment" class="artmaps-button">Comment</div>
+    </div>
+</div>
+
 <div id="artmaps-blogthis-container" style="display: hidden;">
     <div>
-        <textarea readonly="readonly"></textarea>
+        <textarea readonly="readonly"><?php
+        $tmpl = new ArtMapsTemplating();
+        echo htmlentities($tmpl->renderCommentTemplate(
+            $blog, $objectID, site_url('/object/' . $objectID), $metadata));
+        ?></textarea>
     </div>
     <div>
         <div id="artmaps-blogthis-container-action-close" class="artmaps-button">Close</div>

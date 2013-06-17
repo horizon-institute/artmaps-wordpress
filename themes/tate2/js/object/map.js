@@ -9,7 +9,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             "scrollwheel": true,
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": true,
-            "zoom": 1,
+            "zoom": 15,
             "mapTypeId": google.maps.MapTypeId.SATELLITE,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
@@ -33,11 +33,6 @@ ArtMaps.Map.MapObject = function(container, config) {
     jQuery.extend(true, mapconf, config.map);
     var mapType = jQuery.bbq.getState("maptype");
     if(mapType) mapconf.mapTypeId = mapType;
-    var lat = jQuery.bbq.getState("lat");
-    var lng = jQuery.bbq.getState("lng");
-    if(lat && lng) mapconf.center = new google.maps.LatLng(lat, lng);
-    var zoom = jQuery.bbq.getState("zoom");
-    if(zoom) mapconf.zoom =  parseInt(zoom);
     var map = new google.maps.Map(container.get(0), mapconf);
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     
@@ -50,22 +45,17 @@ ArtMaps.Map.MapObject = function(container, config) {
         
             var markers = new Array();
 			jQuery.each(obj.Locations, function(i, loc) {
-                markers.push(new ArtMaps.UI.Marker(loc, map, self));
-			});
-			
-			if(markers.length > 0) {
-			    clusterer.addMarkers(markers);
-			    clusterer.fitMapToMarkers();
-			}
+                markers.push(new ArtMaps.UI.Marker(loc, map, function() { self.suggest(); }));
+			});			
+			clusterer.addMarkers(markers);
+			self.reset();
 			
 			var suggestionMarker = new ArtMaps.UI.SuggestionMarker(map, obj, clusterer); 
             self.suggest = function() {
-                jQuery(ArtMaps.UI).trigger("suggest");
+                jQuery.each(markers, function(i, m) { m.close(); });
                 suggestionMarker.show();
             };
-			
-			if(suggestionRequested)
-                self.suggest();
+			if(suggestionRequested) self.suggest();
 		}
 	);
 
@@ -84,7 +74,12 @@ ArtMaps.Map.MapObject = function(container, config) {
     };
         
     this.reset = function() {
-        clusterer.fitMapToMarkers();
+        var markers = clusterer.getMarkers(); 
+        if(markers.length == 1) {
+            map.setCenter(markers[0].getPosition()); 
+            map.setZoom(mapconf.zoom);
+        } else
+            clusterer.fitMapToMarkers();
         clusterer.repaint();
     };
 };

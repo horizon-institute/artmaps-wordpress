@@ -191,7 +191,7 @@
     margin: -44px 0 0 0;
     color: #fff;
     position: relative;
-    top: -50px;
+    top: -30px;
 }
 
 #artmaps-comment-container > div {
@@ -255,47 +255,12 @@
     font-size: 12px;
 }
 
-/********/
-
-.artmaps-action-comment-popup {
-    font-size: 12px;
-}
-
-.artmaps-action-comment-popup-body {
-    padding-bottom: 5px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #000000;
-}
-
-.artmaps-action-comment-popup-body a {
-    text-decoration: underline;
-}
-
-.artmaps-action-comment-popup-body a:hover {
-    text-decoration: underline;
-    color: blue;
-}
-
-.artmaps-action-comment-popup {
-    width: 50% !important;
-    min-width: 300px;
-    margin-top: -150px !important;
-    font-family: TateNewRegular, arial, sans-serif;
-    font-size: 14px;
-}
-
-.artmaps-action-comment-popup textarea {
-    min-height: 200px;
+#artmaps-commenton-container textarea {
+    min-height: 300px;
     font-family: monospace;
     font-size: 12px;
 }
 
-.artmaps-action-confirm-button,
-.artmaps-action-suggest-confirm-button,
-.artmaps-action-suggest-cancel-button,
-.artmaps-action-comment-popup-buttons div,
-.artmaps-action-comment-popup-buttons a,
-.artmaps-action-comment-popup-buttons img,
 .artmaps-button {
     -webkit-appearance: none;
     -moz-border-radius: 0;
@@ -320,31 +285,11 @@
     float: left;
     margin: 2px;
     text-transform: uppercase;
-}
-
-.artmaps-action-confirm-button:hover,
-.artmaps-action-suggest-confirm-button:hover,
-.artmaps-action-suggest-cancel-button:hover,
-.artmaps-action-comment-popup-buttons div:hover,
-.artmaps-action-comment-popup-buttons a:hover,
-.artmaps-button:hover {
-    text-decoration: underline;
-}
-
-.artmaps-button,
-.artmaps-action-suggest-confirm-button,
-.artmaps-action-suggest-cancel-button,
-.artmaps-action-comment-popup-buttons div,
-.artmaps-action-comment-popup-buttons a {
     background: #1f1f1f;
 }
 
-.artmaps-action-suggest-confirm-button {
-    background: #ff0093;
-}
-
-.artmaps-action-confirm-button {
-    background: #2eb135;
+.artmaps-button:hover {
+    text-decoration: underline;
 }
 
 .ui-dialog-titlebar-close span {

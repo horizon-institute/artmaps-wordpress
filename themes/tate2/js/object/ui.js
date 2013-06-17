@@ -5,92 +5,60 @@ ArtMaps.UI.SystemMarkerColor = "#ff0000";
 ArtMaps.UI.UserMarkerColor = "#00EEEE";
 ArtMaps.UI.SuggestionMarkerColor = "#0CF52F";
 
-ArtMaps.UI.InfoWindow = function(location) {
+ArtMaps.UI.InfoWindow = function(location, suggestFunc) {
     
-    var self = this;
-    var marker = null;
-    var map = null;
-    var mapObj = null;
     var isOpen = false;
 
     var content = jQuery(document.createElement("div"));
-        var confirmed = jQuery(document.createElement("span"))
-                .text(location.Confirmations + " confirmations");
+    var confirmed = jQuery("<span>" + location.Confirmations + " confirmations</span>");
     content.append(confirmed).append(jQuery(document.createElement("br")));
     
-    var confirm = jQuery(document.createElement("div"))
-            .addClass("artmaps-action-confirm-button")
-            .text("Confirm");
-    
-    var suggest = jQuery(document.createElement("div"))
-    		.addClass("artmaps-action-suggest-button")
-    		.text("Suggest");
-    
-    var cfunc = function(){};
-    
-    var efunc = function() {
-        confirmed.text("An error occurred, please try again.");
-        confirm.unbind("click").bind("click", cfunc);
-        content.append(confirm);
-    };
-    
-    cfunc = function() {
-        confirm.remove();
-        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-            "type": "post",
-            "data": {
-                "action": "artmaps.signData",
-                "data": {
-                    "URI": "confirmation://{\"LocationID\":" + location.ID + "}"
-                }
-            },
-            "success": function(saction) {
-                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
-                        + "objectsofinterest/" + location.ObjectOfInterest.ID + "/actions", {
-                    "type": "post",
-                    "data": JSON.stringify(saction),
-                    "dataType": "json",
-                    "contentType": "application/json",
-                    "processData": false,
-                    "success": function(action) {
-                        location.Actions[location.Actions.length] = action;
-                        location.Confirmations++;
-                        confirmed.text(location.Confirmations + " confirmations");
-                    },
-                    "error": efunc
-                });
-            },
-            "error": efunc
-        });        
-    };
-    
-    
-    confirm.unbind("click").bind("click", cfunc);
-    
-    if(ArtMapsConfig.IsUserLoggedIn){
+    if(ArtMapsConfig.IsUserLoggedIn) {
+        var confirm = jQuery("<div class=\"artmaps-button\">Confirm</div>");
+        var suggest = jQuery("<div class=\"artmaps-button\">Suggest</div>");
         content.append(confirm);
         content.append(suggest);
+        confirm.click(function() {
+            confirm.remove();
+            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                "type": "post",
+                "data": {
+                    "action": "artmaps.signData",
+                    "data": {
+                        "URI": "confirmation://{\"LocationID\":" + location.ID + "}"
+                    }
+                },
+                "success": function(saction) {
+                    jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+                            + "objectsofinterest/" + location.ObjectOfInterest.ID + "/actions", {
+                        "type": "post",
+                        "data": JSON.stringify(saction),
+                        "dataType": "json",
+                        "contentType": "application/json",
+                        "processData": false,
+                        "success": function(action) {
+                            location.Actions[location.Actions.length] = action;
+                            location.Confirmations++;
+                            confirmed.text(location.Confirmations + " confirmations");
+                        },
+                    });
+                },
+            });        
+        });  
+        suggest.click(function() {
+            suggestFunc();
+        });
     }
-    
+        
     this.setContent(content.get(0));
     
     this.on("closeclick", function() {
         isOpen = false;
     });
 
-    this.open = function(_map, _marker, _mapObj) {
+    this.open = function(map, marker) {
     	if(isOpen) return;
-        map = _map;
-        marker = _marker;
-        mapObj = _mapObj;
         isOpen = true;
-        google.maps.event.addListener(this, "domready", function() {
-            var iw = this;
-            suggest.one("click", function() {
-                mapObj.suggest();
-                iw.close();
-            });
-        });
         google.maps.InfoWindow.prototype.open.call(this, map, marker);
     };
 
@@ -100,22 +68,14 @@ ArtMaps.UI.InfoWindow = function(location) {
         google.maps.InfoWindow.prototype.close.call(this);
     };
 
-    this.toggle = function(map, marker, mapObj) {
+    this.toggle = function(map, marker) {
     	if(isOpen) this.close();
-        else this.open(map, marker, mapObj);
+        else this.open(map, marker);
     };
-    
-    this.reset = function() {
-        confirm.unbind("click").bind("click", cfunc);
-    };
-    
-    jQuery(ArtMaps.UI).bind("suggest", function() {
-        self.close(); 
-    });
 };
 ArtMaps.UI.InfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.UI.Marker = function(location, map, mapObj) {
+ArtMaps.UI.Marker = function(location, map, suggestFunc) {
     var color = location.Source == "SystemImport"
             ? ArtMaps.UI.SystemMarkerColor
             : ArtMaps.UI.UserMarkerColor;
@@ -126,17 +86,12 @@ ArtMaps.UI.Marker = function(location, map, mapObj) {
                 StyledIconTypes.MARKER,
                 {"color": color, "starcolor": "000000"})
     });
-    marker.location = location;
     marker.setTitle(location.Confirmations + " confirmations");
-    var iw = new ArtMaps.UI.InfoWindow(location);
+    var iw = new ArtMaps.UI.InfoWindow(location, suggestFunc);
     marker.on("click", function() {
-        iw.toggle(map, marker, mapObj);
-    });
-    
-    marker.reset = function() {
-        iw.reset();
-    };
-    
+        iw.toggle(map, marker);
+    });    
+    marker.close = function() { iw.close(); };
     return marker;
 };
 
@@ -144,25 +99,15 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
 	
     var self = this;
     
-    var initialContent = jQuery(document.createElement("div"));
-    initialContent.html("<div>Drag this pin and hit confirm</div>");
-    
-    var processingContent = jQuery(document.createElement("div"));
-    processingContent.html("<img src=\"" + ArtMapsConfig.ThemeDirUrl 
-            + "/content/loading/50x50.gif\" alt=\"\" />");
-    
-    var errorContent = jQuery(document.createElement("div"));
-    errorContent.html("<div>Unfortunately, an error occurred. "
-                + "Please close this popup and try again.</div>");
-        
-    var confirm = jQuery(document.createElement("div"))
-            .addClass("artmaps-action-suggest-confirm-button")
-            .text("Confirm");
+    var initialContent = jQuery("<div><div>Drag this pin and hit confirm</div></div>");
+    var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.ThemeDirUrl + "/content/loading/50x50.gif\" alt=\"\" /></div>");
+    var errorContent = jQuery("<div>Unfortunately, an error occurred. Please close this popup and try again.</div>");
     
     function suggestionError(jqXHR, textStatus, errorThrown) {
         self.setContent(errorContent.get(0));
     }
         
+    var confirm = jQuery("<div class=\"artmaps-button\">Confirm</div>");
     confirm.click(function() {
         
         marker.setDraggable(false);
@@ -230,12 +175,8 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     });
     initialContent.append(confirm);
     
-    var cancel = jQuery(document.createElement("div"))
-            .addClass("artmaps-action-suggest-cancel-button")
-            .text("Cancel");
-    cancel.click(function() { 
-        marker.hide();
-    });
+    var cancel = jQuery("<div class=\"artmaps-button\">Cancel</div>");
+    cancel.click(function() { marker.hide(); });
     initialContent.append(cancel);
         
     this.setContent(initialContent.get(0));

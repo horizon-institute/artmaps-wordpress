@@ -103,16 +103,6 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         exit;
     });
 
-    $generateCommentTemplate = function() {
-        require_once('classes/ArtMapsAjax.php');
-        $ajax = new ArtMapsAjax();
-        header('Content-Type: application/json');
-        echo $ajax->generateCommentTemplate($_POST['objectID']);
-        exit;
-    };
-    add_action('wp_ajax_artmaps.generateCommentTemplate', $generateCommentTemplate);
-    add_action('wp_ajax_nopriv_artmaps.generateCommentTemplate', $generateCommentTemplate);
-
     add_action('wp_ajax_artmaps.createDraftComment', function() {
         require_once('classes/ArtMapsAjax.php');
         $ajax = new ArtMapsAjax();

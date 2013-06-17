@@ -9,18 +9,6 @@ class ArtMapsAjax {
         $this->rpc = new ArtMapsRpc();
     }
 
-    public function generateCommentTemplate($objectID) {
-        try {
-            return json_encode($this->rpc->generateCommentTemplate($objectID));
-        }
-        catch(ArtMapsCoreServerException $e) {
-            return json_encode(
-                    array(
-                            'ErrorCode' => $e->getCode(),
-                            'ErrorMessage' => $e->getMessage()));
-        }
-    }
-
     public function createDraftComment($objectID) {
         require_once('ArtMapsUser.php');
         $user = ArtMapsUser::currentUser();
