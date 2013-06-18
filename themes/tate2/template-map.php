@@ -37,6 +37,8 @@ jQuery(function($) {
             }
         };
     var map = new ArtMaps.Map.MapObject($("#artmaps-map"), config);
+    map.bindAutocomplete(new google.maps.places.Autocomplete(
+            $("#artmaps-location-search-container-input").get(0)));
 
     (function() {
         var link = jQuery("#artmaps-nav-bar-login").find("a");
@@ -93,48 +95,39 @@ jQuery(function($) {
     })();
 
     (function() {
-        var con = $("#artmaps-search-container");
-        var location = $("#artmaps-search-container-location-input");
-        map.bindAutocomplete(new google.maps.places.Autocomplete(location.get(0)));
-        var keyword = $("#artmaps-search-container-keyword-input");
-        ArtMaps.Search.formatSearchResult = function(metadata) {
-            return metadata.title + " by " + metadata.artist;
+        var con = $("#artmaps-keyword-search-container");
+        var keyword = $("#artmaps-keyword-search-container-input");
+        var res = $("#artmaps-keyword-search-container-results");
+        var more = $("#artmaps-keyword-search-container .artmaps-keyword-search-container-more-button");
+        var clear = function() {
+            more.hide();
+            res.empty();
         };
-        keyword.autocomplete({
-            "source": ArtMaps.Search.objectSearch,
-            "minLength": 3,
-            "select": function(event, ui) {
-                event.preventDefault();
-                if(ui.item.value == -1) return;
-                if(ui.item.value == -10) {
-                    keyword.autocomplete("search", ui);
-                    return;
-                }
-                window.location = "<?= site_url() ?>/object/" + ui.item.value + window.location.hash;
-                return;
+        var complete = function(page) {
+            var f = arguments.callee;
+            more.off("click");
+            if(page == null)
+                more.hide();
+            else {
+                more.show();
+                more.click(function() {
+                    ArtMaps.Search.objectSearch(keyword.val(), result, f, page);
+                });
+            }
+        };
+        var result = function(object, metadata) {
+            res.append($("<div><a href=\"" + ArtMapsConfig.SiteUrl + "/object/" + object.ID
+                    + window.location.hash + "\">" + metadata.title + " by " + metadata.artist + "</a></div>"));
+        };
+        keyword.keypress(function(e) {
+            if(e.keyCode == 13) {
+                clear();
+                ArtMaps.Search.objectSearch(keyword.val(), result, complete, 0);
             }
         });
-        $("#artmaps-search-container-keyword .artmaps-search-container-button").click(function() {
-            keyword.focus().autocomplete("search");
-        });
-        $("#artmaps-search-container-location .artmaps-search-container-button").click(function() {
-            google.maps.event.trigger(location.get(0), "focus", {});
-        });
-        con.tabs({
-            "activate": function(e, ui) {
-                switch(con.tabs("option", "active")) {
-                case 0:
-                    keyword.autocomplete("enable");
-                    keyword.val(location.val());
-                    keyword.focus().autocomplete("search");
-                    break;
-                case 1:
-                    keyword.autocomplete("close").autocomplete("disable");
-                    location.val(keyword.val()).focus();
-                    google.maps.event.trigger(location.get(0), "focus", {});
-                    break;
-                }
-            }
+        $("#artmaps-keyword-search-container .artmaps-keyword-search-container-button").click(function() {
+            clear();
+            ArtMaps.Search.objectSearch(keyword.val(), result, complete, 0);
         });
         $("#artmaps-search-bar span").click(function() {
             var closeFunc = function() {
@@ -142,15 +135,13 @@ jQuery(function($) {
             };
             con.dialog({
                 "open": function() {
-                    con.tabs("option", "active", 0);
                     keyword.val("");
-                    location.val("");
                     keyword.focus();
+                    clear();
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", closeFunc);
                 },
                 "close" : function () {
-                    keyword.autocomplete("close");
                     jQuery(ArtMaps).off("artmaps-dialog-opened", closeFunc);
                 }
             });
@@ -214,25 +205,20 @@ jQuery(function($) {
     </div>
 </div>
 
-<div id="artmaps-search-container" style="display: none;">
-    <ul>
-        <li><a href="#artmaps-search-container-keyword">Keyword</a></li>
-        <li><a href="#artmaps-search-container-location">Location</a></li>
-    </ul>
-    <div id="artmaps-search-container-keyword">
-        <input id="artmaps-search-container-keyword-input" name="artmaps-search-container-keyword-input"
-                type="text" placeholder="Enter a keyword" autocomplete="off" />
-        <span class="artmaps-search-container-button">Search</span>
-        <br />
-        <span>You are searching by keyword<br />(artwork title/artist's name/subject)</span>
-    </div>
-    <div id="artmaps-search-container-location">
-        <input id="artmaps-search-container-location-input" name="artmaps-search-container-location-input"
-                type="text" placeholder="Enter a location" autocomplete="off" />
-        <span class="artmaps-search-container-button">Search</span>
-        <br />
-        <span>You are searching the map for locations</span>
-    </div>
+<div id="artmaps-keyword-search-container" style="display: none;">
+    <input id="artmaps-keyword-search-container-input" name="artmaps-keyword-search-container-input"
+            type="text" placeholder="Enter a keyword" autocomplete="off" />
+    <span class="artmaps-keyword-search-container-button">Search</span>
+    <br />
+    <span>You are searching by keyword<br />(artwork title/artist's name/subject)</span>
+    <br />
+    <span class="artmaps-keyword-search-container-more-button" style="display: none;">Keep searching</span>
+    <div id="artmaps-keyword-search-container-results"></div>
+</div>
+
+<div id="artmaps-location-search-container">
+    <input id="artmaps-location-search-container-input" name="artmaps-location-search-container-input"
+            type="text" placeholder="Enter a location" autocomplete="off" />
 </div>
 
 <?php get_footer(); ?>

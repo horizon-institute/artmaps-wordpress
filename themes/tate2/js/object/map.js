@@ -75,7 +75,10 @@ ArtMaps.Map.MapObject = function(container, config) {
         
     this.reset = function() {
         var markers = clusterer.getMarkers(); 
-        if(markers.length == 1) {
+        if(markers.length == 0) {
+            map.setCenter(mapconf.center); 
+            map.setZoom(mapconf.zoom);
+        } else if(markers.length == 1) {
             map.setCenter(markers[0].getPosition()); 
             map.setZoom(mapconf.zoom);
         } else

@@ -41,7 +41,12 @@ get_header();
 <script type="text/javascript">
 jQuery(document).ready(function($) {
 
-    var map = new ArtMaps.Map.MapObject($("#artmaps-object-container-map-canvas"), {});
+    var config = {
+            "map": {
+                "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
+            }
+        };
+    var map = new ArtMaps.Map.MapObject($("#artmaps-object-container-map-canvas"), config);
 
     $("#artmaps-nav-bar-map a").attr("href", $.param.fragment("<?= site_url('/map') ?>", location.hash));
 

@@ -7,7 +7,6 @@ ArtMaps.Map.MapObject = function(container, config) {
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": false,
             "zoom": 15,
-            "maxZoom": 16,
             "minZoom": 3,
             "mapTypeId": google.maps.MapTypeId.HYBRID,
             "zoomControlOptions": {

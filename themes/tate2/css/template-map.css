@@ -158,13 +158,13 @@ input[type=text] {
     float: left;
 }
 
-#artmaps-search-container {
+#artmaps-keyword-search-container {
     font-size: 14px !important;
     line-height: 21px !important;
     padding: 20px !important;
 }
 
-.artmaps-search-container-button {
+.artmaps-keyword-search-container-button {
     padding: 0 20px;
     background: #ff0093;
     color: #fff;
@@ -175,8 +175,28 @@ input[type=text] {
     text-transform: uppercase;
 }
 
-.artmaps-search-container-button:hover {
+.artmaps-keyword-search-container-button:hover {
     cursor: pointer;
+}
+
+.artmaps-keyword-search-container-more-button {
+    padding: 0 20px;
+    background: #ff0093;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 10px 10px 0;
+    text-transform: uppercase;
+}
+
+.artmaps-keyword-search-container-more-button:hover {
+    cursor: pointer;
+}
+
+#artmaps-location-search-container {
+    position: absolute;
+    top: 125px;
+    left: 10px;
 }
 
 .pac-container {
