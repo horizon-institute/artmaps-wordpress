@@ -1,11 +1,12 @@
-/* Namespace: ArtMaps.UI */
-ArtMaps.UI = ArtMaps.UI || {};
+/* Namespace: ArtMaps.Object.UI */
+ArtMaps.Object = ArtMaps.Object || {};
+ArtMaps.Object.UI = ArtMaps.Object.UI || {};
 
-ArtMaps.UI.SystemMarkerColor = "#ff0000";
-ArtMaps.UI.UserMarkerColor = "#00EEEE";
-ArtMaps.UI.SuggestionMarkerColor = "#0CF52F";
+ArtMaps.Object.UI.SystemMarkerColor = "#ff0000";
+ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
+ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
 
-ArtMaps.UI.InfoWindow = function(location, suggestFunc) {
+ArtMaps.Object.UI.InfoWindow = function(location, suggestFunc) {
     
     var isOpen = false;
 
@@ -73,12 +74,12 @@ ArtMaps.UI.InfoWindow = function(location, suggestFunc) {
         else this.open(map, marker);
     };
 };
-ArtMaps.UI.InfoWindow.prototype = new google.maps.InfoWindow();
+ArtMaps.Object.UI.InfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.UI.Marker = function(location, map, suggestFunc) {
+ArtMaps.Object.UI.Marker = function(location, map, suggestFunc) {
     var color = location.Source == "SystemImport"
-            ? ArtMaps.UI.SystemMarkerColor
-            : ArtMaps.UI.UserMarkerColor;
+            ? ArtMaps.Object.UI.SystemMarkerColor
+            : ArtMaps.Object.UI.UserMarkerColor;
     color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
     var marker = new StyledMarker({
         "position": new google.maps.LatLng(location.Latitude, location.Longitude),
@@ -86,7 +87,7 @@ ArtMaps.UI.Marker = function(location, map, suggestFunc) {
                 StyledIconTypes.MARKER,
                 {"color": color, "starcolor": "000000"})
     });
-    var iw = new ArtMaps.UI.InfoWindow(location, suggestFunc);
+    var iw = new ArtMaps.Object.UI.InfoWindow(location, suggestFunc);
     marker.on("click", function() {
         iw.toggle(map, marker);
     });    
@@ -94,12 +95,12 @@ ArtMaps.UI.Marker = function(location, map, suggestFunc) {
     return marker;
 };
 
-ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
+ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
 	
     var self = this;
     
     var initialContent = jQuery("<div><div>Drag this pin and hit confirm</div></div>");
-    var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.ThemeDirUrl + "/content/loading/50x50.gif\" alt=\"\" /></div>");
+    var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.LoadingIcon50x50Url + "\" alt=\"\" /></div>");
     var errorContent = jQuery("<div>Unfortunately, an error occurred. Please close this popup and try again.</div>");
     
     function suggestionError(jqXHR, textStatus, errorThrown) {
@@ -155,7 +156,7 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                         marker.hide();
                                         var map = marker.getMap();
                                         var loc = new ArtMaps.Location(location, object, [action]);
-                                        var mkr = new ArtMaps.UI.Marker(loc, map);
+                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map);
                                         clusterer.addMarkers([mkr]);
                                         clusterer.fitMapToMarkers();
                                     },
@@ -189,19 +190,19 @@ ArtMaps.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
         marker.hide();
     });
 };
-ArtMaps.UI.SuggestionInfoWindow.prototype = new google.maps.InfoWindow();
+ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.UI.SuggestionMarker = function(map, object, clusterer) {
+ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
     var marker = new StyledMarker({
         "styleIcon": new StyledIcon(
                 StyledIconTypes.MARKER,
-                {"color": ArtMaps.UI.SuggestionMarkerColor, "starcolor": "000000"})
+                {"color": ArtMaps.Object.UI.SuggestionMarkerColor, "starcolor": "000000"})
     });
     google.maps.event.addListener(marker, 'dragend', function() {
         map.panTo(marker.getPosition());
     });
     marker.setTitle("Drag me");
-    var iw = new ArtMaps.UI.SuggestionInfoWindow(marker, object, clusterer);
+    var iw = new ArtMaps.Object.UI.SuggestionInfoWindow(marker, object, clusterer);
     var isVisible = false;
     
     marker.show = function() {

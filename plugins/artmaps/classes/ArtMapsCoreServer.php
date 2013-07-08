@@ -125,7 +125,7 @@ class ArtMapsCoreServer {
             throw new ArtMapsCoreServerException(curl_error($c));
         $post = array(
                 'signature' => $signature,
-        		'callback' => "http://somethingorother", 
+        		'callback' => "http://somethingorother",
                 'file' => "@$file"
         );
         if(!curl_setopt($c, CURLOPT_POSTFIELDS, $post))
@@ -138,6 +138,27 @@ class ArtMapsCoreServer {
         unset($c);
         if($info['http_code'] != 200)
             throw new ArtMapsCoreServerException('Import failed');
+    }
+
+    public function search($term, $page = 0) {
+        $c = curl_init();
+        if($c === false)
+            throw new ArtMapsCoreServerException('Error initialising Curl');
+        $url = $this->prefix . 'external/search?s=' . $this->blog->getSearchSource() . '://' . $term . '&p=' . $page;
+        if(!curl_setopt($c, CURLOPT_URL, $url))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        $data = curl_exec($c);
+        if($data === false)
+            throw new ArtMapsCoreServerException(curl_error($c));
+        curl_close($c);
+        unset($c);
+        $jd = json_decode($data);
+        if($jd === null)
+            throw new ArtMapsCoreServerException(
+                    'Error decoding JSON data: ' . json_last_error());
+        return $jd;
     }
 }}
 ?>

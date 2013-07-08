@@ -38,6 +38,9 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $wp_rewrite->flush_rules();
             update_option($wropt, true);
         }
+        require_once('classes/ArtMapsContent.php');
+        $content = new ArtMapsContent();
+        $content->init();
     });
 
     add_filter('query_vars', function($vars) {
@@ -69,6 +72,14 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $n->createBlog($blogID);
     });
 
+    add_action('delete_post', function($postID) {
+        require_once('classes/ArtMapsNetwork.php');
+        require_once('classes/ArtMapsBlog.php');
+        $nw = new ArtMapsNetwork();
+        $blog = $nw->getCurrentBlog();
+        $blog->deletePageObjectMapping($postID);
+    });
+
     add_action('network_admin_menu', function() {
         require_once('classes/ArtMapsNetworkAdmin.php');
         $networkAdmin = new ArtMapsNetworkAdmin();
@@ -93,24 +104,6 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         return $methods;
     });
 
-    add_action('wp_ajax_artmaps.publishComment', function() {
-        require_once('classes/ArtMapsAjax.php');
-        $ajax = new ArtMapsAjax();
-        header('Content-Type: application/json');
-        echo $ajax->publishComment(
-                $_POST['objectID'],
-                stripslashes($_POST['text']));
-        exit;
-    });
-
-    add_action('wp_ajax_artmaps.createDraftComment', function() {
-        require_once('classes/ArtMapsAjax.php');
-        $ajax = new ArtMapsAjax();
-        header('Content-Type: application/json');
-        echo $ajax->createDraftComment($_POST['objectID']);
-        exit;
-    });
-
     add_action('wp_ajax_artmaps.signData', function() {
         require_once('classes/ArtMapsAjax.php');
         $ajax = new ArtMapsAjax();
@@ -133,9 +126,22 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         exit;
     });
 
-    require_once('classes/ArtMapsNetwork.php');
-    require_once('classes/ArtMapsCoreServer.php');
-    require_once('classes/ArtMapsTemplating.php');
-    require_once('classes/ArtMapsUser.php');
+    add_action('pre_get_posts', function($query) {
+        require_once('classes/ArtMapsSearch.php');
+        $s = new ArtMapsSearch();
+        return $s->preSearch($query);
+    });
+
+    add_filter('the_posts', function($posts) {
+        require_once('classes/ArtMapsSearch.php');
+        $s = new ArtMapsSearch();
+        return $s->search($posts);
+    });
+
+    add_filter('the_content', function($content) {
+        require_once('classes/ArtMapsContent.php');
+        $c = new ArtMapsContent();
+        return $c->parse($content);
+    });
 }
 ?>

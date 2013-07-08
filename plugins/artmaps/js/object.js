@@ -1,7 +1,7 @@
-/* Namespace: ArtMaps.Map */
-ArtMaps.Map = ArtMaps.Map || {};
+/* Namespace: ArtMaps.Object */
+ArtMaps.Object = ArtMaps.Object || {};
 
-ArtMaps.Map.MapObject = function(container, config) {
+ArtMaps.Object.MapObject = function(container, config) {
 
     var self = this;
     
@@ -14,8 +14,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
             },
-            "panControl": false,
-            "mapTypeControl": false
+            "panControl": false
     };
     
     var clusterconf = {
@@ -25,7 +24,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             "maxZoom": 18,
             "imageSizes": [56],
             "styles": [{
-                "url": ArtMapsConfig.ThemeDirUrl + "/content/cluster.png",
+                "url": ArtMapsConfig.ClusterIconUrl,
                 "height": 56,
                 "width": 56
             }] 
@@ -46,12 +45,12 @@ ArtMaps.Map.MapObject = function(container, config) {
         
             var markers = new Array();
 			jQuery.each(obj.Locations, function(i, loc) {
-                markers.push(new ArtMaps.UI.Marker(loc, map, function() { self.suggest(); }));
+                markers.push(new ArtMaps.Object.UI.Marker(loc, map, function() { self.suggest(); }));
 			});			
 			clusterer.addMarkers(markers);
 			self.reset();
 			
-			var suggestionMarker = new ArtMaps.UI.SuggestionMarker(map, obj, clusterer); 
+			var suggestionMarker = new ArtMaps.Object.UI.SuggestionMarker(map, obj, clusterer); 
             self.suggest = function() {
                 jQuery.each(markers, function(i, m) { m.close(); });
                 suggestionMarker.show();
@@ -85,5 +84,24 @@ ArtMaps.Map.MapObject = function(container, config) {
         } else
             clusterer.fitMapToMarkers();
         clusterer.repaint();
+    };
+    
+    this.bindAutocomplete = function(autoComplete) {
+        autoComplete.bindTo("bounds", map);
+        google.maps.event.addListener(autoComplete, "place_changed", function() {
+            var place = autoComplete.getPlace();
+            if(place.id) {
+                if(place.geometry.viewport)
+                    map.fitBounds(place.geometry.viewport);
+                else{
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(12);
+                }
+            }
+        });
+    };
+    
+    this.addControl = function(control, position) {
+        map.controls[position].push(control);
     };
 };

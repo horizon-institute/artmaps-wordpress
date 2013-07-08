@@ -1,8 +1,8 @@
 <?php
 foreach(array(
                 'google-maps', 'jquery', 'jquery-ui-core', 'jquery-ui-button',
-                'jquery-ui-dialog', 'jquery-xcolor','jquery-outside-event', 'json2', 'markerclusterer',
-                'jquery-bbq', 'styledmarker', 'artmaps-object')
+                'jquery-ui-dialog', 'jquery-xcolor','jquery-outside-event', 'json2',
+                'markerclusterer', 'jquery-bbq', 'styledmarker', 'artmaps-object')
         as $script)
     wp_enqueue_script($script);
 foreach(array('jquery-theme', 'artmaps-template-object') as $style)
@@ -126,47 +126,6 @@ jQuery(document).ready(function($) {
             con.dialog("close");
         });
     })();
-
-    (function() {
-        var con = $("#artmaps-commenton-container");
-        con.detach();
-        var canvas = con.find("textarea");
-        $("#artmaps-comment-container-action-comment").click(function() {
-            <?php if(!is_user_logged_in()) { ?>
-            var url = "<?= wp_login_url() ?>";
-            var sep = url.indexOf("?") > -1 ? "&" : "?";
-            window.open(url + sep + "redirect_to=" + encodeURIComponent(location.href), "_self");
-            <?php } else { ?>
-            con.dialog({
-                "dialogClass": "artmaps-commenton-dialog",
-                "modal": true,
-                "draggable": false,
-                "open": function() {
-                    canvas.focus();
-                },
-                "width": 600,
-                "height": 400
-            });
-            <?php } ?>
-        });
-        con.find("#artmaps-commenton-container-action-close").click(function() {
-            con.dialog("close");
-        });
-        con.find("#artmaps-commenton-container-action-comment").click(function() {
-            var val = canvas.val();
-            canvas.val("");
-            con.dialog("close");
-            jQuery.post(ArtMapsConfig.AjaxUrl,
-                    {
-                        "action": "artmaps.publishComment",
-                        "objectID": <?= $objectID ?>,
-                        "text": val
-                    },
-                    function(data) {
-                        window.location.reload();
-                    });
-        });
-    })();
 });
 </script>
 
@@ -213,16 +172,15 @@ jQuery(document).ready(function($) {
 <div id="artmaps-comment-container">
     <div>
         <h3>We think that this artwork is associated with this location. What do you think?</h3>
-        <div id="artmaps-comment-container-action-comment" class="artmaps-button">Add Comment</div>
         <div id="artmaps-comment-container-action-blog" class="artmaps-button">Blog This</div>
         <div id="artmaps-comment-container-comments">
             Comments:
             <?php foreach(get_approved_comments($post->ID) as $comment) { ?>
             <div>
-                <span><?= $comment->comment_content ?></span>
+                <span><?php comment_text($comment->ID) ?></span>
                 <?php if(!empty($comment->comment_author_url)) { ?>
                 <a href="<?= $comment->comment_author_url ?>" target="_blank">(Full text)</a>
-                <?php } ?><br />
+                <?php } ?>
                 <span>
                     Posted by <?= $comment->comment_author ?> on <?= $comment->comment_date?>
                     (<?= $safe_report_comments->get_flagging_link($comment->comment_ID) ?> )
@@ -230,16 +188,9 @@ jQuery(document).ready(function($) {
             </div>
             <?php } ?>
         </div>
-    </div>
-</div>
-
-<div id="artmaps-commenton-container" style="display: hidden;">
-    <div>
-        <textarea></textarea>
-    </div>
-    <div>
-        <div id="artmaps-commenton-container-action-close" class="artmaps-button">Close</div>
-        <div id="artmaps-commenton-container-action-comment" class="artmaps-button">Comment</div>
+        <div id="artmaps-comment-container-comment-box">
+            <?php comment_form(array(), $post->ID); ?>
+        </div>
     </div>
 </div>
 

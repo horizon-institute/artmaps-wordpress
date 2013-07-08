@@ -1,0 +1,81 @@
+<script type="text/javascript">
+google.maps.visualRefresh = true;
+jQuery(function($) {
+    var config = {
+        "map": {
+            "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
+            "mapTypeId": google.maps.MapTypeId.SATELLITE
+        }
+    };
+    var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
+    var autocomplete = $("#artmaps-map-autocomplete");
+    map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
+    map.addControl(autocomplete.get(0), google.maps.ControlPosition.LEFT_TOP);    
+    
+    (function() {
+        var con = $("#artmaps-map-object-container").children().first();
+        $("#artmaps-map-object-container").detach();
+        ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
+            var c = con.clone();
+            c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID + window.location.hash);
+            if(typeof metadata.imageurl != "undefined") {
+                c.find("img").attr("src", metadata.imageurl);
+            }
+            c.find(".artmaps-map-object-container-title").text(metadata.title);
+            c.find(".artmaps-map-object-container-artist").text(metadata.artist);
+            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount + " suggestions");
+            $(window).bind("hashchange", function(e) {
+                c.find("a").each(function(i, a) {
+                    var ax = $(a);
+                    ax.attr("href", $.param.fragment(ax.attr("href"), e.fragment));
+                });
+            });
+            return c;
+        };
+    })();
+    
+    (function() {
+        var links = $("a[href*='wp-login.php']");
+        links.each(function(i, e) {
+           var link = $(e);
+           var url = link.attr("href");
+           if(!url) return;
+           var sep = url.indexOf("?") > -1 ? "&" : "?";
+           link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+           $(window).bind("hashchange", function(e) {
+               link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+           });
+        });
+    })();
+});
+</script>
+
+<div id="artmaps-map-themap" style="width:100%;height:100%;"></div>
+
+<input id="artmaps-map-autocomplete" type="text" />
+
+<div id="artmaps-map-object-list-container-page" style="display: none;">
+    <div class="artmaps-map-object-list-container-page">
+        <div>
+            <span class="artmaps-map-object-list-container-page-previous">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-current">Page 1 of 21</span>
+            <span class="artmaps-map-object-list-container-page-next">&nbsp;[Next]</span>
+        </div>
+        <div class="artmaps-map-object-list-container-page-body"></div>
+        <div>
+            <span class="artmaps-map-object-list-container-page-previous">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-current">Page 1 of 21</span>
+            <span class="artmaps-map-object-list-container-page-next">&nbsp;[Next]</span>
+        </div>
+    </div>
+</div>
+
+<div id="artmaps-map-object-container" style="display: none;">
+    <div class="artmaps-map-object-container">
+        <a><img src="{'content/unavailable.jpg'|artmapsUri}" /></a>
+        <span class="artmaps-map-object-container-title"></span><br />
+        by <span class="artmaps-map-object-container-artist"></span><br />
+        <a>View Artwork</a><br />
+        <span class="artmaps-map-object-container-suggestions"></span><br />
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<script type="text/javascript">
+google.maps.visualRefresh = true;
+jQuery(function($) {
+    
+    ArtMapsConfig = ArtMapsConfig || {};
+    ArtMapsConfig.ObjectID = "{$objectID}";
+    
+    var config = {
+        "map": {
+            "center": new google.maps.LatLng(51.507854, -0.099462) /* Tate Britain */
+        }
+    };
+    var map = new ArtMaps.Object.MapObject($("#artmaps-object-map"), config);
+    
+    (function() {
+        var autocomplete = $("#artmaps-object-map-autocomplete");
+        map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
+        map.addControl(autocomplete.get(0), google.maps.ControlPosition.LEFT_TOP);
+        
+        var suggest = $("#artmaps-object-map-suggest");
+        suggest.click(function() {
+           map.suggest(); 
+        });
+        map.addControl(suggest.get(0), google.maps.ControlPosition.LEFT_TOP);
+        
+        var showall = $("#artmaps-object-map-showall");
+        showall.click(function() {
+           map.reset(); 
+        });
+        map.addControl(showall.get(0), google.maps.ControlPosition.LEFT_TOP);
+    })();
+    
+    (function() {
+        var links = $("a[href*='wp-login.php']");
+        links.each(function(i, e) {
+           var link = $(e);
+           var url = link.attr("href");
+           if(!url) return;
+           var sep = url.indexOf("?") > -1 ? "&" : "?";
+           link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+           $(window).bind("hashchange", function(e) {
+               link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
+           });
+        });
+    })();
+});
+</script>
+
+<div id="artmaps-object-metadata">
+    {if isset($metadata->imageurl)}
+    <img src="{$metadata->imageurl}" alt="{$metadata->title}" />
+    {else}
+    <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
+    {/if}
+    <p>
+        Artist: {$metadata->artist} {$metadata->artistdate}
+        Title: {$metadata->title}<br />
+        Date: {$metadata->artworkdate}<br />
+        <a href="http://www.tate.org.uk/art/artworks/{$metadata->reference}">View on Tate Online</a>
+    </p>
+</div>
+
+<div id="artmaps-object-map" style="width:100%; height:400px;"></div>
+
+<button id="artmaps-object-map-showall" type="button">Show All</button>
+
+<button id="artmaps-object-map-suggest" type="button">Suggest</button>
+
+<input id="artmaps-object-map-autocomplete" type="text" />
+
+<div>
+    <span><img src="{'content/pins/red.jpg'|artmapsUri}" alt="" />Original Location</span>
+    <span><img src="{'content/pins/blue.jpg'|artmapsUri}" alt="" />Suggested Location</span>
+    <span><img src="{'content/pins/green.jpg'|artmapsUri}" alt="" />Your Active Suggestion</span>
+</div>
+

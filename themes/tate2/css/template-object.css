@@ -255,12 +255,6 @@
     font-size: 12px;
 }
 
-#artmaps-commenton-container textarea {
-    min-height: 300px;
-    font-family: monospace;
-    font-size: 12px;
-}
-
 .artmaps-button {
     -webkit-appearance: none;
     -moz-border-radius: 0;

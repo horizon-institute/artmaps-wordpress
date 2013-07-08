@@ -3,13 +3,17 @@ if(!class_exists('ArtMapsBlogAdmin')) {
 class ArtMapsBlogAdmin {
 
     public function register() {
-        add_submenu_page(
+        $sfx = add_submenu_page(
                 'options-general.php',
                 'ArtMaps',
                 'ArtMaps',
                 'manage_options',
                 'artmaps-blog-admin-page',
                 array($this, 'display'));
+        add_action('admin_print_scripts-' . $sfx, function() {
+            wp_enqueue_script('jquery-ui-complete');
+            wp_enqueue_script('jquery-ui-timepicker-addon');
+        });
     }
 
     public function display() {
@@ -27,21 +31,31 @@ class ArtMapsBlogAdmin {
     private function checkSubmission(ArtMapsBlog $blog) {
         $r = false;
 
-        if(isset($_POST['artmaps_blog_option_comment_template'])) {
-            $blog->setCommentTemplate(stripslashes(
-                    $_POST['artmaps_blog_option_comment_template']));
-            $r = true;
-        }
-
-        if(isset($_POST['artmaps_blog_option_object_page_title_template'])) {
-            $blog->setObjectPageTitleTemplate(stripslashes(
-                    $_POST['artmaps_blog_option_object_page_title_template']));
-            $r = true;
-        }
-        
         if(isset($_POST['artmaps_blog_config_search_source'])) {
             $blog->setSearchSource(stripslashes(
                     $_POST['artmaps_blog_config_search_source']));
+            $r = true;
+        }
+
+        if(isset($_POST['artmaps_blog_config_post_author'])) {
+            $blog->setPostAuthor(intval(stripslashes(
+                    $_POST['artmaps_blog_config_post_author'])));
+            $r = true;
+        }
+
+        if(isset($_POST['artmaps_blog_config_post_date'])) {
+            $blog->setPostDate(stripslashes(
+                    $_POST['artmaps_blog_config_post_date']));
+            $r = true;
+        }
+
+        if(isset($_POST['artmaps_blog_config_post_categories'])) {
+            $blog->setPostCategories($_POST['artmaps_blog_config_post_categories']);
+            $r = true;
+        }
+
+        if(isset($_POST['artmaps_blog_config_jquery_theme_uri'])) {
+            $blog->setJQueryThemeUri($_POST['artmaps_blog_config_jquery_theme_uri']);
             $r = true;
         }
 

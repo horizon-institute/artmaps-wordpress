@@ -220,5 +220,4 @@ jQuery(function($) {
     <input id="artmaps-location-search-container-input" name="artmaps-location-search-container-input"
             type="text" placeholder="Enter a location" autocomplete="off" />
 </div>
-
 <?php get_footer(); ?>
