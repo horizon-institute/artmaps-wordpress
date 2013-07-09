@@ -114,7 +114,9 @@ class ArtMapsBlog {
                 'post_type' => 'post',
                 'post_date' => $this->getPostDate()
         );
+        remove_filter('content_save_pre', 'wp_filter_post_kses');
         $pageID = wp_insert_post($post);
+        add_filter('content_save_pre', 'wp_filter_post_kses');
         wp_set_post_terms($pageID, $this->getPostCategories(), 'category');
         $wpdb->insert($name,
                     array(

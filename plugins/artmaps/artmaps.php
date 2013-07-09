@@ -63,7 +63,8 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $n = new ArtMapsNetwork();
         $b = $n->getCurrentBlog();
         $pageID = $b->getPageForObject($objectID);
-        $wp->query_vars['page_id'] = $pageID;
+        global $wp_query;
+        $wp_query = new WP_Query('p=' . $pageID);
     });
 
     add_action('wpmu_new_blog', function($blogID) {
