@@ -45,7 +45,8 @@ ArtMaps.Object.MapObject = function(container, config) {
         
             var markers = new Array();
 			jQuery.each(obj.Locations, function(i, loc) {
-                markers.push(new ArtMaps.Object.UI.Marker(loc, map, function() { self.suggest(); }));
+			    if(loc.IsDeleted) return;
+                markers.push(new ArtMaps.Object.UI.Marker(loc, map, clusterer, function() { self.suggest(); }));
 			});			
 			clusterer.addMarkers(markers);
 			self.reset();

@@ -101,12 +101,22 @@ ArtMaps.Location = function(l, o, as) {
     this.ObjectOfInterest = o;
     this.Actions = as;
     this.Confirmations = 0;
+    this.OwnerID = -1;
+    this.IsDeleted = false;
+    this.UsersWhoConfirmed = [];
     
     // Find the number of confirmations
     var l = as.length;
-    for(var i = 0; i < l; i++)
-        if(as[i].URI.indexOf("confirmation") == 0)
+    for(var i = 0; i < l; i++) {
+        if(as[i].URI.indexOf("confirmation") == 0) {
             this.Confirmations++;
+            this.UsersWhoConfirmed.push(as[i].userID);
+        }
+        if(as[i].URI.indexOf("suggestion") == 0)
+            this.OwnerID = as[i].userID;
+        if(as[i].URI.indexOf("deletion") == 0)
+            this.IsDeleted = true;
+    }
 };
 
 ArtMaps.ObjectOfInterest = function(o) {

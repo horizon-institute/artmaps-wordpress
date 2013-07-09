@@ -6,6 +6,7 @@ class ArtMapsContent {
         require_once('ArtMapsNetwork.php');
         require_once('ArtMapsCoreServer.php');
         require_once('ArtMapsUtil.php');
+        require_once('ArtMapsUser.php');
         $network = new ArtMapsNetwork();
         $blog = $network->getCurrentBlog();
         $p = plugins_url(basename(dirname(dirname(__FILE__))));
@@ -39,6 +40,9 @@ class ArtMapsContent {
         foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)
             wp_enqueue_style($style);
         $core = new ArtMapsCoreServer($blog);
+
+        $user = ArtMapsUser::currentUser();
+
         wp_localize_script('artmaps-base', 'ArtMapsConfig',
                 array(
                         'CoreServerPrefix' => $core->getPrefix(),
@@ -49,7 +53,8 @@ class ArtMapsContent {
                         'LoadingIcon50x50Url' => ArtMapsUtil::findThemeUri('content/loading/50x50.gif'),
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),
                         'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
-                        'IsUserLoggedIn' => is_user_logged_in()
+                        'IsUserLoggedIn' => is_user_logged_in(),
+                        'CoreUserID' => $user->getCoreID($blog)
                 ));
         remove_filter('the_content', 'wpautop');
     }

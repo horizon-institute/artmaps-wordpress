@@ -5,8 +5,9 @@ ArtMaps.Object.UI = ArtMaps.Object.UI || {};
 ArtMaps.Object.UI.SystemMarkerColor = "#ff0000";
 ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
 ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
+ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
 
-ArtMaps.Object.UI.InfoWindow = function(location, suggestFunc) {
+ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer, suggestFunc) {
     
     var isOpen = false;
 
@@ -17,7 +18,11 @@ ArtMaps.Object.UI.InfoWindow = function(location, suggestFunc) {
     if(ArtMapsConfig.IsUserLoggedIn) {
         var confirm = jQuery("<div class=\"artmaps-button\">Confirm</div>");
         var suggest = jQuery("<div class=\"artmaps-button\">Suggest</div>");
-        content.append(confirm);
+        var remove = jQuery("<div class=\"artmaps-button\">Delete</div>");
+        if(ArtMapsConfig.CoreUserID != location.OwnerID
+                && jQuery.inArray(parseInt(ArtMapsConfig.CoreUserID), location.UsersWhoConfirmed) < 0) 
+            content.append(confirm);
+        if(ArtMapsConfig.CoreUserID == location.OwnerID) content.append(remove);
         content.append(suggest);
         confirm.click(function() {
             confirm.remove();
@@ -41,6 +46,33 @@ ArtMaps.Object.UI.InfoWindow = function(location, suggestFunc) {
                             location.Actions[location.Actions.length] = action;
                             location.Confirmations++;
                             confirmed.text(location.Confirmations + " confirmations");
+                        },
+                    });
+                },
+            });        
+        });  
+        remove.click(function() {
+            confirm.remove();
+            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                "type": "post",
+                "data": {
+                    "action": "artmaps.signData",
+                    "data": {
+                        "URI": "deletion://{\"LocationID\":" + location.ID + "}"
+                    }
+                },
+                "success": function(saction) {
+                    jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+                            + "objectsofinterest/" + location.ObjectOfInterest.ID + "/actions", {
+                        "type": "post",
+                        "data": JSON.stringify(saction),
+                        "dataType": "json",
+                        "contentType": "application/json",
+                        "processData": false,
+                        "success": function(action) {
+                            location.Actions[location.Actions.length] = action;
+                            location.IsDeleted = true;
+                            clusterer.removeMarker(marker);
                         },
                     });
                 },
@@ -76,10 +108,13 @@ ArtMaps.Object.UI.InfoWindow = function(location, suggestFunc) {
 };
 ArtMaps.Object.UI.InfoWindow.prototype = new google.maps.InfoWindow();
 
-ArtMaps.Object.UI.Marker = function(location, map, suggestFunc) {
+ArtMaps.Object.UI.Marker = function(location, map, clusterer, suggestFunc) {
     var color = location.Source == "SystemImport"
             ? ArtMaps.Object.UI.SystemMarkerColor
-            : ArtMaps.Object.UI.UserMarkerColor;
+            : ArtMapsConfig.IsUserLoggedIn && (ArtMapsConfig.CoreUserID == location.OwnerID)
+                    ? ArtMaps.Object.UI.OwnerMarkerColor
+                    : ArtMaps.Object.UI.UserMarkerColor;
+    
     color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
     var marker = new StyledMarker({
         "position": new google.maps.LatLng(location.Latitude, location.Longitude),
@@ -87,7 +122,7 @@ ArtMaps.Object.UI.Marker = function(location, map, suggestFunc) {
                 StyledIconTypes.MARKER,
                 {"color": color, "starcolor": "000000"})
     });
-    var iw = new ArtMaps.Object.UI.InfoWindow(location, suggestFunc);
+    var iw = new ArtMaps.Object.UI.InfoWindow(marker, location, clusterer, suggestFunc);
     marker.on("click", function() {
         iw.toggle(map, marker);
     });    
