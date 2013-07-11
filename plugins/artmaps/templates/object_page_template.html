@@ -17,11 +17,13 @@ jQuery(function($) {
         map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
         map.addControl(autocomplete.get(0), google.maps.ControlPosition.LEFT_TOP);
         
-        var suggest = $("#artmaps-object-map-suggest");
-        suggest.click(function() {
-           map.suggest(); 
-        });
-        map.addControl(suggest.get(0), google.maps.ControlPosition.LEFT_TOP);
+        if(ArtMapsConfig.IsUserLoggedIn) {
+            var suggest = $("#artmaps-object-map-suggest");
+            suggest.click(function() {
+               map.suggest(); 
+            });
+            map.addControl(suggest.get(0), google.maps.ControlPosition.LEFT_TOP);
+        }
         
         var showall = $("#artmaps-object-map-showall");
         showall.click(function() {

@@ -54,7 +54,7 @@ class ArtMapsContent {
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),
                         'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                         'IsUserLoggedIn' => is_user_logged_in(),
-                        'CoreUserID' => $user->getCoreID($blog)
+                        'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1
                 ));
         remove_filter('the_content', 'wpautop');
     }
