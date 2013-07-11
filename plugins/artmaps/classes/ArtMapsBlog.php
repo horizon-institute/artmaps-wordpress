@@ -126,6 +126,29 @@ class ArtMapsBlog {
         return $pageID;
     }
 
+    public function regenerate() {
+        global $wpdb;
+        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
+        $pages = $wpdb->get_results("SELECT post_id, object_id FROM $name");
+        require_once('ArtMapsCoreServer.php');
+        require_once('ArtMapsTemplating.php');
+        foreach($pages as $page) {
+            $core = new ArtMapsCoreServer($this);
+            $metadata = $core->fetchObjectMetadata($page->object_id);
+            $te = new ArtMapsTemplating();
+            $title = $te->renderObjectPageTitleTemplate($this, $metadata);
+            $content = $te->renderObjectPageTemplate($this, $page->object_id, $metadata);
+            $post = array(
+                    'ID' => $page->post_id,
+                    'post_title' => $title,
+                    'post_content' => $content
+            );
+            remove_filter('content_save_pre', 'wp_filter_post_kses');
+            wp_update_post($post);
+            add_filter('content_save_pre', 'wp_filter_post_kses');
+        }
+    }
+
     public function deletePageObjectMapping($pageID) {
         global $wpdb;
         $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
