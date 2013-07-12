@@ -33,13 +33,20 @@ ArtMaps.Map.MapObject = function(container, config) {
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     
     (function() {
+        var sessionstate = {};
+        if(ArtMapsConfig.MapState) sessionstate = jQuery.deparam(ArtMapsConfig.MapState);
         var hashstate = jQuery.bbq.getState();
         if(hashstate.maptype) {
             map.setMapTypeId(hashstate.maptype);
+        } else if(sessionstate.maptype) {
+            map.setMapTypeId(sessionstate.maptype);
         }
         if(hashstate.zoom) {
             map.setCenter(new google.maps.LatLng(hashstate.lat, hashstate.lng));
             map.setZoom(parseInt(hashstate.zoom));
+        } else if(sessionstate.zoom) {
+            map.setCenter(new google.maps.LatLng(sessionstate.lat, sessionstate.lng));
+            map.setZoom(parseInt(sessionstate.zoom));
         } else {
             ArtMaps.Util.browserLocation(
                 function(pos) { map.setCenter(pos); },

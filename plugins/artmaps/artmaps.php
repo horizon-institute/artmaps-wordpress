@@ -114,18 +114,15 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         exit;
     });
 
-    add_action('wp_ajax_nopriv_artmaps.createUser', function() {
+    function storeMapState() {
         require_once('classes/ArtMapsAjax.php');
         $ajax = new ArtMapsAjax();
         header('Content-Type: application/json');
-        echo $ajax->createUser(
-                $_POST['username'],
-                $_POST['password'],
-                $_POST['email'],
-                $_POST['displayName'],
-                $_POST['blog']);
+        echo $ajax->storeMapState($_POST['data']['state']);
         exit;
-    });
+    }
+    add_action('wp_ajax_artmaps.storeMapState', 'storeMapState');
+    add_action('wp_ajax_nopriv_artmaps.storeMapState', 'storeMapState');
 
     add_action('pre_get_posts', function($query) {
         require_once('classes/ArtMapsSearch.php');

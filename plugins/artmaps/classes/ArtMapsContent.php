@@ -26,6 +26,7 @@ class ArtMapsContent {
         wp_register_script('artmaps-map', $p . '/js/map.js');
         wp_register_script('artmaps-object-ui', $p . '/js/object-ui.js');
         wp_register_script('artmaps-object', $p . '/js/object.js');
+        wp_register_script('artmaps-login', $p . '/js/login.js', false, false, true);
         wp_register_style('jquery-theme', $blog->getJQueryThemeUri());
         wp_register_style('artmaps', ArtMapsUtil::findThemeUri('css/artmaps.css'));
         wp_register_style('artmaps-map', ArtMapsUtil::findThemeUri('css/map.css'));
@@ -34,7 +35,7 @@ class ArtMapsContent {
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
                         'jquery-bbq', 'jquery-xcolor', 'json2', 'markerclusterer',
                         'styledmarker', 'artmaps-base', 'artmaps-util', 'artmaps-map-ui',
-                        'artmaps-map', 'artmaps-object-ui', 'artmaps-object')
+                        'artmaps-map', 'artmaps-object-ui', 'artmaps-object', 'artmaps-login')
                 as $script)
             wp_enqueue_script($script);
         foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)
@@ -43,6 +44,7 @@ class ArtMapsContent {
 
         $user = ArtMapsUser::currentUser();
 
+        session_start();
         wp_localize_script('artmaps-base', 'ArtMapsConfig',
                 array(
                         'CoreServerPrefix' => $core->getPrefix(),
@@ -54,7 +56,8 @@ class ArtMapsContent {
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),
                         'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                         'IsUserLoggedIn' => is_user_logged_in(),
-                        'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1
+                        'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1,
+                        'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false
                 ));
         remove_filter('the_content', 'wpautop');
     }

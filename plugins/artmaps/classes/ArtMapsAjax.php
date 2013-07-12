@@ -23,16 +23,11 @@ class ArtMapsAjax {
         return json_encode($signed);
     }
 
-    public function createUser($username, $password, $email, $displayName, $blog) {
-        require_once('ArtMapsUser.php');
-        try {
-            $user = ArtMapsUser::create($username, $password, $email);
-            $user->setBlogUrl($blog);
-            $user->setDisplayName($displayName);
-            return json_encode(true);
-        } catch(ArtMapsUserCreationException $e) {
-            return json_encode($e->getMessage());
-        }
+    public function storeMapState($state) {
+        session_start();
+        $_SESSION['mapState'] = $state;
+        error_log($state);
+        return json_encode(true);
     }
 }}
 ?>

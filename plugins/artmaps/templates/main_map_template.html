@@ -17,34 +17,28 @@ jQuery(function($) {
         $("#artmaps-map-object-container").detach();
         ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
             var c = con.clone();
-            c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID + window.location.hash);
+            c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
             if(typeof metadata.imageurl != "undefined") {
                 c.find("img").attr("src", metadata.imageurl);
             }
             c.find(".artmaps-map-object-container-title").text(metadata.title);
             c.find(".artmaps-map-object-container-artist").text(metadata.artist);
             c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount + " suggestions");
-            $(window).bind("hashchange", function(e) {
-                c.find("a").each(function(i, a) {
-                    var ax = $(a);
-                    ax.attr("href", $.param.fragment(ax.attr("href"), e.fragment));
-                });
-            });
             return c;
         };
     })();
     
     (function() {
-        var links = $("a[href*='wp-login.php']");
-        links.each(function(i, e) {
-           var link = $(e);
-           var url = link.attr("href");
-           if(!url) return;
-           var sep = url.indexOf("?") > -1 ? "&" : "?";
-           link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
-           $(window).bind("hashchange", function(e) {
-               link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
-           });
+        jQuery(window).bind("hashchange", function(e) {
+            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                "type": "post",
+                "data": {
+                    "action": "artmaps.storeMapState",
+                    "data": {
+                        "state": e.fragment
+                    }
+                }
+            });
         });
     })();
 });

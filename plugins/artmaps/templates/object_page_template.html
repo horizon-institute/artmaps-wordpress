@@ -17,12 +17,14 @@ jQuery(function($) {
         map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
         map.addControl(autocomplete.get(0), google.maps.ControlPosition.LEFT_TOP);
         
+        var suggest = $("#artmaps-object-map-suggest");
         if(ArtMapsConfig.IsUserLoggedIn) {
-            var suggest = $("#artmaps-object-map-suggest");
             suggest.click(function() {
                map.suggest(); 
             });
             map.addControl(suggest.get(0), google.maps.ControlPosition.LEFT_TOP);
+        } else {
+            suggest.hide();
         }
         
         var showall = $("#artmaps-object-map-showall");
@@ -30,20 +32,6 @@ jQuery(function($) {
            map.reset(); 
         });
         map.addControl(showall.get(0), google.maps.ControlPosition.LEFT_TOP);
-    })();
-    
-    (function() {
-        var links = $("a[href*='wp-login.php']");
-        links.each(function(i, e) {
-           var link = $(e);
-           var url = link.attr("href");
-           if(!url) return;
-           var sep = url.indexOf("?") > -1 ? "&" : "?";
-           link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
-           $(window).bind("hashchange", function(e) {
-               link.attr("href", url + sep + "redirect_to=" + encodeURIComponent(location.href));
-           });
-        });
     })();
 });
 </script>
