@@ -36,6 +36,21 @@ ArtMaps.Object.MapObject = function(container, config) {
     var map = new google.maps.Map(container.get(0), mapconf);
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     
+    var streetview = map.getStreetView();
+    google.maps.event.addListener(streetview, 'visible_changed', function(e) {
+        jQuery.each(clusterer.getMarkers(), function(i, m) {
+            if(streetview.getVisible()) {
+                var color = m.styleIcon.color.replace("#", "");
+                m.defaultIcon = m.getIcon();
+                m.setIcon("https://chart.googleapis.com/chart?chst=d_map_spin&chld=3|0|" + color + "|10|_|");
+            } else if(m.defaultIcon) {
+                m.setIcon(m.defaultIcon);
+            }
+        });
+    });
+    var svSuggest = jQuery("<button type=\"button\">Suggest</button>");
+    streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));
+    
     var suggestionRequested = false;
         
     jQuery.getJSON(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + ArtMapsConfig.ObjectID,
@@ -57,6 +72,68 @@ ArtMaps.Object.MapObject = function(container, config) {
                 suggestionMarker.show();
             };
 			if(suggestionRequested) self.suggest();
+			
+			svSuggest.click(function () {
+			       
+		        var pos = streetview.getPosition();
+		        
+		        var suggestionError  = function() {};
+		        
+		        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+		            "type": "post",
+		            "data": {
+		                "action": "artmaps.signData",
+		                "data": {
+		                    "error": 0,
+		                    "latitude": ArtMaps.Util.toIntCoord(pos.lat()),
+		                    "longitude": ArtMaps.Util.toIntCoord(pos.lng())
+		                }
+		            },
+		            "success": function(slocation) {
+		                
+		                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+		                        + "objectsofinterest/" + ArtMapsConfig.ObjectID + "/locations", {
+		                    "type": "post",
+		                    "data": JSON.stringify(slocation),
+		                    "dataType": "json",
+		                    "contentType": "application/json",
+		                    "processData": false,
+		                    "success" : function(location) {
+		                        
+		                        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+		                            "type": "post",
+		                            "data": {
+		                                "action": "artmaps.signData",
+		                                "data": {
+		                                    "URI": "suggestion://{\"LocationID\":" + location.ID + "}"
+		                                }
+		                            },
+		                            "success": function(saction) {
+		                                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+		                                        + "objectsofinterest/" + ArtMapsConfig.ObjectID + "/actions", {
+		                                    "type": "post",
+		                                    "data": JSON.stringify(saction),
+		                                    "dataType": "json",
+		                                    "contentType": "application/json",
+		                                    "processData": false,
+		                                    "success": function(action) {
+		                                        var loc = new ArtMaps.Location(location, obj, [action]);
+		                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map);
+		                                        clusterer.addMarkers([mkr]);
+		                                    },
+		                                    "error": suggestionError
+		                                });
+		                            },
+		                            "error": suggestionError
+		                        });
+		                    },
+		                    "error": suggestionError
+		                });                    
+		            },
+		            "error": suggestionError
+		        });
+		        
+		    });
 		}
 	);
 

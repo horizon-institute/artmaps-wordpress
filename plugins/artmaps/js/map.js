@@ -31,7 +31,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     var workerPool = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
     var map = new google.maps.Map(container.get(0), jQuery.extend(true, mapconf, config.map));
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
-    
+        
     (function() {
         var sessionstate = {};
         if(ArtMapsConfig.MapState) sessionstate = jQuery.deparam(ArtMapsConfig.MapState);
