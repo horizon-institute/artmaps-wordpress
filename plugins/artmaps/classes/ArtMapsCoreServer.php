@@ -103,7 +103,7 @@ class ArtMapsCoreServer {
         curl_close($c);
         unset($c);
         $jd = json_decode($data);
-        if($jd === null || $jd == -1)
+        if($jd === null)
             throw new ArtMapsCoreServerException(
                     'Error decoding JSON data: ' . json_last_error());
         return $jd->ID;
