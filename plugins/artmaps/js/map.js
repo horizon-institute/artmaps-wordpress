@@ -31,10 +31,14 @@ ArtMaps.Map.MapObject = function(container, config) {
     var workerPool = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
     var map = new google.maps.Map(container.get(0), jQuery.extend(true, mapconf, config.map));
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
+    var firstLoad = true;
         
     (function() {
         var sessionstate = {};
         if(ArtMapsConfig.MapState) sessionstate = jQuery.deparam(ArtMapsConfig.MapState);
+        if(sessionstate.cluster) {
+            jQuery.bbq.pushState({ "cluster": sessionstate.cluster });
+        }
         var hashstate = jQuery.bbq.getState();
         if(hashstate.maptype) {
             map.setMapTypeId(hashstate.maptype);
@@ -104,6 +108,19 @@ ArtMaps.Map.MapObject = function(container, config) {
                     });
                     clusterer.addMarkers(markers);
                     loading.css("display", "none");
+                    
+                    if(firstLoad) {
+                        firstLoad = false;
+                        var cs = jQuery.bbq.getState("cluster");
+                        if(cs) {
+                            jQuery.each(clusterer.getClusters(), function(i, c) {
+                                if(c.getCenter().lat() == cs.lat
+                                        && c.getCenter().lng() == cs.lng) {
+                                    google.maps.event.trigger(clusterer, "click", c);
+                                }
+                            });
+                        }
+                    }
                 });
         });
     })();
@@ -112,24 +129,35 @@ ArtMaps.Map.MapObject = function(container, config) {
     (function(){
         var pagetemplate = jQuery("#artmaps-map-object-list-container-page").children().first();
         jQuery("#artmaps-object-list-container-page").detach();
-        clusterer.on("click", function(cluster) {
+        clusterer.on("click", function(cluster) {            
             var markers = cluster.getMarkers();
             if(!markers || !markers.length) return;
             
             var pageSize = 10;
             var totalPages = Math.floor(markers.length / pageSize);
             if(markers.length % pageSize != 0) totalPages++;
-                        
+            
             if(!cluster.dialog) {
                 cluster.dialog = jQuery(document.createElement("div"))
                         .addClass("artmaps-map-object-list-container");
                 cluster.pages = new Array();
+                cluster.dialog.otherOpening = false;
                 cluster.dialog.closeFunc = function() {
+                    cluster.dialog.otherOpening = true;
                     cluster.dialog.dialog("close"); 
                 };
             }
             
             var showPage = function(pageNo) {
+                
+                jQuery.bbq.pushState({
+                    "cluster": { 
+                        "lat": cluster.getCenter().lat(),
+                        "lng": cluster.getCenter().lng(),
+                        "page" : pageNo
+                    }
+                });
+                
                 cluster.dialog.children().hide();
                 if(cluster.pages[pageNo]) {
                     cluster.pages[pageNo].show();
@@ -191,6 +219,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                 },
                 "close": function() {
                     jQuery(ArtMaps).off("artmaps-dialog-opened", cluster.dialog.closeFunc);
+                    if(!cluster.dialog.otherOpening)
+                        jQuery.bbq.removeState("cluster");
+                    cluster.dialog.otherOpening = false;
                 }
             });
         });

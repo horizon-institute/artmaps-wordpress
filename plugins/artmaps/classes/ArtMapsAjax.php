@@ -26,7 +26,6 @@ class ArtMapsAjax {
     public function storeMapState($state) {
         session_start();
         $_SESSION['mapState'] = $state;
-        error_log($state);
         return json_encode(true);
     }
 }}
