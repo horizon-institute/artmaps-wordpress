@@ -194,6 +194,13 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                         var mkr = new ArtMaps.Object.UI.Marker(loc, map);
                                         clusterer.addMarkers([mkr]);
                                         clusterer.fitMapToMarkers();
+                                        jQuery("#artmaps-object-suggestion-message").dialog();
+                                        
+                                        /**/
+                                        var p = mkr.getPosition();
+                                        
+                                        /**/
+                                        
                                     },
                                     "error": suggestionError
                                 });

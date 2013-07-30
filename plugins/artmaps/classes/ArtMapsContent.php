@@ -20,6 +20,7 @@ class ArtMapsContent {
         wp_register_script('jquery-ui-complete', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js");
         wp_register_script('jquery-ui-timepicker-addon', $p . '/js/lib/jquery-ui-timepicker-addon.js');
         wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
+        wp_register_script('location', 'http://www.movable-type.co.uk/scripts/latlon.js');
         wp_register_script('artmaps-base', $p . '/js/base.js');
         wp_register_script('artmaps-util', $p . '/js/util.js');
         wp_register_script('artmaps-map-ui', $p . '/js/map-ui.js');
@@ -34,8 +35,9 @@ class ArtMapsContent {
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
                         'jquery-bbq', 'jquery-xcolor', 'json2', 'markerclusterer',
-                        'styledmarker', 'artmaps-base', 'artmaps-util', 'artmaps-map-ui',
-                        'artmaps-map', 'artmaps-object-ui', 'artmaps-object', 'artmaps-login')
+                        'styledmarker', 'location', 'artmaps-base', 'artmaps-util',
+                        'artmaps-map-ui', 'artmaps-map', 'artmaps-object-ui', 'artmaps-object',
+                        'artmaps-login')
                 as $script)
             wp_enqueue_script($script);
         foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)

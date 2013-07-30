@@ -33,3 +33,8 @@ ArtMaps.Util.toIntCoord = function(f) {
 ArtMaps.Util.toFloatCoord = function(i) {
     return parseFloat(i) / Math.pow(10, 8);
 };
+
+ArtMaps.Util.boundingBox = function(origin, distance) {
+    
+  
+};

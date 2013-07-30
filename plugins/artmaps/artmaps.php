@@ -38,9 +38,14 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $wp_rewrite->flush_rules();
             update_option($wropt, true);
         }
-        require_once('classes/ArtMapsContent.php');
-        $content = new ArtMapsContent();
-        $content->init();
+
+        if(!function_exists('is_plugin_active_for_network'))
+            require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+        if(is_plugin_active_for_network('artmaps/artmaps.php')) {
+            require_once('classes/ArtMapsContent.php');
+            $content = new ArtMapsContent();
+            $content->init();
+        }
     });
 
     add_filter('query_vars', function($vars) {

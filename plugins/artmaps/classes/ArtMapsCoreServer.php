@@ -92,7 +92,7 @@ class ArtMapsCoreServer {
         if($c === false)
             throw new ArtMapsCoreServerException('Error initialising Curl');
         $url = $this->prefix . 'users/search?URI=' . $this->blog->getName()
-                . '://' . $user->getLogin();
+                . '://' . urlencode($user->getLogin());
         if(!curl_setopt($c, CURLOPT_URL, $url))
             throw new ArtMapsCoreServerException(curl_error($c));
         if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
