@@ -32,6 +32,11 @@ jQuery(function($) {
            map.reset(); 
         });
         map.addControl(showall.get(0), google.maps.ControlPosition.LEFT_TOP);
+        
+        $("a").filter(function() {
+            var e = $(this);
+            return e.text() == "The Map";
+        }).text("Back To The Map");
     })();
 });
 </script>
