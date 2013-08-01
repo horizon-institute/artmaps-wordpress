@@ -19,6 +19,7 @@ class ArtMapsContent {
         wp_register_script('jquery-cookie', $p . '/js/lib/jquery.cookie.js');
         wp_register_script('jquery-ui-complete', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js");
         wp_register_script('jquery-ui-timepicker-addon', $p . '/js/lib/jquery-ui-timepicker-addon.js');
+        wp_register_script('jquery-timeago', $p . '/js/lib/jquery.timeago.js');
         wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
         wp_register_script('location', 'http://www.movable-type.co.uk/scripts/latlon.js');
         wp_register_script('artmaps-base', $p . '/js/base.js');
@@ -28,16 +29,17 @@ class ArtMapsContent {
         wp_register_script('artmaps-object-ui', $p . '/js/object-ui.js');
         wp_register_script('artmaps-object', $p . '/js/object.js');
         wp_register_script('artmaps-login', $p . '/js/login.js', false, false, true);
+        wp_register_script('artmaps-comment-date', $p . '/js/comment-date.js');
         wp_register_style('jquery-theme', $blog->getJQueryThemeUri());
         wp_register_style('artmaps', ArtMapsUtil::findThemeUri('css/artmaps.css'));
         wp_register_style('artmaps-map', ArtMapsUtil::findThemeUri('css/map.css'));
         wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
-                        'jquery-bbq', 'jquery-xcolor', 'json2', 'markerclusterer',
+                        'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'json2', 'markerclusterer',
                         'styledmarker', 'location', 'artmaps-base', 'artmaps-util',
                         'artmaps-map-ui', 'artmaps-map', 'artmaps-object-ui', 'artmaps-object',
-                        'artmaps-login')
+                        'artmaps-login', 'artmaps-comment-date')
                 as $script)
             wp_enqueue_script($script);
         foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)

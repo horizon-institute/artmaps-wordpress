@@ -30,10 +30,6 @@ ArtMaps.Object.MapObject = function(container, config) {
             }] 
     };
     
-    /**/
-    console.log(ArtMaps.Util.boundingBox(mapconf.center, 5));    
-    /**/
-    
     jQuery.extend(true, mapconf, config.map);
     var mapType = jQuery.bbq.getState("maptype");
     if(mapType) mapconf.mapTypeId = mapType;
