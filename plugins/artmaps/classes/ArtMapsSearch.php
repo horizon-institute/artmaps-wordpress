@@ -3,7 +3,7 @@ if(!class_exists('ArtMapsSearch')) {
 class ArtMapsSearch {
 
     public function preSearch($query) {
-        if(!$query->is_search() || $query->is_admin())
+        if(!$query->is_search() || $query->is_admin)
             return;
         if(!$query->get('paged'))
             $query->set('paged', 1);
