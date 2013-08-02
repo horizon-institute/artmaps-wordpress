@@ -8,7 +8,7 @@ ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
 ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
 
 ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer, suggestFunc) {
-    
+
     var isOpen = false;
 
     var content = jQuery(document.createElement("div"));
@@ -23,7 +23,7 @@ ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer, suggestFunc
                 && jQuery.inArray(parseInt(ArtMapsConfig.CoreUserID), location.UsersWhoConfirmed) < 0) 
             content.append(confirm);
         if(ArtMapsConfig.CoreUserID == location.OwnerID) content.append(remove);
-        content.append(suggest);
+        //content.append(suggest);
         confirm.click(function() {
             confirm.remove();
             jQuery.ajax(ArtMapsConfig.AjaxUrl, {
@@ -188,19 +188,13 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                     "processData": false,
                                     "success": function(action) {
                                         
-                                        marker.hide();
                                         var map = marker.getMap();
+                                        marker.hide();
                                         var loc = new ArtMaps.Location(location, object, [action]);
-                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map);
+                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map, clusterer, function(){});
                                         clusterer.addMarkers([mkr]);
                                         clusterer.fitMapToMarkers();
                                         jQuery("#artmaps-object-suggestion-message").dialog();
-                                        
-                                        /**/
-                                        var p = mkr.getPosition();
-                                        
-                                        /**/
-                                        
                                     },
                                     "error": suggestionError
                                 });
