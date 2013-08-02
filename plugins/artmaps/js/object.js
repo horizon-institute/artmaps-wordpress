@@ -40,10 +40,14 @@ ArtMaps.Object.MapObject = function(container, config) {
     google.maps.event.addListener(streetview, 'visible_changed', function(e) {
         jQuery.each(clusterer.getMarkers(), function(i, m) {
             if(streetview.getVisible()) {
+                if(m.bigIcon == true)
+                    return;
+                m.bigIcon = true;
                 var color = m.styleIcon.color.replace("#", "");
                 m.defaultIcon = m.getIcon();
                 m.setIcon("https://chart.googleapis.com/chart?chst=d_map_spin&chld=3|0|" + color + "|10|_|");
             } else if(m.defaultIcon) {
+                m.bigIcon = false;
                 m.setIcon(m.defaultIcon);
             }
         });
