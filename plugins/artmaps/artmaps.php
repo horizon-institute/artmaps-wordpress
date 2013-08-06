@@ -18,6 +18,12 @@ class ArtMapsCore {
         $nw = new ArtMapsNetwork();
         $nw->initialise();
     }
+
+    public function isConnected() {
+        require_once('classes/ArtMapsNetwork.php');
+        $nw = new ArtMapsNetwork();
+        return $nw->getMasterKey() != '';
+    }
 }}
 
 if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
@@ -39,9 +45,9 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             update_option($wropt, true);
         }
 
-        if(!function_exists('is_plugin_active_for_network'))
-            require_once(ABSPATH . '/wp-admin/includes/plugin.php');
-        if(is_plugin_active_for_network('artmaps/artmaps.php')) {
+        global $ArtMapsCore;
+
+        if(!is_admin() && $ArtMapsCore->isConnected()) {
             require_once('classes/ArtMapsContent.php');
             $content = new ArtMapsContent();
             $content->init();
