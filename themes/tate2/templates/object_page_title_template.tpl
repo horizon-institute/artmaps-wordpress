@@ -1,1 +1,0 @@
-{$metadata->title} by {$metadata->artist}
