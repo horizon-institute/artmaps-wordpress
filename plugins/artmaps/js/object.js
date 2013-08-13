@@ -52,9 +52,10 @@ ArtMaps.Object.MapObject = function(container, config) {
             }
         });
     });
-    var svSuggest = jQuery("<button type=\"button\">Suggest</button>");
-    if(ArtMapsConfig.IsUserLoggedIn) 
-        streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));
+    
+    var svSuggest = jQuery("<button type=\"button\">Suggest A Location</button>");
+    if(ArtMapsConfig.IsUserLoggedIn)
+        streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));    
     
     var suggestionRequested = false;
         
@@ -66,7 +67,7 @@ ArtMaps.Object.MapObject = function(container, config) {
             var markers = new Array();
 			jQuery.each(obj.Locations, function(i, loc) {
 			    if(loc.IsDeleted) return;
-                markers.push(new ArtMaps.Object.UI.Marker(loc, map, clusterer, function() { self.suggest(); }));
+                markers.push(new ArtMaps.Object.UI.Marker(loc, map, clusterer));
 			});			
 			clusterer.addMarkers(markers);
 			self.reset();
@@ -78,80 +79,18 @@ ArtMaps.Object.MapObject = function(container, config) {
             };
 			if(suggestionRequested) self.suggest();
 			
-			svSuggest.click(function () {
-			       
-		        var pos = streetview.getPosition();
-		        
-		        var suggestionError  = function() {};
-		        
-		        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-		            "type": "post",
-		            "data": {
-		                "action": "artmaps.signData",
-		                "data": {
-		                    "error": 0,
-		                    "latitude": ArtMaps.Util.toIntCoord(pos.lat()),
-		                    "longitude": ArtMaps.Util.toIntCoord(pos.lng())
-		                }
-		            },
-		            "success": function(slocation) {
-		                
-		                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
-		                        + "objectsofinterest/" + ArtMapsConfig.ObjectID + "/locations", {
-		                    "type": "post",
-		                    "data": JSON.stringify(slocation),
-		                    "dataType": "json",
-		                    "contentType": "application/json",
-		                    "processData": false,
-		                    "success" : function(location) {
-		                        
-		                        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-		                            "type": "post",
-		                            "data": {
-		                                "action": "artmaps.signData",
-		                                "data": {
-		                                    "URI": "suggestion://{\"LocationID\":" + location.ID + "}"
-		                                }
-		                            },
-		                            "success": function(saction) {
-		                                jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
-		                                        + "objectsofinterest/" + ArtMapsConfig.ObjectID + "/actions", {
-		                                    "type": "post",
-		                                    "data": JSON.stringify(saction),
-		                                    "dataType": "json",
-		                                    "contentType": "application/json",
-		                                    "processData": false,
-		                                    "success": function(action) {
-		                                        var loc = new ArtMaps.Location(location, obj, [action]);
-		                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map);
-		                                        clusterer.addMarkers([mkr]);
-		                                        clusterer.fitMapToMarkers();
-                                                streetview.setVisible(false);
-                                                jQuery("#artmaps-object-suggestion-message").dialog();
-		                                    },
-		                                    "error": suggestionError
-		                                });
-		                            },
-		                            "error": suggestionError
-		                        });
-		                    },
-		                    "error": suggestionError
-		                });                    
-		            },
-		            "error": suggestionError
-		        });
-		        
-		    });
+			svSuggest.click(function() {
+	            var pos = streetview.getPosition();
+	            streetview.setVisible(false);
+	            self.suggest();
+	            suggestionMarker.setPosition(pos);
+	        });	
 		}
 	);
 
-    this.setMapType = function(type) {
-        map.setMapTypeId(type);
-    };
+    this.setMapType = map.setMapTypeId;
     
-    this.getMapType = function() { 
-        return map.getMapTypeId(); 
-    };
+    this.getMapType = map.getMapTypeId;
     
     this.getCenter = map.getCenter;
     

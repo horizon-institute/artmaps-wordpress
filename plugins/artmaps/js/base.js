@@ -93,6 +93,7 @@ ArtMaps.WorkerPool = function(size, script) {
 };
 
 ArtMaps.Location = function(l, o, as) {
+    var self = this;
     this.ID = l.ID;
     this.Source = l.source;
     this.Latitude = ArtMaps.Util.toFloatCoord(l.latitude);
@@ -106,21 +107,33 @@ ArtMaps.Location = function(l, o, as) {
     this.UsersWhoConfirmed = [];
     this.CommentID = -1;
     
-    // Find the number of confirmations
-    var l = as.length;
-    for(var i = 0; i < l; i++) {
-        if(as[i].URI.indexOf("confirmation") == 0) {
-            this.Confirmations++;
-            this.UsersWhoConfirmed.push(as[i].userID);
+    var refresh = function() {
+        var l = as.length;
+        for(var i = 0; i < l; i++) {
+            if(as[i].URI.indexOf("confirmation") == 0) {
+                self.Confirmations++;
+                self.UsersWhoConfirmed.push(as[i].userID);
+            }
+            if(as[i].URI.indexOf("suggestion") == 0)
+                self.OwnerID = as[i].userID;
+            if(as[i].URI.indexOf("deletion") == 0)
+                self.IsDeleted = true;
+            if(as[i].URI.indexOf("comment") == 0) {
+                var d = JSON.parse(as[i].URI.replace("comment://", ""));
+                self.CommentID = d.CommentID;
+            }
         }
-        if(as[i].URI.indexOf("suggestion") == 0)
-            this.OwnerID = as[i].userID;
-        if(as[i].URI.indexOf("deletion") == 0)
-            this.IsDeleted = true;
-        if(as[i].URI.indexOf("comment") == 0) {
-            this.CommentID = 10;
-        }
-    }
+    };
+    refresh();
+    
+    this.addAction = function(action) {
+        self.Actions[self.Actions.length] = action;
+        refresh();
+    };
+    
+    this.hasUserConfirmed = function(userID) {
+        return jQuery.inArray(parseInt(userID), this.UsersWhoConfirmed) > -1;
+    };
 };
 
 ArtMaps.ObjectOfInterest = function(o) {
@@ -160,9 +173,9 @@ ArtMaps.ObjectOfInterest = function(o) {
         this.workerPool.queueTask(
                 ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + o.ID + "/metadata",
                 function(data) {
-                    self.Metadata = data;
+                    self.metadata = data;
                     self.Metadata = function(f) {
-                        f(self.Metadata);
+                        f(self.metadata);
                     };
                     func(data); 
                 }
