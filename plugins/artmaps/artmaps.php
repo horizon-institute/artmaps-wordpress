@@ -56,6 +56,7 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
 
     add_filter('query_vars', function($vars) {
         $vars[] = 'objectid';
+        //$vars[] = 'artmaps-location-id';
         return $vars;
     });
 
@@ -151,6 +152,19 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         require_once('classes/ArtMapsContent.php');
         $c = new ArtMapsContent();
         return $c->parse($content);
+    });
+
+    add_action('comment_post', function($id) {
+        if(array_key_exists('artmaps-location-id', $_POST)) {
+            $comment = get_comment($id);
+            require_once('classes/ArtMapsNetwork.php');
+            $n = new ArtMapsNetwork();
+            $b = $n->getCurrentBlog();
+            $objectID = $b->getObjectForPage($comment->comment_post_ID );
+            require_once('classes/ArtMapsCoreServer.php');
+            $c = new ArtMapsCoreServer($b);
+            error_log(print_r($c->linkComment($id, intval($_POST['artmaps-location-id']), $objectID), true));
+        }
     });
 }
 ?>

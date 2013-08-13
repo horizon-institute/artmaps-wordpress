@@ -104,6 +104,7 @@ ArtMaps.Location = function(l, o, as) {
     this.OwnerID = -1;
     this.IsDeleted = false;
     this.UsersWhoConfirmed = [];
+    this.CommentID = -1;
     
     // Find the number of confirmations
     var l = as.length;
@@ -116,6 +117,9 @@ ArtMaps.Location = function(l, o, as) {
             this.OwnerID = as[i].userID;
         if(as[i].URI.indexOf("deletion") == 0)
             this.IsDeleted = true;
+        if(as[i].URI.indexOf("comment") == 0) {
+            this.CommentID = 10;
+        }
     }
 };
 

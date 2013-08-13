@@ -19,10 +19,12 @@ ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer, suggestFunc
         var confirm = jQuery("<div class=\"artmaps-button\">Confirm</div>");
         var suggest = jQuery("<div class=\"artmaps-button\">Suggest</div>");
         var remove = jQuery("<div class=\"artmaps-button\">Delete</div>");
+        var comment = jQuery("<div class=\"artmaps-button\">View associated comment</div>");
         if(ArtMapsConfig.CoreUserID != location.OwnerID
                 && jQuery.inArray(parseInt(ArtMapsConfig.CoreUserID), location.UsersWhoConfirmed) < 0) 
             content.append(confirm);
         if(ArtMapsConfig.CoreUserID == location.OwnerID) content.append(remove);
+        if(location.CommentID > -1) content.append(comment);
         //content.append(suggest);
         confirm.click(function() {
             confirm.remove();
@@ -194,6 +196,17 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                         var mkr = new ArtMaps.Object.UI.Marker(loc, map, clusterer, function(){});
                                         clusterer.addMarkers([mkr]);
                                         clusterer.fitMapToMarkers();
+                                        var btn = jQuery("#artmaps-object-suggestion-message-comment-button");
+                                        btn.unbind("click");
+                                        btn.click(function() {
+                                            jQuery.scrollTo("#comment");
+                                            var f = jQuery(document.createElement("input")).attr({
+                                                "type": "hidden",
+                                                "name": "artmaps-location-id",
+                                                "value": loc.ID
+                                            });
+                                            jQuery("#commentform").append(f);
+                                        }); 
                                         jQuery("#artmaps-object-suggestion-message").dialog();
                                     },
                                     "error": suggestionError

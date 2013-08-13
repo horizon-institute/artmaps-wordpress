@@ -53,7 +53,8 @@ ArtMaps.Object.MapObject = function(container, config) {
         });
     });
     var svSuggest = jQuery("<button type=\"button\">Suggest</button>");
-    streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));
+    if(ArtMapsConfig.IsUserLoggedIn) 
+        streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));
     
     var suggestionRequested = false;
         
@@ -124,6 +125,9 @@ ArtMaps.Object.MapObject = function(container, config) {
 		                                        var loc = new ArtMaps.Location(location, obj, [action]);
 		                                        var mkr = new ArtMaps.Object.UI.Marker(loc, map);
 		                                        clusterer.addMarkers([mkr]);
+		                                        clusterer.fitMapToMarkers();
+                                                streetview.setVisible(false);
+                                                jQuery("#artmaps-object-suggestion-message").dialog();
 		                                    },
 		                                    "error": suggestionError
 		                                });

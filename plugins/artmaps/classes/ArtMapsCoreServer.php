@@ -160,5 +160,44 @@ class ArtMapsCoreServer {
                     'Error decoding JSON data: ' . json_last_error());
         return $jd;
     }
+
+    public function linkComment($commentID, $locationID, $objectID) {
+        require_once('ArtMapsCrypto.php');
+        $cr = new ArtMapsCrypto();
+        require_once('ArtMapsUser.php');
+        $signed = json_encode($cr->signData(
+                array("URI" => "comment://{\"LocationID\":$locationID,\"CommentID\":$commentID}"),
+                $this->blog->getKey(),
+                ArtMapsUser::currentUser()));
+        $c = curl_init();
+        if($c === false)
+            throw new ArtMapsCoreServerException('Error initialising Curl');
+        require_once('ArtMapsNetwork.php');
+        $nw = new ArtMapsNetwork();
+        $url = $this->prefix . 'objectsofinterest/' . $objectID . '/actions';
+        if(!curl_setopt($c, CURLOPT_URL, $url))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'POST'))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_POSTFIELDS, $signed))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($signed)
+        )))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        $data = curl_exec($c);
+        if($data === false)
+            throw new ArtMapsCoreServerException(curl_error($c));
+        curl_close($c);
+        unset($c);
+        $jd = json_decode($data);
+        if($jd === null)
+            throw new ArtMapsCoreServerException(
+                    'Error decoding JSON data: ' . json_last_error());
+        return $jd;
+    }
 }}
 ?>

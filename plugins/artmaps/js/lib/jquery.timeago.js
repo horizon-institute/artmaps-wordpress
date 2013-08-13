@@ -63,6 +63,7 @@
       }
     },
     inWords: function(distanceMillis) {
+      if(distanceMillis < 0) distanceMillis = 0;
       var $l = this.settings.strings;
       var prefix = $l.prefixAgo;
       var suffix = $l.suffixAgo;
