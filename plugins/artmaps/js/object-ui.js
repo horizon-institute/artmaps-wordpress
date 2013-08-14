@@ -7,8 +7,10 @@ ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
 ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
 ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
 
-ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer) {
+ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
 
+    var self = this;
+    
     var isOpen = false;
 
     var content = jQuery(document.createElement("div"));
@@ -27,9 +29,9 @@ ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer) {
     
     if(ArtMapsConfig.IsUserLoggedIn) {
         
-        var confirm = jQuery("<div class=\"artmaps-button\">Click here to agree with this location</div>");
         if(ArtMapsConfig.CoreUserID != location.OwnerID 
                 && (!location.hasUserConfirmed(ArtMapsConfig.CoreUserID))) {
+            var confirm = jQuery("<div class=\"artmaps-button\">Click here to agree with this location</div>");
             content.append(confirm);
             confirm.click(function() {
                 confirm.remove();
@@ -41,8 +43,8 @@ ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer) {
             }); 
         }
         
-        var remove = jQuery("<div class=\"artmaps-button\">Click here to delete this suggestion</div>");
         if(ArtMapsConfig.CoreUserID == location.OwnerID) {
+            var remove = jQuery("<div class=\"artmaps-button\">Click here to delete this suggestion</div>");
             content.append(remove);
             remove.click(function() {
                 remove.remove();
@@ -53,15 +55,50 @@ ArtMaps.Object.UI.InfoWindow = function(marker, location, clusterer) {
                             clusterer.repaint();
                         });
             });
+            
+            if(location.CommentID < 0) {
+                var comment = jQuery("<div class=\"artmaps-button\">Click here to comment on this suggestion</div>");
+                content.append(comment);
+                comment.click(function() {
+                    jQuery.scrollTo("#comment");
+                    var input = jQuery("#artmaps-location-id");
+                    if(input.length == 0) {
+                        input = jQuery(document.createElement("input")).attr({
+                            "type": "hidden",
+                            "name": "artmaps-location-id",
+                            "id": "artmaps-location-id"
+                        }); 
+                        jQuery("#commentform").append(input);
+                    }
+                    input.attr("value", location.ID); 
+                });
+            }
         }
         
         if(location.CommentID > -1 
                 && jQuery("#comment-" + location.CommentID).length > 0) {
+            var e = jQuery("#comment-" + location.CommentID);
             var comment = jQuery("<div class=\"artmaps-button\">View associated comment</div>")
                     .click(function() {
-                        jQuery.scrollTo("#comment-" + location.CommentID);
+                        jQuery(".artmaps-highlighted-comment")
+                                .removeClass("artmaps-highlighted-comment");
+                        e.addClass("artmaps-highlighted-comment");
+                        content.addClass("artmaps-highlighted-comment");
+                        jQuery.scrollTo(e);
                     });
             content.append(comment);
+            var pin = jQuery("<div class=\"artmaps-button\">View associated location</div>")
+                    .click(function() {
+                        jQuery(".artmaps-highlighted-comment")
+                                .removeClass("artmaps-highlighted-comment");
+                        e.addClass("artmaps-highlighted-comment");
+                        content.addClass("artmaps-highlighted-comment");
+                        self.open(map, marker);
+                        map.panTo(marker.getPosition());
+                        map.setZoom(clusterer.getMaxZoom());
+                        jQuery.scrollTo("#artmaps-object-map");
+                    });
+            e.append(pin);
         }
     }
         
@@ -103,7 +140,7 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
                 StyledIconTypes.MARKER,
                 {"color": color, "starcolor": "000000"})
     });
-    var iw = new ArtMaps.Object.UI.InfoWindow(marker, location, clusterer);
+    var iw = new ArtMaps.Object.UI.InfoWindow(map, marker, location, clusterer);
     marker.on("click", function() {
         iw.toggle(map, marker);
     });
@@ -147,7 +184,9 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                 }
                                 input.attr("value", loc.ID);
                             }); 
-                    jQuery("#artmaps-object-suggestion-message").dialog();
+                    jQuery("#artmaps-object-suggestion-message").dialog({
+                        "modal": true
+                    });
                 },
                 function(jqXHR, textStatus, errorThrown) {
                     self.setContent(errorContent.get(0));

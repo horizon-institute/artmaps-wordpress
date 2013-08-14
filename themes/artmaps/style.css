@@ -18,3 +18,7 @@ Version:        0.1.0
     text-decoration: underline;
     cursor: pointer;
 }
+
+.artmaps-highlighted-comment {
+    background-color: yellow;
+}
