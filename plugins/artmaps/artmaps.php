@@ -163,7 +163,7 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $objectID = $b->getObjectForPage($comment->comment_post_ID );
             require_once('classes/ArtMapsCoreServer.php');
             $c = new ArtMapsCoreServer($b);
-            error_log(print_r($c->linkComment($id, intval($_POST['artmaps-location-id']), $objectID), true));
+            $c->linkComment($id, intval($_POST['artmaps-location-id']), $objectID);
         }
     });
 }

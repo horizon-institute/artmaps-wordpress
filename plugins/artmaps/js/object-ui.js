@@ -82,8 +82,11 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     .click(function() {
                         jQuery(".artmaps-highlighted-comment")
                                 .removeClass("artmaps-highlighted-comment");
+                        jQuery(".artmaps-object-infobox-highlighted")
+                                .removeClass("artmaps-object-infobox-highlighted")
+                                .addClass("artmaps-object-infobox");
                         e.addClass("artmaps-highlighted-comment");
-                        content.addClass("artmaps-highlighted-comment");
+                        self.setOptions({"boxClass": "artmaps-object-infobox-highlighted"});
                         jQuery.scrollTo(e);
                     });
             content.append(comment);
@@ -91,8 +94,11 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     .click(function() {
                         jQuery(".artmaps-highlighted-comment")
                                 .removeClass("artmaps-highlighted-comment");
+                        jQuery(".artmaps-object-infobox-highlighted")
+                                .removeClass("artmaps-object-infobox-highlighted")
+                                .addClass("artmaps-object-infobox");
                         e.addClass("artmaps-highlighted-comment");
-                        content.addClass("artmaps-highlighted-comment");
+                        self.setOptions({"boxClass": "artmaps-object-infobox-highlighted"});
                         self.open(map, marker);
                         map.panTo(marker.getPosition());
                         map.setZoom(clusterer.getMaxZoom());
@@ -111,13 +117,13 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
     this.open = function(map, marker) {
     	if(isOpen) return;
         isOpen = true;
-        google.maps.InfoWindow.prototype.open.call(this, map, marker);
+        InfoBox.prototype.open.call(this, map, marker);
     };
 
     this.close = function() {
     	if(!isOpen) return;
         isOpen = false;
-        google.maps.InfoWindow.prototype.close.call(this);
+        InfoBox.prototype.close.call(this);
     };
 
     this.toggle = function(map, marker) {
@@ -125,7 +131,9 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         else this.open(map, marker);
     };
 };
-ArtMaps.Object.UI.InfoWindow.prototype = new google.maps.InfoWindow();
+ArtMaps.Object.UI.InfoWindow.prototype = new InfoBox({
+    "boxClass": "artmaps-object-infobox"
+});
 
 ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
     var color = location.Source == "SystemImport"
@@ -145,6 +153,11 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
         iw.toggle(map, marker);
     });
     marker.close = function() { iw.close(); };
+    marker.setMap = function(m) {
+        StyledMarker.prototype.setMap.call(marker, m);
+        if(m == null)
+            iw.close();
+    };
     return marker;
 };
 
@@ -208,7 +221,9 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
         marker.hide();
     });
 };
-ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new google.maps.InfoWindow();
+ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new InfoBox({
+    "boxClass": "artmaps-object-infobox"
+});
 
 ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
     var marker = new StyledMarker({
