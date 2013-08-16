@@ -123,6 +123,11 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
     this.close = function() {
     	if(!isOpen) return;
         isOpen = false;
+        if(location.CommentID > -1 
+                && jQuery("#comment-" + location.CommentID).length > 0) {
+            self.setOptions({"boxClass": "artmaps-object-infobox"});
+            jQuery("#comment-" + location.CommentID).removeClass("artmaps-highlighted-comment");;
+        }
         InfoBox.prototype.close.call(this);
     };
 
