@@ -169,7 +169,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     var body = page.find(".artmaps-map-object-list-container-page-body");
                     jQuery.each(mkrs, function(i, marker) {
                         var content = jQuery(document.createElement("div"))
-                                .html("<img src=\"" + ArtMapsConfig.LoadingIcon25x25Url);
+                                .html("<img src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
                         body.append(content);
                         marker.ObjectOfInterest.Metadata(function(metadata){
                             content.replaceWith(ArtMaps.Map.UI.formatMetadata(
@@ -209,10 +209,12 @@ ArtMaps.Map.MapObject = function(container, config) {
                 "show": { 
                         "effect": "fade",
                         "speed": 1,
-                        "complete": function() { showPage(0); } 
+                        "complete": function() { showPage(0); }
                  },
                 "hide": { "effect": "fade", "speed": 1 },
-                "resizable": false,
+                "width": 640,
+                "height": 480,
+                "resizable": true,
                 "open": function() {
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", cluster.dialog.closeFunc);

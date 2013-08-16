@@ -41,3 +41,8 @@ Version:        0.1.0
 .artmaps-object-infobox-highlighted {
     background-color: yellow;
 }
+
+.artmaps-map-object-container {
+    margin-bottom: 10px;
+    clear: both;
+}

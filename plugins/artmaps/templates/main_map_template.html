@@ -10,7 +10,7 @@ jQuery(function($) {
     var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
     var autocomplete = $("#artmaps-map-autocomplete");
     map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
-    map.addControl(autocomplete.get(0), google.maps.ControlPosition.LEFT_TOP);    
+    map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_BOTTOM);    
     
     (function() {
         var con = $("#artmaps-map-object-container").children().first();
@@ -51,15 +51,17 @@ jQuery(function($) {
 <div id="artmaps-map-object-list-container-page" style="display: none;">
     <div class="artmaps-map-object-list-container-page">
         <div>
-            <span class="artmaps-map-object-list-container-page-previous">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
             <span class="artmaps-map-object-list-container-page-current">Page 1 of 21</span>
-            <span class="artmaps-map-object-list-container-page-next">&nbsp;[Next]</span>
+            <span class="artmaps-map-object-list-container-page-next artmaps-button">&nbsp;[Next]</span>
         </div>
+        <hr />
         <div class="artmaps-map-object-list-container-page-body"></div>
+        <hr />
         <div>
-            <span class="artmaps-map-object-list-container-page-previous">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
             <span class="artmaps-map-object-list-container-page-current">Page 1 of 21</span>
-            <span class="artmaps-map-object-list-container-page-next">&nbsp;[Next]</span>
+            <span class="artmaps-map-object-list-container-page-next artmaps-button">&nbsp;[Next]</span>
         </div>
     </div>
 </div>
