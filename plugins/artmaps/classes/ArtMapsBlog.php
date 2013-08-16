@@ -104,6 +104,7 @@ class ArtMapsBlog {
         $te = new ArtMapsTemplating();
         $title = $te->renderObjectPageTitleTemplate($this, $metadata);
         $content = $te->renderObjectPageTemplate($this, $objectID, $metadata);
+        $excerpt = $te->renderObjectExcerptTemplate($this, $objectID, $metadata);
         $post = array(
                 'comment_status' => get_option('default_comment_status', 'closed'),
                 'ping_status' => get_option('default_ping_status', 'closed'),
@@ -112,7 +113,8 @@ class ArtMapsBlog {
                 'post_status' => 'publish',
                 'post_author' => $this->getPostAuthor(),
                 'post_type' => 'post',
-                'post_date' => $this->getPostDate()
+                'post_date' => $this->getPostDate(),
+                'post_excerpt' => $excerpt
         );
         remove_filter('content_save_pre', 'wp_filter_post_kses');
         $pageID = wp_insert_post($post);
@@ -138,10 +140,12 @@ class ArtMapsBlog {
             $te = new ArtMapsTemplating();
             $title = $te->renderObjectPageTitleTemplate($this, $metadata);
             $content = $te->renderObjectPageTemplate($this, $page->object_id, $metadata);
+            $excerpt = $te->renderObjectExcerptTemplate($this, $objectID, $metadata);
             $post = array(
                     'ID' => $page->post_id,
                     'post_title' => $title,
-                    'post_content' => $content
+                    'post_content' => $content,
+                    'post_excerpt' => $excerpt
             );
             remove_filter('content_save_pre', 'wp_filter_post_kses');
             wp_update_post($post);
