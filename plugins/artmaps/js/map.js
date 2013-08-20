@@ -111,7 +111,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                         var systemloc = null;
                         jQuery.each(obj.Locations, function(j, loc) {
                             if(loc.IsFinal) { finalloc = loc; }
-                            else if(loc.Source != "SystemImport") { systemloc = loc; }
+                            else if(loc.Source == "SystemImport") { systemloc = loc; }
                         });
                         var marker = new ArtMaps.Map.UI.Marker(obj, finalloc != null ? finalloc : systemloc);
                         filter(marker, markers);
