@@ -6,6 +6,7 @@ ArtMaps.Object.UI.SystemMarkerColor = "#ff0000";
 ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
 ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
 ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
+ArtMaps.Object.UI.FinalMarkerColor = "#391BE0";
 
 ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
 
@@ -26,7 +27,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
     };
     updateConfirmedText();
     content.append(confirmed);
-    
+   
     if(ArtMapsConfig.IsUserLoggedIn) {
         
         if(ArtMapsConfig.CoreUserID != location.OwnerID 
@@ -51,6 +52,9 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 ArtMaps.Util.removeLocation(location, 
                         function(action) {
                             location.addAction(action);
+                            jQuery.each(clusterer.getMarkers(), function(i, m) {
+                                m.resetIcon(); 
+                            });
                             clusterer.removeMarker(marker);
                             clusterer.repaint();
                             if(location.CommentID > -1) {
@@ -84,6 +88,24 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     input.attr("value", location.ID); 
                 });
             }
+        }
+        
+        if(ArtMapsConfig.UserLevel.indexOf("administrator") > -1
+                || ArtMapsConfig.UserLevel.indexOf("editor") > -1
+                || ArtMapsConfig.UserLevel.indexOf("author") > -1
+                || ArtMapsConfig.UserLevel.indexOf("contributor") > -1) {
+            var accept = jQuery("<div class=\"artmaps-button\">Click here to accept this suggestion as final</div>");
+            content.append(accept);
+            accept.click(function() {
+                accept.remove();
+                ArtMaps.Util.finaliseLocation(location, function(action) {
+                    location.addAction(action);
+                    jQuery.each(clusterer.getMarkers(), function(i, m) {
+                       m.resetIcon(); 
+                    });
+                    marker.styleIcon.set("color", ArtMaps.Object.UI.FinalMarkerColor); 
+                });
+            });
         }
         
         if(location.CommentID > -1 
@@ -152,17 +174,22 @@ ArtMaps.Object.UI.InfoWindow.prototype = new InfoBox({
 });
 
 ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
-    var color = location.Source == "SystemImport"
-            ? ArtMaps.Object.UI.SystemMarkerColor
-            : ArtMapsConfig.IsUserLoggedIn && (ArtMapsConfig.CoreUserID == location.OwnerID)
-                    ? ArtMaps.Object.UI.OwnerMarkerColor
-                    : ArtMaps.Object.UI.UserMarkerColor;
-    color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
+    var getColor = function() {
+        var color = location.IsFinal 
+                ? ArtMaps.Object.UI.FinalMarkerColor
+                : location.Source == "SystemImport"
+                    ? ArtMaps.Object.UI.SystemMarkerColor
+                    : ArtMapsConfig.IsUserLoggedIn && (ArtMapsConfig.CoreUserID == location.OwnerID)
+                            ? ArtMaps.Object.UI.OwnerMarkerColor
+                            : ArtMaps.Object.UI.UserMarkerColor;
+        color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
+        return color;
+    };
     var marker = new StyledMarker({
         "position": new google.maps.LatLng(location.Latitude, location.Longitude),
         "styleIcon": new StyledIcon(
                 StyledIconTypes.MARKER,
-                {"color": color, "starcolor": "000000"})
+                {"color": getColor(), "starcolor": "000000"})
     });
     var iw = new ArtMaps.Object.UI.InfoWindow(map, marker, location, clusterer);
     marker.on("click", function() {
@@ -173,6 +200,9 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
         StyledMarker.prototype.setMap.call(marker, m);
         if(m == null)
             iw.close();
+    };
+    marker.resetIcon = function() {
+        marker.styleIcon.set("color", getColor());
     };
     return marker;
 };

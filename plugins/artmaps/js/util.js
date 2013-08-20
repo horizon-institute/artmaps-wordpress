@@ -80,6 +80,29 @@ ArtMaps.Util.removeLocation = function(location, success) {
     });        
 };
 
+ArtMaps.Util.finaliseLocation = function(location, success) {
+    jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+        "type": "post",
+        "data": {
+            "action": "artmaps.signData",
+            "data": {
+                "URI": "finalisation://{\"LocationID\":" + location.ID + "}"
+            }
+        },
+        "success": function(signed) {
+            jQuery.ajax(ArtMapsConfig.CoreServerPrefix 
+                    + "objectsofinterest/" + location.ObjectOfInterest.ID + "/actions", {
+                "type": "post",
+                "data": JSON.stringify(signed),
+                "dataType": "json",
+                "contentType": "application/json",
+                "processData": false,
+                "success": success
+            });
+        }
+    });        
+};
+
 ArtMaps.Util.suggestLocation = function(object, position, success, failure) {
     jQuery.ajax(ArtMapsConfig.AjaxUrl, {
         "type": "post",

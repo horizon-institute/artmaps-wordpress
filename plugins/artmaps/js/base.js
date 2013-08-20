@@ -109,6 +109,9 @@ ArtMaps.Location = function(l, o, as) {
     this.IsDeleted = false;
     this.UsersWhoConfirmed = [];
     this.CommentID = -1;
+    this.IsSuggestion = false;
+    this.IsFinal = false;
+    this.FinalAction = null;
     
     var refresh = function() {
         var l = as.length;
@@ -117,14 +120,18 @@ ArtMaps.Location = function(l, o, as) {
                 self.Confirmations++;
                 self.UsersWhoConfirmed.push(as[i].userID);
             }
-            if(as[i].URI.indexOf("suggestion") == 0)
+            if(as[i].URI.indexOf("suggestion") == 0) {
                 self.OwnerID = as[i].userID;
+                self.IsSuggestion = true;
+            }
             if(as[i].URI.indexOf("deletion") == 0)
                 self.IsDeleted = true;
             if(as[i].URI.indexOf("comment") == 0) {
                 var d = JSON.parse(as[i].URI.replace("comment://", ""));
                 self.CommentID = d.CommentID;
             }
+            if(as[i].URI.indexOf("finalisation") == 0)
+                self.FinalAction = as[i];
         }
     };
     refresh();
@@ -132,6 +139,7 @@ ArtMaps.Location = function(l, o, as) {
     this.addAction = function(action) {
         self.Actions[self.Actions.length] = action;
         refresh();
+        self.ObjectOfInterest.refresh();
     };
     
     this.hasUserConfirmed = function(userID) {
@@ -169,8 +177,36 @@ ArtMaps.ObjectOfInterest = function(o) {
         var loc = o.locations[i];
         var as = abl[loc.ID] ? abl[loc.ID] : [];
         this.Locations[this.Locations.length] = new ArtMaps.Location(loc, this, as);
-        if(loc.source != "SystemImport") this.SuggestionCount++;            
     }
+    
+    this.refresh = function() {
+        // Count active suggestions
+        // Find the most recent finalisation action
+        var finalloc = null;
+        l = this.Locations.length;
+        for(var i = 0; i < l; i++) {
+            var loc = this.Locations[i];
+            loc.IsFinal = false;
+            if(loc.IsDeleted) continue;
+            if(loc.IsSuggestion) this.SuggestionCount++;
+            if(finalloc == null) {
+                finalloc = loc;
+                continue;
+            }
+            if(finalloc.FinalAction == null && loc.FinalAction != null) {
+                finalloc = loc;
+                continue;
+            }
+            if(finalloc.FinalAction != null && loc.FinalAction != null
+                    && loc.FinalAction.datetime > finalloc.FinalAction.datetime) {
+                finalloc = loc;
+                continue;                        
+            }
+        }
+        if(finalloc != null)
+            finalloc.IsFinal = true;
+    };
+    this.refresh();
     
     this.Metadata = function(func) {
         this.workerPool.queueTask(

@@ -121,6 +121,15 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $ajax = new ArtMapsAjax();
         header('Content-Type: application/json');
         $data = stripslashes_deep($_POST['data']);
+        if(array_key_exists('URI', $data)
+                && strpos($data['URI'], 'finalisation') === 0) {
+            require_once('classes/ArtMapsUser.php');
+            $user = ArtMapsUser::currentUser();
+            if(!user_can($user->getID(), 'contributor')) {
+                header("HTTP/1.1 403 Forbidden");
+                exit;
+            }
+        }
         echo $ajax->signData($data);
         exit;
     });

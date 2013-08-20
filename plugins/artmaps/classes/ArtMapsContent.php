@@ -66,7 +66,8 @@ class ArtMapsContent {
                         'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                         'IsUserLoggedIn' => is_user_logged_in(),
                         'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1,
-                        'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false
+                        'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false,
+                        'UserLevel' => is_user_logged_in() ? $user->getRoles() : array()
                 ));
         remove_filter('the_content', 'wpautop');
     }
