@@ -77,7 +77,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 .css("display", "none");
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(loading.get(0));
         var cache = {};
-        var filter = function(m, c) { c.addMarker(m); };
+        var filter = function(m, l) { l.push(m); };
         map.setFilter = function(f) {
             clusterer.clearMarkers();
             filter = f;
@@ -102,16 +102,21 @@ ArtMaps.Map.MapObject = function(container, config) {
                     loading.css("display", "inline");
                 },
                 function(objects) {
+                    var markers = [];
                     jQuery.each(objects, function(i, o) {
                         if(cache[o.ID] == true) return;
                         cache[o.ID] = true;
                         var obj = new ArtMaps.ObjectOfInterest(o);
+                        var finalloc = null;
+                        var systemloc = null;
                         jQuery.each(obj.Locations, function(j, loc) {
-                            if(loc.Source != "SystemImport") return;
-                            var marker = new ArtMaps.Map.UI.Marker(obj, loc);
-                            filter(marker, clusterer);
+                            if(loc.IsFinal) { finalloc = loc; }
+                            else if(loc.Source != "SystemImport") { systemloc = loc; }
                         });
+                        var marker = new ArtMaps.Map.UI.Marker(obj, finalloc != null ? finalloc : systemloc);
+                        filter(marker, markers);
                     });
+                    clusterer.addMarkers(markers);
                     loading.css("display", "none");
                     
                     if(firstLoad) {
@@ -243,9 +248,23 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "name": "artmaps-map-filter"
                             })
                             .click(function() {
-                                map.setFilter(function(m, c) {
+                                map.setFilter(function(m, l) {
                                     if(m.ObjectOfInterest.SuggestionCount == 0)
-                                        c.addMarker(m);
+                                        l.push(m);
+                            });
+                    }));
+        
+        var located = jQuery(document.createElement("label")).text("Artworks with suggestions")
+            .append(
+                    jQuery(document.createElement("input"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter"
+                            })
+                            .click(function() {
+                                map.setFilter(function(m, l) {
+                                    if(m.ObjectOfInterest.SuggestionCount != 0)
+                                        l.push(m);
                             });
                     }));
         
@@ -257,18 +276,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "name": "artmaps-map-filter"
                             })
                             .click(function() {
-                                map.setFilter(function(m, c) {
-                                    jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-                                        "type": "post",
-                                        "data": {
-                                            "action": "artmaps.hasComments",
-                                            "objectID": m.ObjectOfInterest.ID
-                                        },
-                                        "success": function(r) {
-                                            if(r) c.addMarker(m);
-                                        }
-                                    });                                    
-                                    return m;
+                                map.setFilter(function(m, l) {
+                                    if(m.ObjectOfInterest.HasComments) l.push(m);
                             });
                     }));
         
@@ -280,18 +289,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "name": "artmaps-map-filter"
                             })
                             .click(function() {
-                                map.setFilter(function(m, c) {
-                                    jQuery.ajax(ArtMapsConfig.AjaxUrl, {
-                                        "type": "post",
-                                        "data": {
-                                            "action": "artmaps.hasComments",
-                                            "objectID": m.ObjectOfInterest.ID
-                                        },
-                                        "success": function(r) {
-                                            if(!r) c.addMarker(m);
-                                        }
-                                    });                                    
-                                    return m;
+                                map.setFilter(function(m, l) {
+                                    if(!m.ObjectOfInterest.HasComments) l.push(m);
                             });
                     }));
         
@@ -304,8 +303,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "checked": "checked"
                             })
                             .click(function() {
-                                map.setFilter(function(m, c) {
-                                    c.addMarker(m);
+                                map.setFilter(function(m, l) {
+                                    l.push(m);
                             });
                     }));
         
@@ -313,6 +312,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                 .css("background-color", "white")
                 .append(jQuery("<b>Filter Artworks</b><br />"))
                 .append(unlocated)
+                .append(jQuery(document.createElement("br")))
+                .append(located)
                 .append(jQuery(document.createElement("br")))
                 .append(comments)
                 .append(jQuery(document.createElement("br")))

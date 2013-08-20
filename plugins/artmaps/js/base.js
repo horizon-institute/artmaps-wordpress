@@ -154,6 +154,7 @@ ArtMaps.ObjectOfInterest = function(o) {
     this.URI = o.URI;
     this.Locations = [];
     this.SuggestionCount = 0;
+    this.HasComments = false;
     
     // Sort actions by location
     var abl = {};
@@ -188,6 +189,7 @@ ArtMaps.ObjectOfInterest = function(o) {
             var loc = this.Locations[i];
             loc.IsFinal = false;
             if(loc.IsDeleted) continue;
+            if(loc.CommentID > -1) self.HasComments = true;
             if(loc.IsSuggestion) this.SuggestionCount++;
             if(finalloc == null) {
                 finalloc = loc;
@@ -203,7 +205,7 @@ ArtMaps.ObjectOfInterest = function(o) {
                 continue;                        
             }
         }
-        if(finalloc != null)
+        if(finalloc != null && finalloc.FinalAction != null)
             finalloc.IsFinal = true;
     };
     this.refresh();

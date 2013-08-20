@@ -40,16 +40,5 @@ class ArtMapsAjax {
         wp_delete_comment($commentID);
         return json_encode(true);
     }
-
-    public function hasComments($objectID) {
-        require_once('ArtMapsNetwork.php');
-        $n = new ArtMapsNetwork();
-        $b = $n->getCurrentBlog();
-        $pageID = $b->getPageIDForObject($objectID);
-        if($pageID == null)
-            return json_encode(false);
-        $comments = get_comments(array('post_id' => $pageID, 'status' => 'approve'));
-        return json_encode(count($comments) != 0);
-    }
 }}
 ?>
