@@ -77,7 +77,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 .css("display", "none");
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(loading.get(0));
         var cache = {};
-        var filter = function(m) { return m; };
+        var filter = function(m, c) { c.addMarker(m); };
         map.setFilter = function(f) {
             clusterer.clearMarkers();
             filter = f;
@@ -102,7 +102,6 @@ ArtMaps.Map.MapObject = function(container, config) {
                     loading.css("display", "inline");
                 },
                 function(objects) {
-                    var markers = [];
                     jQuery.each(objects, function(i, o) {
                         if(cache[o.ID] == true) return;
                         cache[o.ID] = true;
@@ -110,12 +109,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                         jQuery.each(obj.Locations, function(j, loc) {
                             if(loc.Source != "SystemImport") return;
                             var marker = new ArtMaps.Map.UI.Marker(obj, loc);
-                            var m = filter(marker);
-                            if(m != null)
-                                markers.push(marker);
+                            filter(marker, clusterer);
                         });
                     });
-                    clusterer.addMarkers(markers);
                     loading.css("display", "none");
                     
                     if(firstLoad) {
@@ -247,10 +243,58 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "name": "artmaps-map-filter"
                             })
                             .click(function() {
-                                map.setFilter(function(m) {
-                                    return m.ObjectOfInterest.SuggestionCount == 0 ? m : null;
+                                map.setFilter(function(m, c) {
+                                    if(m.ObjectOfInterest.SuggestionCount == 0)
+                                        c.addMarker(m);
                             });
                     }));
+        
+        var comments = jQuery(document.createElement("label")).text("Artworks with comments")
+            .append(
+                    jQuery(document.createElement("input"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter"
+                            })
+                            .click(function() {
+                                map.setFilter(function(m, c) {
+                                    jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                                        "type": "post",
+                                        "data": {
+                                            "action": "artmaps.hasComments",
+                                            "objectID": m.ObjectOfInterest.ID
+                                        },
+                                        "success": function(r) {
+                                            if(r) c.addMarker(m);
+                                        }
+                                    });                                    
+                                    return m;
+                            });
+                    }));
+        
+        var nocomments = jQuery(document.createElement("label")).text("Artworks with no comments")
+            .append(
+                    jQuery(document.createElement("input"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter"
+                            })
+                            .click(function() {
+                                map.setFilter(function(m, c) {
+                                    jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                                        "type": "post",
+                                        "data": {
+                                            "action": "artmaps.hasComments",
+                                            "objectID": m.ObjectOfInterest.ID
+                                        },
+                                        "success": function(r) {
+                                            if(!r) c.addMarker(m);
+                                        }
+                                    });                                    
+                                    return m;
+                            });
+                    }));
+        
         var reset = jQuery(document.createElement("label")).text("No filter")
             .append(
                     jQuery(document.createElement("input"))
@@ -260,14 +304,19 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "checked": "checked"
                             })
                             .click(function() {
-                                map.setFilter(function(m) {
-                                    return m;
+                                map.setFilter(function(m, c) {
+                                    c.addMarker(m);
                             });
                     }));
+        
         var panel = jQuery(document.createElement("div"))
                 .css("background-color", "white")
                 .append(jQuery("<b>Filter Artworks</b><br />"))
                 .append(unlocated)
+                .append(jQuery(document.createElement("br")))
+                .append(comments)
+                .append(jQuery(document.createElement("br")))
+                .append(nocomments)
                 .append(jQuery(document.createElement("br")))
                 .append(reset);
         

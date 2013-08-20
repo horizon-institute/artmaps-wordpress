@@ -86,6 +86,17 @@ class ArtMapsBlog {
                         $pageID));
     }
 
+    public function getPageIDForObject($objectID) {
+        global $wpdb;
+        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
+        $pageID = $wpdb->get_var(
+                $wpdb->prepare(
+                        "SELECT post_id FROM $name WHERE object_id = %d",
+                        $objectID));
+
+        return $pageID;
+    }
+
     public function getPageForObject($objectID) {
         /* A very naive attempt at atomicity. */
         $i = 0;
