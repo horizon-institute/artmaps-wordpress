@@ -53,6 +53,17 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                             location.addAction(action);
                             clusterer.removeMarker(marker);
                             clusterer.repaint();
+                            if(location.CommentID > -1) {
+                                jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                                    "type": "post",
+                                    "data": {
+                                        "action": "artmaps.deleteComment",
+                                        "commentID": location.CommentID
+                                    },
+                                    "success": function(r) {}
+                                });
+                                jQuery("#comment-" + location.CommentID).remove();
+                            }
                         });
             });
             

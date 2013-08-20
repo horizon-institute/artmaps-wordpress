@@ -28,5 +28,17 @@ class ArtMapsAjax {
         $_SESSION['mapState'] = $state;
         return json_encode(true);
     }
+
+    public function deleteComment($commentID) {
+        require_once('ArtMapsUser.php');
+        $user = ArtMapsUser::currentUser();
+        $comment = get_comment($commentID);
+        if($comment == null)
+            return json_encode(false);
+        if($comment->user_id != $user->getID())
+            return json_encode(false);
+        wp_delete_comment($commentID);
+        return json_encode(true);
+    }
 }}
 ?>

@@ -56,7 +56,6 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
 
     add_filter('query_vars', function($vars) {
         $vars[] = 'objectid';
-        //$vars[] = 'artmaps-location-id';
         return $vars;
     });
 
@@ -135,6 +134,15 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
     }
     add_action('wp_ajax_artmaps.storeMapState', 'storeMapState');
     add_action('wp_ajax_nopriv_artmaps.storeMapState', 'storeMapState');
+
+    add_action('wp_ajax_artmaps.deleteComment', function() {
+        require_once('classes/ArtMapsAjax.php');
+        $ajax = new ArtMapsAjax();
+        header('Content-Type: application/json');
+        $commentID = stripslashes_deep($_POST['commentID']);
+        echo $ajax->deleteComment($commentID);
+        exit;
+    });
 
     add_action('pre_get_posts', function($query) {
         require_once('classes/ArtMapsSearch.php');
