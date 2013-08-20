@@ -23,7 +23,8 @@ class ArtMapsContent {
         wp_register_script('jquery-scrollto', $p . '/js/lib/jquery.scrollTo.min.js');
         wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
         wp_register_script('infobox', $p . '/js/lib/infobox.js');
-        wp_register_script('location', 'http://www.movable-type.co.uk/scripts/latlon.js');
+        wp_register_script('geo', $p . '/js/lib/geo.js');
+        wp_register_script('latlon', $p . '/js/lib/latlon.js');
         wp_register_script('artmaps-base', $p . '/js/base.js');
         wp_register_script('artmaps-util', $p . '/js/util.js');
         wp_register_script('artmaps-map-ui', $p . '/js/map-ui.js');
@@ -39,8 +40,8 @@ class ArtMapsContent {
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
                         'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'jquery-scrollto',
-                        'json2', 'markerclusterer', 'infobox',
-                        'styledmarker', 'location', 'artmaps-base', 'artmaps-util',
+                        'json2', 'markerclusterer', 'infobox', 'styledmarker',
+                        'geo', 'latlon', 'artmaps-base', 'artmaps-util',
                         'artmaps-map-ui', 'artmaps-map', 'artmaps-object-ui', 'artmaps-object',
                         'artmaps-login', 'artmaps-comment-date')
                 as $script)
@@ -56,6 +57,7 @@ class ArtMapsContent {
                 array(
                         'CoreServerPrefix' => $core->getPrefix(),
                         'SiteUrl' => site_url(),
+                        'SearchUrl' => get_search_link(),
                         'PluginDirUrl' => $p,
                         'IpInfoDbApiKey' => $network->getIpInfoDbApiKey(),
                         'ClusterIconUrl' => ArtMapsUtil::findThemeUri('content/cluster.png'),

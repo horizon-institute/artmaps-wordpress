@@ -87,6 +87,17 @@ class ArtMapsBlog {
     }
 
     public function getPageForObject($objectID) {
+        /* A very naive attempt at atomicity. */
+        while(apc_exists("object_page_generation$objectID")) {
+            usleep(500000);
+        }
+        apc_add("object_page_generation$objectID", '');
+        $pageID = $this->getPageForObjectInt($objectID);
+        apc_delete("object_page_generation$objectID");
+        return $pageID;
+    }
+
+    private function getPageForObjectInt($objectID) {
         global $wpdb;
         $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
         $pageID = $wpdb->get_var(
@@ -97,6 +108,23 @@ class ArtMapsBlog {
         if($pageID != null)
             return $pageID;
 
+        $post = array(
+                'comment_status' => get_option('default_comment_status', 'closed'),
+                'ping_status' => get_option('default_ping_status', 'closed'),
+                'post_title' => 'blank',
+                'post_content' => 'blank',
+                'post_status' => 'draft',
+                'post_author' => $this->getPostAuthor(),
+                'post_type' => 'post',
+                'post_date' => $this->getPostDate()
+        );
+        $pageID = wp_insert_post($post);
+        $wpdb->insert($name,
+                array(
+                        'object_id' => $objectID,
+                        'post_id' => $pageID),
+                array('%d', '%d'));
+
         require_once('ArtMapsCoreServer.php');
         $core = new ArtMapsCoreServer($this);
         $metadata = $core->fetchObjectMetadata($objectID);
@@ -106,25 +134,16 @@ class ArtMapsBlog {
         $content = $te->renderObjectPageTemplate($this, $objectID, $metadata);
         $excerpt = $te->renderObjectExcerptTemplate($this, $objectID, $metadata);
         $post = array(
-                'comment_status' => get_option('default_comment_status', 'closed'),
-                'ping_status' => get_option('default_ping_status', 'closed'),
+                'ID' => $pageID,
+                'post_status' => 'publish',
                 'post_title' => $title,
                 'post_content' => $content,
-                'post_status' => 'publish',
-                'post_author' => $this->getPostAuthor(),
-                'post_type' => 'post',
-                'post_date' => $this->getPostDate(),
                 'post_excerpt' => $excerpt
         );
         remove_filter('content_save_pre', 'wp_filter_post_kses');
-        $pageID = wp_insert_post($post);
+        wp_update_post($post);
         add_filter('content_save_pre', 'wp_filter_post_kses');
         wp_set_post_terms($pageID, $this->getPostCategories(), 'category');
-        $wpdb->insert($name,
-                    array(
-                            'object_id' => $objectID,
-                            'post_id' => $pageID),
-                    array('%d', '%d'));
         return $pageID;
     }
 

@@ -46,3 +46,7 @@ Version:        0.1.0
     margin-bottom: 10px;
     clear: both;
 }
+
+#artmaps-object-suggestion-message ul {
+    list-style: circle outside none;
+}

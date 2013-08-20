@@ -167,7 +167,6 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
 };
 
 ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
-	
     var self = this;
     
     var initialContent = jQuery("<div><div>Click and hold to drag the pin into position,<br /> click finish when you are done</div></div>");
@@ -176,6 +175,38 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     
     initialContent.append(jQuery("<div class=\"artmaps-button\">Finish</div>").click(function() {
         self.setContent(processingContent.get(0));
+        object.Metadata(function(md) {
+            jQuery("#artmaps-object-suggestion-message-other-actions")
+                .append("<li><a href=\"" + ArtMapsConfig.SearchUrl + encodeURIComponent(md.artist) + "\">Search for other works by this artist</a></li>");
+        });
+        var worker = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
+        var bounds = ArtMaps.Util.boundingBox(marker.getPosition(), 20);
+        worker.queueTask(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/search/?"
+                + "boundingBox.northEast.latitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lat())
+                + "&boundingBox.southWest.latitude=" + ArtMaps.Util.toIntCoord(bounds.getSouthWest().lat())
+                + "&boundingBox.northEast.longitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lng())
+                + "&boundingBox.southWest.longitude=" + ArtMaps.Util.toIntCoord(bounds.getSouthWest().lng()),
+            function() { },
+            function(objects) {
+                var list = jQuery(document.createElement("ul"));
+                var found = false;
+                jQuery.each(objects, function(i, o) {
+                    if(o.locations.length != 1) return;
+                    if(o.ID == object.ID) return;
+                    found = true;
+                    var obj = new ArtMaps.ObjectOfInterest(o);
+                    var e = jQuery(document.createElement("li"));
+                    obj.Metadata(function(md) {
+                        e.html("<a href=\"" + ArtMapsConfig.SiteUrl + "/object/" + obj.ID 
+                                + "\">" + md.title + " by " + md.artist + "</a>");
+                    });
+                    list.append(e);
+                });
+                if(!found) return;
+                var e = jQuery(document.createElement("li"));
+                e.append(jQuery("<h2>View nearby artworks</h2>")).append(list);
+                jQuery("#artmaps-object-suggestion-message-other-actions").append(e);
+            });
         marker.setDraggable(false);
         ArtMaps.Util.suggestLocation(object, marker.getPosition(),
                 function(location, action) {
@@ -203,7 +234,8 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                 input.attr("value", loc.ID);
                             }); 
                     jQuery("#artmaps-object-suggestion-message").dialog({
-                        "modal": true
+                        "modal": true,
+                        "width": 640
                     });
                 },
                 function(jqXHR, textStatus, errorThrown) {

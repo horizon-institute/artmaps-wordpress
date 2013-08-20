@@ -12,6 +12,7 @@ class ArtMapsTemplating {
         $smarty->setCacheDir("$templateDir/.cache");
         $smarty->setConfigDir("$templateDir/.configuration");
         $smarty->registerPlugin('modifier', 'artmapsUri', array($this, 'artmapsUri'));
+        $smarty->registerPlugin('modifier', 'wordpressSearch', array($this, 'wordpressSearch'));
         return $smarty;
     }
 
@@ -101,6 +102,10 @@ class ArtMapsTemplating {
     public function artmapsUri($file) {
         require_once('ArtMapsUtil.php');
         return ArtMapsUtil::findThemeUri($file);
+    }
+
+    public function wordpressSearch($term) {
+        return get_search_link($term);
     }
 }}
 ?>

@@ -131,3 +131,14 @@ ArtMaps.Util.suggestLocation = function(object, position, success, failure) {
         "error": failure
     });  
 };
+
+ArtMaps.Util.boundingBox = function(origin, distance) {
+    var orig = new LatLon(origin.lat(), origin.lng());
+    var north = orig.destinationPoint(0, distance);
+    var south = orig.destinationPoint(180, distance);
+    var east = orig.destinationPoint(90, distance);
+    var west = orig.destinationPoint(270, distance);
+    var northeast = new google.maps.LatLng(north.lat(), east.lon());
+    var southwest = new google.maps.LatLng(south.lat(), west.lon());
+    return new google.maps.LatLngBounds(southwest, northeast);
+};

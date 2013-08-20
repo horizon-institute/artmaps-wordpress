@@ -144,7 +144,7 @@ class ArtMapsCoreServer {
         $c = curl_init();
         if($c === false)
             throw new ArtMapsCoreServerException('Error initialising Curl');
-        $url = $this->prefix . 'external/search?s=' . $this->blog->getSearchSource() . '://' . $term . '&p=' . $page;
+        $url = $this->prefix . 'external/search?s=' . $this->blog->getSearchSource() . '://' . urlencode($term) . '&p=' . $page;
         if(!curl_setopt($c, CURLOPT_URL, $url))
             throw new ArtMapsCoreServerException(curl_error($c));
         if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))

@@ -84,7 +84,7 @@ ArtMaps.Object.MapObject = function(container, config) {
 	            streetview.setVisible(false);
 	            self.suggest();
 	            suggestionMarker.setPosition(pos);
-	        });	
+	        });
 		}
 	);
 
