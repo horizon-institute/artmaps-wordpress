@@ -10,7 +10,7 @@ jQuery(function($) {
     var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
     var autocomplete = $("#artmaps-map-autocomplete");
     map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
-    map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_BOTTOM);    
+    map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_BOTTOM);  
     
     (function() {
         var con = $("#artmaps-map-object-container").children().first();

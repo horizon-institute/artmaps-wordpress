@@ -8,6 +8,9 @@ var ArtMaps = ArtMaps || (function(){
     google.maps.MVCObject.prototype.off = function(listener) {
         google.maps.event.removeListener(listener);
     };
+    google.maps.MVCObject.prototype.trigger = function(eventName) {
+        google.maps.event.trigger(this, eventName);
+    };
 
     /* Extend MarkerClusterer */
     MarkerClusterer.prototype.on = function(eventName, handler) {

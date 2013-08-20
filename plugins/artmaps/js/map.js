@@ -77,6 +77,13 @@ ArtMaps.Map.MapObject = function(container, config) {
                 .css("display", "none");
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(loading.get(0));
         var cache = {};
+        var filter = function(m) { return m; };
+        map.setFilter = function(f) {
+            clusterer.clearMarkers();
+            filter = f;
+            cache = {};
+            map.trigger("idle");
+        };
         map.on("idle", function() {
             var centre = map.getCenter();
             jQuery.bbq.pushState({
@@ -103,7 +110,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                         jQuery.each(obj.Locations, function(j, loc) {
                             if(loc.Source != "SystemImport") return;
                             var marker = new ArtMaps.Map.UI.Marker(obj, loc);
-                            markers.push(marker);
+                            var m = filter(marker);
+                            if(m != null)
+                                markers.push(marker);
                         });
                     });
                     clusterer.addMarkers(markers);
@@ -227,6 +236,41 @@ ArtMaps.Map.MapObject = function(container, config) {
                 }
             });
         });
+    })();
+    
+    (function() {
+        var unlocated = jQuery(document.createElement("label")).text("Artworks with no suggestions")
+            .append(
+                    jQuery(document.createElement("input"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter"
+                            })
+                            .click(function() {
+                                map.setFilter(function(m) {
+                                    return m.ObjectOfInterest.SuggestionCount == 0 ? m : null;
+                            });
+                    }));
+        var reset = jQuery(document.createElement("label")).text("No filter")
+            .append(
+                    jQuery(document.createElement("input"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter"
+                            })
+                            .click(function() {
+                                map.setFilter(function(m) {
+                                    return m;
+                            });
+                    }));
+        var panel = jQuery(document.createElement("div"))
+                .css("background-color", "white")
+                .append(jQuery("<b>Filter Artworks</b><br />"))
+                .append(unlocated)
+                .append(jQuery(document.createElement("br")))
+                .append(reset);
+        
+        map.controls[google.maps.ControlPosition.LEFT_TOP].push(panel.get(0));
     })();
 
     this.bindAutocomplete = function(autoComplete) {
