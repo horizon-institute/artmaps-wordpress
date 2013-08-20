@@ -256,7 +256,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                     jQuery(document.createElement("input"))
                             .attr({
                                 "type": "radio",
-                                "name": "artmaps-map-filter"
+                                "name": "artmaps-map-filter",
+                                "checked": "checked"
                             })
                             .click(function() {
                                 map.setFilter(function(m) {
