@@ -88,8 +88,10 @@ class ArtMapsBlog {
 
     public function getPageForObject($objectID) {
         /* A very naive attempt at atomicity. */
-        while(apc_exists("object_page_generation$objectID")) {
+        $i = 0;
+        while(apc_exists("object_page_generation$objectID") && $i < 10) {
             usleep(500000);
+            $i++;
         }
         apc_add("object_page_generation$objectID", '');
         $pageID = $this->getPageForObjectInt($objectID);

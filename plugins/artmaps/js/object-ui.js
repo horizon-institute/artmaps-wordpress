@@ -169,9 +169,10 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
 ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     var self = this;
     
-    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position,<br /> click finish when you are done</div></div>");
+    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position,<br />click finish when you are done</div></div>");
     var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.LoadingIcon50x50Url + "\" alt=\"\" /></div>");
     var errorContent = jQuery("<div>Unfortunately, an error occurred. Please close this popup and try again.</div>");
+    var tooCloseContent = jQuery("<div><div>This is too close to another suggestion,<br />please consider agreeing with that<br /> suggestion instead or moving me away</div></div>");
     
     initialContent.append(jQuery("<div class=\"artmaps-button\">Finish</div>").click(function() {
         self.setContent(processingContent.get(0));
@@ -246,17 +247,31 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     
     initialContent.append(jQuery("<div class=\"artmaps-button\">Cancel</div>")
             .click(function() { marker.hide(); }));
+    
+    tooCloseContent.append(jQuery("<div class=\"artmaps-button\">Cancel</div>")
+            .click(function() { marker.hide(); }));
         
     this.setContent(initialContent.get(0));
     
     this.close = function() {
         this.setContent(initialContent.get(0));
+        this.setTooClose(false);
         google.maps.InfoWindow.prototype.close.call(this);
     };
         
     this.on("closeclick", function() {
         marker.hide();
     });
+    
+    var tooClose = false;
+    this.setTooClose = function(tc) {
+        if(tooClose == tc) return;
+        tooClose = tc;
+        if(tc)
+            this.setContent(tooCloseContent.get(0));
+        else
+            this.setContent(initialContent.get(0));
+    };
 };
 ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new InfoBox({
     "boxClass": "artmaps-object-infobox"
@@ -272,8 +287,19 @@ ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
         map.panTo(marker.getPosition());
     });
     marker.setTitle("Click and hold to drag me");
+    marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
     var iw = new ArtMaps.Object.UI.SuggestionInfoWindow(marker, object, clusterer);
     var isVisible = false;
+    
+    marker.on("position_changed", function() {
+        var pos = marker.getPosition();
+        var tooClose = false;
+        jQuery.each(clusterer.getMarkers(), function(i, m){
+            if(google.maps.geometry.spherical.computeDistanceBetween(pos, m.getPosition()) < 10)
+                tooClose = true;
+        });
+        iw.setTooClose(tooClose);
+    });
     
     marker.show = function() {
         marker.setPosition(map.getCenter());

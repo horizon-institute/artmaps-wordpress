@@ -11,7 +11,7 @@ class ArtMapsContent {
         $blog = $network->getCurrentBlog();
         $p = plugins_url(basename(dirname(dirname(__FILE__))));
         wp_register_script('google-jsapi', 'https://www.google.com/jsapi?key=' . $network->getGoogleMapsKey());
-        wp_register_script('google-maps', 'https://maps.google.com/maps/api/js?libraries=places&sensor=true&key=' . $network->getGoogleMapsKey());
+        wp_register_script('google-maps', 'https://maps.google.com/maps/api/js?libraries=places,geometry&sensor=true&key=' . $network->getGoogleMapsKey());
         wp_register_script('styledmarker', $p . '/js/lib/styledmarker.js');
         wp_register_script('jquery-xcolor', $p . '/js/lib/jquery.xcolor.min.js');
         wp_register_script('jquery-outside-event', $p . '/js/lib/jquery.ba-outside-events.min.js');
