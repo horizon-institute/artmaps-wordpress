@@ -46,12 +46,12 @@ jQuery(function($) {
     {else}
     <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
     {/if}
-    <p>Artist: {$metadata->artist} {$metadata->artistdate}</p>
-    <p>Title: {$metadata->title}</p>
-    <p>Date: {$metadata->artworkdate}</p>
+    <p><b>Artist:</b> {$metadata->artist} {$metadata->artistdate}</p>
+    <p><b>Title:</b> {$metadata->title}</p>
+    <p><b>Date:</b> {$metadata->artworkdate}</p>
     <p><a href="http://www.tate.org.uk/art/artworks/{$metadata->reference}">You will find more information at Tate Online</a></p>
+    <p style="clear:both;">&nbsp;</p>
 </div>
-
 <div id="artmaps-object-map" style="width:100%; height:400px;"></div>
 
 <button id="artmaps-object-map-showall" type="button">Show All Suggestions</button>
@@ -60,24 +60,27 @@ jQuery(function($) {
 
 <input id="artmaps-object-map-autocomplete" type="text" />
 
-<div>
-    <span><img src="{'content/pins/red.jpg'|artmapsUri}" alt="" />Original Location</span>
-    <span><img src="{'content/pins/blue.jpg'|artmapsUri}" alt="" />Suggested Location</span>
-    <span><img src="{'content/pins/purple.jpg'|artmapsUri}" alt="" />Your Suggestion</span>
-    <span><img src="{'content/pins/green.jpg'|artmapsUri}" alt="" />Your Active Suggestion</span>
-    <span><img src="{'content/pins/darkblue.jpg'|artmapsUri}" alt="" />Accepted Suggestion</span>
+<div id="artmaps-object-map-key">
+    <span><img src="{'content/pins/darkblue.jpg'|artmapsUri}" alt="" />The location of the artwork that has been accepted by us as accurate</span><br/>
+    <span><img src="{'content/pins/red.jpg'|artmapsUri}" alt="" />The original location from our records</span><br />
+    <span><img src="{'content/pins/blue.jpg'|artmapsUri}" alt="" />A location suggested by a member of the public</span><br />
+    <span><img src="{'content/pins/purple.jpg'|artmapsUri}" alt="" />A location suggested by you</span><br />
+    <span><img src="{'content/pins/green.jpg'|artmapsUri}" alt="" />A location that you are in the process of submitting</span>
 </div>
 
 <div id="artmaps-object-suggestion-message" style="display: none;">
-    <h2>Thank you</h2>
     <p>
         Your suggested location has been added and awaits confirmation.<br />
-        Once others have confirmed the location, it will become part of Tate collection data.<br />
-        Would you like to <span class="artmaps-button" id="artmaps-object-suggestion-message-comment-button">
-        comment</span> on your suggestion? 
+        Once others have confirmed the location, it will become part of Tate collection data.
     </p>
-    <h2>Other actions</h2>
+    <br />
+    <h2>Further actions</h2>
     <ul id="artmaps-object-suggestion-message-other-actions">
+        <li>
+            <span class="artmaps-button" 
+                    id="artmaps-object-suggestion-message-comment-button">
+                Comment</span> on your suggestion
+        </li>
     </ul>
     
 </div>

@@ -10,8 +10,10 @@ Version:        0.1.0
 @charset "UTF-8";
 @import url("../twentytwelve/style.css");
 
-.artmaps-button {
-    color: blue;
+.artmaps-button,
+.artmaps-button a {
+    color: blue !important;
+    text-decoration: none;
 }
 
 .artmaps-button:hover {
@@ -82,10 +84,6 @@ Version:        0.1.0
 .artmaps-map-object-list-container-page-previous.disabled,
 .artmaps-map-object-list-container-page-next.disabled {
     text-decoration: line-through;
-}
-
-#artmaps-object-suggestion-message ul {
-    list-style: circle outside none;
 }
 
 #artmaps-filter-menu input {

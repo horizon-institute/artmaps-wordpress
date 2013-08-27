@@ -219,7 +219,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
         self.setContent(processingContent.get(0));
         object.Metadata(function(md) {
             jQuery("#artmaps-object-suggestion-message-other-actions")
-                .append("<li><a href=\"" + ArtMapsConfig.SearchUrl + encodeURIComponent(md.artist) + "\">Search for other works by this artist</a></li>");
+                .append("<li><a href=\"" + ArtMapsConfig.SearchUrl + encodeURIComponent(md.artist) + "\" class=\"artmaps-button\">Search</a> for other works by this artist</li>");
         });
         var worker = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
         var bounds = ArtMaps.Util.boundingBox(marker.getPosition(), 20);
@@ -233,6 +233,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                 var list = jQuery(document.createElement("ul"));
                 var found = false;
                 jQuery.each(objects, function(i, o) {
+                    if(i >= 5) return;
                     if(o.locations.length != 1) return;
                     if(o.ID == object.ID) return;
                     found = true;
@@ -246,7 +247,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                 });
                 if(!found) return;
                 var e = jQuery(document.createElement("li"));
-                e.append(jQuery("<h2>View nearby artworks</h2>")).append(list);
+                e.append(jQuery("<span>View nearby artworks:</span>")).append(list);
                 jQuery("#artmaps-object-suggestion-message-other-actions").append(e);
             });
         marker.setDraggable(false);
@@ -277,7 +278,8 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                             }); 
                     jQuery("#artmaps-object-suggestion-message").dialog({
                         "modal": true,
-                        "width": 640
+                        "width": 640,
+                        "title": "Thank You"
                     });
                 },
                 function(jqXHR, textStatus, errorThrown) {
