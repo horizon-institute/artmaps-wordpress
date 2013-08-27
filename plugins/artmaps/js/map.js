@@ -143,7 +143,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             var markers = cluster.getMarkers();
             if(!markers || !markers.length) return;
             
-            var pageSize = 10;
+            var pageSize = 6;
             var totalPages = Math.floor(markers.length / pageSize);
             if(markers.length % pageSize != 0) totalPages++;
             
@@ -189,14 +189,34 @@ ArtMaps.Map.MapObject = function(container, config) {
                     });
                     
                     var current = page.find(".artmaps-map-object-list-container-page-current");
-                    current.text("Page " + (pageNo + 1) + " of " + totalPages);
+                    
+                    current.empty();
+                    for(var i = 0; i < totalPages; i++) {
+                        if(i == pageNo)
+                            current.append(jQuery("<b>" + (i + 1) + "</b>"));
+                        else {
+                            var b = jQuery(document.createElement("span"));
+                            b.text(i + 1);
+                            (function(j) {
+                                b.click(function() {
+                                    showPage(j); 
+                                });
+                            })(i);
+                            current.append(b);
+                        }
+                        current.append(" ");                            
+                    }
                     
                     var previous = page.find(".artmaps-map-object-list-container-page-previous");
                     if(pageNo == 0) {
-                        previous.hide();
+                        previous.off("click");
+                        previous.addClass("disabled");
+                        previous.removeClass("artmaps-button");
                     } else {
                         previous.show();
                         previous.off("click");
+                        previous.removeClass("disabled");
+                        previous.addClass("artmaps-button");
                         previous.click(function() {
                            showPage(pageNo - 1); 
                         });
@@ -206,11 +226,15 @@ ArtMaps.Map.MapObject = function(container, config) {
                     if(pageNo + 1 < totalPages) {
                         next.show();
                         next.off("click");
+                        next.removeClass("disabled");
+                        next.addClass("artmaps-button");
                         next.click(function() {
                            showPage(pageNo + 1); 
                         });
                     } else {
-                        next.hide();
+                        next.off("click");
+                        next.addClass("disabled");
+                        next.removeClass("artmaps-button");
                     }                    
                 }
             };
@@ -222,8 +246,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                         "complete": function() { showPage(0); }
                  },
                 "hide": { "effect": "fade", "speed": 1 },
-                "width": 640,
-                "height": 480,
+                "width": 380,
+                "height": jQuery(window).height() - 40,
+                "position": "right",
                 "resizable": true,
                 "open": function() {
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
@@ -234,7 +259,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                     if(!cluster.dialog.otherOpening)
                         jQuery.bbq.removeState("cluster");
                     cluster.dialog.otherOpening = false;
-                }
+                },
+                "title": "Artworks at this location"
             });
         });
     })();
@@ -309,8 +335,9 @@ ArtMaps.Map.MapObject = function(container, config) {
                     }));
         
         var panel = jQuery(document.createElement("div"))
+                .attr("id", "artmaps-filter-menu")
                 .css("background-color", "white")
-                .append(jQuery("<b>Filter Artworks</b><br />"))
+                .append(jQuery("<b>FILTER ARTWORKS</b><br />"))
                 .append(unlocated)
                 .append(jQuery(document.createElement("br")))
                 .append(located)

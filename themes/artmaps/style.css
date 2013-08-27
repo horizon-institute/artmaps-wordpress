@@ -42,11 +42,72 @@ Version:        0.1.0
     background-color: yellow;
 }
 
+.artmaps-map-object-container img {
+    max-width: 80px;
+    max-height: 80px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
 .artmaps-map-object-container {
-    margin-bottom: 10px;
-    clear: both;
+    position: relative;
+    padding: 0 0 0 90px;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    padding-bottom: 10px;
+    min-height: 80px;
+}
+
+.artmaps-map-object-container p {
+    padding-bottom: 5px;
+}
+
+.artmaps-map-object-container-title,
+.artmaps-map-object-container-artist {
+    font-weight: bold;
+}
+
+.artmaps-map-object-list-container-page-nav {
+    text-align: center;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+}
+
+.artmaps-map-object-list-container-page-current span:hover {
+    cursor: pointer;
+    color: blue;
+}
+
+.artmaps-map-object-list-container-page-previous.disabled,
+.artmaps-map-object-list-container-page-next.disabled {
+    text-decoration: line-through;
 }
 
 #artmaps-object-suggestion-message ul {
     list-style: circle outside none;
+}
+
+#artmaps-filter-menu input {
+    float: right;
+}
+
+#artmaps-filter-menu {
+    padding: 3px;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#artmaps-filter-menu input:hover,
+#artmaps-filter-menu label:hover {
+    cursor: pointer;
+}
+
+.widget-area .widget h3 {
+    margin-bottom: 0px;
+}
+
+.widget-area .widget {
+    margin-bottom: 24px;
 }
