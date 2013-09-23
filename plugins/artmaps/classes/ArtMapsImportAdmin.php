@@ -30,11 +30,11 @@ class ArtMapsImportAdmin {
         $r = false;
 
         $name = isset($_POST['artmaps_import_label']) ? $_POST['artmaps_import_label'] : 'Unnamed';
-        
+
         if(isset($_FILES['artmaps_import_file'])) {
         	$file = $_FILES['artmaps_import_file']['tmp_name'];
         	require_once('ArtMapsImport.php');
-        	$import = ArtMapsImport::createNew($blog, $file, 'Unnamed');
+        	$import = ArtMapsImport::createNew($blog, $file, $name);
             $r = true;
         }
 

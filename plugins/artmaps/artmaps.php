@@ -78,6 +78,7 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             global $wp_query;
             $wp_query = new WP_Query('p=' . $pageID);
         } else if(array_key_exists('importid', $wp->query_vars)) {
+            error_log('Import completed');
             $importID = $wp->query_vars['importid'];
             require_once('classes/ArtMapsNetwork.php');
             $n = new ArtMapsNetwork();

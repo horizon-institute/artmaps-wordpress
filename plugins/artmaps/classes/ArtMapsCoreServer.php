@@ -124,6 +124,7 @@ class ArtMapsCoreServer {
         if(!curl_setopt($c, CURLOPT_POST, true))
             throw new ArtMapsCoreServerException(curl_error($c));
         $bd = get_blog_details();
+        error_log('Callback' . $bd->siteurl . '/import/' . $ID);
         $post = array(
                 'signature' => $signature,
         		'callback' => $bd->siteurl . '/import/' . $ID,
