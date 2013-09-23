@@ -27,4 +27,22 @@
                 value="Import" />
         </p>
     </form>
+    <hr />
+    <h2>Current/Completed Imports</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Started</th>
+            <th>Completed</th>
+        </tr>
+        {foreach $imports as $import}
+        <tr>
+            <td>{$import->name}</td>
+            <td>{$import->status}</td>
+            <td>{$import->starttime}</td>
+            <td>{$import->endtime}</td>
+        </tr>
+        {/foreach}
+    </table>
 </div>

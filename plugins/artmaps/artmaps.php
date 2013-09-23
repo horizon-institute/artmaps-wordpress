@@ -56,26 +56,47 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
 
     add_filter('query_vars', function($vars) {
         $vars[] = 'objectid';
+        $vars[] = 'importid';
         return $vars;
     });
 
     add_action('generate_rewrite_rules', function($wpRewrite) {
         $rules = array(
-            'object/(\d+)/?' => 'index.php?objectid=$matches[1]'
+            'object/(\d+)/?' => 'index.php?objectid=$matches[1]',
+            'import/(.+)/?' => 'index.php?importid=$matches[1]'
         );
         $wpRewrite->rules = $rules + $wpRewrite->rules;
     });
 
     add_action('parse_request', function($wp) {
-        if(!array_key_exists('objectid', $wp->query_vars))
-            return;
-        $objectID = $wp->query_vars['objectid'];
-        require_once('classes/ArtMapsNetwork.php');
-        $n = new ArtMapsNetwork();
-        $b = $n->getCurrentBlog();
-        $pageID = $b->getPageForObject($objectID);
-        global $wp_query;
-        $wp_query = new WP_Query('p=' . $pageID);
+        if(array_key_exists('objectid', $wp->query_vars)) {
+            $objectID = $wp->query_vars['objectid'];
+            require_once('classes/ArtMapsNetwork.php');
+            $n = new ArtMapsNetwork();
+            $b = $n->getCurrentBlog();
+            $pageID = $b->getPageForObject($objectID);
+            global $wp_query;
+            $wp_query = new WP_Query('p=' . $pageID);
+        } else if(array_key_exists('importid', $wp->query_vars)) {
+            $importID = $wp->query_vars['importid'];
+            require_once('classes/ArtMapsNetwork.php');
+            $n = new ArtMapsNetwork();
+            $b = $n->getCurrentBlog();
+            $headers = getallheaders();
+            require_once('classes/ArtMapsImport.php');
+            $import = ArtMapsImport::fromID($b, $importID);
+            if($import != null) {
+                if($headers['success'] === 'false') {
+                    $import->setFailed();
+                } else {
+                    $import->setCompleted();
+                }
+                header(' ', true, 200);
+            } else {
+                header(' ', true, 404);
+            }
+            die;
+        }
     });
 
     add_action('wpmu_new_blog', function($blogID) {
