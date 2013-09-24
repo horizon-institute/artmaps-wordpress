@@ -79,7 +79,7 @@ class ArtMapsImport {
 
 		global $wpdb;
 		$name = $wpdb->get_blog_prefix($blog->getBlogID()) . ArtMapsBlog::ImportTableSuffix;
-		$results = $wpdb->get_results("SELECT * FROM $name SORT BY starttime DESC");
+		$results = $wpdb->get_results("SELECT * FROM $name ORDER BY starttime DESC");
 		foreach($results as $row) {
 			$o = new self();
 			$o->ID = $row->id;
