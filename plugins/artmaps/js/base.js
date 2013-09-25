@@ -102,7 +102,7 @@ ArtMaps.RunOnce = function(workerScript, altFunc) {
     };
 };
 
-ArtMaps.WorkerPool = function(size, script) {
+ArtMaps.WorkerWorkerPool = function(size, script) {
 
     var availableWorkers = [];
     var queuedTasks = [];
@@ -136,6 +136,52 @@ ArtMaps.WorkerPool = function(size, script) {
                 "callback": callback
             });
         }
+    };
+};
+
+ArtMaps.AltWorkerPool = function(size, func) {
+
+    var availableWorkers = [];
+    var queuedTasks = [];
+    for(var i = 0; i < size; i++) {
+        availableWorkers.push({ "func": func });
+    }
+
+    var runTask = function(worker, data, callback) {
+        worker.func(data, function(msg) {
+            callback(msg);
+            var next = queuedTasks.pop();
+            if(next) {
+                runTask(worker, next.data, next.callback);
+            } else {
+                availableWorkers.push(worker);
+            }
+        });
+    };
+
+    this.queueTask = function(data, callback) {
+        var w = availableWorkers.pop();
+        if (w) {
+            runTask(w, data, callback);
+        } else {
+            queuedTasks.push({
+                "data": data,
+                "callback": callback
+            });
+        }
+    };
+};
+
+ArtMaps.WorkerPool = function(size, workerScript, altFunc) {
+    var inner = null;
+    if(typeof(Worker) === 'undefined') {
+        inner = new ArtMaps.AltWorkerPool(size, altFunc);
+    } else {
+        inner = new ArtMaps.WorkerWorkerPool(size, workerScript);
+    }
+    
+    this.queueTask = function(data, pre, callback) {
+        inner.queueTask(data, pre, callback);
     };
 };
 
@@ -267,6 +313,11 @@ ArtMaps.ObjectOfInterest = function(o) {
         );
     };
 };
-/* N.B Some versions of Firefox appear to have a maximum limit of 20 webworkers */
+/* N.B Some versions of Firefox (e.g. 24.0) appear to have a maximum limit of 20 webworkers */
 ArtMaps.ObjectOfInterest.prototype.workerPool = 
-        new ArtMaps.WorkerPool(15, ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
+        new ArtMaps.WorkerPool(15, ArtMapsConfig.PluginDirUrl + "/js/do-get.js",
+                function(data, callback) {
+                    jQuery.getJSON(data, function(j) {
+                        callback(j);
+                    });
+                });
