@@ -223,5 +223,6 @@ ArtMaps.ObjectOfInterest = function(o) {
         );
     };
 };
+/* N.B Some versions of Firefox appear to have a maximum limit of 20 webworkers */
 ArtMaps.ObjectOfInterest.prototype.workerPool = 
-        new ArtMaps.WorkerPool(20, ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
+        new ArtMaps.WorkerPool(15, ArtMapsConfig.PluginDirUrl + "/js/do-get.js");

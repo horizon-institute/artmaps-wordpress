@@ -28,7 +28,6 @@ ArtMaps.Map.MapObject = function(container, config) {
             }]
         };   
 
-    var workerPool = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
     var map = new google.maps.Map(container.get(0), jQuery.extend(true, mapconf, config.map));
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     var firstLoad = true;
@@ -71,6 +70,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     })();
         
     (function() {
+        var runOnce = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
         var loading = jQuery(document.createElement("img"))
                 .attr("src", ArtMapsConfig.LoadingIcon50x50Url)
                 .attr("alt", "")
@@ -93,7 +93,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 "maptype": map.getMapTypeId() 
             });
             var bounds = map.getBounds();
-            workerPool.queueTask(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/search/?"
+            runOnce.queueTask(ArtMapsConfig.CoreServerPrefix + "objectsofinterest/search/?"
                     + "boundingBox.northEast.latitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lat())
                     + "&boundingBox.southWest.latitude=" + ArtMaps.Util.toIntCoord(bounds.getSouthWest().lat())
                     + "&boundingBox.northEast.longitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lng())
