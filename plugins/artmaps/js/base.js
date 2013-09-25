@@ -23,7 +23,7 @@ var ArtMaps = ArtMaps || (function(){
     return new Object();
 }());
 
-ArtMaps.RunOnce = function(script) {
+ArtMaps.WorkerRunOnce = function(script) {
     var workers = new Array(new Worker(script));
     var queuedTask = false;
     
@@ -55,6 +55,50 @@ ArtMaps.RunOnce = function(script) {
                 "callback": callback
             };
         }
+    };
+};
+
+ArtMaps.AltRunOnce = function(func) {
+    var workers = new Array(func);
+    var queuedTask = false;
+    
+    var runTask = function(worker, data, pre, callback) {
+        pre();
+        worker(data, function(msg) {
+            callback(msg);
+            if(queuedTask) {
+                runTask(worker, queuedTask.data, queuedTask.pre, queuedTask.callback);
+            } else {
+                workers.push(worker);
+            }
+            queuedTask = false;
+        });
+    };
+    
+    this.queueTask = function(data, pre, callback) {
+        var w = workers.pop();
+        if (w) {
+            runTask(w, data, pre, callback);
+        } else {
+            queuedTask = {
+                "data": data,
+                "pre": pre,
+                "callback": callback
+            };
+        }
+    };
+};
+
+ArtMaps.RunOnce = function(workerScript, altFunc) {
+    var inner = null;
+    if(typeof(Worker) === 'undefined') {
+        inner = new ArtMaps.AltRunOnce(altFunc);
+    } else {
+        inner = new ArtMaps.WorkerRunOnce(workerScript);
+    }
+    
+    this.queueTask = function(data, pre, callback) {
+        inner.queueTask(data, pre, callback);
     };
 };
 

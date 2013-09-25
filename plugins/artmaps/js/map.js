@@ -70,7 +70,12 @@ ArtMaps.Map.MapObject = function(container, config) {
     })();
         
     (function() {
-        var runOnce = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js");
+        var runOnce = new ArtMaps.RunOnce(ArtMapsConfig.PluginDirUrl + "/js/do-get.js",
+                function(data, callback) {
+                    jQuery.getJSON(data, function(j) {
+                        callback(j);
+                    });
+                });
         var loading = jQuery(document.createElement("img"))
                 .attr("src", ArtMapsConfig.LoadingIcon50x50Url)
                 .attr("alt", "")
