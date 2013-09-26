@@ -99,6 +99,15 @@ class ArtMapsTemplating {
         return $smarty->fetch($tpl);
     }
 
+    public function renderDigestEmail($objects) {
+        $tpl = 'digest_email_template.txt';
+        $smarty = $this->initSmarty($tpl);
+        $smarty->setCaching(false);
+        $smarty->assign('objects', $objects);
+        $smarty->assign('siteUrl', site_url());
+        return $smarty->fetch($tpl);
+    }
+
     public function artmapsUri($file) {
         require_once('ArtMapsUtil.php');
         return ArtMapsUtil::findThemeUri($file);

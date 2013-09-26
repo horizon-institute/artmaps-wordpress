@@ -52,6 +52,10 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $content = new ArtMapsContent();
             $content->init();
         }
+
+        if(!wp_next_scheduled('artmaps_generate_digest')) {
+            wp_schedule_event(time(), 'daily', 'artmaps_generate_digest');
+        }
     });
 
     add_filter('query_vars', function($vars) {
@@ -203,6 +207,16 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $c = new ArtMapsCoreServer($b);
             $c->linkComment($id, intval($_POST['artmaps-location-id']), $objectID);
         }
+    });
+
+    add_action('artmaps_generate_digest', function() {
+        require_once('classes/ArtMapsDigest.php');
+        require_once('classes/ArtMapsNetwork.php');
+        require_once('classes/ArtMapsCoreServer.php');
+        $nw = new ArtMapsNetwork();
+        $blog = $nw->getCurrentBlog();
+        $digest = new ArtMapsDigest();
+        $digest->sendDigestEmail();
     });
 }
 ?>

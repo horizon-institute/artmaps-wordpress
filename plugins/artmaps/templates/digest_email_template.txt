@@ -1,0 +1,14 @@
+<html>
+<head></head>
+<body>
+<p>
+The following artworks have 5 or more suggestions and have not had a final
+location confirmed.
+</p>
+<ul>
+{foreach $objects as $object}
+    <li><a href="{$siteUrl}/object/{$object->ID}">{$object->metadata->title}</a></li>
+{/foreach}
+</ul>
+</body>
+</html>

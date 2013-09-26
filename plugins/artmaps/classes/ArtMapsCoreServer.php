@@ -200,5 +200,30 @@ class ArtMapsCoreServer {
                     'Error decoding JSON data: ' . json_last_error());
         return $jd;
     }
+
+    public function searchByLocation($neLat, $swLat, $neLon, $swLon) {
+        $c = curl_init();
+        if($c === false)
+            throw new ArtMapsCoreServerException('Error initialising Curl');
+        $url = $this->prefix . "objectsofinterest/search/?"
+                . "boundingBox.northEast.latitude=$neLat"
+                . "&boundingBox.southWest.latitude=$swLat"
+                . "&boundingBox.northEast.longitude=$neLon"
+                . "&boundingBox.southWest.longitude=$swLon";
+        if(!curl_setopt($c, CURLOPT_URL, $url))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        $data = curl_exec($c);
+        if($data === false)
+            throw new ArtMapsCoreServerException(curl_error($c));
+        curl_close($c);
+        unset($c);
+        $jd = json_decode($data);
+        if($jd === null)
+            throw new ArtMapsCoreServerException(
+                    'Error decoding JSON data: ' . json_last_error());
+        return $jd;
+    }
 }}
 ?>
