@@ -4,21 +4,62 @@ Theme URI:      http://www.artmaps.org.uk/
 Description:    The default ArtMaps theme
 Author:         Horizon
 Author URI:     http://www.horizon.ac.uk
-Template:       twentytwelve
 Version:        0.1.0
 */
 @charset "UTF-8";
 @import url("../twentytwelve/style.css");
 
-.artmaps-button,
-.artmaps-button a {
-    color: blue !important;
-    text-decoration: none;
+.artmaps-button {
+  color: #fff;
+  background: #369;
+  padding: 2px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 14px;
 }
 
 .artmaps-button:hover {
-    text-decoration: underline;
-    cursor: pointer;
+  background:rgba(51,102,153,0.73);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.artmaps-map-object-list-container-page-previous.disabled, .artmaps-map-object-list-container-page-next.disabled {
+  color: #AAA;
+  border:1px solid #DDD;
+  padding: 2px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 14px;
+}
+
+.artmaps-map-object-list-container-page-body a {
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid #DDD;
+  overflow: hidden;
+  padding: 0 0 15px 95px;
+}
+
+.artmaps-map-object-list-container-page-body a h2 {
+  clear: none;
+  font-size: 15px;
+  line-height: 19px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.artmaps-map-object-list-container-page-body a em {
+  font-style: normal;
+  color: #666;
+  font-size: 11px;
+  line-height: 14px;
+  display: block;
+  text-transform: uppercase;
 }
 
 .artmaps-highlighted-comment {
@@ -27,6 +68,10 @@ Version:        0.1.0
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+.artmaps-map-object-list-container.ui-dialog-content {
+  padding: 12px;
 }
 
 .artmaps-object-infobox,
@@ -47,27 +92,16 @@ Version:        0.1.0
 .artmaps-map-object-container img {
     max-width: 80px;
     max-height: 80px;
-    position: absolute;
-    left: 0;
-    top: 0;
+    float:left;
+    margin-left:-95px;
 }
 
 .artmaps-map-object-container {
     position: relative;
-    padding: 0 0 0 90px;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     font-size: 13px;
     padding-bottom: 10px;
     min-height: 80px;
-}
-
-.artmaps-map-object-container p {
-    padding-bottom: 5px;
-}
-
-.artmaps-map-object-container-title,
-.artmaps-map-object-container-artist {
-    font-weight: bold;
 }
 
 .artmaps-map-object-list-container-page-nav {
@@ -83,18 +117,7 @@ Version:        0.1.0
 
 .artmaps-map-object-list-container-page-previous.disabled,
 .artmaps-map-object-list-container-page-next.disabled {
-    text-decoration: line-through;
-}
-
-#artmaps-filter-menu input {
-    float: right;
-}
-
-#artmaps-filter-menu {
-    padding: 3px;
-    -webkit-border-bottom-right-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    border-bottom-right-radius: 5px;
+    color:#888;
 }
 
 #artmaps-filter-menu input:hover,
@@ -108,4 +131,168 @@ Version:        0.1.0
 
 .widget-area .widget {
     margin-bottom: 24px;
+}
+
+html, body {
+  height:100%;
+  position: relative;
+}
+
+.gm-style .loading-indicator {
+  background: rgba(255,255,255,0.75);
+  padding: 20px;
+  border-radius: 3px;
+  left: 10% !important;
+  top: 120px !important;
+}
+
+header {
+  top: 40px;
+  margin: 0 auto;
+  z-index: 999;
+  display: block;
+  width: 80%;
+  position: relative;
+}
+
+header .logo {
+  float:left;
+  margin-right:30px;
+}
+
+header .menu {
+  float:left;
+  margin-top:40px;
+}
+
+header .menu li {
+  display: inline;
+}
+
+header .menu a {
+  color:#fff;
+  font-size:18px;
+  margin-right:20px;
+}
+
+.headertest {
+  box-shadow: 0px 0px 150px 100px rgba(0,0,0,0.55);
+  position:absolute;
+  top:-1px;
+  left:0px;
+  right:0px;
+  height:1px;
+  z-index:99;
+}
+
+#artmaps-map-autocomplete {
+  position: absolute !important;
+  top: 20px;
+  bottom: auto !important;
+  padding: 10px;
+  font-size: 16px;
+  right: 0px !important;
+  background:#fff url('images/search-icon.png') 10px center no-repeat;
+  padding-left:40px;
+  width: 25%;
+  border-radius:4px;
+  z-index: 99;
+}
+
+#artmaps-map-autocomplete::-webkit-input-placeholder { /* WebKit browsers */ font-style:italic; }
+#artmaps-map-autocomplete:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ font-style:italic; }
+#artmaps-map-autocomplete::-moz-placeholder { /* Mozilla Firefox 19+ */ font-style:italic; }
+#artmaps-map-autocomplete:-ms-input-placeholder { /* Internet Explorer 10+ */ font-style:italic; }
+
+#artmaps-filter-menu {
+  position: absolute !important;
+  bottom: 40px !important;
+  top: auto !important;
+  background: #fff;
+  padding: 0px;
+  margin-left:10%;
+  border: 1px solid #DDD;
+  border-radius:4px;
+  box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
+  opacity:0.2;
+  transition:opacity 0.5s ease-in-out;
+  transition-delay: 0.3s;
+}
+
+#artmaps-filter-menu:hover {
+  opacity:1;
+  transition:opacity 0.15s ease-in-out;
+}
+
+#artmaps-filter-menu h2 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #666;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  font-family: helvetica,sans-serif;
+}
+
+#artmaps-filter-menu label {
+  display: block;
+  padding: 5px 35px 5px 8px;
+  font-size: 12px;
+  line-height: 18px;
+  border-bottom: 1px solid #DDD;
+}
+
+#artmaps-filter-menu label:last-of-type {
+  border-bottom:none;
+}
+
+#artmaps-filter-menu input {
+  float: right;
+  position: absolute;
+  right: 10px;
+}
+
+.artwork-results {
+  position: absolute;
+  top: 120px !important;
+  padding:0;
+  right: 10% !important;
+  left: auto !important;
+  width: 23% !important;
+  border: 1px solid #DDD;
+  box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
+}
+
+.artwork-results .ui-dialog-titlebar {
+  background: none;
+  padding: 11px 13px 9px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 0px;
+  border-bottom: 1px solid #DDD;
+  font-family: helvetica,sans-serif;
+  border-radius: 0px;
+}
+
+.artmaps-map-object-list-container-page-previous {
+  float: left;
+}
+
+.artmaps-map-object-list-container-page-next {
+  float: right;
+}
+
+#artmaps-map-themap {
+  position:absolute;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+}
+
+@media all and (max-width: 1000px) {
+  header { margin-left: 4%; margin-right:4%; width:92%; }
+  #artmaps-filter-menu { margin-left:4%; }
+  .artwork-results { right:4% !important; }
 }

@@ -1,16 +1,17 @@
 <script type="text/javascript">
 google.maps.visualRefresh = true;
+
 jQuery(function($) {
     var config = {
         "map": {
             "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
-            "mapTypeId": google.maps.MapTypeId.SATELLITE
+            "mapTypeId": google.maps.MapTypeId.ROADMAP
         }
     };
     var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
     var autocomplete = $("#artmaps-map-autocomplete");
     map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
-    map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_BOTTOM);  
+    map.addControl(autocomplete.get(0));  
     
     (function() {
         var con = $("#artmaps-map-object-container").children().first();
@@ -44,36 +45,35 @@ jQuery(function($) {
 });
 </script>
 
-<div id="artmaps-map-themap" style="width:100%;height:100%;"></div>
-
-<input id="artmaps-map-autocomplete" type="text" />
+<div id="artmaps-map-themap"></div>
 
 <div id="artmaps-map-object-list-container-page" style="display: none;">
     <div class="artmaps-map-object-list-container-page">
         <div class="artmaps-map-object-list-container-page-nav">
-            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-previous artmaps-button">Previous</span>
             <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
-            <span class="artmaps-map-object-list-container-page-next artmaps-button">[Next]</span>
+            <span class="artmaps-map-object-list-container-page-next artmaps-button">Next</span>
         </div>
         <hr />
         <div class="artmaps-map-object-list-container-page-body"></div>
         <hr />
         <div class="artmaps-map-object-list-container-page-nav">
-            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
+            <span class="artmaps-map-object-list-container-page-previous artmaps-button">Previous</span>
             <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
-            <span class="artmaps-map-object-list-container-page-next artmaps-button">[Next]</span>
+            <span class="artmaps-map-object-list-container-page-next artmaps-button">Next</span>
         </div>
     </div>
 </div>
 
 <div id="artmaps-map-object-container" style="display: none;">
-    <div class="artmaps-map-object-container">
-        <a><img align="top" src="{'content/unavailable.jpg'|artmapsUri}" /></a>
-        <p>
-            <span class="artmaps-map-object-container-title"></span><br />
-            by <span class="artmaps-map-object-container-artist"></span>
-        </p>
-        <p><span class="artmaps-map-object-container-suggestions"></span></p>
-        <p><a>View Artwork</a></p>
-    </div>
+    <ul class="artmaps-map-object-container">
+       <li>
+         <a>
+            <img src="{'content/unavailable.jpg'|artmapsUri}" />
+            <h2 class="artmaps-map-object-container-title"></h2>
+            <em>by <span class="artmaps-map-object-container-artist"></span></em>
+            <span class="artmaps-map-object-container-suggestions"></span>
+         </a>
+        <li>
+    </ul>
 </div>
