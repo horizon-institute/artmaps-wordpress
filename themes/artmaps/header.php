@@ -8,7 +8,7 @@
       <?php wp_head(); ?>
   </head>
   
-  <body class="<?php body_class(); ?>">
+  <body <?php body_class(); ?>>
   <div class="headertest"></div>
   <header>
   <a href="<?php bloginfo('url'); ?>" class="logo">

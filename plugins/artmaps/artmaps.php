@@ -6,6 +6,81 @@ Version: v0.2.0
 Author: <a href="http://www.horizon.ac.uk/">Horizon Digital Economy Research</a>
 Description: Plugin providing ArtMaps functionality to WordPress.
 */
+// Register Custom Post Type
+function artmaps_artwork_type() {
+
+	$labels = array(
+		'name'                => 'Artworks',
+		'singular_name'       => 'Artwork',
+		'menu_name'           => 'Artwork',
+		'parent_item_colon'   => 'Parent Artwork:',
+		'all_items'           => 'All Artworks',
+		'view_item'           => 'View Artwork',
+		'add_new_item'        => 'Add New Artwork',
+		'add_new'             => 'New Artwork',
+		'edit_item'           => 'Edit Artwork',
+		'update_item'         => 'Update Artwork',
+		'search_items'        => 'Search artworks',
+		'not_found'           => 'No artworks found',
+		'not_found_in_trash'  => 'No artworks found in Trash',
+	);
+	$rewrite = array(
+		'slug'                => 'object',
+		'with_front'          => false,
+		'pages'               => false,
+		'feeds'               => true,
+	);
+	$args = array(
+		'labels'              => $labels,
+		'supports'            => array( 'title', 'custom-fields', 'comments'),
+		'hierarchical'        => false,
+		'public'              => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_nav_menus'   => true,
+		'show_in_admin_bar'   => true,
+		'menu_position'       => 5,
+		'can_export'          => true,
+		'has_archive'         => true,
+		'exclude_from_search' => false,
+		'publicly_queryable'  => true,
+		'rewrite'             => $rewrite,
+		'capability_type'     => 'page',
+	);
+	register_post_type( 'artwork', $args );
+
+}
+add_action( 'init', 'artmaps_artwork_type', 0 );
+
+function add_rewrite_rules()
+{
+    // Register custom rewrite rules
+    global $wp_rewrite;
+    $wp_rewrite->add_rewrite_tag('%artwork%', '([^/]+)', 'objectid=');
+    $wp_rewrite->add_rewrite_tag('%objectid%', '([^/]+)', 'objectid=');
+    $wp_rewrite->add_permastruct('artwork', 'object/%objectid%', false);
+}
+
+function permalinks($permalink, $post, $leavename)
+{
+    $no_data = 'no-data';
+    $post_id = $post->ID;
+    $object_id = get_post_meta($post_id, "object_id", true);
+
+    if($post->post_type != 'artwork' || empty($permalink) || in_array($post->post_status, array('draft', 'pending', 'auto-draft')))
+        return $permalink;
+
+    if(!$object_id)
+        $object_id = $no_data;
+
+    $object_id = get_post_meta($post_id, "object_id", true);
+    $permalink = str_replace('%objectid%', $object_id, $permalink);
+    return $permalink;
+}
+
+add_action('init', 'add_rewrite_rules');
+add_filter('post_type_link', 'permalinks', 10, 3);
+
 if(!class_exists('ArtMapsCore')) {
 class ArtMapsCore {
     public function onActivation() {
@@ -60,17 +135,18 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
 
     add_filter('query_vars', function($vars) {
         $vars[] = 'objectid';
+        $vars[] = 'framed';
         $vars[] = 'importid';
         return $vars;
     });
-
+/*
     add_action('generate_rewrite_rules', function($wpRewrite) {
         $rules = array(
             'object/(\d+)/?' => 'index.php?objectid=$matches[1]',
             'import/(.+)/?' => 'index.php?importid=$matches[1]'
         );
         $wpRewrite->rules = $rules + $wpRewrite->rules;
-    });
+    });*/
 
     add_action('parse_request', function($wp) {
         if(array_key_exists('objectid', $wp->query_vars)) {
@@ -80,7 +156,8 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $b = $n->getCurrentBlog();
             $pageID = $b->getPageForObject($objectID);
             global $wp_query;
-            $wp_query = new WP_Query('p=' . $pageID);
+            $wp_query = new WP_Query('post_type=artwork&p=' . $pageID);
+            //wp_redirect( get_permalink($pageID) , 301 );
         } else if(array_key_exists('importid', $wp->query_vars)) {
             $importID = $wp->query_vars['importid'];
             require_once('classes/ArtMapsNetwork.php');

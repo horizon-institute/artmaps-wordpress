@@ -13,7 +13,10 @@ ArtMaps.Map.MapObject = function(container, config) {
                 "position": google.maps.ControlPosition.LEFT_CENTER
             },
             "panControl": false,
-            "mapTypeControl": true
+            "mapTypeControl": true,
+            "mapTypeControlOptions": {
+                "position": google.maps.ControlPosition.RIGHT_BOTTOM
+            },
         };
     
     var clusterconf = {
@@ -193,7 +196,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     var body = page.find(".artmaps-map-object-list-container-page-body");
                     jQuery.each(mkrs, function(i, marker) {
                         var content = jQuery(document.createElement("div"))
-                                .html("<img src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
+                                .html("<img class=\"mini-loading-indicator\" src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
                         body.append(content);
                         marker.ObjectOfInterest.Metadata(function(metadata){
                             content.replaceWith(ArtMaps.Map.UI.formatMetadata(
