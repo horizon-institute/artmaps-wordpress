@@ -18,7 +18,7 @@ jQuery(function($) {
         ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
             var c = con.clone();
             c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
-            c.find("a").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
             if(typeof metadata.imageurl != "undefined") {
                 c.find("img").attr("src", metadata.imageurl);
             }
@@ -43,7 +43,7 @@ jQuery(function($) {
         });
     })();
     
-    $(".artwork-link").fancybox({
+    $(".fancybox").fancybox({
   		maxWidth	: 800,
   		maxHeight	: 600,
   		fitToView	: true,
@@ -73,7 +73,7 @@ jQuery(function($) {
 
     <div id="artmaps-map-object-container" style="display: none;">
        <li class="artmaps-map-object-container">
-         <a class="fancybox.ajax artwork-link">
+         <a class="fancybox.ajax artwork-link fancybox">
             <img src="{'content/unavailable.jpg'|artmapsUri}" />
             <h2 class="artmaps-map-object-container-title"></h2>
             <em>by <span class="artmaps-map-object-container-artist"></span></em>

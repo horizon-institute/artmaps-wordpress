@@ -70,7 +70,7 @@ class ArtMapsContent {
                         'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false,
                         'UserLevel' => is_user_logged_in() ? $user->getRoles() : array()
                 ));
-        remove_filter('the_content', 'wpautop');
+        //remove_filter('the_content', 'wpautop');
     }
 
     public function parse($content) {

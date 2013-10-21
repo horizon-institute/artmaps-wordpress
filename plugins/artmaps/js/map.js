@@ -7,7 +7,8 @@ ArtMaps.Map.MapObject = function(container, config) {
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": false,
             "zoom": 15,
-            "minZoom": 3,
+            "minZoom": 5,
+            "maxZoom": 17,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
@@ -22,7 +23,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     var clusterconf = {
             "gridSize": 150,
             "minimumClusterSize": 1,
-            "zoomOnClick": false,
+            "zoomOnClick": true,
             "imageSizes": [56],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
@@ -285,6 +286,96 @@ ArtMaps.Map.MapObject = function(container, config) {
     })();
     
     (function() {
+    
+    
+    var unlocated = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "unlocated"
+                            })
+                            .text('Artworks without suggestions');
+
+                            
+        var located = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "located"
+                            })
+                            .text('Artworks with suggestions');
+                            
+        var comments = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "comments"
+                            })
+                            .text('Artworks with comments');
+
+        var nocomments = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "nocomments"
+                            })
+                            .text('Artworks without comments');
+
+        var reset = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "reset",
+                                "checked": "checked"
+                            })
+                            .text('All artworks');
+        
+        var panel = jQuery(document.createElement("select"))
+                .attr("id", "artmaps-filter-menu")
+                .append(reset)
+                .append(located)
+                .append(unlocated)
+                .append(comments)
+                .append(nocomments);
+                
+        panel.change(function(){
+          var id = jQuery(this).find("option:selected").attr("id");
+        
+          switch (id) {
+            case "reset":
+              map.setFilter(function(m, l) {
+                l.push(m);
+              });
+              break;
+            case "nocomments":
+              map.setFilter(function(m, l) {
+                if(!m.ObjectOfInterest.HasComments) l.push(m);
+              });
+              break;
+            case "comments":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.HasComments) l.push(m);
+              });
+              break;
+            case "located":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.SuggestionCount != 0)
+                  l.push(m);
+              });
+              break;
+            case "unlocated":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.SuggestionCount == 0)
+                  l.push(m);
+              });
+              break;
+          }
+        });
+        
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+    
+    
+    /*
         var unlocated = jQuery(document.createElement("label")).text("Artworks without suggestions")
             .append(
                     jQuery(document.createElement("input"))
@@ -363,6 +454,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 .append(nocomments);
         
         map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+    */
     })();
 
     this.bindAutocomplete = function(autoComplete) {

@@ -173,8 +173,9 @@ img {
   text-decoration: none;
   display: block;
   border-bottom: 1px solid #DDD;
+  margin: 0px 15px;
   overflow: hidden;
-  padding: 12px 12px 12px 92px;
+  padding: 12px 0px 12px 80px;
 }
 
 .artmaps-map-object-list-container-page-body a h2 {
@@ -216,7 +217,10 @@ img {
 
 .artmaps-map-object-list-container.ui-dialog-content {
   padding: 0px;
+  min-height:100% !important;
+  height:auto !important;
   position: relative;
+  overflow: auto;
 }
 
 .artmaps-object-infobox,
@@ -251,10 +255,10 @@ img {
 .artmaps-map-object-list-container-page-nav {
     text-align: center;
     font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    position: absolute;
+    bottom: 40px;
+    width: 25%;
+    right: 10%;
+    position: fixed;
     font-size: 13px;
     padding: 10px 12px 10px;
     background: rgba(255,255,255,0.8);
@@ -345,14 +349,15 @@ header .menu a {
   bottom: auto !important;
   padding: 10px;
   font-size: 16px;
+  box-sizing:border-box;
   right: 0px !important;
   background:#fff url('images/search-icon.png') 10px center no-repeat;
   padding-left:40px;
-  width: 25%;
+  width: 34%;
   border-radius:4px;
   z-index: 99;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
-  border: 1px solid #CCC;
+  border: none;
 }
 
 .pac-container {
@@ -365,20 +370,21 @@ header .menu a {
   bottom: 40px !important;
   top: auto !important;
   background:#fff;
-  padding: 0px;
   margin-left:10%;
   border: 1px solid #DDD;
   border-radius:4px;
-  box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
-  opacity:0.2;
-  transition:opacity 0.5s ease-in-out;
-  transition-delay: 0.3s;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
+  -webkit-appearance: none;
+  padding: 10px 15px;
+  font-size: 12px;
+  color: #000;
+  background: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  width: auto !important;
 }
 
 #artmaps-filter-menu:hover {
   opacity:1;
-  transition:opacity 0.15s ease-in-out;
 }
 
 #artmaps-filter-menu h2 {
@@ -389,6 +395,7 @@ header .menu a {
   background: #009279;
   border-bottom: 1px solid #ddd;
   padding: 8px;
+  display: none;
 }
 
 #artmaps-filter-menu label {
@@ -396,6 +403,7 @@ header .menu a {
   padding: 5px 35px 5px 8px;
   font-size: 12px;
   line-height: 18px;
+  position: relative;
   border-bottom: 1px solid #DDD;
 }
 
@@ -404,9 +412,74 @@ header .menu a {
 }
 
 #artmaps-filter-menu input {
-  float: right;
   position: absolute;
-  right: 10px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  top: 0px;
+  opacity:0.1;
+}
+
+.about-page {
+  background: #fff;
+  height: 100%;
+  margin: auto;
+  padding: 40px 40px 40px 340px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.about-page h2 {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+  font-size: 28px;
+  font-family: 'TateNewRegular',sans-serif;
+  margin-bottom: 20px;
+}
+
+.about-page p {
+  font-size: 14px;
+  font-family: sans-serif;
+  line-height: 20px;
+  margin-bottom: 15px;
+  margin-right:50px;
+}
+
+#loginform input {
+  display: block;
+  font-size: 15px;
+  padding: 10px;
+  border: 1px solid #BBB;
+  border-radius: 2px;
+  box-shadow: inset 0px 3px 3px -1px rgba(0,0,0,0.15);
+  font-family: sans-serif;
+}
+
+#loginform #rememberme {
+  float: left;
+  position: relative;
+  margin-right: 10px;
+  bottom: -1px;
+}
+
+#loginform #wp-submit {
+  padding: 10px 13px;
+  box-shadow: none;
+  border:none;
+  font-weight: bold;
+  font-family: TateNewRegular;
+  font-size: 16px;
+  background:#46c3d3;
+  color:#fff;
+  border-radius:4px;
+}
+
+#wpadminbar {
+  background: rgba(70, 70, 70, 0.7) !important;
+}
+
+#wpadminbar .ab-top-secondary {
+  background: none;
 }
 
 .artwork-results .mini-loading-indicator {
@@ -425,24 +498,27 @@ header .menu a {
   padding:0;
   right: 10% !important;
   left: auto !important;
-  width: 23% !important;
-  border: 1px solid rgba(0,0,0,0.25);
+  bottom:25px;
+  width: 27% !important;
+  border: none;
   box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
 }
 
 .artwork-results .ui-dialog-titlebar {
-  background: #009279;
-  box-shadow:0px 2px 0px rgba(0,0,0,0.05);
-  padding: 11px 13px 9px;
+  background: none;
+  padding: 5px;
+  height:25px;
   border: none;
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: -1px;
+  display: -wap-marquee;
+  text-indent: -9999px;
   color: #fff;
-  margin-bottom: 0px;
-  border-bottom: 1px solid #DDD;
-  font-family:TateNewRegular, Arial, Helvetica, sans-serif;
   border-radius: 0px;
+  border-bottom: 1px solid #CCC;
+  margin: 0px 15px;
+}
+
+.artwork-results .ui-dialog-title {
+  display:none;
 }
 
 .artmaps-map-object-list-container-page-previous {
@@ -502,19 +578,20 @@ header .menu a {
 }
 
 .fancybox-skin {
-	-webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-	   -moz-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-	        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  height: 100% !important;
 }
 
 .fancybox-outer, .fancybox-inner {
 	position: relative;
+	height:100% !important;
 	width: auto !important;
 }
 
 .fancybox-inner {
-	overflow: visible !important;
+	overflow: hidden;
 	background:rgba(255,255,255,0.7);
+	border-radius:5px;
+	height:100% !important;
 }
 
 .fancybox-type-iframe .fancybox-inner {
@@ -547,13 +624,13 @@ header .menu a {
 #fancybox-loading {
 	position: fixed;
 	top: 50%;
-	left: 50%;
+  right: 22.5%;
 	margin-top: -22px;
 	margin-left: -22px;
 	background-position: 0 -108px;
 	opacity: 0.8;
 	cursor: pointer;
-	z-index: 8060;
+	z-index: 99999;
 }
 
 #fancybox-loading div {
@@ -739,12 +816,12 @@ header .menu a {
 
 .fancybox-wrap.fancybox-desktop.fancybox-type-ajax {
   position: absolute !important;
-  top: 170px !important;
+  top: 120px !important;
   left: 10% !important;
   height: auto !important;
   right: 10% !important;
   width: auto !important;
-  bottom: 30px !important;
+  bottom: 20px !important;
 }
 
 #artmaps-object-metadata {
@@ -753,8 +830,9 @@ header .menu a {
   padding:20px;
   position: absolute;
   top: 0px;
-  left: 0px;
+  right: 0px;
   bottom: 0px;
+  overflow: auto;
 }
 
 #artmaps-object-metadata h1 {
@@ -767,10 +845,10 @@ header .menu a {
 #artmaps-object-metadata img {
   max-width:100%;
   max-height:250px;
-  margin-bottom:15px;
   float:none;
+  padding:0;
   display:block;
-  margin-top:-40px;
+  margin: 0 auto 15px;
 }
 
 #artmaps-object-metadata dl {
@@ -813,11 +891,11 @@ header .menu a {
 
 #artmaps-object-detail {
   position: absolute;
-  right: 20px;
+  left: 20px;
   bottom: 20px;
   top: 20px;
-  left: 30%;
-  margin-left: 60px;
+  right: 30%;
+  margin-right: 60px;
   overflow: hidden;
   border: 5px solid #fff;
 }
