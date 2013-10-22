@@ -21,6 +21,7 @@ class ArtMapsContent {
         wp_register_script('jquery-ui-timepicker-addon', $p . '/js/lib/jquery-ui-timepicker-addon.js');
         wp_register_script('jquery-timeago', $p . '/js/lib/jquery.timeago.js');
         wp_register_script('jquery-scrollto', $p . '/js/lib/jquery.scrollTo.min.js');
+        wp_register_script('fancybox', $p . '/js/lib/fancybox/jquery.fancybox.pack.js');
         wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
         wp_register_script('infobox', $p . '/js/lib/infobox.js');
         wp_register_script('geo', $p . '/js/lib/geo.js');
@@ -43,7 +44,7 @@ class ArtMapsContent {
                         'json2', 'markerclusterer', 'infobox', 'styledmarker',
                         'geo', 'latlon', 'artmaps-base', 'artmaps-util',
                         'artmaps-map-ui', 'artmaps-map', 'artmaps-object-ui', 'artmaps-object',
-                        'artmaps-login', 'artmaps-comment-date')
+                        'artmaps-login', 'artmaps-comment-date', 'fancybox')
                 as $script)
             wp_enqueue_script($script);
         foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)
@@ -69,7 +70,7 @@ class ArtMapsContent {
                         'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false,
                         'UserLevel' => is_user_logged_in() ? $user->getRoles() : array()
                 ));
-        remove_filter('the_content', 'wpautop');
+        //remove_filter('the_content', 'wpautop');
     }
 
     public function parse($content) {

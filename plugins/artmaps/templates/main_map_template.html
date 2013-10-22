@@ -4,13 +4,13 @@ jQuery(function($) {
     var config = {
         "map": {
             "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
-            "mapTypeId": google.maps.MapTypeId.SATELLITE
+            "mapTypeId": google.maps.MapTypeId.ROADMAP
         }
     };
     var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
     var autocomplete = $("#artmaps-map-autocomplete");
     map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
-    map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_BOTTOM);  
+    //map.addControl(autocomplete.get(0));  
     
     (function() {
         var con = $("#artmaps-map-object-container").children().first();
@@ -18,6 +18,7 @@ jQuery(function($) {
         ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
             var c = con.clone();
             c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
             if(typeof metadata.imageurl != "undefined") {
                 c.find("img").attr("src", metadata.imageurl);
             }
@@ -41,39 +42,42 @@ jQuery(function($) {
             });
         });
     })();
+    
+    $(".fancybox").fancybox({
+  		maxWidth	: 800,
+  		maxHeight	: 600,
+  		fitToView	: true,
+  		width		: '70%',
+  		height		: '70%',
+  		autoSize	: false,
+  		closeClick	: false,
+  		showEarly   : false,
+  		openEffect	: 'fade',
+  		closeEffect	: 'fade'
+  	});
 });
 </script>
 
-<div id="artmaps-map-themap" style="width:100%;height:100%;"></div>
-
-<input id="artmaps-map-autocomplete" type="text" />
+<div id="artmaps-map-themap"></div>
 
 <div id="artmaps-map-object-list-container-page" style="display: none;">
     <div class="artmaps-map-object-list-container-page">
+        <ul class="artmaps-map-object-list-container-page-body"></ul>
         <div class="artmaps-map-object-list-container-page-nav">
-            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
-            <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
-            <span class="artmaps-map-object-list-container-page-next artmaps-button">[Next]</span>
-        </div>
-        <hr />
-        <div class="artmaps-map-object-list-container-page-body"></div>
-        <hr />
-        <div class="artmaps-map-object-list-container-page-nav">
-            <span class="artmaps-map-object-list-container-page-previous artmaps-button">[Previous]</span>
-            <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
-            <span class="artmaps-map-object-list-container-page-next artmaps-button">[Next]</span>
-        </div>
+      <span class="artmaps-map-object-list-container-page-previous artmaps-button">Prev</span>
+      <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
+      <span class="artmaps-map-object-list-container-page-next artmaps-button">Next</span>
+    </div>
     </div>
 </div>
 
-<div id="artmaps-map-object-container" style="display: none;">
-    <div class="artmaps-map-object-container">
-        <a><img align="top" src="{'content/unavailable.jpg'|artmapsUri}" /></a>
-        <p>
-            <span class="artmaps-map-object-container-title"></span><br />
-            by <span class="artmaps-map-object-container-artist"></span>
-        </p>
-        <p><span class="artmaps-map-object-container-suggestions"></span></p>
-        <p><a>View Artwork</a></p>
+    <div id="artmaps-map-object-container" style="display: none;">
+       <li class="artmaps-map-object-container">
+         <a class="fancybox.ajax artwork-link fancybox">
+            <img src="{'content/unavailable.jpg'|artmapsUri}" />
+            <h2 class="artmaps-map-object-container-title"></h2>
+            <em>by <span class="artmaps-map-object-container-artist"></span></em>
+            <span class="artmaps-map-object-container-suggestions"></span>
+         </a>
+        <li>
     </div>
-</div>

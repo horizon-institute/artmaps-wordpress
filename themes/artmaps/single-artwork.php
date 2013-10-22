@@ -1,9 +1,13 @@
+<?php //get_header(); ?>
+
+<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+<div class="artwork-page">
 <script type="text/javascript">
 google.maps.visualRefresh = true;
 jQuery(function($) {
     
     ArtMapsConfig = ArtMapsConfig || {};
-    ArtMapsConfig.ObjectID = "{$objectID}";
+    ArtMapsConfig.ObjectID = "<?php echo get_post_meta(get_the_ID(),"object_id",true); ?>";
     
     var config = {
         "map": {
@@ -41,22 +45,24 @@ jQuery(function($) {
 });
 </script>
 <div id="artmaps-object-metadata">
-    {if isset($metadata->imageurl)}
-    <img src="{$metadata->imageurl}" alt="{$metadata->title}" />
-    {else}
+    
+    <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
+    <img src="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" />
+    <?php } else { ?>
     <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
-    {/if}
-    <h1>{$metadata->title}</h1>
+    <?php } ?>
+    <h1><?php the_title(); ?></h1>
     <dl>
       <dt>Artist</dt>
-        <dd>{$metadata->artist} {$metadata->artistdate}</dd>
+        <dd><?php echo get_post_meta(get_the_ID(),"artist",true); ?> <?php echo get_post_meta(get_the_ID(),"artistdate",true); ?></dd>
       <dt>Date</dt>
-        <dd>{$metadata->artworkdate}</dd>
-      <dt></dt>
-        <dd><a href="http://www.tate.org.uk/art/artworks/{$metadata->reference}">You will find more information at Tate Online</a></dd>
+        <dd><?php echo get_post_meta(get_the_ID(),"artworkdate",true); ?></dd>
     </dl>
+    
+    <a href="http://www.tate.org.uk/art/artworks/<?php echo get_post_meta(get_the_ID(),"reference",true); ?>" class="artwork-external">View on Tate Online</a>
 
 </div>
+<div id="artmaps-object-detail">
 <div id="artmaps-object-map" style="width:400px; height:300px;"></div>
 
 <button id="artmaps-object-map-showall" type="button">Show All Suggestions</button>
@@ -64,14 +70,6 @@ jQuery(function($) {
 <button id="artmaps-object-map-suggest" type="button">Suggest A Location</button>
 
 <input id="artmaps-object-map-autocomplete" type="text" />
-
-<div id="artmaps-object-map-key">
-    <span><img src="{'content/pins/darkblue.jpg'|artmapsUri}" alt="" />The location of the artwork that has been accepted by us as accurate</span><br/>
-    <span><img src="{'content/pins/red.jpg'|artmapsUri}" alt="" />The original location from our records</span><br />
-    <span><img src="{'content/pins/blue.jpg'|artmapsUri}" alt="" />A location suggested by a member of the public</span><br />
-    <span><img src="{'content/pins/purple.jpg'|artmapsUri}" alt="" />A location suggested by you</span><br />
-    <span><img src="{'content/pins/green.jpg'|artmapsUri}" alt="" />A location that you are in the process of submitting</span>
-</div>
 
 <div id="artmaps-object-suggestion-message" style="display: none;">
     <p>
@@ -89,4 +87,8 @@ jQuery(function($) {
     </ul>
     
 </div>
+</div>
+</div>
+<?php endwhile; endif; ?>
 
+<?php // get_footer(); ?>

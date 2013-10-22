@@ -7,19 +7,23 @@ ArtMaps.Map.MapObject = function(container, config) {
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": false,
             "zoom": 15,
-            "minZoom": 3,
-            "mapTypeId": google.maps.MapTypeId.HYBRID,
+            "minZoom": 5,
+            "maxZoom": 17,
+            "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
             },
             "panControl": false,
-            "mapTypeControl": true
+            "mapTypeControl": true,
+            "mapTypeControlOptions": {
+                "position": google.maps.ControlPosition.RIGHT_BOTTOM
+            },
         };
     
     var clusterconf = {
             "gridSize": 150,
             "minimumClusterSize": 1,
-            "zoomOnClick": false,
+            "zoomOnClick": true,
             "imageSizes": [56],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
@@ -31,6 +35,13 @@ ArtMaps.Map.MapObject = function(container, config) {
     var map = new google.maps.Map(container.get(0), jQuery.extend(true, mapconf, config.map));
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     var firstLoad = true;
+        
+    // Maintain location when window resized
+    google.maps.event.addDomListener(window, "resize", function() {
+      var center = map.getCenter();
+      google.maps.event.trigger(map, "resize");
+      map.setCenter(center); 
+    });
         
     (function() {
         var sessionstate = {};
@@ -79,6 +90,7 @@ ArtMaps.Map.MapObject = function(container, config) {
         var loading = jQuery(document.createElement("img"))
                 .attr("src", ArtMapsConfig.LoadingIcon50x50Url)
                 .attr("alt", "")
+                .attr("class", "loading-indicator")
                 .css("display", "none");
         map.controls[google.maps.ControlPosition.LEFT_CENTER].push(loading.get(0));
         var cache = {};
@@ -146,6 +158,7 @@ ArtMaps.Map.MapObject = function(container, config) {
         jQuery("#artmaps-object-list-container-page").detach();
         clusterer.on("click", function(cluster) {            
             var markers = cluster.getMarkers();
+            map.panTo(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ));
             if(!markers || !markers.length) return;
             
             var pageSize = 6;
@@ -184,7 +197,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     var body = page.find(".artmaps-map-object-list-container-page-body");
                     jQuery.each(mkrs, function(i, marker) {
                         var content = jQuery(document.createElement("div"))
-                                .html("<img src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
+                                .html("<img class=\"mini-loading-indicator\" src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
                         body.append(content);
                         marker.ObjectOfInterest.Metadata(function(metadata){
                             content.replaceWith(ArtMaps.Map.UI.formatMetadata(
@@ -247,14 +260,16 @@ ArtMaps.Map.MapObject = function(container, config) {
             cluster.dialog.dialog({
                 "show": { 
                         "effect": "fade",
-                        "speed": 1,
+                        "speed": '200ms',
                         "complete": function() { showPage(0); }
                  },
-                "hide": { "effect": "fade", "speed": 1 },
-                "width": 380,
-                "height": jQuery(window).height() - 40,
-                "position": "right",
-                "resizable": true,
+                "hide": { "effect": "fade", "speed": '200ms' },
+                "width": 260,
+                "dialogClass": "artwork-results",
+                "height": jQuery(window).height() - 160,
+                "position": "right bottom",
+                "resizable": false,
+                "draggable": false,
                 "open": function() {
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", cluster.dialog.closeFunc);
@@ -271,7 +286,97 @@ ArtMaps.Map.MapObject = function(container, config) {
     })();
     
     (function() {
-        var unlocated = jQuery(document.createElement("label")).text("Artworks with no suggestions")
+    
+    
+    var unlocated = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "unlocated"
+                            })
+                            .text('Artworks without suggestions');
+
+                            
+        var located = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "located"
+                            })
+                            .text('Artworks with suggestions');
+                            
+        var comments = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "comments"
+                            })
+                            .text('Artworks with comments');
+
+        var nocomments = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "nocomments"
+                            })
+                            .text('Artworks without comments');
+
+        var reset = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-filter",
+                                "id": "reset",
+                                "checked": "checked"
+                            })
+                            .text('All artworks');
+        
+        var panel = jQuery(document.createElement("select"))
+                .attr("id", "artmaps-filter-menu")
+                .append(reset)
+                .append(located)
+                .append(unlocated)
+                .append(comments)
+                .append(nocomments);
+                
+        panel.change(function(){
+          var id = jQuery(this).find("option:selected").attr("id");
+        
+          switch (id) {
+            case "reset":
+              map.setFilter(function(m, l) {
+                l.push(m);
+              });
+              break;
+            case "nocomments":
+              map.setFilter(function(m, l) {
+                if(!m.ObjectOfInterest.HasComments) l.push(m);
+              });
+              break;
+            case "comments":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.HasComments) l.push(m);
+              });
+              break;
+            case "located":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.SuggestionCount != 0)
+                  l.push(m);
+              });
+              break;
+            case "unlocated":
+              map.setFilter(function(m, l) {
+                if(m.ObjectOfInterest.SuggestionCount == 0)
+                  l.push(m);
+              });
+              break;
+          }
+        });
+        
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+    
+    
+    /*
+        var unlocated = jQuery(document.createElement("label")).text("Artworks without suggestions")
             .append(
                     jQuery(document.createElement("input"))
                             .attr({
@@ -312,7 +417,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                             });
                     }));
         
-        var nocomments = jQuery(document.createElement("label")).text("Artworks with no comments")
+        var nocomments = jQuery(document.createElement("label")).text("Artworks without comments")
             .append(
                     jQuery(document.createElement("input"))
                             .attr({
@@ -325,7 +430,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                             });
                     }));
         
-        var reset = jQuery(document.createElement("label")).text("No filter")
+        var reset = jQuery(document.createElement("label")).text("All artworks")
             .append(
                     jQuery(document.createElement("input"))
                             .attr({
@@ -341,19 +446,15 @@ ArtMaps.Map.MapObject = function(container, config) {
         
         var panel = jQuery(document.createElement("div"))
                 .attr("id", "artmaps-filter-menu")
-                .css("background-color", "white")
-                .append(jQuery("<b>FILTER ARTWORKS</b><br />"))
-                .append(unlocated)
-                .append(jQuery(document.createElement("br")))
+                .append(jQuery('<h2 id="filter-toggle">Filter</h2>'))
+                .append(reset)
                 .append(located)
-                .append(jQuery(document.createElement("br")))
+                .append(unlocated)
                 .append(comments)
-                .append(jQuery(document.createElement("br")))
-                .append(nocomments)
-                .append(jQuery(document.createElement("br")))
-                .append(reset);
+                .append(nocomments);
         
-        map.controls[google.maps.ControlPosition.LEFT_TOP].push(panel.get(0));
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+    */
     })();
 
     this.bindAutocomplete = function(autoComplete) {
@@ -363,7 +464,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             if(place.id) {
                 if(place.geometry.viewport)
                     map.fitBounds(place.geometry.viewport);
-                else{
+                else {
                     map.setCenter(place.geometry.location);
                     map.setZoom(12);
                 }
@@ -373,5 +474,6 @@ ArtMaps.Map.MapObject = function(container, config) {
     
     this.addControl = function(control, position) {
         map.controls[position].push(control);
-    };    
+    }; 
+       
 };
