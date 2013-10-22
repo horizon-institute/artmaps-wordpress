@@ -218,5 +218,15 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         $digest = new ArtMapsDigest();
         $digest->sendDigestEmail();
     });
+
+    add_action ('admin_menu', function() {
+        add_meta_box ('artmaps_location' , 'ArtMaps Location' , function($post) {
+            echo "ArtMaps";
+        }, 'post' , 'normal' , 'high' );
+    });
+
+    add_action ( 'save_post' , function() {
+
+    });
 }
 ?>
