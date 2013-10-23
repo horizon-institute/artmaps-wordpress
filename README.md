@@ -1,4 +1,1 @@
-artmaps-wordpress
-=================
-
-WordPress Plugin and Themes for the ArtMaps platform.
+**ArtMaps Platform WordPress Plugin**
