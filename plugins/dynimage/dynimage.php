@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Dynamic Image Resizer
+Plugin Name: Horizon Dynamic Image Resizer
 Plugin URI: http://www.horizon.ac.uk/
-Version: v0.1.0
+Version: v1.1.0
 Author: <a href="http://www.horizon.ac.uk/">Horizon Digital Economy Research</a>
 Description: Resizes images dynamically.
 */
