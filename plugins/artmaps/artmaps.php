@@ -59,6 +59,8 @@ function add_rewrite_rules()
     $wp_rewrite->add_rewrite_tag('%artwork%', '([^/]+)', 'objectid=');
     $wp_rewrite->add_rewrite_tag('%objectid%', '([^/]+)', 'objectid=');
     $wp_rewrite->add_permastruct('artwork', 'object/%objectid%', false);
+    $wp_rewrite->add_rewrite_tag('%importid%', '([^/]+)', 'importid=');
+    $wp_rewrite->add_permastruct('import', 'import/%importid%', false);
 }
 
 function permalinks($permalink, $post, $leavename)
