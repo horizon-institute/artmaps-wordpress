@@ -1,11 +1,12 @@
 /*
-Theme Name:     ArtMaps
-Theme URI:      http://www.artmaps.org.uk/
-Description:    The default ArtMaps theme
-Author:         Horizon
-Author URI:     http://www.horizon.ac.uk
-Version:        0.1.0
+ Theme Name:     ArtMaps
+ Theme URI:      http://www.artmaps.org.uk/
+ Description:    The default ArtMaps theme
+ Author:         Horizon
+ Author URI:     http://www.horizon.ac.uk
+ Version:        0.1.0
 */
+
 @charset "UTF-8";
 
 @font-face {
@@ -479,7 +480,7 @@ header .menu a {
 }
 
 #wpadminbar .ab-top-secondary {
-  background: none;
+  background: none !important;
 }
 
 .artwork-results .mini-loading-indicator {

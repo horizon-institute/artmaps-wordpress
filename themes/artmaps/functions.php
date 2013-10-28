@@ -1,5 +1,7 @@
 <?php
 
+//die(get_template_directory_uri());
+
 // Allow logo to be customised from admin
 $args = array(
 	'width'         => 148,
