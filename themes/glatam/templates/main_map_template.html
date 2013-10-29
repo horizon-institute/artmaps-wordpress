@@ -1,0 +1,88 @@
+<script type="text/javascript">
+google.maps.visualRefresh = true;
+jQuery(function($) {
+    var config = {
+        "map": {
+            "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
+            "mapTypeId": google.maps.MapTypeId.ROADMAP
+        }
+    };
+    var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
+    var autocomplete = $("#artmaps-map-autocomplete");
+    map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
+    //map.addControl(autocomplete.get(0));  
+    
+    (function() {
+        var con = $("#artmaps-map-object-container").children().first();
+        $("#artmaps-map-object-container").detach();
+        ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
+            var c = con.clone();
+            c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            
+            c.find(".artmaps-map-object-container-title").text(metadata.Name);
+            var ul = c.find(".artmaps-map-object-container-metadata");
+            for(var mdn in metadata) {
+                if(mdn == "Name") continue;
+                var li = jQuery(document.createElement("li"));
+                li.text(mdn + ": " + metadata[mdn]);
+                ul.append(li);
+            }
+            
+            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount + " suggestions");
+            return c;
+        };
+    })();
+    
+    (function() {
+        jQuery(window).bind("hashchange", function(e) {
+            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                "type": "post",
+                "data": {
+                    "action": "artmaps.storeMapState",
+                    "data": {
+                        "state": e.fragment
+                    }
+                }
+            });
+        });
+    })();
+    
+    $(".fancybox").fancybox({
+  		maxWidth	: 800,
+  		maxHeight	: 600,
+  		fitToView	: true,
+  		width		: '70%',
+  		height		: '70%',
+  		autoSize	: false,
+  		closeClick	: false,
+  		showEarly   : false,
+  		openEffect	: 'fade',
+  		closeEffect	: 'fade'
+  	});
+});
+</script>
+
+<div id="artmaps-map-themap"></div>
+
+<div id="artmaps-map-object-list-container-page" style="display: none;">
+    <div class="artmaps-map-object-list-container-page">
+        <ul class="artmaps-map-object-list-container-page-body"></ul>
+        <div class="artmaps-map-object-list-container-page-nav">
+      <span class="artmaps-map-object-list-container-page-previous artmaps-button">Prev</span>
+      <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
+      <span class="artmaps-map-object-list-container-page-next artmaps-button">Next</span>
+    </div>
+    </div>
+</div>
+
+    <div id="artmaps-map-object-container" style="display: none;">
+       <li class="artmaps-map-object-container">
+         <a class="fancybox.ajax artwork-link fancybox">
+            <img src="{'content/unavailable.jpg'|artmapsUri}" />
+            <h2 class="artmaps-map-object-container-title"></h2>
+            <ul class="artmaps-map-object-container-metadata"></ul>
+            <span class="artmaps-map-object-container-suggestions"></span>
+         </a>
+        <li>
+    </div>

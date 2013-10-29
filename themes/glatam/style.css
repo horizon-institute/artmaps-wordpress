@@ -1,0 +1,12 @@
+/*
+ Theme Name:     GLatAm
+ Theme URI:      http://www.artmaps.org.uk/artmaps/glatam
+ Description:    ArtMaps theme for the Gendering Latin America Project
+ Author:         Horizon
+ Author URI:     http://www.horizon.ac.uk
+ Template:       artmaps
+ Version:        0.1.0
+*/
+
+@charset "UTF-8";
+@import url("../artmaps/style.css");
