@@ -98,15 +98,15 @@ class ArtMapsBlog {
     }
 
     public function getPageForObject($objectID) {
-        /* A very naive attempt at atomicity. */
+        $lock = "object_generation_$objectID";
         $i = 0;
-        while(apc_exists("object_page_generation$objectID") && $i < 10) {
+        while(apc_exists($lock) && $i < 10) {
             usleep(500000);
             $i++;
         }
-        apc_add("object_page_generation$objectID", '');
+        apc_add($lock, '$');
         $pageID = $this->getPageForObjectInt($objectID);
-        apc_delete("object_page_generation$objectID");
+        apc_delete($lock);
         return $pageID;
     }
 
@@ -161,12 +161,10 @@ class ArtMapsBlog {
         );
         remove_filter('content_save_pre', 'wp_filter_post_kses');
         wp_update_post($post);
-        update_post_meta($pageID, "object_id", $objectID);
-        update_post_meta($pageID, "artist", $metadata->artist);
-        if( isset($metadata->imageurl) ) { update_post_meta($pageID, "imageurl", $metadata->imageurl); }
-        update_post_meta($pageID, "artistdate", $metadata->artistdate);
-        update_post_meta($pageID, "artworkdate", $metadata->artworkdate);
-        update_post_meta($pageID, "reference", $metadata->reference);
+        update_post_meta($pageID, 'object_id', $objectID);
+        foreach($metadata as $key => $value) {
+            update_post_meta($pageID, $key, $value);
+        }
         add_filter('content_save_pre', 'wp_filter_post_kses');
         wp_set_post_terms($pageID, $this->getPostCategories(), 'category');
         return $pageID;
@@ -192,12 +190,10 @@ class ArtMapsBlog {
                     'post_excerpt' => $excerpt
             );
             remove_filter('content_save_pre', 'wp_filter_post_kses');
-            update_post_meta($pageID, "object_id", $objectID);
-            update_post_meta($pageID, "artist", $metadata->artist);
-            update_post_meta($pageID, "imageurl", $metadata->imageurl);
-            update_post_meta($pageID, "artistdate", $metadata->artistdate);
-            update_post_meta($pageID, "artworkdate", $metadata->artworkdate);
-            update_post_meta($pageID, "reference", $metadata->reference);
+            update_post_meta($pageID, 'object_id', $page->object_id);
+            foreach($metadata as $key => $value) {
+                update_post_meta($pageID, $key, $value);
+            }
             wp_update_post($post);
             add_filter('content_save_pre', 'wp_filter_post_kses');
         }
