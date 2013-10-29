@@ -13,6 +13,8 @@ class ArtMapsDigest {
         $te = new ArtMapsTemplating();
 
         $objects = $this->fetchNonFinalised();
+        if(count($objects) == 0)
+            return;
         foreach($objects as $object) {
             $object->metadata = $cs->fetchObjectMetadata($object->ID);
         }
@@ -25,7 +27,8 @@ class ArtMapsDigest {
 
         $admins = get_users(array( 'role' => 'administrator'));
         foreach($admins as $admin) {
-            wp_mail($admin->user_email, 'ArtMaps Daily Digest', $body, $headers);
+            wp_mail($admin->user_email, '[' . get_bloginfo('name')
+                    . '] Daily Digest', $body, $headers);
         }
     }
 
@@ -40,6 +43,8 @@ class ArtMapsDigest {
         $objects = array_filter($objects, function($object) {
             return count($object->locations) > 1;
         });
+        if(count($objects) == 0)
+            return $objects;
         // Filter to objects with no final location
         $objects = array_filter($objects, function($object) {
             $finalisations = array_filter($object->actions, function($action) {
@@ -47,6 +52,8 @@ class ArtMapsDigest {
             });
             return count($finalisations) == 0;
         });
+        if(count($objects) == 0)
+            return $objects;
         // Filter to objects with 5 or more suggestions (taking into account deletions)
         $objects = array_filter($objects, function($object) {
             $deletions = array_filter($object->actions, function($action) {
@@ -70,6 +77,8 @@ class ArtMapsDigest {
 
                 return count($active) >= 5;
         });
+        if(count($objects) == 0)
+            return $objects;
         return $objects;
     }
 

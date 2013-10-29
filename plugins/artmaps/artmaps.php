@@ -131,7 +131,7 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         }
 
         if(!wp_next_scheduled('artmaps_generate_digest')) {
-            wp_schedule_event(time(), 'daily', 'artmaps_generate_digest');
+            wp_schedule_event(strtotime('tomorrow'), 'daily', 'artmaps_generate_digest');
         }
     });
 
