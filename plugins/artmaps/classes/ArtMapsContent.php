@@ -37,7 +37,6 @@ class ArtMapsContent {
         wp_register_style('artmaps', ArtMapsUtil::findThemeUri('css/artmaps.css'));
         wp_register_style('artmaps-map', ArtMapsUtil::findThemeUri('css/map.css'));
         wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));
-        wp_register_style('fancybox', $p . '/js/lib/fancybox/jquery.fancybox.css');
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
                         'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'jquery-scrollto',
@@ -47,7 +46,7 @@ class ArtMapsContent {
                         'artmaps-login', 'artmaps-comment-date', 'fancybox')
                 as $script)
             wp_enqueue_script($script);
-        foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object', 'fancybox') as $style)
+        foreach(array('jquery-theme', 'artmaps', 'artmaps-map', 'artmaps-object') as $style)
             wp_enqueue_style($style);
         $core = new ArtMapsCoreServer($blog);
 
