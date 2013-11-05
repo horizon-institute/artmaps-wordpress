@@ -272,6 +272,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 "height": jQuery(window).height() - 160,
                 "position": "right bottom",
                 "resizable": false,
+                "closeText": "",
                 "draggable": false,
                 "open": function() {
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
