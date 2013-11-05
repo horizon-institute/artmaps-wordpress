@@ -4,7 +4,6 @@
       <meta charset="<?php bloginfo( 'charset' ); ?>" />
       <title><?php wp_title(); ?></title>
       <meta name="description" content="<?php bloginfo( 'description' ); ?>">
-      <link rel="stylesheet" href="<?php echo get_stylesheet_uri(); ?>" />
       <?php wp_head(); ?>
   </head>
   
@@ -12,11 +11,15 @@
   <div class="headertest"></div>
   <header>
   <a href="<?php bloginfo('url'); ?>" class="logo">
-    <!--<span style="font-weight:bold; font-size:24px; color:#fff;">Art Maps</span>-->
-    <img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="<?php bloginfo('title'); ?>" />
+    <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/tate-logo.png" alt="<?php bloginfo('title'); ?>" />
   </a>
   <ul class="menu">
-    <li><a href="<?php bloginfo('url'); ?>/login" data-fancybox-href="<?php bloginfo('url'); ?>/login" class="fancybox fancybox.ajax">Log in</a></li>
+    <li></li>
+    <?php if ( !is_user_logged_in() ) { ?>
+    <li><a href="<?php echo wp_login_url( get_bloginfo('url') ); ?>" data-fancybox-href="<?php echo wp_login_url( get_bloginfo('url') ); ?>" class="fancybox fancybox.ajax">Log in</a></li>
+    <?php } else { ?>
+    <li><a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>" data-fancybox-href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>">Log out</a></li>    
+    <?php } ?>
     <li><a href="<?php bloginfo('url'); ?>/about" data-fancybox-href="<?php bloginfo('url'); ?>/about" class="fancybox fancybox.ajax">About</a></li>
   </ul>
   <input id="artmaps-map-autocomplete" type="text" />

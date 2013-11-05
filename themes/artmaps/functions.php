@@ -1,6 +1,10 @@
 <?php
 
-//die(get_template_directory_uri());
+function artmaps_theme_style() {
+	wp_enqueue_style( 'artmaps-theme', get_stylesheet_uri() );
+}
+
+add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
 // Allow logo to be customised from admin
 $args = array(

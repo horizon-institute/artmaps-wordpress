@@ -34,7 +34,6 @@ class ArtMapsContent {
         wp_register_script('artmaps-object', $p . '/js/object.js');
         wp_register_script('artmaps-login', $p . '/js/login.js', false, false, true);
         wp_register_script('artmaps-comment-date', $p . '/js/comment-date.js');
-        wp_register_style('jquery-theme', $blog->getJQueryThemeUri());
         wp_register_style('artmaps', ArtMapsUtil::findThemeUri('css/artmaps.css'));
         wp_register_style('artmaps-map', ArtMapsUtil::findThemeUri('css/map.css'));
         wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));

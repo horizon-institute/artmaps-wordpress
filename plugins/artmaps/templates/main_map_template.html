@@ -20,11 +20,11 @@ jQuery(function($) {
             c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
             c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
             if(typeof metadata.imageurl != "undefined") {
-                c.find("img").attr("src", metadata.imageurl);
+                c.find("img").attr("src", "http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
             }
             c.find(".artmaps-map-object-container-title").text(metadata.title);
             c.find(".artmaps-map-object-container-artist").text(metadata.artist);
-            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount + " suggestions");
+            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
             return c;
         };
     })();
@@ -64,9 +64,9 @@ jQuery(function($) {
     <div class="artmaps-map-object-list-container-page">
         <ul class="artmaps-map-object-list-container-page-body"></ul>
         <div class="artmaps-map-object-list-container-page-nav">
-      <span class="artmaps-map-object-list-container-page-previous artmaps-button">Prev</span>
+      <span class="artmaps-map-object-list-container-page-previous artmaps-button">&larr; Prev</span>
       <span class="artmaps-map-object-list-container-page-current">Page 1 of 1</span>
-      <span class="artmaps-map-object-list-container-page-next artmaps-button">Next</span>
+      <span class="artmaps-map-object-list-container-page-next artmaps-button">Next &rarr;</span>
     </div>
     </div>
 </div>
@@ -74,7 +74,7 @@ jQuery(function($) {
     <div id="artmaps-map-object-container" style="display: none;">
        <li class="artmaps-map-object-container">
          <a class="fancybox.ajax artwork-link fancybox">
-            <img src="{'content/unavailable.jpg'|artmapsUri}" />
+            <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/{'content/unavailable.jpg'|artmapsUri}" />
             <h2 class="artmaps-map-object-container-title"></h2>
             <em>by <span class="artmaps-map-object-container-artist"></span></em>
             <span class="artmaps-map-object-container-suggestions"></span>

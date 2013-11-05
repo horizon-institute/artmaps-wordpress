@@ -161,7 +161,7 @@ ArtMaps.Map.MapObject = function(container, config) {
             map.panTo(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ));
             if(!markers || !markers.length) return;
             
-            var pageSize = 6;
+            var pageSize = 15;
             var totalPages = Math.floor(markers.length / pageSize);
             if(markers.length % pageSize != 0) totalPages++;
             
@@ -197,7 +197,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     var body = page.find(".artmaps-map-object-list-container-page-body");
                     jQuery.each(mkrs, function(i, marker) {
                         var content = jQuery(document.createElement("div"))
-                                .html("<img class=\"mini-loading-indicator\" src=\"" + ArtMapsConfig.LoadingIcon25x25Url + "\" />");
+                                .html("<span class=\"mini-loading-indicator\"></span>");
                         body.append(content);
                         marker.ObjectOfInterest.Metadata(function(metadata){
                             content.replaceWith(ArtMaps.Map.UI.formatMetadata(
@@ -209,7 +209,10 @@ ArtMaps.Map.MapObject = function(container, config) {
                     var current = page.find(".artmaps-map-object-list-container-page-current");
                     
                     current.empty();
-                    for(var i = 0; i < totalPages; i++) {
+                    if(totalPages>1) {
+                      current.append("Page " + (pageNo+1) + " of " + totalPages);
+                    }
+                    /*for(var i = 0; i < totalPages; i++) {
                         if(i == pageNo)
                             current.append(jQuery("<b>" + (i + 1) + "</b>"));
                         else {
@@ -223,7 +226,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                             current.append(b);
                         }
                         current.append(" ");                            
-                    }
+                    }*/
                     
                     var previous = page.find(".artmaps-map-object-list-container-page-previous");
                     if(pageNo == 0) {
@@ -332,6 +335,7 @@ ArtMaps.Map.MapObject = function(container, config) {
         
         var panel = jQuery(document.createElement("select"))
                 .attr("id", "artmaps-filter-menu")
+                .attr("class", "gmnoprint")
                 .append(reset)
                 .append(located)
                 .append(unlocated)
@@ -460,6 +464,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     this.bindAutocomplete = function(autoComplete) {
         autoComplete.bindTo("bounds", map);
         google.maps.event.addListener(autoComplete, "place_changed", function() {
+            jQuery.fancybox.close();
             var place = autoComplete.getPlace();
             if(place.id) {
                 if(place.geometry.viewport)

@@ -4,9 +4,9 @@ ArtMaps.Object.UI = ArtMaps.Object.UI || {};
 
 ArtMaps.Object.UI.SystemMarkerColor = "#ff0000";
 ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
-ArtMaps.Object.UI.SuggestionMarkerColor = "#0CF52F";
+ArtMaps.Object.UI.SuggestionMarkerColor = "#f78f1e";
 ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
-ArtMaps.Object.UI.FinalMarkerColor = "#391BE0";
+ArtMaps.Object.UI.FinalMarkerColor = "#cee007";
 
 ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
 
@@ -32,7 +32,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         
         if(ArtMapsConfig.CoreUserID != location.OwnerID 
                 && (!location.hasUserConfirmed(ArtMapsConfig.CoreUserID))) {
-            var confirm = jQuery("<div class=\"artmaps-button\">Click here to agree with this location</div>");
+            var confirm = jQuery("<div class=\"artmaps-button primary-button\">Agree</div>");
             content.append(confirm);
             confirm.click(function() {
                 confirm.remove();
@@ -45,7 +45,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         }
         
         if(ArtMapsConfig.CoreUserID == location.OwnerID) {
-            var remove = jQuery("<div class=\"artmaps-button\">Click here to delete this suggestion</div>");
+            var remove = jQuery("<div class=\"artmaps-button\">Delete</div>");
             content.append(remove);
             remove.click(function() {
                 remove.remove();
@@ -72,7 +72,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
             });
             
             if(location.CommentID < 0) {
-                var comment = jQuery("<div class=\"artmaps-button\">Click here to comment on this suggestion</div>");
+                var comment = jQuery("<div class=\"artmaps-button\">Comment</div>");
                 content.append(comment);
                 comment.click(function() {
                     jQuery.scrollTo("#comment");
@@ -94,7 +94,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 || ArtMapsConfig.UserLevel.indexOf("editor") > -1
                 || ArtMapsConfig.UserLevel.indexOf("author") > -1
                 || ArtMapsConfig.UserLevel.indexOf("contributor") > -1) {
-            var accept = jQuery("<div class=\"artmaps-button\">Click here to accept this suggestion as final</div>");
+            var accept = jQuery("<div class=\"artmaps-button\">Approve as final</div>");
             content.append(accept);
             accept.click(function() {
                 accept.remove();
@@ -210,12 +210,12 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
 ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     var self = this;
     
-    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position,<br />click finish when you are done</div></div>");
+    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position. Click finish when you are done.</div></div>");
     var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.LoadingIcon50x50Url + "\" alt=\"\" /></div>");
-    var errorContent = jQuery("<div>Unfortunately, an error occurred. Please close this popup and try again.</div>");
-    var tooCloseContent = jQuery("<div><div>This is too close to another suggestion,<br />please consider agreeing with that<br /> suggestion instead or moving me away</div></div>");
+    var errorContent = jQuery("<div>Sorry; an error occurred. Please close this popup and try again.</div>");
+    var tooCloseContent = jQuery("<div><div>This is too close to an existing suggestion. Please consider agreeing with that suggestion instead or moving this pin further away.</div></div>");
     
-    initialContent.append(jQuery("<div class=\"artmaps-button\">Finish</div>").click(function() {
+    initialContent.append(jQuery("<div class=\"artmaps-button primary-button\">Finish</div>").click(function() {
         self.setContent(processingContent.get(0));
         object.Metadata(function(md) {
             jQuery("#artmaps-object-suggestion-message-other-actions")
@@ -288,10 +288,10 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
         })
     );
     
-    initialContent.append(jQuery("<div class=\"artmaps-button\">Cancel</div>")
+    initialContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Cancel</div>")
             .click(function() { marker.hide(); }));
     
-    tooCloseContent.append(jQuery("<div class=\"artmaps-button\">Cancel</div>")
+    tooCloseContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Cancel</div>")
             .click(function() { marker.hide(); }));
         
     this.setContent(initialContent.get(0));
@@ -363,3 +363,4 @@ ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
     
     return marker;
 };
+
