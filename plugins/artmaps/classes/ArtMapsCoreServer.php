@@ -58,9 +58,8 @@ class ArtMapsCoreServer {
         $this->blog = $blog;
         require_once('ArtMapsNetwork.php');
         $nw = new ArtMapsNetwork();
-        //$this->prefix = $nw->getCoreServerUrl() . '/service/'
-        //        . $blog->getName() . '/rest/' . self::Version . '/';
-        $this->prefix = "http://devservice.artmaps.org.uk/service/tate/rest/v1/";
+        $this->prefix = $nw->getCoreServerUrl() . '/service/'
+                . $blog->getName() . '/rest/' . self::Version . '/';
     }
 
     public function getPrefix() {
