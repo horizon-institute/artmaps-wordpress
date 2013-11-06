@@ -3,6 +3,11 @@ if(!class_exists('ArtMapsContent')) {
 class ArtMapsContent {
 
     public function init() {
+
+        // Do not load content on login/registration page
+        if(in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php')))
+            return;
+
         require_once('ArtMapsNetwork.php');
         require_once('ArtMapsCoreServer.php');
         require_once('ArtMapsUtil.php');
