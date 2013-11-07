@@ -12,7 +12,7 @@ class DynImage {
     private $config = array(
             'maxSize' => 2000,
             'quality' => 75,
-            'allowedDomains' => array("www.tate.org.uk", "dev.artmaps.org.uk", "www.artmaps.org.uk"),
+            'allowedDomains' => array("www.tate.org.uk", "dev.artmaps.org.uk", "www.artmaps.org.uk", "localhost"),
             'cacheDir' => '/tmp/dynimage',
             'browserCacheTime' => 604800 // One week
     );

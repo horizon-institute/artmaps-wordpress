@@ -13,6 +13,7 @@ class ArtMapsTemplating {
         $smarty->setConfigDir("$templateDir/.configuration");
         $smarty->registerPlugin('modifier', 'artmapsUri', array($this, 'artmapsUri'));
         $smarty->registerPlugin('modifier', 'wordpressSearch', array($this, 'wordpressSearch'));
+        $smarty->registerPlugin('modifier', 'dynImage', array($this, 'dynImage'));
         return $smarty;
     }
 
@@ -115,6 +116,14 @@ class ArtMapsTemplating {
 
     public function wordpressSearch($term) {
         return get_search_link($term);
+    }
+
+    public function dynImage($url, $isWidth, $size) {
+        if(function_exists("dynimage_get_url")) {
+            return dynimage_get_url($url, $isWidth, $size);
+        } else {
+            return $url;
+        }
     }
 }}
 ?>

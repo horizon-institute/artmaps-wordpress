@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Artwork Search</title>  
+    <style type="text/css">
+      #search-body {
+        background-color: white;
+        opacity: 0.75;
+        height: 100%;
+        width: 100%;
+      }
+      #artmaps-search-form input {
+        padding: 10px;
+        font-size: 16px;
+        box-sizing:border-box;
+        background:#fff url('wp-content/themes/artmaps/images/search-icon.png') 10px center no-repeat;
+        padding-left:40px;
+        border-radius:2px;
+        z-index: 99;
+        font-family:TateNewRegular, Arial, Helvetica, sans-serif;
+        border: 2px solid gray;
+        margin-top: 5px;
+      }
+      #artmaps-search-form input:first-child {
+        margin-left: 5px;
+        width: 34%;
+      }
+      .search-page {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body id="search-body">
+    <script type="text/javascript">
+    jQuery(document).ready(function($){
+        
+        var searchInput = $("#artmaps-search-form input");
+        var searchForm = $("#artmaps-search-form form");
+        var artistResults = $("#artmaps-search-results-artists");
+        var artworkResults = $("#artmaps-search-results-artworks");
+        
+        var sanitizeTerm = function(term) {
+            return term.replace(/[-,";:\(\).!\[\]\t\n]/g, " ")
+                    .replace(/(^')/gm, "")
+                    .replace(/('$)/gm, " ")
+                    .replace(/('\s)/g, " ")
+                    .replace(/(\s')/g, " ")
+                    .replace(/\s+/g, " ")
+                    .replace(/\*+/g, "*");
+        }
+        
+        var displayArtists = function(data) {
+            var list = artistResults.find("ul");
+            list.empty();
+            if(typeof data.artistsData == "undefined") return;
+            jQuery.each(data.artistsData, function(i, a) {
+                var link = $(document.createElement("a"))
+                    .text(a.label + (a.info ? " (" + a.info + ")" : ""))
+                    .click(function() {
+                        $.ajax({
+                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&aid=" + a.id,
+                            "dataType": "xml",
+                            "async": true,
+                            "success": displayArtworks
+                        });
+                    });
+                var li = $(document.createElement("li"));
+                li.append(link);
+                list.append(li); 
+            });
+        }
+        
+        var displayArtworks = function(data) {
+            artworkResults.empty();
+            var doc = $(data);
+            var noresults = doc.find(".noresults").length > 0;
+            if(noresults) return;
+            
+            var showing = doc.find(".listData").first().text();
+            var currentPage = 1;
+            if(doc.find(".pager-current").length > 0)
+                currentPage = parseInt(doc.find(".pager-current").first().text().replace(",", ""));
+            var totalPages = 1;
+            doc.find(".pager-item").each(function(i, e) {
+                var v = parseInt($(e).text().replace(",", ""));
+                if(v > totalPages)
+                    totalPages = v;
+            });
+            
+            var nav = $(document.createElement("div"));
+            nav.css({
+                "width": "95%",
+                "margin": "auto",
+            });
+            
+            
+            nav.append("<div style=\"float:left;\">" + showing + "</div>");
+            //nav.append("<div style=\"float:left;\">Page " + currentPage + " of " + totalPages + "</div>");
+            
+            var pagenav = $(document.createElement("div"));
+            pagenav.css("float", "right");
+            var prevPage = $(document.createElement("a"))
+                    .addClass("search-previous")
+                    .text("Previous | ")
+                    .one("click", function() {
+                        $.ajax({
+                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + (currentPage - 1),
+                            "dataType": "xml",
+                            "async": true,
+                            "success": displayArtworks
+                        });
+                    });
+            if(currentPage > 1) pagenav.append(prevPage);
+            
+            var firstPage = $(document.createElement("a"))
+                    .addClass("search-page")
+                    .text(" 1 ")
+                    .one("click", function() {
+                        $.ajax({
+                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=1",
+                            "dataType": "xml",
+                            "async": true,
+                            "success": displayArtworks
+                        });
+                    });
+            pagenav.append(firstPage);
+            
+            var min = Math.max(currentPage - 3, 2);
+            var max = Math.min(min + 6, totalPages);
+            var vals = new Array();
+            for(var i = min; i <= max; i++) {
+                vals.push(i);
+            }
+            jQuery.each(vals, function(e, i) {
+                var page = $(document.createElement("a"))
+                        .addClass("search-page")
+                        .text(" " + i + " ")
+                        .one("click", function() {
+                            $.ajax({
+                                "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + i,
+                                "dataType": "xml",
+                                "async": true,
+                                "success": displayArtworks
+                            });
+                        });
+                pagenav.append(page);
+            });
+            
+            var lastPage = $(document.createElement("a"))
+                    .addClass("search-page")
+                    .text(" " + totalPages + " ")
+                    .one("click", function() {
+                        $.ajax({
+                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + totalPages,
+                            "dataType": "xml",
+                            "async": true,
+                            "success": displayArtworks
+                        });
+                    });
+            if(totalPages > 1) pagenav.append(lastPage);
+            
+            var nextPage = $(document.createElement("a"))
+                    .addClass("search-next")
+                    .text("| Next")
+                    .one("click", function() {
+                        $.ajax({
+                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + (currentPage + 1),
+                            "dataType": "xml",
+                            "async": true,
+                            "success": displayArtworks
+                        });
+                    });
+            if(currentPage < totalPages) pagenav.append(nextPage);
+            nav.append(pagenav);
+            
+            artworkResults.append(nav);
+            artworkResults.append($(document.createElement("hr")).css("clear", "both"));
+            
+            
+            var artworks = doc.find(".grid-work");
+            artworks.each(function(i, e) {
+                var oc = $(e);
+                var nc = $(document.createElement("div"));
+                nc.css({
+                   "float": "left",
+                   "width": "33%",
+                   "background-color": "white",
+                   "height": "120px",
+                   "margin-bottom": "5px",
+                   "pointer": "cursor"                   
+                });
+                nc.click(function() {
+                   var acno = oc.find(".acno").first().text();
+                   jQuery.ajax({
+                       "url": "http://devservice.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://" + acno,
+                       "dataType": "json",
+                       "async": true,
+                       "success": function(data) {
+                           jQuery.ajax({
+                              "url": ArtMapsConfig.SiteUrl + "/object/" + data.ID,
+                              "dataType": "html",
+                              "success": function(content) {
+                                  parent.jQuery.fancybox.open({
+                                      "content": content,
+                                      "maxWidth": 800,
+                                      "maxHeight": 600,
+                                      "fitToView": false,
+                                      "width": '90%',
+                                      "height": '90%',
+                                      "autoDimensions": false,
+                                      "closeClick": false,
+                                      "showEarly": false,
+                                      "openEffect": 'fade',
+                                      "closeEffect": 'fade'
+                                  });
+                              }
+                           });
+                       }
+                   });
+                });
+                
+                var oi = oc.find(".grid-work-image img");
+                if(oi.length > 0) {
+                    oi = oi.first();
+                    var ni = $(document.createElement("img"));
+                    ni.attr("src", "http://www.tate.org.uk" + oi.attr("src"));
+                    ni.css({
+                        "max-width": "65px",
+                        "max-height": "80px"
+                    });
+                    nc.append(ni);
+                }
+                
+                nc.append($("<span>" + oc.find(".grid-work-text .artist").first().text() + "</span>"));
+                nc.append($(document.createElement("br")));
+                nc.append($("<span>" + oc.find(".grid-work-text .title-and-date").first().text() + "</span>"));
+                
+                artworkResults.append(nc);  
+            });                
+        }
+        
+        /*searchInput.bind("keyup", function() {
+            var term = sanitizeTerm(searchInput.val());
+            if(term.length < 3) return;
+            var tid = setTimeout(function() {
+                    var rq = $.ajax({
+                        "url": "http://www.tate.org.uk/art/rulooking4-data?q=" + term.toLowerCase() + "&con=explorer&wv=",
+                        "dataType": "json",
+                        "async": true,
+                        "success": displayArtists
+                    });
+                    searchInput.one("keydown", function() {
+                        rq.abort();    
+                    });                
+                }, 60);
+            searchInput.one("keydown", function() {
+                clearTimeout(tid);    
+            });
+        });*/
+        
+        searchForm.submit(function() {
+            $.ajax({
+                "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val(),
+                "dataType": "xml",
+                "async": true,
+                "success": displayArtworks
+            });
+            return false;
+        })
+        
+    });
+    </script>
+    <div id="search-body">
+    <div id="artmaps-search-form">
+        <form action="" method="get">
+            <input placeholder="Artist, title etc" name="term" value="" type="text" size="30" autocomplete="off">
+            <input value="Search" class="submit" type="submit">
+        </form>
+    </div>
+    <hr />
+    <div id="artmaps-search-results-artists" style="display: none;">
+        <h1>Matching artists:</h1>
+        <ul></ul>
+    </div>
+    <div id="artmaps-search-results-artworks"></div>
+    </div> 
+  </body>
+</html>
