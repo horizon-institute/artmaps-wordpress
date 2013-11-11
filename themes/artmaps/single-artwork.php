@@ -96,11 +96,7 @@ jQuery(function($) {
   </div>
     
   <div id="artmaps-object-comments">
-    <?php wp_list_comments(); ?>
-    <?php 
-      $args = array('title_reply' => "Discuss this artwork's location", 'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '');
-      comment_form($args);
-    ?>
+    <?php comments_template(); ?>
   </div>
 </div>
 </div>

@@ -1,20 +1,21 @@
 <?php
 
+# Enqueue stylesheet
 function artmaps_theme_style() {
 	wp_enqueue_style( 'artmaps-theme', get_stylesheet_uri() );
 }
 
 add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
-// Allow logo to be customised from admin
+# Use HTML5 tags
 $args = array(
-	'width'         => 148,
-	'height'        => 61,
-	'uploads'       => true
+	'search-form',
+	'comment-form',
+	'comment-list',
 );
-add_theme_support( 'custom-header', $args );
+add_theme_support( 'html5', $args );
 
-// Set up stripped-down object pages for AJAX
+# Set up stripped-down object pages for AJAX
 function add_query_vars($vars){
     $vars[] = "framed";
     return $vars;
@@ -40,5 +41,12 @@ function my_filter_head() {
 	remove_action('wp_head', '_admin_bar_bump_cb');
 }
 add_action('get_header', 'my_filter_head');
+
+# Comment reply script
+function theme_queue_js(){
+  if ( (!is_admin()) && is_singular() && comments_open() && get_option('thread_comments') )
+    wp_enqueue_script( 'comment-reply' );
+}
+add_action('wp_print_scripts', 'theme_queue_js');
 
 ?>

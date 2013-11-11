@@ -2,22 +2,29 @@
 ArtMaps.Map = ArtMaps.Map || {};
 
 ArtMaps.Map.MapObject = function(container, config) {
+
+var styles =  [
+      {
+        "featureType": "poi.business",
+        "stylers": [
+          { "visibility": "off" }
+        ]
+      }
+    ];
         
     var mapconf = {
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": false,
             "zoom": 15,
             "minZoom": 5,
+            "styles": styles,
             "maxZoom": 17,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER
             },
             "panControl": false,
-            "mapTypeControl": true,
-            "mapTypeControlOptions": {
-                "position": google.maps.ControlPosition.RIGHT_BOTTOM
-            },
+            "mapTypeControl": false
         };
     
     var clusterconf = {
@@ -87,12 +94,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                         callback(j);
                     });
                 });
-        var loading = jQuery(document.createElement("img"))
-                .attr("src", ArtMapsConfig.LoadingIcon50x50Url)
-                .attr("alt", "")
-                .attr("class", "loading-indicator")
-                .css("display", "none");
-        map.controls[google.maps.ControlPosition.LEFT_CENTER].push(loading.get(0));
+        var loading = jQuery(".loading-indicator");
         var cache = {};
         var filter = function(m, l) { l.push(m); };
         map.setFilter = function(f) {
@@ -116,7 +118,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     + "&boundingBox.northEast.longitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lng())
                     + "&boundingBox.southWest.longitude=" + ArtMaps.Util.toIntCoord(bounds.getSouthWest().lng()),
                 function() {
-                    loading.css("display", "inline");
+                    loading.css("opacity", "1");
                 },
                 function(objects) {
                     var markers = [];
@@ -134,7 +136,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                         filter(marker, markers);
                     });
                     clusterer.addMarkers(markers);
-                    loading.css("display", "none");
+                    loading.css("opacity", "0");
                     
                     if(firstLoad) {
                         firstLoad = false;
@@ -263,10 +265,10 @@ ArtMaps.Map.MapObject = function(container, config) {
             cluster.dialog.dialog({
                 "show": { 
                         "effect": "fade",
-                        "speed": '200ms',
+                        "speed": '100ms',
                         "complete": function() { showPage(0); }
                  },
-                "hide": { "effect": "fade", "speed": '200ms' },
+                "hide": { "effect": "fade", "speed": '100ms' },
                 "width": 260,
                 "dialogClass": "artwork-results",
                 "height": jQuery(window).height() - 160,
@@ -378,7 +380,45 @@ ArtMaps.Map.MapObject = function(container, config) {
         });
         
         map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+        
+        /* Custom map type toggle */
+        var mode_map = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-mode",
+                                "id": "mode_map"
+                            })
+                            .text('Map view');
+
+        var mode_satellite = jQuery(document.createElement("option"))
+                            .attr({
+                                "type": "radio",
+                                "name": "artmaps-map-mode",
+                                "id": "mode_satellite",
+                                "checked": "checked"
+                            })
+                            .text('Satellite view');
     
+        var map_mode_menu = jQuery(document.createElement("select"))
+                .attr("id", "artmaps-map-mode")
+                .attr("class", "gmnoprint")
+                .append(mode_map)
+                .append(mode_satellite);
+                
+        map_mode_menu.change(function(){
+          var id = jQuery(this).find("option:selected").attr("id");
+        
+          switch (id) {
+            case "mode_map":
+              map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+              break;
+            case "mode_satellite":
+              map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+              break;
+          }
+        });
+        
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(map_mode_menu.get(0));
     
     /*
         var unlocated = jQuery(document.createElement("label")).text("Artworks without suggestions")

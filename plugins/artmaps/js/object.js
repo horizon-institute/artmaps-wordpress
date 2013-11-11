@@ -12,7 +12,7 @@ ArtMaps.Object.MapObject = function(container, config) {
             "zoom": 15,
             "mapTypeId": google.maps.MapTypeId.SATELLITE,
             "zoomControlOptions": {
-                "position": google.maps.ControlPosition.LEFT_CENTER
+                "position": google.maps.ControlPosition.LEFT_TOP
             },
             "panControl": false
     };
