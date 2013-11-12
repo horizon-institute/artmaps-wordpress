@@ -181,6 +181,8 @@
             var artworks = doc.find(".grid-work");
             artworks.each(function(i, e) {
                 var oc = $(e);
+		var na = $(document.createElement("a"));
+		na.addClass("fancybox").addClass("fancybox.ajax").attr("href", "#");
                 var nc = $(document.createElement("div"));
                 nc.css({
                    "float": "left",
@@ -188,37 +190,16 @@
                    "background-color": "white",
                    "height": "120px",
                    "margin-bottom": "5px",
-                   "pointer": "cursor"                   
                 });
-                nc.click(function() {
                    var acno = oc.find(".acno").first().text();
                    jQuery.ajax({
                        "url": "http://devservice.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://" + acno,
                        "dataType": "json",
                        "async": true,
                        "success": function(data) {
-                           jQuery.ajax({
-                              "url": ArtMapsConfig.SiteUrl + "/object/" + data.ID,
-                              "dataType": "html",
-                              "success": function(content) {
-                                  parent.jQuery.fancybox.open({
-                                      "content": content,
-                                      "maxWidth": 800,
-                                      "maxHeight": 600,
-                                      "fitToView": false,
-                                      "width": '90%',
-                                      "height": '90%',
-                                      "autoDimensions": false,
-                                      "closeClick": false,
-                                      "showEarly": false,
-                                      "openEffect": 'fade',
-                                      "closeEffect": 'fade'
-                                  });
-                              }
-                           });
-                       }
+                                      na.attr("href",  ArtMapsConfig.SiteUrl + "/object/" + data.ID);
+                                  }
                    });
-                });
                 
                 var oi = oc.find(".grid-work-image img");
                 if(oi.length > 0) {
@@ -235,8 +216,8 @@
                 nc.append($("<span>" + oc.find(".grid-work-text .artist").first().text() + "</span>"));
                 nc.append($(document.createElement("br")));
                 nc.append($("<span>" + oc.find(".grid-work-text .title-and-date").first().text() + "</span>"));
-                
-                artworkResults.append(nc);  
+                na.append(nc);
+                artworkResults.append(na);  
             });                
         }
         
