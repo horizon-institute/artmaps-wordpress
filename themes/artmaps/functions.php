@@ -1,5 +1,31 @@
 <?php
 
+# AJAX comment handler
+add_action('comment_post', 'ajaxify_comments',20, 2);
+function ajaxify_comments($comment_ID, $comment_status){
+  if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+    // If AJAX request Then
+    switch($comment_status){
+    case '0': // Comment needs approval
+    wp_notify_moderator($comment_ID);
+    case '1': // Comment published
+    echo "success";
+    $commentdata=&get_comment($comment_ID, ARRAY_A);
+    $post=&get_post($commentdata['comment_post_ID']);
+    wp_notify_postauthor($comment_ID, $commentdata['comment_type']);
+    break;
+    default:
+    echo "error";
+  }
+  exit;
+  }
+}
+
+# Hide admin bar for non admins
+if (!current_user_can('administrator')):
+  show_admin_bar(false);
+endif;
+
 # Enqueue stylesheet
 function artmaps_theme_style() {
 	wp_enqueue_style( 'artmaps-theme', get_stylesheet_uri() );

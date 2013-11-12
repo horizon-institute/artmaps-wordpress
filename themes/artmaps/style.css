@@ -142,6 +142,10 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 
+html,body {
+  overflow: hidden;
+}
+
 body {
   font-family:TateNewRegular,sans-serif;
 }
@@ -1264,16 +1268,23 @@ footer ul li a {
 }
 
 @media all and (max-width: 850px) {
+  html,body {
+    overflow: hidden;
+    z-index: 0;
+  }
   header {
-    position: static;
+    position: relative;
     margin: 0;
-    padding: 4% 4% 0;
+    top: auto !important;
+    padding: 5px;
+    z-index:9999999;
     background:#51626f;
     width:auto;
+    height:40px;
   }
   header .logo {
     margin:0;
-    width:50%;
+    width:40%;
     float:left;
   }
   header .logo img {
@@ -1282,6 +1293,7 @@ footer ul li a {
   header .menu {
     margin:0;
     float:right;
+    width:60%;
   }
   header .menu li.log-in, header .menu li.log-out {
     margin:0;
@@ -1289,42 +1301,63 @@ footer ul li a {
   header .menu li.log-in a, header .menu li.log-out a {
     line-height:25px;
   }
-  body:before, body:after {
+  header .menu li.log-out .logged-in-username {
+    display:none;
+  }
+  header .menu li.log-out img.avatar {
+    margin-top:-5px;
+  }
+  body:before {
+    bottom:auto !important;
+    top:60px;
+    z-index:1;
+  }
+  body:after {
     display:none;
   }
   #artmaps-map-themap {
-    position: static;
-    height: 80%;
+    position: absolute;
+    top:40px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    height: auto;
+    width: auto;
+    z-index:-1;
+    overflow: hidden;
   }
   #artmaps-map-autocomplete {
-    position: static !important;
-    margin-top:5px;
-    width: 100%;
+    position: absolute !important;
+    top: 65px;
+    width: auto;
     box-sizing: border-box;
+    left: 10px;
+    right: 10px !important;
   }
   .artwork-results {
     position: absolute  !important;
-    margin: 2%;
+    margin: 0px;
     width: auto !important;
     height: auto !important;
-    top:2% !important;
-    right:2% !important;
-    left:2% !important;
-    bottom:2% !important;
+    top:50px !important;
+    border-radius:0px;
+    right:0px !important;
+    left:0px	 !important;
+    bottom:0px !important;
     overflow:auto;
-    z-index:0 !important;
+    z-index:9999999 !important;
   }
   .fancybox-wrap.fancybox-type-ajax {
-    padding:2% 0;
+    padding:0;
     position: fixed !important;
-    top: 0 !important;
-    left: 2% !important;
+    top: 50px !important;
+    left: 10% !important;
     height: auto !important;
-    right: 2% !important;
+    right: 0px !important;
     width: auto !important;
     bottom: 0% !important;
     overflow:auto !important;
-    z-index:99999;
+    z-index:99999999;
     }
   .artmaps-map-object-list-container.ui-dialog-content {
     position: static !important;
@@ -1351,9 +1384,13 @@ footer ul li a {
   }
   .loading-indicator {
     position: fixed;
-    bottom: 10px;
+    bottom: 0px;
+    box-shadow:inset 0px -50px 45px -20px rgba(0,0,0,0.65);
     text-align:center;
+    background-position:center 15px;
     padding-left:0px;
+    padding-top:40px;
+    padding-bottom:10px;
     left: 0px !important;
     top:auto !important;
     right: 0px;
@@ -1363,7 +1400,8 @@ footer ul li a {
     margin-top:0px;
   }
   .fancybox-overlay {
-    z-index:1;
+    z-index:9999999;
+    top:50px;
   }
   #artmaps-object-menu {
     width:auto;
