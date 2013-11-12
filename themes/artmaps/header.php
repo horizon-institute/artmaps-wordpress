@@ -28,7 +28,7 @@
       <a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>" data-fancybox-href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>">Log out</a>
     </li>
     <?php } ?>
-    <li><a href="<?= get_stylesheet_directory_uri(); ?>/search.html" data-fancybox-href="<?= get_stylesheet_directory_uri(); ?>/search.html" class="fancybox fancybox.ajax">Search for Artworks</a></li>
+    <li class="search-by-artwork"><a href="<?= get_stylesheet_directory_uri(); ?>/search.html" data-fancybox-href="<?= get_stylesheet_directory_uri(); ?>/search.html" class="fancybox fancybox.ajax">Search for Artworks</a></li>
   </ul>
   <input id="artmaps-map-autocomplete" type="text" placeholder="Find a place" />
   </header>
