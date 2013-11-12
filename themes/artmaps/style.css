@@ -808,7 +808,7 @@ body:before {
 }
 
 .fancybox-opened {
-	z-index: 8030;
+	z-index: 999999;
 }
 
 .fancybox-skin {
