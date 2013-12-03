@@ -407,14 +407,47 @@ body {
   display:none;
 }
 
-.log-in-popover form, .log-in-popover .wrap {
+.log-in-popover .loader {
+  background: white url('images/25x25.gif') center center no-repeat;
+  position: absolute;
+  top: 0px;
+  border-radius: 2px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 99;
+  display: none;
+}
+
+.log-in-popover p.status {
   background: #fff;
-  padding: 15px 20px;
+  display:none;
+  text-align: center;
+  padding: 0px 15px;
+  margin-bottom: -5px;
+  border-bottom: 1px solid #CCC;
+  position: relative;
+  font-size: 12px;
+  box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.15);
+}
+
+.log-in-popover form, .log-in-popover .wrap {
+  border:15px solid #fff;
+  border-width: 15px 20px;
   border-radius: 2px;
 }
 
+.log-in-popover label {
+  display:block;
+  background:#fff;
+}
+
 header .log-in-popover .wrap a { 
-  color:#369;
+  color: #369;
+  background: #fff;
+  display: block;
+  text-align: center;
+  margin: 0;
 }
 
 header .menu li.log-in .log-in-popover a.forgot-password {
@@ -448,8 +481,9 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   box-sizing: border-box;
   width: 100%;
   border: 1px solid #DDD;
+  background:rgba(255,255,255,0.9);
   border-radius: 2px;
-  box-shadow: inset 0px 3px 3px -1px rgba(0,0,0,0.15);
+  box-shadow: inset 0px 3px 3px -1px rgba(0,0,0,0.15), 0px 0px 0px 2px #fff;
   font-family: sans-serif;
 }
 
@@ -478,7 +512,8 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   font-size: 13px;
   line-height: 28px;
   color: #666;
-  margin: 5px 0px 7px;
+  background: #fff;
+  padding: 5px 0px 7px;
 }
 
 .log-in-popover .login-remember input {

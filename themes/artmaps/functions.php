@@ -38,16 +38,13 @@ function artmaps_theme_style() {
       'redirecturl' => home_url(),
       'loadingmessage' => __('Logging in&hellip;')
   ));
-
-  // Enable the user with no privileges to run ajax_login() in AJAX
-  add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
   
 }
 add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
 add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
-  return '<a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot?</a>'.
+  return '<div class="loader"></div><a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot?</a>'.
   wp_nonce_field( 'ajax-login-nonce', 'security', true, false );
 }
 
@@ -107,12 +104,15 @@ function ajax_login(){
 
     $user_signon = wp_signon( $info, false );
     if ( is_wp_error($user_signon) ){
-        echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong username or password.')));
+        echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong email or password.')));
     } else {
-        echo json_encode(array('loggedin'=>true, 'message'=>__('Login successful, redirecting...')));
+        echo json_encode(array('loggedin'=>true, 'message'=>__('Great! One moment please&hellip;')));
     }
 
     die();
 }
+
+// Enable the user with no privileges to run ajax_login() in AJAX
+add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
 
 ?>

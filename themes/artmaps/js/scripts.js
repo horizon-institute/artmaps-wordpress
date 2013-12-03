@@ -23,27 +23,28 @@ jQuery(document).ready(function(){
   
   // Perform AJAX login on form submit
   jQuery('form#loginform').on('submit', function(e){
-      jQuery('#log-in-popover p.status').show().text(ajax_login_object.loadingmessage);
+      jQuery('form#loginform .loader').fadeIn();
       jQuery.ajax({
           type: 'POST',
           dataType: 'json',
           url: ajax_login_object.ajaxurl,
           data: { 
               'action': 'ajaxlogin', //calls wp_ajax_nopriv_ajaxlogin
-              'username': jQuery('form#loginform #username').val(), 
-              'password': jQuery('form#loginform #password').val(), 
+              'username': jQuery('form#loginform #user_login').val(), 
+              'password': jQuery('form#loginform #user_pass').val(), 
               'security': jQuery('form#loginform #security').val() },
           success: function(data){
-                      console.log(data);
-            console.log('success');
-              jQuery('#log-in-popover p.status').text(data.message);
               if (data.loggedin == true){
                   document.location.href = ajax_login_object.redirecturl;
+              } else {
+                jQuery('form#loginform .loader').delay(750).fadeOut(function() {
+                  jQuery('#log-in-popover p.status').text(data.message).slideDown();
+                });
               }
           },
           error: function(data){
-                      console.log('error');
-              jQuery('#log-in-popover p.status').text("Nope");
+              jQuery('form#loginform .loader').fadeOut();
+              jQuery('#log-in-popover p.status').text("Could not connect!").slideDown();
           }
       });
       e.preventDefault();
