@@ -30,7 +30,7 @@ var styles =  [
     var clusterconf = {
             "gridSize": 150,
             "minimumClusterSize": 1,
-            "zoomOnClick": true,
+            "zoomOnClick": false,
             "imageSizes": [56],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
@@ -294,9 +294,69 @@ var styles =  [
     (function() {
     
     
+    /* Custom map type toggle */
+        var mode_map = jQuery(document.createElement("option"))
+                            .attr({
+                                "name": "artmaps-map-mode",
+                                "id": "mode_map",
+                                "selected": "selected"
+                            })
+                            .text('Map view');
+
+        var mode_satellite = jQuery(document.createElement("option"))
+                            .attr({
+                                "name": "artmaps-map-mode",
+                                "id": "mode_satellite",
+                            })
+                            .text('Satellite view');
+                            
+        var mode_hybrid = jQuery(document.createElement("option"))
+                            .attr({
+                                "name": "artmaps-map-mode",
+                                "id": "mode_hybrid",
+                            })
+                            .text('Hybrid view');
+
+        var mode_terrain = jQuery(document.createElement("option"))
+                            .attr({
+                                "name": "artmaps-map-mode",
+                                "id": "mode_terrain",
+                            })
+                            .text('Terrain view');
+    
+        var map_mode_menu = jQuery(document.createElement("select"))
+                .attr("id", "artmaps-map-mode")
+                .attr("class", "gmnoprint")
+                .append(mode_map)
+                .append(mode_satellite)
+                .append(mode_hybrid)
+                .append(mode_terrain);
+                
+        map_mode_menu.change(function(){
+          var id = jQuery(this).find("option:selected").attr("id");
+        
+          switch (id) {
+            case "mode_map":
+              map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+              break;
+            case "mode_satellite":
+              map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+              break;
+            case "mode_hybrid":
+              map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+              break;
+            case "mode_terrain":
+              map.setMapTypeId(google.maps.MapTypeId.TERRAIN);
+              break;
+          }
+        });
+        
+        jQuery('#map-settings .settings-inner').append(map_mode_menu);
+        //map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(map_mode_menu.get(0));
+    
+    
     var unlocated = jQuery(document.createElement("option"))
                             .attr({
-                                "type": "radio",
                                 "name": "artmaps-map-filter",
                                 "id": "unlocated"
                             })
@@ -305,7 +365,6 @@ var styles =  [
                             
         var located = jQuery(document.createElement("option"))
                             .attr({
-                                "type": "radio",
                                 "name": "artmaps-map-filter",
                                 "id": "located"
                             })
@@ -313,7 +372,6 @@ var styles =  [
                             
         var comments = jQuery(document.createElement("option"))
                             .attr({
-                                "type": "radio",
                                 "name": "artmaps-map-filter",
                                 "id": "comments"
                             })
@@ -321,7 +379,6 @@ var styles =  [
 
         var nocomments = jQuery(document.createElement("option"))
                             .attr({
-                                "type": "radio",
                                 "name": "artmaps-map-filter",
                                 "id": "nocomments"
                             })
@@ -329,7 +386,6 @@ var styles =  [
 
         var reset = jQuery(document.createElement("option"))
                             .attr({
-                                "type": "radio",
                                 "name": "artmaps-map-filter",
                                 "id": "reset",
                                 "checked": "checked"
@@ -379,46 +435,10 @@ var styles =  [
           }
         });
         
-        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
+        jQuery('#map-settings .settings-inner').append( panel );
+        //map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
         
-        /* Custom map type toggle */
-        var mode_map = jQuery(document.createElement("option"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-mode",
-                                "id": "mode_map"
-                            })
-                            .text('Map view');
-
-        var mode_satellite = jQuery(document.createElement("option"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-mode",
-                                "id": "mode_satellite",
-                                "checked": "checked"
-                            })
-                            .text('Satellite view');
-    
-        var map_mode_menu = jQuery(document.createElement("select"))
-                .attr("id", "artmaps-map-mode")
-                .attr("class", "gmnoprint")
-                .append(mode_map)
-                .append(mode_satellite);
-                
-        map_mode_menu.change(function(){
-          var id = jQuery(this).find("option:selected").attr("id");
         
-          switch (id) {
-            case "mode_map":
-              map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-              break;
-            case "mode_satellite":
-              map.setMapTypeId(google.maps.MapTypeId.SATELLITE);
-              break;
-          }
-        });
-        
-        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(map_mode_menu.get(0));
     
     /*
         var unlocated = jQuery(document.createElement("label")).text("Artworks without suggestions")

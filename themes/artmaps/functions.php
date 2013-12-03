@@ -28,10 +28,29 @@ endif;
 
 # Enqueue stylesheet
 function artmaps_theme_style() {
-	wp_enqueue_style( 'artmaps-theme', get_stylesheet_uri() );
+	wp_enqueue_style( 'artmaps-theme-style', get_stylesheet_uri() );
+	wp_enqueue_style( 'artmaps-theme-style-icons', get_stylesheet_directory_uri().'/font-awesome.min.css' );
+	
+	wp_register_script( 'artmaps-theme-scripts', get_stylesheet_directory_uri().'/js/scripts.js', 'jquery' );
+	wp_enqueue_script( 'artmaps-theme-scripts' );
+	wp_localize_script( 'artmaps-theme-scripts', 'ajax_login_object', array( 
+      'ajaxurl' => admin_url( 'admin-ajax.php' ),
+      'redirecturl' => home_url(),
+      'loadingmessage' => __('Logging in&hellip;')
+  ));
+
+  // Enable the user with no privileges to run ajax_login() in AJAX
+  add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
+  
+}
+add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
+
+add_action( 'login_form_middle', 'add_lost_password_link' );
+function add_lost_password_link() {
+  return '<a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot?</a>'.
+  wp_nonce_field( 'ajax-login-nonce', 'security', true, false );
 }
 
-add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
 # Use HTML5 tags
 $args = array(
@@ -74,5 +93,26 @@ function theme_queue_js(){
     wp_enqueue_script( 'comment-reply' );
 }
 add_action('wp_print_scripts', 'theme_queue_js');
+
+function ajax_login(){
+
+    // First check the nonce, if it fails the function will break
+    check_ajax_referer( 'ajax-login-nonce', 'security' );
+
+    // Nonce is checked, get the POST data and sign user on
+    $info = array();
+    $info['user_login'] = $_POST['username'];
+    $info['user_password'] = $_POST['password'];
+    $info['remember'] = true;
+
+    $user_signon = wp_signon( $info, false );
+    if ( is_wp_error($user_signon) ){
+        echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong username or password.')));
+    } else {
+        echo json_encode(array('loggedin'=>true, 'message'=>__('Login successful, redirecting...')));
+    }
+
+    die();
+}
 
 ?>

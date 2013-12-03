@@ -51,9 +51,9 @@ jQuery(function($) {
     
     <div class="artmaps-object-image">
       <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
-      <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" />
+        <a href="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" class="fancybox"><img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" /></a>
       <?php } else { ?>
-      <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
+        <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
       <?php } ?>
     </div>
     <h1><?php if(get_post_meta(get_the_ID(),"title",true)) { echo get_post_meta(get_the_ID(),"title",true);} else { the_title(); } ?></h1>
