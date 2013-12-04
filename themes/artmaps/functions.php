@@ -1,5 +1,7 @@
 <?php
 
+error_log(print_r(get_locale(), true));
+
 # AJAX comment handler
 add_action('comment_post', 'ajaxify_comments',20, 2);
 function ajaxify_comments($comment_ID, $comment_status){
