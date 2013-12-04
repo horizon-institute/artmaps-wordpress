@@ -1,7 +1,4 @@
 <?php
-
-error_log(print_r(get_locale(), true));
-
 # AJAX comment handler
 add_action('comment_post', 'ajaxify_comments',20, 2);
 function ajaxify_comments($comment_ID, $comment_status){
@@ -32,15 +29,15 @@ endif;
 function artmaps_theme_style() {
 	wp_enqueue_style( 'artmaps-theme-style', get_stylesheet_uri() );
 	wp_enqueue_style( 'artmaps-theme-style-icons', get_stylesheet_directory_uri().'/font-awesome.min.css' );
-	
+
 	wp_register_script( 'artmaps-theme-scripts', get_stylesheet_directory_uri().'/js/scripts.js', 'jquery' );
 	wp_enqueue_script( 'artmaps-theme-scripts' );
-	wp_localize_script( 'artmaps-theme-scripts', 'ajax_login_object', array( 
+	wp_localize_script( 'artmaps-theme-scripts', 'ajax_login_object', array(
       'ajaxurl' => admin_url( 'admin-ajax.php' ),
       'redirecturl' => home_url(),
       'loadingmessage' => __('Logging in&hellip;')
   ));
-  
+
 }
 add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
