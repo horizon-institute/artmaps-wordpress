@@ -23,7 +23,7 @@
       <a href="<?php echo wp_login_url( get_bloginfo('url') ); ?>" id="log-in" class="toggle">Log in</a>
       <div class="log-in-popover popover" id="log-in-popover">
         <p class="status"></p>
-        <div style="background-color:white; height:160px; text-align:center;">
+        <div style="background-color:white; height:160px; text-align:center; overflow:hidden;">
         <?php do_action('login_form'); ?>
         </div>
         <?php wp_login_form(array('label_username' => 'Email address', 'label_log_in' => 'Log in', 'label_remember' => 'Remember me')); ?>
