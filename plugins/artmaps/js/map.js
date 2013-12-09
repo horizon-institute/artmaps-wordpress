@@ -21,21 +21,24 @@ var styles =  [
             "maxZoom": 17,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
-                "position": google.maps.ControlPosition.LEFT_CENTER
-            },
+                "position": google.maps.ControlPosition.LEFT_CENTER             },
             "panControl": false,
             "mapTypeControl": false
         };
     
     var clusterconf = {
-            "gridSize": 150,
+            "gridSize": 100,
             "minimumClusterSize": 1,
             "zoomOnClick": false,
-            "imageSizes": [56],
+            "imageSizes": [53],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
-                "height": 56,
-                "width": 56
+                "width": 42,
+                "height": 53,
+                "anchorText": ['-15px',0],
+                "anchorIcon": [21,53],
+                "textColor": '#ffffff',
+                "textSize": 11
             }]
         };   
 
@@ -107,8 +110,8 @@ var styles =  [
             var centre = map.getCenter();
             jQuery.bbq.pushState({
                 "zoom": map.getZoom(),
-                "lat": centre.lat(),
-                "lng": centre.lng(),
+                "lat": (centre.lat()).toFixed(2),
+                "lng": (centre.lng()).toFixed(2),
                 "maptype": map.getMapTypeId() 
             });
             var bounds = map.getBounds();
@@ -118,7 +121,7 @@ var styles =  [
                     + "&boundingBox.northEast.longitude=" + ArtMaps.Util.toIntCoord(bounds.getNorthEast().lng())
                     + "&boundingBox.southWest.longitude=" + ArtMaps.Util.toIntCoord(bounds.getSouthWest().lng()),
                 function() {
-                    loading.css("opacity", "1");
+                    loading.fadeIn();
                 },
                 function(objects) {
                     var markers = [];
@@ -136,7 +139,7 @@ var styles =  [
                         filter(marker, markers);
                     });
                     clusterer.addMarkers(markers);
-                    loading.css("opacity", "0");
+                    loading.fadeOut();
                     
                     if(firstLoad) {
                         firstLoad = false;
@@ -160,7 +163,10 @@ var styles =  [
         jQuery("#artmaps-object-list-container-page").detach();
         clusterer.on("click", function(cluster) {            
             var markers = cluster.getMarkers();
-            map.panTo(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ));
+            jQuery('.popover').fadeOut(150);
+            
+            var custom_center = jQuery(window).width() * 0.12;
+            offsetCenter(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ), -Math.abs(custom_center));
             if(!markers || !markers.length) return;
             
             var pageSize = 15;
@@ -182,8 +188,8 @@ var styles =  [
                 
                 jQuery.bbq.pushState({
                     "cluster": { 
-                        "lat": cluster.getCenter().lat(),
-                        "lng": cluster.getCenter().lng(),
+                        "lat": (cluster.getCenter().lat()).toFixed(2),
+                        "lng": (cluster.getCenter().lng()).toFixed(2),
                         "page" : pageNo
                     }
                 });
@@ -264,11 +270,10 @@ var styles =  [
             
             cluster.dialog.dialog({
                 "show": { 
-                        "effect": "fade",
-                        "speed": '100ms',
+                        "duration": 0,
                         "complete": function() { showPage(0); }
                  },
-                "hide": { "effect": "fade", "speed": '100ms' },
+                "hide": { "duration": 0 },
                 "width": 260,
                 "dialogClass": "artwork-results",
                 "height": jQuery(window).height() - 160,
@@ -282,11 +287,15 @@ var styles =  [
                 },
                 "close": function() {
                     jQuery(ArtMaps).off("artmaps-dialog-opened", cluster.dialog.closeFunc);
-                    if(!cluster.dialog.otherOpening)
-                        jQuery.bbq.removeState("cluster");
+                    if(!cluster.dialog.otherOpening) {
+                      jQuery.bbq.removeState("cluster");
+                      var centre = map.getCenter();
+                      var custom_center = jQuery(window).width() * 0.12;
+                      offsetCenter(new google.maps.LatLng( centre.lat(), centre.lng() ), Math.abs(custom_center));
+                    }
                     cluster.dialog.otherOpening = false;
                 },
-                "title": "Artworks at this location"
+                "title": '<i class="fa-map-marker"></i>Artwork at this location'
             });
         });
     })();
@@ -521,6 +530,34 @@ var styles =  [
         map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
     */
     })();
+    
+    function offsetCenter(latlng,offsetx,offsety) {
+ 
+      // latlng is the apparent centre-point
+      // offsetx is the distance you want that point to move to the right, in pixels
+      // offsety is the distance you want that point to move upwards, in pixels
+      // offset can be negative
+      // offsetx and offsety are both optional
+       
+      var scale = Math.pow(2, map.getZoom());
+      var nw = new google.maps.LatLng(
+          map.getBounds().getNorthEast().lat(),
+          map.getBounds().getSouthWest().lng()
+      );
+       
+      var worldCoordinateCenter = map.getProjection().fromLatLngToPoint(latlng);
+      var pixelOffset = new google.maps.Point((offsetx/scale) || 0,(offsety/scale) ||0)
+       
+      var worldCoordinateNewCenter = new google.maps.Point(
+          worldCoordinateCenter.x - pixelOffset.x,
+          worldCoordinateCenter.y + pixelOffset.y
+      );
+       
+      var newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+       
+      map.panTo(newCenter);
+       
+    }
 
     this.bindAutocomplete = function(autoComplete) {
         autoComplete.bindTo("bounds", map);
@@ -528,10 +565,11 @@ var styles =  [
             jQuery.fancybox.close();
             var place = autoComplete.getPlace();
             if(place.id) {
-                if(place.geometry.viewport)
+                if(place.geometry.viewport) {
                     map.fitBounds(place.geometry.viewport);
-                else {
-                    map.setCenter(place.geometry.location);
+                    offsetCenter(place.geometry.location);
+                } else {
+                    offsetCenter(place.geometry.location);
                     map.setZoom(12);
                 }
             }

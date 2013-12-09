@@ -148,20 +148,29 @@ html,body {
 
 body {
   font-family:TateNewRegular,sans-serif;
+  z-index: 100;
+}
+
+i {
+  font-style: normal;
+  font-family: FontAwesome;
 }
 
 .artmaps-button {
   color: #fff;
-  background: #46c3d3;
+  background: #009279;
   padding: 0px 17px;
   border-radius: 2px;
   font-size: 16px;
   line-height: 30px;
-  box-shadow: inset 0px -3px 0px rgba(0,0,0,0.1);
 }
 
 .popover {
-  z-index: 99;
+  z-index: 9999999;
+}
+
+.popover .gmnoprint {
+  opacity: 1 !important;
 }
 
 .artmaps-button:hover {
@@ -184,8 +193,9 @@ body {
   background: #DDD;
   padding: 0px 17px;
   border-radius: 2px;
-  font-size: 16px;
-  line-height: 30px;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 26px;
 }
 
 .artmaps-map-object-list-container-page-body a {
@@ -194,16 +204,17 @@ body {
   margin: 0px;
   overflow: hidden;
   color:#222;
-  padding: 12px 40px 12px 95px;
+  padding: 12px 40px 12px 91px;
 }
 
 .artmaps-map-object-list-container-page-body a:hover {
-  background: #46c3d3;
+  background: #009279;
   color:#fff;
 }
 
 .artmaps-map-object-list-container-page-body a:hover img {
-  outline:2px solid #fff;
+  border: 2px solid #fff;
+  border-radius: 2px;
 }
 
 .artmaps-map-object-list-container-page-body a:hover em {
@@ -226,7 +237,6 @@ body {
   font-size: 10px;
   line-height: 14px;
   display: block;
-  text-transform: uppercase;
 }
 
 .artmaps-map-object-container-artist {
@@ -275,7 +285,7 @@ body {
 
 #artmaps-object-map button {
   border: 0;
-  background: #46c3d3;
+  background: #009279;
   -webkit-font-smoothing: antialiased;
   color: #fff;
   margin-top: 10px;
@@ -291,7 +301,7 @@ body {
 }
 
 #artmaps-object-map button:hover {
-  background:#46c3d3;
+  background:#009279;
 }
 
 #artmaps-object-map-autocomplete {
@@ -308,8 +318,8 @@ body {
 .artmaps-object-infobox-highlighted {
   background: #fff;
   width: 220px !important;
-  margin-left: -120px !important;
-  padding: 10px;
+  margin-left: -130px !important;
+  padding: 10px 20px;
   text-align: center;
   margin-top: 15px;
   border-radius: 2px;
@@ -357,10 +367,11 @@ body {
 }
 
 .artmaps-map-object-container img {
-    max-width: 65px;
-    max-height: 80px;
-    float:left;
-    margin-left:-80px;
+  max-width: 65px;
+  max-height: 80px;
+  float:left;
+  margin-left:-80px;
+  border:2px solid transparent;
 }
 
 .artmaps-map-object-container {
@@ -374,20 +385,31 @@ body {
 }
 
 .artmaps-map-object-list-container-page-nav {
-    text-transform: uppercase;
-    text-align: center;
-    font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
-    font-size: 10px;
-    padding: 10px 15px 10px;
-    color: #666;
-    color:rgba(0,0,0,0.7);
-    white-space: nowrap;
-    line-height: 28px;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
+  text-align: center;
+  font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  padding: 0px 15px 0px;
+  color: rgba(0,0,0,0.5);
+  background: rgba(220,220,220,0.75);
+  white-space: nowrap;
+  line-height: 38px;
+  overflow: hidden;
+  position: fixed;
+  bottom: 32px;
+  height: 38px;
+  width: 31.25%;
+  border-radius: 0px 0px 2px 2px;
+  box-sizing: border-box; -moz-box-sizing: border-box;
+}
+
+.artwork-results .artmaps-button {
+  color: #333;
+  background: #fff;
+  padding: 0px 17px;
+  border-radius: 2px;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 26px;
 }
 
 .log-in-popover {
@@ -398,8 +420,8 @@ body {
   left: 50%;
   width: 260px;
   border-radius: 4px;
-  margin-left: -135px;
-  margin-top: 20px;
+  margin-left: -140px;
+  margin-top: 30px;
   border: 2px solid rgba(255,255,255,0.5);
   font-size: 14px;
   line-height: 32px;
@@ -457,6 +479,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   font-size: 13px;
   float: right;
   margin-top: 2px;
+  margin-right:0px;
 }
 
 .log-in-popover:before {
@@ -478,7 +501,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   margin: -3px 0 0;
   font-size: 15px;
   padding: 10px;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   width: 100%;
   border: 1px solid #DDD;
   background:rgba(255,255,255,0.9);
@@ -504,7 +527,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   color:#fff;
   border-radius:2px;
   width: 100%;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -582,7 +605,6 @@ html, body {
 header {
   top: 25px;
   margin: 0 auto;
-  z-index: 999999;
   display: block;
   width: 92%;
   position: relative;
@@ -591,25 +613,38 @@ header {
 header .logo {
   float:left;
   margin-right:30px;
-  margin-top:23px;
+  margin-top:20px;
+  z-index: 100;
+  position: relative;
+}
+
+header .logo:before {
+  background:url('images/tate-tag.png') center center no-repeat;
+  width:51px;
+  height:20px;
+  display:block;
+  content:"Tate";
+  text-indent: -9999px;
+  position: absolute;
+  top: -26px;
+  left: -3px;
+  opacity: 0.7;
 }
 
 header .menu {
   float:left;
-  margin-top:40px;
+  margin-top:20px;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
 }
 
 header .menu li {
   display: inline;
+  padding-right:10px;
 }
 
 header .menu li.log-in, header .menu li.log-out {
-  float: left;
-  margin-top: -17px;
   color: #fff;
   line-height: 35px;
-  white-space: nowrap;
   position: relative;
 }
 
@@ -617,14 +652,18 @@ header .menu .toggle {
   margin-top: 0px;
   margin-right: 0px;
   border: 1px solid rgba(255,255,255,0.4);
-  display: block;
+  display: inline-block;
   font-size: 15px;
   padding: 0px 25px;
   text-align: center;
   text-decoration: none;
   border-radius: 2px;
-  float:left;
   line-height: 36px;
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);
+  z-index: 100;
+  position: relative;
 }
 
 header .menu .toggle:hover {
@@ -657,14 +696,14 @@ header .menu a {
   margin-right:20px;
 }
 
-body:after {
+body:before {
   box-shadow: 0px 0px 150px 100px rgba(0,0,0,0.55);
   position:absolute;
   top:-1px;
   left:0px;
   right:0px;
   height:0px;
-  z-index:0;
+  z-index:10;
   content:" ";
 }
 
@@ -674,26 +713,33 @@ body:after {
   right: 0px !important;
   bottom: auto !important;
   width: 34%;
+  z-index: 100;
 }
 
-.search-form:before {
-  content: "\f002";
-  font-family: FontAwesome;
-  margin-right: 5px;
-  font-size: 22px;
-  pointer-events: none;
+.search-form a.switch {
   position: absolute;
   top: 8px;
   left: 10px;
+  color:#222;
+  text-decoration: none;
+  font-size:22px;
 }
 
-#artmaps-map-autocomplete {
+.search-form a.switch i.fa-chevron-down {
+  font-size: 11px;
+  position: relative;
+  top: -2px;
+  left: 3px;
+}
+
+.search-form .query-field {
   padding: 10px;
   font-size: 15px;
   width:100%;
   box-sizing:border-box;
+  -moz-box-sizing:border-box;
   background:#fff;
-  padding-left:40px;
+  padding-left:50px;
   border-radius:2px;
   z-index: 99;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
@@ -701,8 +747,11 @@ body:after {
   margin:0;
 }
 
+.search-form #location-search-form { display:block; }
+.search-form #keyword-search-form { display:none; }
+
 /* Fade out Google Maps controls when in a lightbox */
-.fancybox-lock .gmnoprint, .fancybox-lock .artwork-results {
+.fancybox-lock .gmnoprint {
   opacity: 0;
   -webkit-transition: opacity 0.5s linear;
 }
@@ -733,23 +782,24 @@ body:after {
 
 #map-settings {
   position: absolute !important;
-  bottom: 30px !important;
-  top: auto !important;
-  right:4%;
+  top: 20px !important;
+  right:37%;
   float:right;
   z-index: 999;
 }
 
 #map-settings .toggle {
   color: #fff;
+  font-size:0px;
   display: block;
-  padding: 4px 15px;
+  padding: 0px 15px;
+  font-size: 0px;
+  line-height: 0px;
   border-radius: 2px;
-  font-size: 14px;
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.25);
-  background: rgba(0,0,0,0.4);
-  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
+  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select:none;
@@ -758,7 +808,8 @@ body:after {
 #map-settings a.toggle:before {
   content:"\f013";
   font-family: FontAwesome;
-  margin-right: 5px;
+  font-size:15px;
+  line-height: 36px;
 }
 
 #map-settings .settings {
@@ -766,12 +817,11 @@ body:after {
   position: absolute;
   text-align: left;
   color: #222;
-  bottom: 100%;
-  right: 0px;
+  top: 100%;
+  right: -130px;
   width: 260px;
   border-radius: 4px;
   margin-bottom: 20px;
-  margin-left: -135px;
   margin-top: 20px;
   border: 2px solid rgba(255,255,255,0.5);
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
@@ -783,12 +833,12 @@ body:after {
   height: 0px;
   position: absolute;
   display: block;
-  bottom: -15px;
-  right: 30px;
+  top: -15px;
+  right: 50%;
   margin-left: -12px;
   border: solid #fff;
-  border-width: 15px 15px 0px;
-  border-color: white transparent white;
+  border-width: 0px 15px 15px;
+  border-color: white transparent;
 }
 
 #map-settings .settings-inner {
@@ -802,17 +852,19 @@ body:after {
   text-align: left;
   border: none;
   font-family: TateNewRegular, Arial, Helvetica, sans-serif;
-  -webkit-appearance: none;
   padding: 0px;
   padding-left:15px;
   color: #222;
   font-size: 14px;
   line-height: 24px;
   width: 100% !important;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   cursor: pointer;
   outline: none;
   margin:5px 0px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 #artmaps-filter-menu:hover, #artmaps-map-mode:hover {
@@ -865,8 +917,10 @@ body:after {
   height: 100%;
   margin: auto;
   padding: 40px 40px 40px 340px;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   overflow: auto;
+  margin-right: 3px;
+  border-radius: 2px;
 }
 
 .about-page h2 {
@@ -896,58 +950,90 @@ body:after {
 .artwork-results .mini-loading-indicator {
   position:absolute;
   top:0px !important;
-  left:0px  !important;
-  right:0px  !important;
-  bottom:0px  !important;
+  left:0px !important;
+  right:0px !important;
+  bottom:39px !important;
+  border-radius:2px;
   width:100%;
   height:100%;
-  z-index:999999;
-  background:rgba(255,255,255,0.1) url('images/loading.gif') center center no-repeat;
+  z-index:101;
+  background: white url('images/25x25.gif') center center no-repeat;
   display:block;
 }
 
 .artwork-results {
   position: absolute;
   border-radius:2px;
-  top: 105px !important;
+  top: 103px !important;
   padding:0 !important;
   right: 4% !important;
   left: auto !important;
-  bottom:20px !important;
+  margin-right:-2px;
+  bottom: 30px !important;
   width: 31.25% !important;
-  border: none !important;
-  background: #fff !important;
-  z-index: 999 !important;
+  border: 2px solid rgba(255,255,255,0.5) !important;
+  background: transparent !important;
+  z-index: 50 !important;
+  box-shadow:0px 3px 15px rgba(0,0,0,0.7);
+}
+
+.artwork-results ul {
+  border-radius: 1px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.9);
+}
+
+.keyword-search-results {
+  top: 103px !important;
+  display: none;
+  height: auto !important;
+  overflow: scroll;
+  position: absolute;
+  top: 0px !important;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.keyword-search-results ul {
+  margin-bottom:38px;
 }
 
 .artwork-results .ui-dialog-titlebar {
-  background: none;
-  padding: 0px !important;
-  height:25px;
-  border: none;
-  z-index: 9999;
+  background: #B93A4C;
+  border: 2px solid #851220;
+  position: relative;
   color: #fff;
-  border-radius: 0px;
-  margin: 0px 15px;
+  z-index: 99;
+  font-size: 15px;
+  line-height: 38px;
+  border-radius: 3px;
+  padding: 0px 16px;
+  margin-top: -60px;
+  margin: -60px -3px 0px;
+  padding-left: 34px;
+}
+
+.artwork-results .ui-dialog-titlebar i {
+  font-size: 22px;
+  position: absolute;
+  left:14px;
 }
 
 .artwork-results .ui-dialog-titlebar-close {
-  right:15px;
-  width:20px;
-  height:20px;
-  padding:0;
-  margin:0;
-  top:15px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  top: 9px;
   position: absolute;
   z-index: 999;
-  color: #222;
+  color: #fff;
   text-decoration: none;
-  background:#fff;
-  border: 1px solid rgba(0,0,0,0.2);
-  border-radius: 2px;
   text-align: center;
-  font-size: 20px;
-  line-height: 17px;
+  font-size: 34px;
+  line-height: 15px;
 }
 
 .artwork-results .ui-dialog-titlebar-close:after {
@@ -955,14 +1041,10 @@ body:after {
   text-indent: 0px;
 }
 
-.artwork-results .ui-dialog-title {
-  display:none;
-}
-
 #artmaps-object-menu {
-  width: 65%;
   position: relative;
   margin: 0px;
+  top:-36px;
 }
 
 #artmaps-object-menu li a {
@@ -988,8 +1070,9 @@ body:after {
 .artmaps-map-object-list-container-page {
   position: relative;
   padding-bottom: 45px;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   min-height: 100%;
+  background: rgba(255,255,255,0.9);
 }
 
 .artmaps-map-object-list-container-page-previous {
@@ -1008,6 +1091,15 @@ body:after {
   bottom:0px;
   max-width:100%;
   max-height:100%;
+  z-index: 5;
+}
+
+.cluster {
+  line-height: 39px !important;
+}
+
+.cluster:hover {
+  background-position: 0px -53px !important;
 }
 
 /*! fancyBox v2.1.5 fancyapps.com | fancyapps.com/fancybox/#license */
@@ -1047,7 +1139,7 @@ body:after {
 }
 
 .fancybox-opened {
-	z-index: 999999;
+	z-index: 120;
 }
 
 .fancybox-skin {
@@ -1066,6 +1158,7 @@ body:after {
 	background:none;
 	border-radius:2px;
 	height:100% !important;
+	z-index: 999;
 }
 
 .fancybox-type-iframe .fancybox-inner {
@@ -1082,13 +1175,12 @@ body:after {
 
 .fancybox-image, .fancybox-iframe {
 	display: block;
-	width: 100%;
-	height: 100%;
+	margin:0 auto;
 }
 
 .fancybox-image {
 	max-width: 100%;
-	max-height: 100%;
+	max-height: 90%;
 }
 
 #fancybox-loading {
@@ -1115,13 +1207,13 @@ body:after {
   top: -3px;
   text-align: center;
   right: 5px;
-  color: #fff;
+  color: #666;
   width: 30px;
   text-decoration: none;
   height: 30px;
   cursor: pointer;
   z-index: 8040;
-  line-height: 32px;
+  line-height: 38px;
   font-size: 32px;
 }
 
@@ -1206,7 +1298,7 @@ body:after {
 	left: 0;
 	overflow: hidden;
 	display: none;
-	z-index: 999;
+	z-index: 55;
 	background: rgba(0,0,0,0.4);
 }
 
@@ -1281,23 +1373,41 @@ body:after {
 
 .fancybox-wrap.fancybox-type-ajax {
   position: absolute !important;
-  top: 105px !important;
+  top: 103px !important;
   left: 4% !important;
   right: 4% !important;
-  bottom: 20px !important;
-  width: 92% !important;
+  bottom: 30px !important;
+  width: auto !important;
+  margin-right: -3px;
+}
+
+#artmaps-object-tabs {
+  position: absolute;
+  left: 0px;
+  right: 34%;
+  bottom: 0px;
+  top: 36px;
 }
 
 #artmaps-object-metadata {
-  background:#FFF;
-  width:30%;
-  padding:20px;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   position: absolute;
-  top: 36px;
+  top: 0px;
   right: 0px;
   bottom: 0px;
+  left: 66%;
+  margin-left: -3px;
   overflow: auto;
-  border-radius: 0px 2px 2px 0px;
+  z-index: 999;
+  border:2px solid rgba(255,255,255,0.5);
+  border-radius: 2px;
+  box-shadow:0px 3px 15px rgba(0,0,0,0.7);
+}
+
+#artmaps-object-metadata .content {
+  background: #FFF;
+  padding: 20px;
+  min-height:100%;
 }
 
 #artmaps-object-metadata h1 {
@@ -1346,7 +1456,7 @@ body:after {
 
 #artmaps-object-metadata .artwork-external {
   text-decoration: none;
-  background: #46c3d3;
+  background: #009279;
   color: #fff;
   padding: 10px 13px;
   display: block;
@@ -1362,21 +1472,14 @@ body:after {
   display:block;
 }
 
-.fancybox-lock .artwork-results {
-  display:none;
-}
-
 #artmaps-object-detail, #artmaps-object-comments {
   position: absolute;
   left: 0px;
   bottom: 0px;
   background:rgba(255,255,255,0.3);
-  padding:1px;
-  top: 36px;
-  right: 28%;
-  margin-right: 60px;
+  top: 0px;
+  right: 0px;
   overflow: hidden;
-  border-radius: 0px 0px 0px 2px;
 }
 
 #artmaps-object-comments {
@@ -1448,7 +1551,7 @@ body:after {
   font-family: TateNewRegular;
   max-width: 100%;
   height:100px;
-  box-sizing: border-box;
+  box-sizing: border-box; -moz-box-sizing: border-box;
   border: 1px solid #CCC;
   border-radius: 2px;
   margin-bottom: 10px;
@@ -1457,12 +1560,11 @@ body:after {
 
 .comment-reply-link, #respond #submit {
   color: #fff;
-  background: #46c3d3;
+  background: #009279;
   padding: 0px 17px;
   border-radius: 2px;
   font-size: 16px;
   line-height: 30px;
-  box-shadow: inset 0px -3px 0px rgba(0,0,0,0.1);
   border:0;
   float:right;
   font-family:TateNewRegular;
@@ -1491,28 +1593,6 @@ body:after {
   padding-left:15px;
 }
 
-#search-body {
-  background-color: #fff;
-  height: 100%;
-  width: 100%;
-  overflow:hidden;
-}
-#artmaps-search-form input {
-  padding: 10px;
-  font-size: 16px;
-  box-sizing:border-box;
-  background:#fff url('wp-content/themes/artmaps/images/search-icon.png') 10px center no-repeat;
-  padding-left:40px;
-  border-radius:2px;
-  z-index: 99;
-  font-family:TateNewRegular, Arial, Helvetica, sans-serif;
-  border: 2px solid gray;
-  margin-top: 5px;
-}
-#artmaps-search-form input:first-child {
-  margin-left: 5px;
-  width: 34%;
-}
 .search-page {
   cursor: pointer;
 }
@@ -1534,8 +1614,6 @@ footer ul li {
 footer ul li a {
   color:#369;
 }
-
-
 
 @media all and (max-width: 850px) {
   html,body {
@@ -1600,7 +1678,7 @@ footer ul li a {
     position: absolute !important;
     top: 65px;
     width: auto;
-    box-sizing: border-box;
+    box-sizing: border-box; -moz-box-sizing: border-box;
     left: 10px;
     right: 10px !important;
   }
@@ -1615,7 +1693,7 @@ footer ul li a {
     left:0px	 !important;
     bottom:0px !important;
     overflow:auto;
-    z-index:9999999 !important;
+    z-index:50 !important;
     opacity:1 !important;
   }
   .fancybox-wrap.fancybox-type-ajax {
@@ -1666,6 +1744,8 @@ footer ul li a {
     top:auto !important;
     right: 0px;
     pointer-events: none;
+    -moz-pointer-events:none;
+    -webkit-pointer-events:none;
   }
   .fancybox-inner {
     border-radius: 0px;
@@ -1707,13 +1787,6 @@ footer ul li a {
   }
   #map-settings .settings:before {
     right:5px;
-  }
-  #map-settings .toggle {
-    font-size:0px;
-  }
-  #map-settings a.toggle:before {
-    font-size:20px;
-    margin-right:0px;
   }
   footer ul {
     position: static;

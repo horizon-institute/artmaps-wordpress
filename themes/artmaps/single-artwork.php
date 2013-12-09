@@ -48,6 +48,7 @@ jQuery(function($) {
 });
 </script>
 <div id="artmaps-object-metadata">
+  <div class="content">
     
     <div class="artmaps-object-image">
       <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
@@ -65,7 +66,8 @@ jQuery(function($) {
     </dl>
     
     <a href="http://www.tate.org.uk/art/artworks/<?php echo get_post_meta(get_the_ID(),"reference",true); ?>" target="_blank" class="artwork-external">View on Tate Online</a>
-
+    
+  </div>
 </div>
 <div id="artmaps-object-tabs">
   <ul id="artmaps-object-menu">

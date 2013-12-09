@@ -46,6 +46,6 @@ return false;
   global $current_user;
   get_currentuserinfo();
   $current_avatar = get_avatar( $current_user->ID, 35 ); 
-  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '');
+  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => 'Please log in to join the discussion.');
   comment_form($args);
 ?>
