@@ -134,6 +134,7 @@ var styles =  [
                         jQuery.each(obj.Locations, function(j, loc) {
                             if(loc.IsFinal) { finalloc = loc; }
                             else if(loc.Source == "SystemImport") { systemloc = loc; }
+                            else if(systemloc == null) { systemloc = loc; }
                         });
                         var marker = new ArtMaps.Map.UI.Marker(obj, finalloc != null ? finalloc : systemloc);
                         filter(marker, markers);
