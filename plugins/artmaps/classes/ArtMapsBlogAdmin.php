@@ -67,10 +67,6 @@ class ArtMapsBlogAdmin {
             $r = true;
         }
 
-        if(isset($_POST['artmaps_blog_config_regenerate_posts'])) {
-            $blog->regenerate();
-        }
-
         return $r;
     }
 }}

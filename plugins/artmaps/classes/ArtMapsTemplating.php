@@ -65,26 +65,6 @@ class ArtMapsTemplating {
         return $smarty->fetch($tpl, $objectID);
     }
 
-    public function renderObjectPageTemplate(
-            ArtMapsBlog $blog, $objectID, $metadata) {
-        $tpl = 'object_page_template.html';
-        $smarty = $this->initSmarty($tpl);
-        $smarty->setCaching(true);
-        $smarty->assign('objectID', $objectID);
-        $smarty->assign('metadata', $metadata);
-        return $smarty->fetch($tpl, $objectID);
-    }
-
-    public function renderObjectExcerptTemplate(
-            ArtMapsBlog $blog, $objectID, $metadata) {
-        $tpl = 'object_excerpt_template.html';
-        $smarty = $this->initSmarty($tpl);
-        $smarty->setCaching(true);
-        $smarty->assign('objectID', $objectID);
-        $smarty->assign('metadata', $metadata);
-        return $smarty->fetch($tpl, $objectID);
-    }
-
     public function renderObjectPageTitleTemplate(ArtMapsBlog $blog, $metadata) {
         $tpl = 'object_page_title_template.html';
     	$smarty = $this->initSmarty($tpl);

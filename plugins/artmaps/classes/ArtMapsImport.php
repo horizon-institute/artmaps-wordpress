@@ -10,12 +10,6 @@ class ArtMapsImport {
 
 	public $blog, $ID, $name, $status, $starttime, $endtime;
 
-	/*id        | char(36)                             | NO   | PRI | NULL    |       |
-	| name      | varchar(255)                         | NO   |     | NULL    |       |
-	| status    | enum('started','completed','failed') | NO   |     | started |       |
-	| endtime   | datetime                             | YES  |     | NULL    |       |
-	| starttime*/
-
 	public function getID() { return $this->ID; }
 	public function getName() { return $this->name; }
 	public function getStatus() { return $this->status; }
