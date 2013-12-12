@@ -1781,18 +1781,15 @@ body:before {
     right: 10px !important;
   }
   .artwork-results {
-    position: absolute  !important;
+    position: absolute !important;
     margin: 0px;
     width: auto !important;
     height: auto !important;
-    top:50px !important;
-    border-radius:0px;
-    right:0px !important;
-    left:0px	 !important;
-    bottom:0px !important;
-    overflow:auto;
-    z-index:50 !important;
-    opacity:1 !important;
+    top: 120px !important;
+    right: 10px !important;
+    left: 10px !important;
+    bottom: 10px !important;
+    opacity: 1 !important;
   }
   .fancybox-wrap.fancybox-type-ajax {
     padding:0;
@@ -1806,30 +1803,46 @@ body:before {
     overflow:auto !important;
     z-index:99999999;
     }
-  .artmaps-map-object-list-container.ui-dialog-content {
-    position: static !important;
-    width:auto !important;
-  }
-  .artwork-results .ui-dialog-titlebar {
-    height:0px;
+  #fancybox-loading {
+    left:12px;
+    right:12px;
+    top:12px;
+    bottom:10px;
+    position: absolute;
+    width:auto;
   }
   .artmaps-map-object-list-container-page-nav {
-    width:100%;
-    bottom:0px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
   }
   .artwork-results .ui-dialog-titlebar {
-    margin:0;
+    margin:-61px -3px 19px;
   }
   .artwork-results .mini-loading-indicator {
     position: absolute;
   }
+  .fancybox-close {
+    left: 10px;
+    right: 10px;
+    text-align: center;
+    top: 12px;
+  }
+  .fancybox-close:before {
+    content:none;
+  }
   #artmaps-object-metadata {
     width:auto;
     position: static;
-    margin:4%;
+    margin:10px;
   }
   #artmaps-object-tabs {
     position: static;
+    margin:10px;
+  }
+  #artmaps-object-menu {
+    top:0px;
   }
   .fancybox-inner {
     overflow: auto !important;
