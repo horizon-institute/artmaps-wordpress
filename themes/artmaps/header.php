@@ -15,7 +15,17 @@
   </a>
   <ul class="menu">
     <li class="about">
-      <a href="about" class="toggle fancybox fancybox.ajax">How it works</a>
+      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How it works</a>
+    </li>
+    <li class="settings">
+      <div id="map-settings">
+        <a class="toggle">Settings</a>
+        <div class="settings popover">
+          <div class="settings-inner">
+          
+          </div>
+        </div>
+      </div>
     </li>
     <?php if ( !is_user_logged_in() ) { ?>
     <li class="log-in">
@@ -31,25 +41,16 @@
         global $current_user;
         get_currentuserinfo();
       ?>
-      <a href="#" id="log-in" class="toggle"><?php echo get_avatar( $current_user->ID, 32 ); ?><?php echo ucwords($current_user->display_name); ?></a>
+      <a href="#" id="log-in" class="toggle"><?php echo get_avatar( $current_user->ID, 32 ); ?></a>
       <div class="log-in-popover popover" id="log-in-popover">
         <div class="wrap">
-          <a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>">Log out</a>
+          <a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>" class="artmaps-button">Log out</a>
         </div>
       </div>
     </li>
     <?php } ?>
-    <li>
-      <div id="map-settings">
-        <a class="toggle">Settings</a>
-        <div class="settings popover">
-          <div class="settings-inner">
-          
-          </div>
-        </div>
-      </div>
-    </li>
   </ul>
+  </header>
   <div class="search-form">
     <a class="switch" href="#" id="search-form-toggle"><i class="fa-search"></i><i class="fa-chevron-down"></i></a>
     <div id="location-search-form">
@@ -61,5 +62,5 @@
         <input type="submit" style="display:none;">
       </form>
     </div>
-  </header>
+  </div>
   <span class="loading-indicator gmnoprint">Searching this area for art&hellip;</span>

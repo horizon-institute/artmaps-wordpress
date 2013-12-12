@@ -16,7 +16,7 @@ var styles =  [
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": false,
             "zoom": 15,
-            "minZoom": 5,
+            "minZoom": 3,
             "styles": styles,
             "maxZoom": 17,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
@@ -282,11 +282,13 @@ var styles =  [
                 "closeText": "",
                 "draggable": false,
                 "open": function() {
+                    jQuery("#artmaps-search-results-artworks").dialog( "close" );
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", cluster.dialog.closeFunc);
                 },
                 "close": function() {
                     jQuery(ArtMaps).off("artmaps-dialog-opened", cluster.dialog.closeFunc);
+                    jQuery.fancybox.close();
                     if(!cluster.dialog.otherOpening) {
                       jQuery.bbq.removeState("cluster");
                       var centre = map.getCenter();
@@ -301,6 +303,9 @@ var styles =  [
     })();
     
     (function() {
+    
+    
+    
     
     
     /* Custom map type toggle */
@@ -563,6 +568,8 @@ var styles =  [
         autoComplete.bindTo("bounds", map);
         google.maps.event.addListener(autoComplete, "place_changed", function() {
             jQuery.fancybox.close();
+            jQuery('#welcome').fadeOut(300);
+            jQuery("#artmaps-search-results-artworks").dialog("close");
             var place = autoComplete.getPlace();
             if(place.id) {
                 if(place.geometry.viewport) {

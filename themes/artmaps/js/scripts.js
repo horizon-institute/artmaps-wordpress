@@ -1,6 +1,79 @@
 jQuery(document).ready(function(){ 
+
+  google.maps.visualRefresh = true;
+  var config = {
+        "map": {
+            "center": new google.maps.LatLng(51.507854, -0.099462), /* Tate Britain */
+            "mapTypeId": google.maps.MapTypeId.ROADMAP
+        }
+    };
+    window.main_map = new ArtMaps.Map.MapObject(jQuery("#artmaps-map-themap"), config);
+    var autocomplete = jQuery("#artmaps-map-autocomplete");
+    main_map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
+    //map.addControl(autocomplete.get(0));  
+    
+    (function() {
+        var con = jQuery("#artmaps-map-object-container").children().first();
+        jQuery("#artmaps-map-object-container").detach();
+        ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
+            var c = con.clone();
+            c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            if(typeof metadata.imageurl != "undefined") {
+                c.find("img").attr("src", "http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
+            }
+            c.find(".artmaps-map-object-container-title").text(metadata.title);
+            c.find(".artmaps-map-object-container-artist").text(metadata.artist);
+            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
+            return c;
+        };
+    })();
+    
+    (function() {
+        jQuery(window).bind("hashchange", function(e) {
+            jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+                "type": "post",
+                "data": {
+                    "action": "artmaps.storeMapState",
+                    "data": {
+                        "state": e.fragment
+                    }
+                }
+            });
+        });
+    })();
+    
   
-  jQuery(document).on('mousedown click touchstart', function (e) {
+  jQuery(".artwork-link").fancybox({
+    maxWidth	: 800,
+		maxHeight	: 600,
+		type      : 'ajax',
+		fitToView	: false,
+		width		  : '90%',
+		height		: '90%',
+    autoDimensions : true,
+		closeClick	: false,
+		showEarly   : false,
+		openEffect	: 'fade',
+		closeEffect	: 'fade',
+		helpers: {
+    	overlay : null
+    },
+    beforeShow : function() {
+      jQuery("#overlay").fadeIn();
+      jQuery("body").addClass("fancybox-lock");
+    },
+    beforeClose : function() {
+      jQuery("body").removeClass("fancybox-lock");
+      jQuery("#overlay").fadeOut();
+    },
+    tpl : {
+    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+    	closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+    }
+  });
+  
+  jQuery(document).on('mousedown touchstart', function (e) {
     var target = e.target;
 
     if (!jQuery(target).is('.popover') && !jQuery(target).parents().is('.popover') && !jQuery(target).is('.toggle')) {
@@ -15,21 +88,34 @@ jQuery(document).ready(function(){
   });
   
   jQuery( "#log-in" ).click(function(event) {
-    jQuery('.popover').fadeOut(150);
-    jQuery( "#log-in-popover" ).show();
-    jQuery ( "#user_login" ).focus();
+    jQuery('.popover').fadeOut(150, function() {
+      jQuery( "#log-in-popover" ).show();
+      jQuery( "#user_login" ).focus();
+    });
     event.preventDefault();
   });
   
   jQuery( "#map-settings .toggle" ).click(function(event) {
-    jQuery('.popover').fadeOut(150);
-    jQuery( "#map-settings .settings" ).show();
+    jQuery('.popover').fadeOut(150, function() {
+      jQuery( "#map-settings .settings" ).show();
+    });
+    event.preventDefault();
+  });
+  
+  jQuery( "#explore-map" ).click(function(event) {
+    jQuery('#welcome').fadeOut(300);
+    event.preventDefault();
+  });
+  
+  jQuery( "#how-it-works" ).click(function(event) {
+    jQuery('#welcome').fadeOut(300);
     event.preventDefault();
   });
   
   // Perform AJAX login on form submit
   jQuery('form#loginform').on('submit', function(e){
       jQuery('form#loginform .loader').fadeIn();
+
       jQuery.ajax({
           type: 'POST',
           dataType: 'json',
@@ -93,7 +179,6 @@ jQuery(document).ready(function(){
         }
         
         var displayArtworks = function(data) {
-            console.log("displayartworks");
 
             var art_list = jQuery(document.createElement("ul"));
             art_list.addClass("artmaps-map-object-list-container-page-body");
@@ -200,7 +285,7 @@ jQuery(document).ready(function(){
             artworks.each(function(i, e) {
             var oc = jQuery(e);
         		var na = jQuery(document.createElement("a"));
-        		na.addClass("fancybox.ajax artwork-link fancybox").attr("href", "#");
+        		na.addClass("artwork-link").attr("href", "#");
                 var nc = jQuery(document.createElement("li"));
                 nc.addClass("artmaps-map-object-container");
                    var acno = oc.find(".acno").first().text();
@@ -226,20 +311,23 @@ jQuery(document).ready(function(){
                 na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + oc.find(".grid-work-text .artist").first().text() + '</span></em>'));
                 art_list.append(nc);  
             });
-            
+
             jQuery("#artmaps-search-results-artworks").dialog({
               "width": 260,
-              "dialogClass": "artwork-results",
+              "dialogClass": "artwork-results artwork-results-keyword",
               "height": jQuery(window).height() - 160,
               "position": "right bottom",
               "resizable": false,
               "closeText": "",
               "draggable": false,
               "open": function() {
+                cluster.dialog( "close" );
               },
               "close": function() {
+                jQuery("#keyword-search-form input.query-field").val("");
+                jQuery.fancybox.close();
               },
-              "title": '<i class="fa-map-marker"></i>Artwork at this location'
+              "title": ''
             });
             
         }
@@ -264,7 +352,7 @@ jQuery(document).ready(function(){
         });*/
         
         searchForm.submit(function() {
-            console.log("submitted");
+            jQuery('#welcome').fadeOut(300);
             jQuery.ajax({
                 "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val(),
                 "dataType": "xml",
