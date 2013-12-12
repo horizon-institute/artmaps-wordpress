@@ -26,7 +26,8 @@ class ArtMapsSearch {
         $posts = array();
         foreach($results as $result) {
             $pageID = $blog->getPageForObject($result->ID);
-            array_push($posts, get_page($pageID));
+            if(!is_null(pageID))
+                array_push($posts, get_page($pageID));
         }
         $wp_query->max_num_pages = 999;
         return $posts;

@@ -157,6 +157,10 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
             $n = new ArtMapsNetwork();
             $b = $n->getCurrentBlog();
             $pageID = $b->getPageForObject($objectID);
+            if(is_null($pageID)) {
+                header(' ', true, 404);
+                die;
+            }
             global $wp_query;
             $wp_query = new WP_Query('post_type=artwork&p=' . $pageID);
             //wp_redirect( get_permalink($pageID) , 301 );
@@ -186,14 +190,6 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
         require_once('classes/ArtMapsNetwork.php');
         $n = new ArtMapsNetwork();
         $n->createBlog($blogID);
-    });
-
-    add_action('delete_post', function($postID) {
-        require_once('classes/ArtMapsNetwork.php');
-        require_once('classes/ArtMapsBlog.php');
-        $nw = new ArtMapsNetwork();
-        $blog = $nw->getCurrentBlog();
-        $blog->deletePageObjectMapping($postID);
     });
 
     add_action('network_admin_menu', function() {

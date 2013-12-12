@@ -134,6 +134,7 @@ var styles =  [
                         jQuery.each(obj.Locations, function(j, loc) {
                             if(loc.IsFinal) { finalloc = loc; }
                             else if(loc.Source == "SystemImport") { systemloc = loc; }
+                            else if(systemloc == null) { systemloc = loc; }
                         });
                         var marker = new ArtMaps.Map.UI.Marker(obj, finalloc != null ? finalloc : systemloc);
                         filter(marker, markers);
@@ -569,7 +570,9 @@ var styles =  [
         google.maps.event.addListener(autoComplete, "place_changed", function() {
             jQuery.fancybox.close();
             jQuery('#welcome').fadeOut(300);
-            jQuery("#artmaps-search-results-artworks").dialog("close");
+            if (jQuery("#artmaps-search-results-artworks").hasClass('ui-dialog-content')) {
+              jQuery("#artmaps-search-results-artworks").dialog("close");
+            }
             var place = autoComplete.getPlace();
             if(place.id) {
                 if(place.geometry.viewport) {

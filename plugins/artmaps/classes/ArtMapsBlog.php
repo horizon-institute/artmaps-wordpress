@@ -22,8 +22,6 @@ class ArtMapsBlog {
 
     const JQueryThemeUriOptionKey = 'JQueryThemeUri';
 
-    const ObjectPageMapTableSuffix = 'artmaps_object_pages';
-
     const ImportTableSuffix = 'artmaps_imports';
 
     private $blogID, $remoteID, $name, $key;
@@ -55,15 +53,6 @@ class ArtMapsBlog {
     	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     	global $wpdb;
 
-        $mapDbName = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        $mapDbSql = "
-            CREATE TABLE $mapDbName (
-            object_id bigint(20) NOT NULL,
-            post_id bigint(2) NOT NULL,
-            PRIMARY KEY  (object_id)
-        );";
-        dbDelta($mapDbSql, true);
-
         $importDbName = $wpdb->get_blog_prefix($this->blogID) . self::ImportTableSuffix;
         $importDbSql = "
         	CREATE TABLE $importDbName (
@@ -77,24 +66,20 @@ class ArtMapsBlog {
         dbDelta($importDbSql, true);
     }
 
-    public function getObjectForPage($pageID) {
-        global $wpdb;
-        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        return $wpdb->get_var(
-                $wpdb->prepare(
-                        "SELECT object_id FROM $name WHERE post_id = %d",
-                        $pageID));
+    public function getObjectForPage($postID) {
+        $objectID = get_post_meta($postID, 'object_id', true);
+        if(empty($objectID))
+            return null;
+        return $objectID;
     }
 
     public function getPageIDForObject($objectID) {
-        global $wpdb;
-        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        $pageID = $wpdb->get_var(
-                $wpdb->prepare(
-                        "SELECT post_id FROM $name WHERE object_id = %d",
-                        $objectID));
-
-        return $pageID;
+        $query = new WP_Query("post_type=artwork&meta_key=object_id&meta_value=$objectID");
+        while($query->have_posts()) {
+            $query->the_post();
+            return get_the_ID();
+        }
+        return null;
     }
 
     public function getPageForObject($objectID) {
@@ -105,104 +90,47 @@ class ArtMapsBlog {
             $i++;
         }
         apc_add($lock, '$');
-        $pageID = $this->getPageForObjectInt($objectID);
+        $pageID = null;
+        try {
+            $pageID = $this->getPageForObjectInt($objectID);
+        } catch(Exception $e) { }
         apc_delete($lock);
         return $pageID;
     }
 
     private function getPageForObjectInt($objectID) {
-        global $wpdb;
-        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        /*$pageID = $wpdb->get_var(
-                $wpdb->prepare(
-                        "SELECT post_id FROM $name WHERE object_id = %d",
-                        $objectID));*/
-        $lookup_object_page = new WP_Query('post_type=artwork&meta_key=object_id&meta_value=' . $objectID);
-        if ( $lookup_object_page->have_posts() ) {
-      	while ( $lookup_object_page->have_posts() ) {
-      		$lookup_object_page->the_post();
-      		$pageID = get_the_ID();
-      	} } else {$pageID = null;}
 
+        $pageID = $this->getPageIDForObject($objectID);
         if($pageID != null)
             return $pageID;
+
+        require_once('ArtMapsCoreServer.php');
+        $core = new ArtMapsCoreServer($this);
+        $metadata = $core->fetchObjectMetadata($objectID);
+
+        if($metadata == -1)
+            return null;
+
+        require_once('ArtMapsTemplating.php');
+        $te = new ArtMapsTemplating();
 
         $post = array(
                 'comment_status' => get_option('default_comment_status', 'closed'),
                 'ping_status' => get_option('default_ping_status', 'closed'),
-                'post_title' => 'blank',
-                'post_content' => 'blank',
-                'post_status' => 'draft',
+                'post_title' => $te->renderObjectPageTitleTemplate($this, $metadata),
+                'post_content' => '',
+                'post_status' => 'publish',
                 'post_author' => $this->getPostAuthor(),
                 'post_type' => 'artwork',
                 'post_date' => $this->getPostDate()
         );
         $pageID = wp_insert_post($post);
-        $wpdb->insert($name,
-                array(
-                        'object_id' => $objectID,
-                        'post_id' => $pageID),
-                array('%d', '%d'));
-
-        require_once('ArtMapsCoreServer.php');
-        $core = new ArtMapsCoreServer($this);
-        $metadata = $core->fetchObjectMetadata($objectID);
-        require_once('ArtMapsTemplating.php');
-        $te = new ArtMapsTemplating();
-        $title = $te->renderObjectPageTitleTemplate($this, $metadata);
-        $content = $te->renderObjectPageTemplate($this, $objectID, $metadata);
-        $excerpt = $te->renderObjectExcerptTemplate($this, $objectID, $metadata);
-        $post = array(
-                'ID' => $pageID,
-                'post_status' => 'publish',
-                'post_title' => $title,
-                'post_content' => $content,
-                'post_excerpt' => $excerpt
-        );
-        remove_filter('content_save_pre', 'wp_filter_post_kses');
-        wp_update_post($post);
         update_post_meta($pageID, 'object_id', $objectID);
         foreach($metadata as $key => $value) {
             update_post_meta($pageID, $key, $value);
         }
-        add_filter('content_save_pre', 'wp_filter_post_kses');
         wp_set_post_terms($pageID, $this->getPostCategories(), 'category');
         return $pageID;
-    }
-
-    public function regenerate() {
-        global $wpdb;
-        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        $pages = $wpdb->get_results("SELECT post_id, object_id FROM $name");
-        require_once('ArtMapsCoreServer.php');
-        require_once('ArtMapsTemplating.php');
-        foreach($pages as $page) {
-            $core = new ArtMapsCoreServer($this);
-            $metadata = $core->fetchObjectMetadata($page->object_id);
-            $te = new ArtMapsTemplating();
-            $title = $te->renderObjectPageTitleTemplate($this, $metadata);
-            $content = $te->renderObjectPageTemplate($this, $page->object_id, $metadata);
-            $excerpt = $te->renderObjectExcerptTemplate($this, $objectID, $metadata);
-            $post = array(
-                    'ID' => $page->post_id,
-                    'post_title' => $title,
-                    'post_content' => $content,
-                    'post_excerpt' => $excerpt
-            );
-            remove_filter('content_save_pre', 'wp_filter_post_kses');
-            update_post_meta($pageID, 'object_id', $page->object_id);
-            foreach($metadata as $key => $value) {
-                update_post_meta($pageID, $key, $value);
-            }
-            wp_update_post($post);
-            add_filter('content_save_pre', 'wp_filter_post_kses');
-        }
-    }
-
-    public function deletePageObjectMapping($pageID) {
-        global $wpdb;
-        $name = $wpdb->get_blog_prefix($this->blogID) . self::ObjectPageMapTableSuffix;
-        $wpdb->delete($name, array('post_id' => $pageID, '%d'));
     }
 
     public function getSearchSource() {
