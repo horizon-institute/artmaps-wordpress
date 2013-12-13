@@ -64,7 +64,6 @@ class ArtMapsContent {
                         'SiteUrl' => site_url(),
                         'SearchUrl' => get_search_link(),
                         'PluginDirUrl' => $p,
-                        'IpInfoDbApiKey' => $network->getIpInfoDbApiKey(),
                         'ClusterIconUrl' => ArtMapsUtil::findThemeUri('content/cluster.png'),
                         'LoadingIcon50x50Url' => ArtMapsUtil::findThemeUri('content/loading/50x50.gif'),
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),
