@@ -13,6 +13,17 @@ ArtMaps.Util.browserLocation = function(success, failure) {
     } else { failure(); }
 };
 
+ArtMaps.Util.watchLocation = function(update) {
+    if(navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+                function(pos) {
+                    update(new google.maps.LatLng(
+                            pos.coords.latitude, pos.coords.longitude));
+                }
+        );
+    }
+};
+
 ArtMaps.Util.toIntCoord = function(f) {
     return parseInt(f * Math.pow(10, 8));
 };

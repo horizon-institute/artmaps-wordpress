@@ -57,6 +57,10 @@ class ArtMapsContent {
 
         $user = ArtMapsUser::currentUser();
 
+        $gravatar_hash = md5('unknown');
+        if(is_user_logged_in()) {
+            $gravatar_hash = md5(strtolower(trim($user->getEmail())));
+        }
         session_start();
         wp_localize_script('artmaps-base', 'ArtMapsConfig',
                 array(
@@ -65,15 +69,16 @@ class ArtMapsContent {
                         'SearchUrl' => get_search_link(),
                         'PluginDirUrl' => $p,
                         'ClusterIconUrl' => ArtMapsUtil::findThemeUri('content/cluster.png'),
+                        'MyLocationIconUrl' => ArtMapsUtil::findThemeUri('content/mylocation.gif'),
                         'LoadingIcon50x50Url' => ArtMapsUtil::findThemeUri('content/loading/50x50.gif'),
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),
                         'AjaxUrl' => admin_url('admin-ajax.php', is_ssl() ? 'https' : 'http'),
                         'IsUserLoggedIn' => is_user_logged_in(),
                         'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1,
                         'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false,
-                        'UserLevel' => is_user_logged_in() ? $user->getRoles() : array()
+                        'UserLevel' => is_user_logged_in() ? $user->getRoles() : array(),
+                        'AvatarUrl32' => (is_ssl() ? 'https' : 'http') . '://gravatar.com/avatar/' . $gravatar_hash . '?d=mystery&s=32'
                 ));
-        //remove_filter('the_content', 'wpautop');
     }
 
     public function parse($content) {

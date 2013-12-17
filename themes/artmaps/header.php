@@ -18,12 +18,16 @@
     <li class="about">
       <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How it works</a>
     </li>
+    <li class="mylocation" onclick="window.main_map.centerOnMyLocation()" style="display: none;">
+        <a class="toggle">My Location</a>
+    </li>
+
     <li class="settings">
       <div id="map-settings">
         <a class="toggle">Settings</a>
         <div class="settings popover">
           <div class="settings-inner">
-          
+
           </div>
         </div>
       </div>
@@ -70,3 +74,11 @@
     </div>
   </div>
   <span class="loading-indicator gmnoprint">Searching this area for art&hellip;</span>
+
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+      if(window.location) {
+          jQuery(".mylocation").css("display", "inline");
+      }
+  });
+  </script>
