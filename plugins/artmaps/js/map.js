@@ -605,7 +605,7 @@ var styles =  [
     }; 
     
     this.centerOnMyLocation = function() {
-        map.panTo(myloc.getPosition());
+        offsetCenter(myloc.getPosition());
     };
        
 };

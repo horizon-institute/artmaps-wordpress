@@ -63,6 +63,7 @@ jQuery(document).ready(function(){
     beforeShow : function() {
       jQuery("#overlay").fadeIn();
       jQuery("body").addClass("fancybox-lock");
+      jQuery("time").timeago();
     },
     beforeClose : function() {
       jQuery("body").removeClass("fancybox-lock");
