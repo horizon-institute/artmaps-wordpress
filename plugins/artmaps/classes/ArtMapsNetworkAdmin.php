@@ -24,8 +24,7 @@ class ArtMapsNetworkAdmin {
                 $updated,
                 $nw->getCoreServerUrl(),
                 $nw->getMasterKey() != '',
-                $nw->getGoogleMapsKey(),
-                $nw->getIpInfoDbApiKey());
+                $nw->getGoogleMapsKey());
     }
 
     private function checkSubmission(ArtMapsNetwork $nw) {
@@ -45,12 +44,6 @@ class ArtMapsNetworkAdmin {
         if(isset($_POST['artmaps_google_maps_api_key'])
                 && $_POST['artmaps_google_maps_api_key'] != '') {
             $nw->setGoogleMapsKey($_POST['artmaps_google_maps_api_key']);
-            $r = true;
-        }
-
-        if(isset($_POST['artmaps_ipinfodb_api_key'])
-                && $_POST['artmaps_ipinfodb_api_key'] != '') {
-            $nw->setIpInfoDbApiKey($_POST['artmaps_ipinfodb_api_key']);
             $r = true;
         }
 

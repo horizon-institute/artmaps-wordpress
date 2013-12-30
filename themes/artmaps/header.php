@@ -19,12 +19,16 @@
       <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How to play</a>
       <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">What's new?</a>
     </li>
+    <li class="mylocation" onclick="window.main_map.centerOnMyLocation()" style="display: none;">
+        <a class="toggle">My Location</a>
+    </li>
+
     <li class="settings">
       <div id="map-settings">
         <a class="toggle">Settings</a>
         <div class="settings popover">
           <div class="settings-inner">
-          
+
           </div>
         </div>
       </div>
@@ -34,12 +38,12 @@
       <a href="<?php echo wp_login_url( get_bloginfo('url') ); ?>" id="log-in" class="toggle">Log in</a>
       <div class="log-in-popover popover" id="log-in-popover">
         <p class="status"></p>
+        <?php wp_login_form(array('label_username' => 'Email address', 'label_log_in' => 'Log in', 'label_remember' => 'Remember me')); ?>
         <?php if(function_exists("oa_social_login_add_javascripts")) { ?>
-        <div style="background-color:#fff; height:160px; text-align:center; overflow:hidden;">
+        <div style="background-color:#fff; height:100px; text-align:center; overflow:hidden;">
           <?php do_action('login_form'); ?>
         </div>
         <?php } ?>
-        <?php wp_login_form(array('label_username' => 'Email address', 'label_log_in' => 'Log in', 'label_remember' => 'Remember me')); ?>
       </div>
     </li>
     <?php } else { ?>
@@ -76,3 +80,11 @@
     </div>
   </div>
   <span class="loading-indicator gmnoprint">Searching this area for art&hellip;</span>
+
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+      if(window.location) {
+          jQuery(".mylocation").css("display", "inline");
+      }
+  });
+  </script>

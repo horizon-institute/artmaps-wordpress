@@ -2,28 +2,26 @@
 ArtMaps.Util = ArtMaps.Util || {};
 
 ArtMaps.Util.browserLocation = function(success, failure) {
-    var ipInfoDb = function() {
-        jQuery.ajax({
-            "type": "GET",
-            "url": "http://api.ipinfodb.com/v3/ip-city/?format=json&key=" 
-                    + ArtMapsConfig.IpInfoDbApiKey,
-            "async": false,
-            "dataType": "jsonp",
-            "success": function(data) {
-                success(new google.maps.LatLng(data.latitude, data.longitude));
-            },
-            "error": failure
-        });
-    };    
     if(navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
                 function(pos) {
                     success(new google.maps.LatLng(
                             pos.coords.latitude, pos.coords.longitude));
                 },
-                ipInfoDb
+                failure
         );
-    } else { ipInfoDb(); }
+    } else { failure(); }
+};
+
+ArtMaps.Util.watchLocation = function(update) {
+    if(navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+                function(pos) {
+                    update(new google.maps.LatLng(
+                            pos.coords.latitude, pos.coords.longitude));
+                }
+        );
+    }
 };
 
 ArtMaps.Util.toIntCoord = function(f) {

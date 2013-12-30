@@ -78,6 +78,18 @@ var styles =  [
         }
     })();
     
+    
+    var myloc = new google.maps.Marker({
+        "icon": ArtMapsConfig.MyLocationIconUrl,
+        "optimized": false,
+        "title": "Your location"
+    });
+    ArtMaps.Util.watchLocation(function (pos) { 
+         myloc.setMap(map);
+         myloc.setPosition(pos);
+    });
+    
+    
     (function() {
         map.on("maptypeid_changed", function() {
             var centre = map.getCenter();
@@ -591,5 +603,9 @@ var styles =  [
     this.addControl = function(control, position) {
         map.controls[position].push(control);
     }; 
+    
+    this.centerOnMyLocation = function() {
+        map.panTo(myloc.getPosition());
+    };
        
 };

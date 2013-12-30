@@ -12,8 +12,6 @@ class ArtMapsNetwork {
 
     const GoogleMapsApiKeyKey = 'GoogleMapsKey';
 
-    const IpInfoDbApiKeyKey = 'IpInfoDbApiKey';
-
     public function getCoreServerUrl() {
         $default = 'http://artmapscore.cloudapp.net';
         $k = ArtMapsNetwork::NetworkConfigPrefix
@@ -53,19 +51,6 @@ class ArtMapsNetwork {
                 . ArtMapsNetwork::GoogleMapsApiKeyKey;
         update_site_option($k, $key);
         $this->createBlogs();
-    }
-
-    public function getIpInfoDbApiKey() {
-        $default = '';
-        $k = ArtMapsNetwork::NetworkConfigPrefix
-                . ArtMapsNetwork::IpInfoDbApiKeyKey;
-        return get_site_option($k, $default, true);
-    }
-
-    public function setIpInfoDbApiKey($key) {
-        $k = ArtMapsNetwork::NetworkConfigPrefix
-                . ArtMapsNetwork::IpInfoDbApiKeyKey;
-        return update_site_option($k, $key);
     }
 
     public function initialise() {

@@ -18,7 +18,7 @@ class ArtMapsTemplating {
     }
 
     public function renderNetworkAdminPage(
-            $updated, $coreServerUrl, $masterKeyIsSet, $mapKey, $ipInfoDbKey) {
+            $updated, $coreServerUrl, $masterKeyIsSet, $mapKey) {
         $tpl = 'network_admin_page.html';
         $smarty = $this->initSmarty($tpl);
         $smarty->setCaching(false);
@@ -26,7 +26,6 @@ class ArtMapsTemplating {
         $smarty->assign('coreServerUrl', $coreServerUrl);
         $smarty->assign('masterKeyIsSet', $masterKeyIsSet);
         $smarty->assign('mapKey', $mapKey);
-        $smarty->assign('ipInfoDbKey', $ipInfoDbKey);
         return $smarty->fetch($tpl);
     }
 

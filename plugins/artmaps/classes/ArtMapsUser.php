@@ -81,6 +81,10 @@ class ArtMapsUser {
         return $this->wpUser->display_name;
     }
 
+    public function getEmail() {
+        return $this->wpUser->user_email;
+    }
+
     public function setDisplayName($displayName) {
         $this->wpUser->user_nicename = $displayName;
         $this->wpUser->display_name = $displayName;
