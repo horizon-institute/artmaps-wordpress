@@ -18,7 +18,7 @@ var styles =  [
             "zoom": 15,
             "minZoom": 3,
             "styles": styles,
-            "maxZoom": 17,
+            "maxZoom": 20,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_CENTER             },
@@ -165,9 +165,10 @@ var styles =  [
         clusterer.on("click", function(cluster) {            
             var markers = cluster.getMarkers();
             jQuery('.popover').fadeOut(150);
-            
-            var custom_center = jQuery(window).width() * 0.12;
-            offsetCenter(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ), -Math.abs(custom_center));
+
+            cluster.custom_center = ( jQuery(window).width() * 0.12 );
+            offsetCenter(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ), -Math.abs(cluster.custom_center));
+
             if(!markers || !markers.length) return;
             
             var pageSize = 15;
@@ -269,10 +270,11 @@ var styles =  [
                 }
             };
             
+            jQuery(".ui-dialog-content").not(cluster).dialog("close");
             cluster.dialog.dialog({
                 "show": { 
-                        "duration": 0,
-                        "complete": function() { showPage(0); }
+                    "duration": 0,
+                    "complete": function() { showPage(0); }
                  },
                 "hide": { "duration": 0 },
                 "width": 260,
@@ -283,7 +285,7 @@ var styles =  [
                 "closeText": "",
                 "draggable": false,
                 "open": function() {
-                    jQuery("#artmaps-search-results-artworks").dialog( "close" );
+                    jQuery("#artmaps-search-results-artworks").dialog("close");
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", cluster.dialog.closeFunc);
                 },
@@ -580,7 +582,7 @@ var styles =  [
                     offsetCenter(place.geometry.location);
                 } else {
                     offsetCenter(place.geometry.location);
-                    map.setZoom(12);
+                    map.setZoom(17);
                 }
             }
         });

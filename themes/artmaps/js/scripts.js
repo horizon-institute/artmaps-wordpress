@@ -24,7 +24,8 @@ jQuery(document).ready(function(){
             }
             c.find(".artmaps-map-object-container-title").text(metadata.title);
             c.find(".artmaps-map-object-container-artist").text(metadata.artist);
-            c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
+            //c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
+            c.find(".artmaps-map-object-container-suggestions").html('<i class="fa-question"></i>');
             return c;
         };
     })();
@@ -82,8 +83,7 @@ jQuery(document).ready(function(){
   });
   
   jQuery( "#search-form-toggle" ).click(function(event) {
-    jQuery('#location-search-form').toggle();
-    jQuery('#keyword-search-form').toggle();
+    jQuery('#location-search-form, #keyword-search-form, #search-label-places, #search-label-art').toggle();
     event.preventDefault();
   });
   
@@ -102,7 +102,7 @@ jQuery(document).ready(function(){
     event.preventDefault();
   });
   
-  jQuery( "#explore-map" ).click(function(event) {
+  jQuery( "#explore-map, #welcome" ).click(function(event) {
     jQuery('#welcome').fadeOut(300);
     event.preventDefault();
   });
@@ -311,7 +311,8 @@ jQuery(document).ready(function(){
                 na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + oc.find(".grid-work-text .artist").first().text() + '</span></em>'));
                 art_list.append(nc);  
             });
-
+            
+            jQuery(".ui-dialog-content").not("#artmaps-search-results-artworks").dialog("close");
             jQuery("#artmaps-search-results-artworks").dialog({
               "width": 260,
               "dialogClass": "artwork-results artwork-results-keyword",
@@ -321,7 +322,7 @@ jQuery(document).ready(function(){
               "closeText": "",
               "draggable": false,
               "open": function() {
-                cluster.dialog( "close" );
+                
               },
               "close": function() {
                 jQuery("#keyword-search-form input.query-field").val("");

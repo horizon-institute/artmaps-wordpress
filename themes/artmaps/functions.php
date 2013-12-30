@@ -20,6 +20,14 @@ function ajaxify_comments($comment_ID, $comment_status){
   }
 }
 
+# Open comment links in new tab
+function comment_links_filter($text) {
+  $return = str_replace('<a', '<a target="_blank"', $text);
+  return $return;
+}
+add_filter('get_comment_author_link', 'comment_links_filter');
+add_filter('comment_text', 'comment_links_filter');
+
 # Hide admin bar for non admins
 if (!current_user_can('administrator')):
   show_admin_bar(false);
@@ -43,7 +51,7 @@ add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
 add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
-  return '<div class="loader"></div><a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot?</a>'.
+  return '<div class="loader"></div><a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot password?</a>'.
   wp_nonce_field( 'ajax-login-nonce', 'security', true, false );
 }
 

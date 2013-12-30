@@ -41,7 +41,7 @@ class ArtMapsContent {
         wp_register_script('artmaps-comment-date', $p . '/js/comment-date.js');
         wp_register_style('artmaps', ArtMapsUtil::findThemeUri('css/artmaps.css'));
         wp_register_style('artmaps-map', ArtMapsUtil::findThemeUri('css/map.css'));
-        wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));
+        //wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
                         'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'jquery-scrollto',

@@ -34,6 +34,7 @@ return false;
 
 });
 });</script>
+<h2>Discuss this artwork's location</h2>
 <ul class="comment-list">
   <?php 
       $args = array(
@@ -45,7 +46,11 @@ return false;
 <?php
   global $current_user;
   get_currentuserinfo();
-  $current_avatar = get_avatar( $current_user->ID, 35 ); 
-  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => 'Please log in to join the discussion.');
+  if(is_user_logged_in()) {
+    $current_avatar = get_avatar( $current_user->ID, 35 ); 
+  } else {
+    $current_avatar = '';
+  }
+  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please log in to post a comment.</p>');
   comment_form($args);
 ?>

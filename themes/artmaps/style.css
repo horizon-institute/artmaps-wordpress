@@ -285,23 +285,19 @@ i {
 
 #artmaps-object-map button {
   border: 0;
-  background: #009279;
+  background: #777;
   -webkit-font-smoothing: antialiased;
   color: #fff;
   margin-top: 20px;
   margin-right: 20px;
   font-weight: normal;
   text-shadow: none;
-  box-shadow:none;
+  box-shadow: none;
   padding: 5px 17px;
-  border-radius: 3px;
-  font-size: 15px;
+  border-radius: 2px;
+  font-size: 13px;
   font-family: TateNewRegular;
   cursor: pointer;
-}
-
-#artmaps-object-map button:hover {
-  background:#009279;
 }
 
 #artmaps-object-map-autocomplete {
@@ -311,7 +307,19 @@ i {
   font-size: 13px;
   border-radius: 2px;
   margin-right: 20px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+#artmaps-object-map-suggest {
+  background: #009279;
+  border: 0;
+  font-family: TateNewRegular;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 30px;
+  border-radius: 2px;
+  margin-top: 20px;
+  cursor:pointer;
 }
 
 .artmaps-object-infobox,
@@ -380,7 +388,7 @@ i {
     font-size: 13px;
 }
 
-.artmaps-map-object-container:nth-child(odd) {
+.artmaps-map-object-container:nth-child(even) {
   background:#f6f6f6;
 }
 
@@ -395,7 +403,7 @@ i {
   line-height: 38px;
   overflow: hidden;
   position: fixed;
-  bottom: 32px;
+  bottom: 30px;
   height: 38px;
   width: 31%;
   border-radius: 0px 0px 2px 2px;
@@ -412,7 +420,7 @@ i {
   line-height: 26px;
 }
 
-.log-in-popover {
+.log-in-popover, .log-out-popover {
   position: absolute;
   text-align: left;
   color: #222;
@@ -420,13 +428,16 @@ i {
   left: 50%;
   width: 260px;
   border-radius: 4px;
-  margin-left: -140px;
-  margin-top: 30px;
-  border: 2px solid rgba(255,255,255,0.5);
+  margin-left: -130px;
+  margin-top: 20px;
   font-size: 14px;
   line-height: 32px;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.7);
   display:none;
+}
+
+.log-out-popover {
+  background: #fff;
 }
 
 .log-in-popover .loader {
@@ -453,7 +464,7 @@ i {
   box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.15);
 }
 
-.log-in-popover form, .log-in-popover .wrap {
+.log-in-popover form, .log-in-popover .wrap, .log-out-popover .wrap {
   border:15px solid #fff;
   border-width: 15px 20px;
   border-radius: 2px;
@@ -474,7 +485,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   margin-right:0px;
 }
 
-.log-in-popover:before {
+.log-in-popover:before, .log-out-popover:before {
   content: " ";
   width: 0px;
   height: 0px;
@@ -541,6 +552,18 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   
 .log-in-popover .login-remember input {
   width: auto;
+}
+
+header .menu .log-out-popover li {
+  display: block;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+header .menu .log-out-popover a {
+  color: #369;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 #log-in-close {
@@ -635,7 +658,6 @@ header .menu {
 
 header .menu li {
   display: inline;
-  margin-left:10px;
 }
 
 header .menu li:first-child {
@@ -654,7 +676,7 @@ header .menu li.log-in, header .menu li.log-out, header .menu .settings {
 
 header .menu .toggle {
   margin-top: 0px;
-  margin-right: 0px;
+  margin-right: 10px;
   border: 1px solid rgba(255,255,255,0.4);
   display: inline-block;
   font-size: 15px;
@@ -684,6 +706,8 @@ header .menu .log-out .toggle {
 header .menu li.log-out img.avatar {
   width: 36px;
   height: 36px;
+  float:left;
+  margin-right:15px;
   border-radius: 1px;
   background: rgba(255,255,255,0.5);
   display: block;
@@ -731,10 +755,22 @@ body:before {
 }
 
 .search-form a.switch i.fa-chevron-down {
-  font-size: 11px;
+  font-size: 8px;
   position: relative;
-  top: -2px;
-  left: 3px;
+  top: -3px;
+  left: 4px;
+}
+
+.search-form a.switch #search-label-art, .search-form a.switch #search-label-places {
+  font-size: 15px;
+  margin-left: 5px;
+  position: relative;
+  top: -1px;
+  font-weight: normal;
+}
+
+#search-label-art {
+  display:none;
 }
 
 .search-form .query-field {
@@ -744,11 +780,22 @@ body:before {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   background:#fff;
-  padding-left:62px;
   border-radius:2px;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
   border: none;
   margin:0;
+}
+
+#keyword-search-form .query-field {
+  padding-left:87px;
+}
+
+#location-search-form .query-field {
+  padding-left:109px;
+}
+
+.search-form .query-field:focus {
+  outline: 2px solid #eee;
 }
 
 .search-form #location-search-form { display:block; }
@@ -822,7 +869,6 @@ body:before {
   border-radius: 4px;
   margin-bottom: 20px;
   margin-top: 20px;
-  border: 2px solid rgba(255,255,255,0.5);
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
 }
 
@@ -854,7 +900,7 @@ body:before {
   padding: 0px;
   padding-left:15px;
   color: #222;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 24px;
   width: 100% !important;
   box-sizing: border-box; -moz-box-sizing: border-box;
@@ -970,7 +1016,6 @@ body:before {
   margin-right:-2px;
   bottom: 30px !important;
   width: 31% !important;
-  border: 2px solid rgba(255,255,255,0.5) !important;
   background: transparent !important;
   z-index: 101 !important;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
@@ -1021,6 +1066,7 @@ body:before {
   bottom: 0px;
   left: 0px;
   right: 0px;
+  background: rgba(255,255,255,0.7);
 }
 
 .keyword-search-results ul {
@@ -1035,7 +1081,7 @@ body:before {
   z-index: 99;
   font-size: 15px;
   line-height: 38px;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 0px 16px;
   margin: -61px -3px 0px;
   padding-left: 34px;
@@ -1097,10 +1143,10 @@ body:before {
 
 .artmaps-map-object-list-container-page {
   position: relative;
-  padding-bottom: 45px;
+  padding-bottom: 38px;
   box-sizing: border-box; -moz-box-sizing: border-box;
   min-height: 100%;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.7);
 }
 
 .artmaps-map-object-list-container-page-previous {
@@ -1207,10 +1253,19 @@ body:before {
 
 .fancybox-error {
 	color: #444;
-	font: 14px/20px "Helvetica Neue",Helvetica,Arial,sans-serif;
-	margin: 0;
-	padding: 15px;
-	white-space: nowrap;
+  margin: 0;
+  padding: 15px;
+  white-space: nowrap;
+  background: #fff;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  top: 36px;
+  text-align: center;
+  font-size: 18px;
+  line-height: 28px;
+  padding-top: 100px;
 }
 
 .fancybox-image, .fancybox-iframe {
@@ -1228,34 +1283,36 @@ body:before {
 	top: 103px;
   right:4%;
   width:31%;
-  bottom:34px;
+  bottom:30px;
 	cursor: pointer;
 	z-index: 99999;
 }
 
 #fancybox-loading div {
 	border-radius: 2px;
-	margin:2px 0px;
+	margin-right:-2px;
+	margin-left:2px;
 	height:100%;
-  background:rgba(255,255,255,1) url('images/25x25.gif') center center no-repeat;
+  background:rgba(255,255,255,0.8) url('images/25x25.gif') center center no-repeat;
 }
 
 .fancybox-close {
   position: absolute;
-  top: 2px;
+  top: 0px;
   text-align: left;
-  right: 2px;
+  right: 0px;
   padding-left: 15px;
-  left: 66%;
-  border-radius: 1px 1px 0px 0px;
-  margin-left: 1px;
-  background: #EEE;
-  color: #666;
+  width: 33.7%;
+  box-sizing: border-box;
+  border-radius: 2px 2px 0px 0px;
+  margin-left: 0px;
+  background: rgba(255,255,255,0.9);
+  color: #369;
   text-decoration: none;
-  height: 34px;
+  height: 36px;
   cursor: pointer;
   z-index: 8040;
-  line-height: 34px;
+  line-height: 37px;
   font-size: 15px;
   font-family: TateNewRegular;
   box-shadow: inset 0px -5px 14px -5px rgba(0,0,0,0.2);
@@ -1273,10 +1330,10 @@ body:before {
   display: block;
   top: -15px;
   right: 50%;
-  border: solid #eee;
+  border: solid rgba(255,255,255,0.9);
   border-width: 0px 15px 15px;
-  border-color: #eee transparent;
-  margin-right: -13px;
+  border-color: rgba(255,255,255,1) transparent;
+  margin-right: -15px;
 }
 
 .fancybox-nav {
@@ -1418,17 +1475,16 @@ body:before {
   right: 0px;
   bottom: 0px;
   margin-top:34px;
-  left: 66%;
+  width: 33.7%;
   overflow: auto;
   z-index: 999;
-  border:2px solid rgba(255,255,255,0.5);
   border-radius: 2px;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
 }
 
 #artmaps-object-metadata .content {
   background: #FFF;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   min-height:100%;
   box-sizing: border-box;
 }
@@ -1437,7 +1493,8 @@ body:before {
   font-family: TateNewRegular;
   font-size: 23px;
   line-height: 28px;
-  color: #111;
+  font-weight:normal;
+  color: #444;
 }
 
 .artmaps-object-image {
@@ -1445,10 +1502,10 @@ body:before {
   overflow: hidden;
   margin: -20px -20px 0px;
   text-align: center;
-  padding: 15px;
+  padding: 18px 15px 15px;
 }
 
-#artmaps-object-metadata img {
+.artwork-img {
   max-width:100% !important;
   max-height:250px;
   float:none !important;
@@ -1457,18 +1514,38 @@ body:before {
   margin: 0 auto;
 }
 
+#artmaps-object-suggestion-message {
+  background: #009279;
+  display:none;
+  color: #fff;
+  margin: 20px -20px -20px;
+  padding: 20px 20px 20px 50px;
+  font-size: 15px;
+  line-height: 19px;
+}
+
+#artmaps-object-suggestion-message h2 {
+  font-size: 24px;
+  line-height: 35px;
+  margin-bottom: 5px;
+}
+
+#artmaps-object-suggestion-message h2 i {
+  margin-left: -36px;
+  float: left;
+}
+
 #artmaps-object-metadata dl {
   margin-top:15px;
+  color:#444;
 }
 
 #artmaps-object-metadata dt {
   float: left;
   margin-top: 12px;
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
   line-height: 16px;
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 #artmaps-object-metadata dd {
@@ -1479,15 +1556,8 @@ body:before {
 
 #artmaps-object-metadata .artwork-external {
   text-decoration: none;
-  background: #009279;
-  color: #fff;
-  padding: 10px 13px;
-  display: block;
-  border-radius: 2px;
-  font-family: TateNewRegular;
-  font-size: 15px;
-  margin:15px 80px 15px 0px;
-  text-align: center;
+  color: #369;
+  border-bottom:1px solid rgba(51,102,153,0.5);
 }
 
 .artwork-page {
@@ -1495,82 +1565,76 @@ body:before {
   display:block;
 }
 
-#artmaps-object-detail, #artmaps-object-comments {
+#artmaps-object-detail {
+  background:rgba(255,255,255,0.5);
+  overflow: hidden;
   position: absolute;
   left: 0px;
+  right: 33.7%;
   bottom: 0px;
-  background:rgba(255,255,255,0.3);
-  top: 0px;
-  right: 0px;
-  overflow: hidden;
+  top: 36px;
 }
 
 #artmaps-object-comments {
-  overflow:auto;
-  background: #fff;
+  background: #f6f6f6;
+  margin: 20px -20px 0px;
+  padding: 20px 20px 20px 70px;
+  overflow: hidden;
+}
+
+#artmaps-object-comments h2 {
+  margin-left: -50px;
+  margin-bottom: 15px;
+  font-weight: normal;
+  font-size: 18px;
+}
+
+#artmaps-object-comments .avatar {
+  border-radius: 2px;
+  margin-left:-50px;
+  float:left;
 }
 
 #artmaps-object-comments .comment-form-comment label {
   display: none;
 }
 
+.comment-list .comment {
+  margin-bottom:20px;
+}
+
 .comment-list .comment-author {
   clear: both;
-  overflow: hidden;
-  line-height: 35px;
-  white-space: Nowrap;
-  margin-bottom: 10px;
-  overflow: hidden;
+  line-height: 20px;
+  font-size: 15px;
 }
 
-.comment-list .avatar {
-  border-radius: 35px;
-  float: left;
-  margin-right: 10px;
+.comment-list .comment-author b {
+  font-weight: normal;
 }
 
-.comment-metadata {
-  position: absolute;
-  right: 30px;
-  top: 30px;
-  line-height: 35px;
-}
-
-.comment-metadata a {
-  color: #666;
+.comment-list .comment-metadata a {
   text-decoration: none;
-  text-transform: uppercase;
-  font-size: 12px;
-  line-height: 35px;
+  color: #666;
+  font-size: 11px;
 }
 
 .comment-content {
-  padding-left: 45px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 18px;
+  margin-top:15px;
 }
 
 .comment .says {
   display:none;
 }
 
-.comment-list .comment {
-  display: block;
-  border-bottom: 1px solid #CCC;
-  padding: 20px;
-  overflow: hidden;
-}
-
-#respond {
-  padding:20px;
-  position: relative;
-  margin-left: 25px;
-}
-
 #respond textarea {
   display: block;
-  padding: 20px;
+  padding: 10px;
   width: 100%;
-  font-size: 100%;
+  font-size: 13px;
+  line-height: 20px;
   font-family: TateNewRegular;
   max-width: 100%;
   height:100px;
@@ -1581,15 +1645,20 @@ body:before {
   box-shadow: inset 0px 2px 5px rgba(0,0,0,0.1);
 }
 
+#respond .not-logged-in {
+  margin-left:-50px;
+  color:#666;
+  font-size:15px;
+}
+
 .comment-reply-link, #respond #submit {
   color: #fff;
   background: #009279;
   padding: 0px 17px;
   border-radius: 2px;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 30px;
   border:0;
-  float:right;
   font-family:TateNewRegular;
   font-weight: normal;
   cursor: pointer;
@@ -1598,12 +1667,8 @@ body:before {
 }
 
 #respond .avatar {
-  width: 35px;
-  height: 35px;
-  border-radius: 35px;
-  position: absolute;
-  left: -5px;
-  top: 35px;
+  margin-left:-50px;
+  float:left;
 }
 
 #artmaps-object-map {
@@ -1632,6 +1697,10 @@ body:before {
   padding: 120px 4% 0px;
 }
 
+.logged-in #welcome {
+  display:none;
+}
+
 #welcome h2 {
   font-size: 80px;
   line-height: 90px;
@@ -1651,6 +1720,10 @@ body:before {
   bottom: 30px;
   font-size: 13px;
   line-height: 18px;
+  color: rgba(255,255,255,0.7);
+}
+
+#welcome p.notice a {
   color: rgba(255,255,255,0.7);
 }
 
@@ -1699,7 +1772,6 @@ body:before {
   }
   header .logo {
     margin:0;
-    width:40%;
     float:left;
   }
   header .logo img {
@@ -1710,6 +1782,14 @@ body:before {
     margin:0;
     float:right;
     width:60%;
+    left:auto;
+    right:0px;
+    top:7px;
+  }
+  header .menu .toggle, #map-settings .toggle, header .menu .toggle:hover {
+    border:none;
+    background: none;
+    box-shadow: none;
   }
   header .menu li.log-in, header .menu li.log-out {
     float:right;
@@ -1717,14 +1797,14 @@ body:before {
   header .menu .settings {
     float:right;
   }
+  #map-settings .settings {
+    right:10px;
+  }
   header .menu li.log-in a, header .menu li.log-out a {
     line-height:25px;
   }
   header .menu li.log-out .logged-in-username {
     display:none;
-  }
-  header .menu li.log-out img.avatar {
-    margin-top:-5px;
   }
   body:before {
     display:none;
@@ -1828,6 +1908,7 @@ body:before {
     right: 10px;
     text-align: center;
     top: 12px;
+    width:auto;
   }
   .fancybox-close:before {
     content:none;
@@ -1878,7 +1959,7 @@ body:before {
   #artmaps-object-metadata {
     border-radius:0px;
   }
-  #artmaps-object-metadata img {
+  .artwork-img {
     margin-top:0px;
   }
   .fancybox-overlay {
@@ -1899,7 +1980,7 @@ body:before {
     border-radius:0px;
     margin:0;
   }
-  #artmaps-object-detail, #artmaps-object-comments {
+  #artmaps-object-detail {
     clear:both;
     padding:2%;
     position:static;

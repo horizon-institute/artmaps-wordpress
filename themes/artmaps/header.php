@@ -16,7 +16,8 @@
   </a>
   <ul class="menu">
     <li class="about">
-      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How it works</a>
+      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How to play</a>
+      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">What's new?</a>
     </li>
     <li class="settings">
       <div id="map-settings">
@@ -48,9 +49,14 @@
         get_currentuserinfo();
       ?>
       <a href="#" id="log-in" class="toggle"><?php echo get_avatar( $current_user->ID, 32 ); ?></a>
-      <div class="log-in-popover popover" id="log-in-popover">
+      <div class="log-out-popover popover" id="log-in-popover">
         <div class="wrap">
-          <a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>" class="artmaps-button">Log out</a>
+          <?php echo get_avatar( $current_user->ID, 64 ); ?>
+          <?php $current_user = wp_get_current_user(); ?>
+          <ul>
+            <li><?php echo $current_user->display_name; ?></li>
+            <li><a href="<?php echo wp_logout_url( get_bloginfo('url') ); ?>">Log out</a></li>
+          </ul>
         </div>
       </div>
     </li>
@@ -58,7 +64,7 @@
   </ul>
   </header>
   <div class="search-form">
-    <a class="switch" href="#" id="search-form-toggle"><i class="fa-search"></i><i class="fa-chevron-down"></i></a>
+    <a class="switch" href="#" id="search-form-toggle"><i class="fa-search"></i><span id="search-label-places">Places</span><span id="search-label-art">Art</span><i class="fa-chevron-down"></i></a>
     <div id="location-search-form">
       <input id="artmaps-map-autocomplete" type="text" placeholder="Find a place" class="query-field" />
     </div>

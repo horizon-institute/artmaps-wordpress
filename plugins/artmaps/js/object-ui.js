@@ -32,7 +32,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         
         if(ArtMapsConfig.CoreUserID != location.OwnerID 
                 && (!location.hasUserConfirmed(ArtMapsConfig.CoreUserID))) {
-            var confirm = jQuery("<div class=\"artmaps-button primary-button\">Agree</div>");
+            var confirm = jQuery("<div class=\"artmaps-button primary-button\"><i class=\"fa-check\"></i>&nbsp;Agree</div>");
             content.append(confirm);
             confirm.click(function() {
                 confirm.remove();
