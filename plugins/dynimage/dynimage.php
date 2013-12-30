@@ -66,7 +66,7 @@ class DynImage {
                 $newWidth = $scale * $oldWidth;
                 $newHeight = $scale * $oldHeight;
                 $output = imagecreatetruecolor($newWidth, $newHeight);
-                imagecopyresized($output, $source, 0, 0, 0, 0, $newWidth, $newHeight, $oldWidth, $oldHeight);
+                imagecopyresampled($output, $source, 0, 0, 0, 0, $newWidth, $newHeight, $oldWidth, $oldHeight);
                 imagejpeg($output, $cacheFile, $this->config->quality);
             }
 
