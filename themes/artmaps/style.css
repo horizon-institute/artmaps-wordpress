@@ -532,6 +532,8 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   width: 100%;
   box-sizing: border-box; -moz-box-sizing: border-box;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .log-in-popover .login-remember {
@@ -635,10 +637,10 @@ header .logo {
 
 header .logo:before {
   background:url('images/tate-tag.png') center center no-repeat;
-  width:51px;
-  height:20px;
-  display:block;
-  content:"Tate";
+  width: 51px;
+  height: 20px;
+  display: block;
+  content: "Tate";
   text-indent: -9999px;
   position: absolute;
   top: -26px;
@@ -1505,6 +1507,20 @@ body:before {
   padding: 18px 15px 15px;
 }
 
+.artmaps-object-image a:hover:after {
+  content: "\f00e";
+  text-align: center;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  font-family: FontAwesome;
+  position: absolute;
+  font-size: 50px;
+  line-height: 250px;
+  color: #fff;
+  text-shadow: 0px 8px 15px rgba(0,0,0,0.8);
+}
+
 .artwork-img {
   max-width:100% !important;
   max-height:250px;
@@ -1771,34 +1787,93 @@ body:before {
     height:40px;
   }
   header .logo {
-    margin:0;
-    float:left;
+    margin: 0px auto;
+    width: 124px;
+    display: block;
+    float: none;
+    text-align: center;
   }
   header .logo img {
-    width:150px;
-    margin: 8px 5px;
+    width: 100%;
+    display: block;
+  }
+  header .logo:before {
+    background:url('images/tate-tag.png') center center no-repeat;
+    width: 33px;
+    height: 16px;
+    background-size: 100%;
+    display: block;
+    content: "Tate";
+    text-indent: -9999px;
+    position: static;
+    margin: 0 auto 2px;
+    opacity: 0.7;
   }
   header .menu {
     margin:0;
-    float:right;
-    width:60%;
-    left:auto;
+    left:0px;
     right:0px;
     top:7px;
+  }
+  header .menu .toggle {
+    margin:0 auto;
   }
   header .menu .toggle, #map-settings .toggle, header .menu .toggle:hover {
     border:none;
     background: none;
     box-shadow: none;
+    text-shadow: none;
   }
-  header .menu li.log-in, header .menu li.log-out {
-    float:right;
+  header .menu li.log-in, header .menu li.log-out, header .menu .settings {
+    float: right;
+    display: inline;
+    text-align: center;
+    position: static;
+  }
+  header .menu .log-out .toggle {
+    padding: 0px 25px;
+  }
+  #map-settings a.toggle {
+    padding:0px 25px;
+    width:auto;
+    height:auto;
+  }
+  #map-settings a.toggle:before {
+    font-size:28px;
+    line-height:36px;
   }
   header .menu .settings {
-    float:right;
+    right:0;
   }
   #map-settings .settings {
     right:10px;
+  }
+  #how-it-works.toggle {
+    font-size:0px;
+  }
+  #how-it-works.toggle:before {
+    content:"\f059";
+    font-family: FontAwesome;
+    font-size:28px;
+    line-height: 36px;
+  }
+  #whats-new.toggle {
+    font-size:0px;
+  }
+  #whats-new.toggle:before {
+    content:"\f0e6";
+    font-family: FontAwesome;
+    font-size:28px;
+    line-height: 36px;
+  }
+  #log-in.toggle {
+    font-size:0px;
+  }
+  #log-in.toggle:before {
+    content:"\f007";
+    font-family: FontAwesome;
+    font-size:28px;
+    line-height: 36px;
   }
   header .menu li.log-in a, header .menu li.log-out a {
     line-height:25px;
@@ -1916,7 +1991,7 @@ body:before {
   #artmaps-object-metadata {
     width:auto;
     position: static;
-    margin:10px;
+    margin:10px 10px 0px 10px;
   }
   #artmaps-object-tabs {
     position: static;
@@ -1928,14 +2003,6 @@ body:before {
   .fancybox-inner {
     overflow: auto !important;
     height: auto !important;
-  }
-  #artmaps-object-detail {
-    position: static;
-    height: 400px;
-    border: 0px;
-    padding: 4%;
-    margin:0;
-    background: #fff;
   }
   .loading-indicator {
     position: fixed;
@@ -1966,6 +2033,9 @@ body:before {
     z-index:9999999;
     top:50px;
   }
+  .artmaps-object-image {
+    margin: 15px -20px 0px;
+  }
   #artmaps-object-menu {
     width:auto;
   }
@@ -1981,15 +2051,27 @@ body:before {
     margin:0;
   }
   #artmaps-object-detail {
+    height: 300px;
+    border: 0px;
+    background: #fff;
     clear:both;
     padding:2%;
     position:static;
-    margin:0;
+    height:300px;
+    margin:0px 10px 10px 10px;
   }
   #artmaps-search-form input:first-child {
     margin-left: 0px;
     margin-bottom:10px;
     width: auto;
+  }
+  .log-in-popover, .log-out-popover {
+    margin-left:auto;
+    width:auto;
+    position:absolute;
+    left:10px;
+    right:10px;
+    top:30px;
   }
   #map-settings .settings:before {
     right:5px;
@@ -1998,5 +2080,33 @@ body:before {
     position: static;
     display:none;
   }
+}
+
+@media all and (max-width: 450px) {
+
+  header .menu .log-out .toggle, header .menu .log-in .toggle, #map-settings a.toggle {
+    padding: 0px 10px 0px 0px;
+  }
+  
+  header .menu .toggle {
+    padding: 0px 0px 0px 10px;
+  }
+  
+  #welcome h2 {
+    font-size: 24px;
+    line-height: 28px;
+    margin: 0px 0px;
+  }
+  
+  #welcome p {
+    font-size: 16px;
+    line-height: 20px;
+    margin: 10px 0px;
+  }
+  
+  #welcome .more-info {
+    display:none;
+  }
+  
 }
 

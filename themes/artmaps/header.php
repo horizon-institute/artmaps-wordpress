@@ -2,7 +2,7 @@
 <html <?php language_attributes(); ?>>
   <head>
       <meta charset="<?php bloginfo( 'charset' ); ?>" />
-      <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+      <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui" />
       <title><?php bloginfo('name'); ?> &middot; <?php is_front_page() ? bloginfo('description') : wp_title(''); ?></title>
       <meta name="description" content="<?php bloginfo( 'description' ); ?>">
       <?php wp_head(); ?>
@@ -11,18 +11,16 @@
 
   <body <?php body_class(); ?>>
   <header>
-  <a href="<?php bloginfo('url'); ?>" class="logo">
+  <a href="#" onclick="window.main_map.centerOnMyLocation(); return false;" class="logo">
     <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/artmaps-logo.png" alt="<?php bloginfo('title'); ?>" />
   </a>
   <ul class="menu">
     <li class="about">
       <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How to play</a>
-      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">What's new?</a>
     </li>
-    <li class="mylocation" onclick="window.main_map.centerOnMyLocation()" style="display: none;">
-        <a class="toggle">My Location</a>
+    <li class="activity">
+      <a href="about" class="toggle fancybox fancybox.ajax" id="whats-new">What's new?</a>
     </li>
-
     <li class="settings">
       <div id="map-settings">
         <a class="toggle">Settings</a>
@@ -70,11 +68,11 @@
   <div class="search-form">
     <a class="switch" href="#" id="search-form-toggle"><i class="fa-search"></i><span id="search-label-places">Places</span><span id="search-label-art">Art</span><i class="fa-chevron-down"></i></a>
     <div id="location-search-form">
-      <input id="artmaps-map-autocomplete" type="text" placeholder="Find a place" class="query-field" />
+      <input id="artmaps-map-autocomplete" type="text" autocorrect="off" placeholder="Find a place" class="query-field" />
     </div>
     <div id="keyword-search-form">
       <form>
-        <input placeholder="Search by keyword" name="term" value="" type="text" size="30" autocomplete="off" class="query-field">
+        <input placeholder="Search by keyword" name="term" autocorrect="off" value="" type="text" size="30" autocomplete="off" class="query-field">
         <input type="submit" style="display:none;">
       </form>
     </div>

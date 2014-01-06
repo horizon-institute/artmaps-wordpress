@@ -85,6 +85,7 @@ jQuery(document).ready(function(){
   
   jQuery( "#search-form-toggle" ).click(function(event) {
     jQuery('#location-search-form, #keyword-search-form, #search-label-places, #search-label-art').toggle();
+    jQuery('#location-search-form .query-field, #keyword-search-form .query-field').val("");
     event.preventDefault();
   });
   
