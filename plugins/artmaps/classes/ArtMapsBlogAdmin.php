@@ -67,6 +67,13 @@ class ArtMapsBlogAdmin {
             $r = true;
         }
 
+        if(isset($_POST['artmaps_blog_config_location_reasons'])) {
+            $blog->setLocationReasons($_POST['artmaps_blog_config_location_reasons']);
+            $r = true;
+        } else if($r) {
+            $blog->setLocationReasons(array());
+        }
+
         return $r;
     }
 }}
