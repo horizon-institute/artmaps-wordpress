@@ -41,6 +41,7 @@ class ArtMapsTemplating {
         $smarty->assign('categories', get_categories(array('hide_empty' => false)));
         $smarty->assign('postCategories', $blog->getPostCategories());
         $smarty->assign('jQueryThemeUri', $blog->getJQueryThemeUri());
+        $smarty->assign('locationReasons', $blog->getLocationReasons());
         return $smarty->fetch($tpl);
     }
 

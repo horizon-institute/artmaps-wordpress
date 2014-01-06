@@ -22,6 +22,8 @@ class ArtMapsBlog {
 
     const JQueryThemeUriOptionKey = 'JQueryThemeUri';
 
+    const LocationReasonsOptionKey = 'LocationReasons';
+
     const ImportTableSuffix = 'artmaps_imports';
 
     private $blogID, $remoteID, $name, $key;
@@ -192,6 +194,18 @@ class ArtMapsBlog {
         $k = ArtMapsBlog::BlogConfigPrefix
                 . ArtMapsBlog::JQueryThemeUriOptionKey;
         update_blog_option($this->getBlogID(), $k, $uri);
+    }
+
+    public function getLocationReasons() {
+        $k = ArtMapsBlog::BlogConfigPrefix
+        . ArtMapsBlog::LocationReasonsOptionKey;
+        return get_blog_option($this->getBlogID(), $k, array());
+    }
+
+    public function setLocationReasons($reasons) {
+        $k = ArtMapsBlog::BlogConfigPrefix
+        . ArtMapsBlog::LocationReasonsOptionKey;
+        update_blog_option($this->getBlogID(), $k, $reasons);
     }
 }}
 ?>

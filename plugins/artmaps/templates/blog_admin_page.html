@@ -2,6 +2,34 @@
 jQuery(function($) {
     $("#artmaps_blog_config_post_date").datetimepicker( { "dateFormat" : "yy-mm-dd" } ); 
 });
+
+function addNewReason() {
+    var cell = jQuery("#reason_cell");
+    
+    var span = jQuery(document.createElement("span"));
+    
+    var input = jQuery(document.createElement("input"));
+    input.attr({
+        "type": "text",
+        "name": "artmaps_blog_config_location_reasons[]"
+    });
+    
+    
+    var del = jQuery(document.createElement("button"));
+    del.text("Delete");
+    del.click(function() {
+       span.remove();
+       return false;
+    });
+    
+    span.append(input).append(del).append(jQuery(document.createElement("br")));
+    
+    cell.append(span);
+}
+
+function deleteReason(el) {
+    jQuery(el).parent().remove();       
+}
 </script>
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"><br></div>
@@ -24,36 +52,45 @@ jQuery(function($) {
 					</td>
 				</tr>
 				<tr valign="top">
-                    <th scope="row"><label for="artmaps_blog_config_post_author">Post Author</label></th>
-                    <td>
-                        <select name="artmaps_blog_config_post_author">
-                            {foreach $users as $user}
-                            <option value="{$user->ID}"{if $postAuthor == $user->ID} selected="selected"{/if}>{$user->display_name}</option>
-                            {/foreach}
-                        </select>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><label for="artmaps_blog_config_post_date">Post Date</label></th>
-                    <td>
-                        <input id="artmaps_blog_config_post_date" name="artmaps_blog_config_post_date"
-                                type="text" value="{$postDate}" size="40" readonly="readonly" />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><label for="artmaps_blog_config_post_categories">Post Categories</label></th>
-                    <td>
-                        {foreach $categories as $category}
-                        <input name="artmaps_blog_config_post_categories[]" type="checkbox" value="{$category->cat_ID}"{if in_array($category->cat_ID, $postCategories)} checked="checked"{/if} />{$category->name}<br />
-                        {/foreach}
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><label for="artmaps_blog_config_jquery_theme_uri">jQuery Theme Uri</label></th>
-                    <td>
-                        <input name="artmaps_blog_config_jquery_theme_uri" type="text" value="{$jQueryThemeUri}" size="40" />
-                    </td>
-                </tr>		
+          <th scope="row"><label for="artmaps_blog_config_post_author">Post Author</label></th>
+          <td>
+            <select name="artmaps_blog_config_post_author">
+              {foreach $users as $user}
+              <option value="{$user->ID}"{if $postAuthor == $user->ID} selected="selected"{/if}>{$user->display_name}</option>
+              {/foreach}
+            </select>
+          </td>
+        </tr>
+        <tr valign="top">
+          <th scope="row"><label for="artmaps_blog_config_post_date">Post Date</label></th>
+          <td>
+            <input id="artmaps_blog_config_post_date" name="artmaps_blog_config_post_date"
+                type="text" value="{$postDate}" size="40" readonly="readonly" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <th scope="row"><label for="artmaps_blog_config_post_categories">Post Categories</label></th>
+          <td>
+            {foreach $categories as $category}
+            <input name="artmaps_blog_config_post_categories[]" type="checkbox" value="{$category->cat_ID}"{if in_array($category->cat_ID, $postCategories)} checked="checked"{/if} />{$category->name}<br />
+            {/foreach}
+          </td>
+        </tr>
+        <tr valign="top">
+          <th scope="row"><label for="artmaps_blog_config_jquery_theme_uri">jQuery Theme Uri</label></th>
+          <td>
+            <input name="artmaps_blog_config_jquery_theme_uri" type="text" value="{$jQueryThemeUri}" size="40" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <th scope="row"><label for="artmaps_blog_config_location_reasons">Location Reasons</label></th>
+          <td id="reason_cell">
+            <button onclick="addNewReason(); return false;">Add a new reason</button><br />
+            {foreach $locationReasons as $reason}
+            <span><input type="text" name="artmaps_blog_config_location_reasons[]" value="{$reason}" /><button onclick="deleteReason(this); return false;">Delete</button><br></span>
+            {/foreach}
+          </td>
+        </tr>		
 			</tbody>
 		</table>
 		<p class="submit">
