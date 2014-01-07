@@ -68,11 +68,11 @@
   <div class="search-form">
     <a class="switch" href="#" id="search-form-toggle"><i class="fa-search"></i><span id="search-label-places">Places</span><span id="search-label-art">Art</span><i class="fa-chevron-down"></i></a>
     <div id="location-search-form">
-      <input id="artmaps-map-autocomplete" type="text" autocorrect="off" placeholder="Find a place" class="query-field" />
+      <input id="artmaps-map-autocomplete" type="text" autocorrect="off" autocapitalize="off" placeholder="Find a place" class="query-field" />
     </div>
     <div id="keyword-search-form">
       <form>
-        <input placeholder="Search by keyword" name="term" autocorrect="off" value="" type="text" size="30" autocomplete="off" class="query-field"><input type="submit">
+        <input placeholder="Search by keyword" name="term" autocorrect="off" autocapitalize="off" value="" type="text" size="30" autocomplete="off" class="query-field"><input type="submit">
       </form>
     </div>
   </div>

@@ -2097,6 +2097,10 @@ body:before {
   #map-settings .settings:before {
     right:5px;
   }
+  .fancybox-close {
+    top: 5%;
+    right: 5%;
+  }
   footer ul {
     position: static;
     display:none;

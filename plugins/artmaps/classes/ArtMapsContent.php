@@ -25,6 +25,7 @@ class ArtMapsContent {
         wp_register_script('jquery-ui-complete', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js");
         wp_register_script('jquery-ui-timepicker-addon', $p . '/js/lib/jquery-ui-timepicker-addon.js');
         wp_register_script('jquery-timeago', $p . '/js/lib/jquery.timeago.js');
+        wp_register_script('fastclick', $p . '/js/lib/fastclick.js');
         wp_register_script('jquery-scrollto', $p . '/js/lib/jquery.scrollTo.min.js');
         wp_register_script('fancybox', $p . '/js/lib/fancybox/jquery.fancybox.pack.js');
         wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
@@ -44,7 +45,7 @@ class ArtMapsContent {
         //wp_register_style('artmaps-object', ArtMapsUtil::findThemeUri('css/object.css'));
         foreach(array(
                         'google-jsapi', 'google-maps', 'jquery', 'jquery-ui-complete',
-                        'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'jquery-scrollto',
+                        'jquery-bbq', 'jquery-xcolor', 'jquery-timeago', 'fastclick', 'jquery-scrollto',
                         'json2', 'markerclusterer', 'infobox', 'styledmarker',
                         'geo', 'latlon', 'artmaps-base', 'artmaps-util',
                         'artmaps-map-ui', 'artmaps-map', 'artmaps-object-ui', 'artmaps-object',
