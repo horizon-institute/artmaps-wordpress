@@ -357,7 +357,10 @@ jQuery(document).ready(function(){
                        "async": true,
                        "success": function(data) {
                           na.attr("href", ArtMapsConfig.SiteUrl + "/object/" + data.ID);
-                      }
+                       },
+                       "error": function() {
+                           na.remove();
+                       }
                    });
                 
                 var oi = oc.find(".grid-work-image img");
