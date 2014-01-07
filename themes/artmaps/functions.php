@@ -29,7 +29,7 @@ add_filter('comment_text', 'comment_links_filter');
 
 # Block author links
 function comment_author_link_filter($text) {
-  return false;
+  return strip_tags($text);
 }
 add_filter('get_comment_author_link', 'comment_author_link_filter');
 

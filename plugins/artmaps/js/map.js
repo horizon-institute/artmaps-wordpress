@@ -28,16 +28,36 @@ var styles =  [
     
     var clusterconf = {
             "gridSize": 100,
+            "averageCenter": true,
             "minimumClusterSize": 1,
+            "enableRetinaIcons": true,
             "zoomOnClick": false,
             "imageSizes": [53],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
-                "width": 42,
-                "height": 53,
-                "anchorText": ['-15px',0],
+                "width": 33,
+                "height": 33,
+                "anchorText": [-7,0],
                 "anchorIcon": [21,53],
-                "textColor": '#ffffff',
+                "textColor": '#fff',
+                "textSize": 14
+            },
+            {
+                "url": ArtMapsConfig.ClusterIconUrl,
+                "width": 43,
+                "height": 43,
+                "anchorText": [-7,0],
+                "anchorIcon": [21,53],
+                "textColor": '#fff',
+                "textSize": 12
+            },
+            {
+                "url": ArtMapsConfig.ClusterIconUrl,
+                "width": 53,
+                "height": 53,
+                "anchorText": [-7,0],
+                "anchorIcon": [21,53],
+                "textColor": '#fff',
                 "textSize": 11
             }]
         };   
@@ -118,8 +138,12 @@ var styles =  [
             cache = {};
             map.trigger("idle");
         };
+        map.on("dragstart", function() {
+            jQuery("body").addClass("map-moving");
+        });
         map.on("idle", function() {
             var centre = map.getCenter();
+            jQuery("body").removeClass("map-moving");
             jQuery.bbq.pushState({
                 "zoom": map.getZoom(),
                 "lat": (centre.lat()).toFixed(2),
@@ -553,29 +577,33 @@ var styles =  [
     
     function offsetCenter(latlng,offsetx,offsety) {
  
-      // latlng is the apparent centre-point
-      // offsetx is the distance you want that point to move to the right, in pixels
-      // offsety is the distance you want that point to move upwards, in pixels
-      // offset can be negative
-      // offsetx and offsety are both optional
-       
-      var scale = Math.pow(2, map.getZoom());
-      var nw = new google.maps.LatLng(
-          map.getBounds().getNorthEast().lat(),
-          map.getBounds().getSouthWest().lng()
-      );
-       
-      var worldCoordinateCenter = map.getProjection().fromLatLngToPoint(latlng);
-      var pixelOffset = new google.maps.Point((offsetx/scale) || 0,(offsety/scale) ||0)
-       
-      var worldCoordinateNewCenter = new google.maps.Point(
-          worldCoordinateCenter.x - pixelOffset.x,
-          worldCoordinateCenter.y + pixelOffset.y
-      );
-       
-      var newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
-       
-      map.panTo(newCenter);
+      if ( jQuery(window).width() > 850 ) {
+        // latlng is the apparent centre-point
+        // offsetx is the distance you want that point to move to the right, in pixels
+        // offsety is the distance you want that point to move upwards, in pixels
+        // offset can be negative
+        // offsetx and offsety are both optional
+         
+        var scale = Math.pow(2, map.getZoom());
+        var nw = new google.maps.LatLng(
+            map.getBounds().getNorthEast().lat(),
+            map.getBounds().getSouthWest().lng()
+        );
+         
+        var worldCoordinateCenter = map.getProjection().fromLatLngToPoint(latlng);
+        var pixelOffset = new google.maps.Point((offsetx/scale) || 0,(offsety/scale) ||0)
+         
+        var worldCoordinateNewCenter = new google.maps.Point(
+            worldCoordinateCenter.x - pixelOffset.x,
+            worldCoordinateCenter.y + pixelOffset.y
+        );
+         
+        var newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+         
+        map.panTo(newCenter);
+      } else {
+        map.panTo(latlng);
+      }
        
     }
 

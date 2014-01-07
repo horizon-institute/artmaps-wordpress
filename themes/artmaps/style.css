@@ -1178,12 +1178,12 @@ body:before {
   z-index: 5;
 }
 
-.cluster {
-  line-height: 39px !important;
+#artmaps-map-themap .cluster {
+  -webkit-transition: all 0.1s ease-in-out;
 }
 
-.cluster:hover {
-  background-position: 0px -53px !important;
+#artmaps-map-themap .cluster img {
+  max-width: 100% !important;
 }
 
 #overlay {
@@ -1806,7 +1806,7 @@ body:before {
   }
   header .logo {
     margin: 0px auto;
-    width: 124px;
+    width: 110px;
     display: block;
     float: none;
     text-align: center;
@@ -1864,7 +1864,9 @@ body:before {
     right:0;
   }
   #map-settings .settings {
-    right:10px;
+    right:2%;
+    left:2%;
+    width:auto;
   }
   #how-it-works.toggle {
     font-size:0px;
@@ -1904,6 +1906,7 @@ body:before {
   }
   .about-page {
     padding: 5%;
+    margin:2%;
   }
   #welcome {
     background:rgba(0,0,0,0.7);
@@ -1950,11 +1953,19 @@ body:before {
   }
   .search-form {
     position: absolute !important;
-    top: 61px;
+    margin-top: 50px;
+    top:2%;
     width: auto;
     box-sizing: border-box; -moz-box-sizing: border-box;
-    left: 10px;
-    right: 10px !important;
+    left: 2%;
+    right: 2% !important;
+    opacity:1;
+    -webkit-transition: all 0.25s ease-in-out 0s;
+  }
+  .map-moving .search-form {
+    margin-top: -50px;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out 0.25s;
   }
   .artwork-results {
     position: absolute !important;
@@ -1962,9 +1973,9 @@ body:before {
     width: auto !important;
     height: auto !important;
     top: 120px !important;
-    right: 10px !important;
-    left: 10px !important;
-    bottom: 10px !important;
+    right: 2% !important;
+    left: 2% !important;
+    bottom: 2% !important;
     opacity: 1 !important;
   }
   .fancybox-wrap.fancybox-type-ajax {
@@ -1988,10 +1999,14 @@ body:before {
     width:auto;
   }
   .artmaps-map-object-list-container-page-nav {
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
     width: auto;
+    position: static;
+  }
+  .artmaps-map-object-list-container-page {
+    padding-bottom:0px;
+  }
+  .keyword-search-results ul {
+    margin-bottom:0px;
   }
   .artwork-results .ui-dialog-titlebar {
     margin:-61px -3px 19px;
@@ -2000,8 +2015,8 @@ body:before {
     position: absolute;
   }
   .fancybox-backtoresults {
-    left: 10px;
-    right: 10px;
+    left: 2%;
+    right: 2%;
     text-align: center;
     top: 12px;
     width:auto;
@@ -2012,11 +2027,7 @@ body:before {
   #artmaps-object-metadata {
     width:auto;
     position: static;
-    margin:10px 10px 0px 10px;
-  }
-  #artmaps-object-tabs {
-    position: static;
-    margin:10px;
+    margin:2% 2% 0 2%;
   }
   #artmaps-object-menu {
     top:0px;
@@ -2079,7 +2090,7 @@ body:before {
     padding:2%;
     position:static;
     height:300px;
-    margin:0px 10px 10px 10px;
+    margin:0px 2% 2% 2%;
   }
   #artmaps-search-form input:first-child {
     margin-left: 0px;
@@ -2090,12 +2101,12 @@ body:before {
     margin-left:auto;
     width:auto;
     position:absolute;
-    left:10px;
-    right:10px;
+    left:2%;
+    right:2%;
     top:30px;
   }
   #map-settings .settings:before {
-    right:5px;
+    right:2%;
   }
   .fancybox-close {
     top: 5%;
