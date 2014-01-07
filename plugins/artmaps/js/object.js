@@ -18,16 +18,19 @@ ArtMaps.Object.MapObject = function(container, config) {
     };
     
     var clusterconf = {
-            "gridSize": 150,
-            "minimumClusterSize": 2,
+            "gridSize": 100,
+            "minimumClusterSize": 0,
             "zoomOnClick": true,
-            "maxZoom": 18,
-            "imageSizes": [56],
+            "imageSizes": [53],
             "styles": [{
                 "url": ArtMapsConfig.ClusterIconUrl,
-                "height": 56,
-                "width": 56
-            }] 
+                "width": 42,
+                "height": 53,
+                "anchorText": ['-15px',0],
+                "anchorIcon": [21,53],
+                "textColor": '#ffffff',
+                "textSize": 11
+            }]
     };
     
     jQuery.extend(true, mapconf, config.map);

@@ -130,7 +130,7 @@ ArtMaps.Util.suggestLocation = function(object, position, success, failure, othe
                         "data": {
                             "action": "artmaps.signData",
                             "data": {
-                                "URI": JSON.stringify(data)
+                                "URI": "suggestion://" + JSON.stringify(data)
                             }
                         },
                         "success": function(saction) {

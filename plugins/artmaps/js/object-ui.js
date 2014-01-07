@@ -29,7 +29,6 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
     content.append(confirmed);
    
     if(ArtMapsConfig.IsUserLoggedIn) {
-        
         if(ArtMapsConfig.CoreUserID != location.OwnerID 
                 && (!location.hasUserConfirmed(ArtMapsConfig.CoreUserID))) {
             var confirm = jQuery("<div class=\"artmaps-button primary-button\"><i class=\"fa-check\"></i>&nbsp;Agree</div>");
@@ -264,6 +263,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                     var map = marker.getMap();
                     marker.hide();
                     var loc = new ArtMaps.Location(location, object, [action]);
+                    console.log(loc);
                     object.Locations[object.Locations.length] = loc;
                     var mkr = new ArtMaps.Object.UI.Marker(loc, map, clusterer);
                     clusterer.addMarkers([mkr]);
