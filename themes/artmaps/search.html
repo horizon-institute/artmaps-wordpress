@@ -170,8 +170,12 @@
                        "dataType": "json",
                        "async": true,
                        "success": function(data) {
-                                      na.attr("href",  ArtMapsConfig.SiteUrl + "/object/" + data.ID);
-                                  }
+                           console.log("success");
+                           na.attr("href",  ArtMapsConfig.SiteUrl + "/object/" + data.ID);
+                       },
+                       "error": function() {
+                           console.log("error");
+                       }
                    });
                 
                 var oi = oc.find(".grid-work-image img");
