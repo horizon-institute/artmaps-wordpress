@@ -607,5 +607,11 @@ var styles =  [
     this.centerOnMyLocation = function() {
         offsetCenter(myloc.getPosition());
     };
+    
+    this.addMapTypeListener = function(listener) {
+        map.on("maptypeid_changed", function() {
+            listener(map.getMapTypeId()); 
+        });
+    };
        
 };

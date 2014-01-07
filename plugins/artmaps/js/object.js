@@ -91,11 +91,17 @@ ArtMaps.Object.MapObject = function(container, config) {
 		}
 	);
 
-    this.setMapType = map.setMapTypeId;
+    this.setMapType = function(maptype) {
+        map.setMapTypeId(maptype);
+    };
     
-    this.getMapType = map.getMapTypeId;
+    this.getMapType = function() {
+        return map.getMapTypeId;
+    };
     
-    this.getCenter = map.getCenter;
+    this.getCenter = function() { 
+        map.getCenter;
+    };
     
     this.suggest = function() { 
         suggestionRequested = true;

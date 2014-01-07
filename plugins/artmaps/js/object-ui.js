@@ -263,7 +263,6 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                     var map = marker.getMap();
                     marker.hide();
                     var loc = new ArtMaps.Location(location, object, [action]);
-                    console.log(loc);
                     object.Locations[object.Locations.length] = loc;
                     var mkr = new ArtMaps.Object.UI.Marker(loc, map, clusterer);
                     clusterer.addMarkers([mkr]);
