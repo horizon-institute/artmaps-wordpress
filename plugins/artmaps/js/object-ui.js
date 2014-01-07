@@ -210,10 +210,18 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
 ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     var self = this;
     
-    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position. Click finish when you are done.</div></div>");
+    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position, select a reason why you chose this location and click finish when you are done.</div></div>");
     var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.LoadingIcon50x50Url + "\" alt=\"\" /></div>");
     var errorContent = jQuery("<div>Sorry; an error occurred. Please close this popup and try again.</div>");
     var tooCloseContent = jQuery("<div><div>This is too close to an existing suggestion. Please consider agreeing with that suggestion instead or moving this pin further away.</div></div>");
+    
+    var reason = jQuery(document.createElement("select"));
+    for(var i = 0; i < ArtMapsConfig.LocationReasons.length; i++) {
+        var op = jQuery(document.createElement("option"));
+        op.val(ArtMapsConfig.LocationReasons[i]).text(ArtMapsConfig.LocationReasons[i]);
+        reason.append(op);
+    }
+    initialContent.append(reason);
     
     initialContent.append(jQuery("<div class=\"artmaps-button primary-button\">Finish</div>").click(function() {
         self.setContent(processingContent.get(0));
@@ -284,7 +292,8 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                 },
                 function(jqXHR, textStatus, errorThrown) {
                     self.setContent(errorContent.get(0));
-                });
+                },
+                { "reason" : reason.val() });
         })
     );
     

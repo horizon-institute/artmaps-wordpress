@@ -77,7 +77,8 @@ class ArtMapsContent {
                         'CoreUserID' => is_user_logged_in() ? $user->getCoreID($blog) : -1,
                         'MapState' => isset($_SESSION['mapState']) ? $_SESSION['mapState'] : false,
                         'UserLevel' => is_user_logged_in() ? $user->getRoles() : array(),
-                        'AvatarUrl32' => (is_ssl() ? 'https' : 'http') . '://gravatar.com/avatar/' . $gravatar_hash . '?d=mystery&s=32'
+                        'AvatarUrl32' => (is_ssl() ? 'https' : 'http') . '://gravatar.com/avatar/' . $gravatar_hash . '?d=mystery&s=32',
+                        'LocationReasons' => $blog->getLocationReasons()
                 ));
     }
 

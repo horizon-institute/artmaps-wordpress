@@ -101,7 +101,7 @@ ArtMaps.Util.finaliseLocation = function(location, success) {
     });        
 };
 
-ArtMaps.Util.suggestLocation = function(object, position, success, failure) {
+ArtMaps.Util.suggestLocation = function(object, position, success, failure, other) {
     jQuery.ajax(ArtMapsConfig.AjaxUrl, {
         "type": "post",
         "data": {
@@ -121,12 +121,16 @@ ArtMaps.Util.suggestLocation = function(object, position, success, failure) {
                 "contentType": "application/json",
                 "processData": false,
                 "success" : function(location) {
+                    
+                    var data = { "LocationID" : location.ID }; 
+                    jQuery.extend(data, other);
+                    
                     jQuery.ajax(ArtMapsConfig.AjaxUrl, {
                         "type": "post",
                         "data": {
                             "action": "artmaps.signData",
                             "data": {
-                                "URI": "suggestion://{\"LocationID\":" + location.ID + "}"
+                                "URI": JSON.stringify(data)
                             }
                         },
                         "success": function(saction) {
