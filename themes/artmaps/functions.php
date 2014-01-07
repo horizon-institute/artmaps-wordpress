@@ -25,8 +25,13 @@ function comment_links_filter($text) {
   $return = str_replace('<a', '<a target="_blank"', $text);
   return $return;
 }
-add_filter('get_comment_author_link', 'comment_links_filter');
 add_filter('comment_text', 'comment_links_filter');
+
+# Block author links
+function comment_author_link_filter($text) {
+  return false;
+}
+add_filter('get_comment_author_link', 'comment_author_link_filter');
 
 # Hide admin bar for non admins
 if (!current_user_can('administrator')):

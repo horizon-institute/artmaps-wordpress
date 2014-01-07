@@ -75,6 +75,66 @@ jQuery(document).ready(function(){
     }
   });
   
+  jQuery(".artwork-link").fancybox({
+    maxWidth	: 800,
+		maxHeight	: 600,
+		type      : 'ajax',
+		fitToView	: false,
+		width		  : '90%',
+		height		: '90%',
+    autoDimensions : true,
+		closeClick	: false,
+		showEarly   : false,
+		openEffect	: 'fade',
+		closeEffect	: 'fade',
+		helpers: {
+    	overlay : null
+    },
+    beforeShow : function() {
+      jQuery("#overlay").fadeIn();
+      jQuery("body").addClass("fancybox-lock");
+      jQuery("time").timeago(); // Generate comment timestamps
+    },
+    beforeClose : function() {
+      jQuery("body").removeClass("fancybox-lock");
+      jQuery("#overlay").fadeOut();
+    },
+    tpl : {
+    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+    	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+    }
+  });
+  
+  jQuery("#how-it-works").fancybox({
+    maxWidth	: 800,
+		maxHeight	: 600,
+		type      : 'ajax',
+		fitToView	: false,
+		width		  : '90%',
+		height		: '90%',
+    autoDimensions : true,
+		closeClick	: false,
+		showEarly   : false,
+		openEffect	: 'fade',
+		closeEffect	: 'fade',
+		helpers: {
+    	overlay : null
+    },
+    beforeShow : function() {
+      jQuery("#overlay").fadeIn();
+      jQuery("body").addClass("fancybox-lock");
+      jQuery("time").timeago();
+    },
+    beforeClose : function() {
+      jQuery("body").removeClass("fancybox-lock");
+      jQuery("#overlay").fadeOut();
+    },
+    tpl : {
+    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+    	closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"><i class="fa-times"></i></a>',
+    }
+  });
+  
   jQuery(document).on('mousedown touchstart', function (e) {
     var target = e.target;
 

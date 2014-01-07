@@ -796,6 +796,14 @@ body:before {
   padding-left:109px;
 }
 
+.search-form #location-search-form input[type=submit], .search-form #keyword-search-form input[type=submit] { 
+  margin-left: -9999px;
+  width: 0px;
+  height: 0px;
+  float: left;
+  display: block;
+}
+
 .search-form .query-field:focus {
   outline: 2px solid #eee;
 }
@@ -1298,7 +1306,7 @@ body:before {
   background:rgba(255,255,255,0.8) url('images/25x25.gif') center center no-repeat;
 }
 
-.fancybox-close {
+.fancybox-backtoresults {
   position: absolute;
   top: 0px;
   text-align: left;
@@ -1320,11 +1328,11 @@ body:before {
   box-shadow: inset 0px -5px 14px -5px rgba(0,0,0,0.2);
 }
 
-.fancybox-close i {
+.fancybox-backtoresults i {
   margin-right: 3px;
 }
 
-.fancybox-close:before {
+.fancybox-backtoresults:before {
   content: " ";
   width: 0px;
   height: 0px;
@@ -1348,6 +1356,16 @@ body:before {
 	background: transparent url('blank.gif'); /* helps IE */
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	z-index: 8040;
+}
+
+.fancybox-close {
+  position: absolute;
+  top: 35px;
+  right: 40px;
+  font-size: 30px;
+  z-index: 999;
+  text-decoration: none;
+  color: #666;
 }
 
 .fancybox-prev {
@@ -1781,7 +1799,7 @@ body:before {
     margin: 0;
     top: auto !important;
     padding: 5px;
-    z-index:9999999;
+    z-index:999999999;
     background:#51626f;
     width:auto;
     height:40px;
@@ -1884,6 +1902,9 @@ body:before {
   body:before {
     display:none;
   }
+  .about-page {
+    padding: 5%;
+  }
   #welcome {
     background:rgba(0,0,0,0.7);
   }
@@ -1978,14 +1999,14 @@ body:before {
   .artwork-results .mini-loading-indicator {
     position: absolute;
   }
-  .fancybox-close {
+  .fancybox-backtoresults {
     left: 10px;
     right: 10px;
     text-align: center;
     top: 12px;
     width:auto;
   }
-  .fancybox-close:before {
+  .fancybox-backtoresults:before {
     content:none;
   }
   #artmaps-object-metadata {

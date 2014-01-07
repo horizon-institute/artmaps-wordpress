@@ -16,7 +16,7 @@
   </a>
   <ul class="menu">
     <li class="about">
-      <a href="about" class="toggle fancybox fancybox.ajax" id="how-it-works">How to play</a>
+      <a href="about" class="toggle" id="how-it-works">How to play</a>
     </li>
     <li class="activity">
       <a href="about" class="toggle fancybox fancybox.ajax" id="whats-new">What's new?</a>
@@ -72,8 +72,7 @@
     </div>
     <div id="keyword-search-form">
       <form>
-        <input placeholder="Search by keyword" name="term" autocorrect="off" value="" type="text" size="30" autocomplete="off" class="query-field">
-        <input type="submit" style="display:none;">
+        <input placeholder="Search by keyword" name="term" autocorrect="off" value="" type="text" size="30" autocomplete="off" class="query-field"><input type="submit">
       </form>
     </div>
   </div>
