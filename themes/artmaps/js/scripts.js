@@ -43,7 +43,34 @@ jQuery(document).ready(function(){
             });
         });
     })();
-    
+  
+  var activity_button = jQuery('#whats-new');
+  jQuery( activity_button ).click(function(event) {
+      activity_button.dialog = jQuery('#activity-sidebar');
+      jQuery(".ui-dialog-content").not(activity_button).dialog("close");
+      activity_button.dialog.dialog({
+          "show": { 
+              "duration": 0,
+           },
+          "hide": { "duration": 0 },
+          "width": 260,
+          "dialogClass": "artwork-results",
+          "height": jQuery(window).height() - 160,
+          "position": "right bottom",
+          "resizable": false,
+          "closeText": "",
+          "draggable": false,
+          "open": function() {
+             
+          },
+          "close": function() {
+
+          },
+          "title": '<i class="fa-comments-o"></i>'+"What's new?"
+      });
+    event.preventDefault();
+  });
+  
   
   jQuery(".artwork-link").fancybox({
     maxWidth	: 800,

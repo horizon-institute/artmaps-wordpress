@@ -3,7 +3,8 @@ ArtMaps.Map = ArtMaps.Map || {};
 
 ArtMaps.Map.MapObject = function(container, config) {
 
-var styles =  [
+    // Hide business markers
+    var styles =  [
       {
         "featureType": "poi.business",
         "stylers": [
@@ -11,6 +12,13 @@ var styles =  [
         ]
       }
     ];
+    
+    // Move zoom buttons to bottom on mobile
+    if ( jQuery(window).width() > 850 ) {
+      var zoom_pos = google.maps.ControlPosition.LEFT_CENTER;
+    } else {
+      var zoom_pos = google.maps.ControlPosition.LEFT_BOTTOM;
+    }
         
     var mapconf = {
             "center": new google.maps.LatLng(0, 0),
@@ -21,7 +29,8 @@ var styles =  [
             "maxZoom": 20,
             "mapTypeId": google.maps.MapTypeId.ROADMAP,
             "zoomControlOptions": {
-                "position": google.maps.ControlPosition.LEFT_CENTER             },
+                "position": zoom_pos
+              },
             "panControl": false,
             "mapTypeControl": false
         };
@@ -37,16 +46,16 @@ var styles =  [
                 "url": ArtMapsConfig.ClusterIconUrl,
                 "width": 33,
                 "height": 33,
-                "anchorText": [-7,0],
+                "anchorText": [-5,0],
                 "anchorIcon": [21,53],
                 "textColor": '#fff',
-                "textSize": 14
+                "textSize": 12
             },
             {
                 "url": ArtMapsConfig.ClusterIconUrl,
                 "width": 43,
                 "height": 43,
-                "anchorText": [-7,0],
+                "anchorText": [-6,0],
                 "anchorIcon": [21,53],
                 "textColor": '#fff',
                 "textSize": 12
@@ -58,7 +67,7 @@ var styles =  [
                 "anchorText": [-7,0],
                 "anchorIcon": [21,53],
                 "textColor": '#fff',
-                "textSize": 11
+                "textSize": 12
             }]
         };   
 

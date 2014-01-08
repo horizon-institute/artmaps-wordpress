@@ -1053,6 +1053,7 @@ body:before {
 
 .artwork-results.artwork-results-keyword .ui-dialog-titlebar-close {
   right: 14px;
+  top:12px;
   color: #666;
 }
 
@@ -1122,6 +1123,17 @@ body:before {
 .artwork-results .ui-dialog-titlebar-close:after {
   content: "\00D7";
   text-indent: 0px;
+}
+
+#activity-sidebar {
+  width: auto;
+  min-height: 100% !important;
+  background: #fff;
+  margin-top: 19px;
+  border-radius: 4px;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 #artmaps-object-menu {

@@ -19,7 +19,7 @@
       <a href="about" class="toggle" id="how-it-works">How to play</a>
     </li>
     <li class="activity">
-      <a href="about" class="toggle fancybox fancybox.ajax" id="whats-new">What's new?</a>
+      <a href="about" class="toggle" id="whats-new">What's new?</a>
     </li>
     <li class="settings">
       <div id="map-settings">
