@@ -1093,15 +1093,19 @@ body:before {
   font-size: 15px;
   line-height: 38px;
   border-radius: 2px;
-  padding: 0px 16px;
+  padding: 0px 8px;
   margin: -61px -3px 0px;
-  padding-left: 34px;
 }
 
 .artwork-results .ui-dialog-titlebar i {
   font-size: 22px;
-  position: absolute;
-  left:14px;
+  margin-right: 10px;
+  position: relative;
+  bottom: -1px;
+}
+
+.artwork-results .ui-dialog-titlebar i.fa-map-marker {
+  margin-left:5px;
 }
 
 .artwork-results .ui-dialog-titlebar-close {
@@ -1133,7 +1137,22 @@ body:before {
   border-radius: 4px;
   padding: 20px;
   box-sizing: border-box;
+  display:none;
   overflow: auto;
+}
+
+.activity-sidebar .ui-dialog-titlebar {
+  background: #f78f1e;
+  border-color: #B66002;
+}
+
+.activity-sidebar .comment {
+  overflow: hidden;
+}
+
+.activity-sidebar .comment-content img {
+  float: right;
+  clear: right;
 }
 
 #artmaps-object-menu {
@@ -1615,10 +1634,16 @@ body:before {
   background:rgba(255,255,255,0.5);
   overflow: hidden;
   position: absolute;
-  left: 0px;
+  left: 66.3%;
+  -webkit-transition:left 0.5s ease-out;
+  width:66.3%;
   right: 33.7%;
   bottom: 0px;
   top: 36px;
+}
+
+.fancybox-opened #artmaps-object-detail {
+  left:0;
 }
 
 #artmaps-object-comments {
@@ -2001,15 +2026,19 @@ body:before {
     bottom: 0% !important;
     overflow:auto !important;
     z-index:99999999;
+    margin-right:0;
     }
   #fancybox-loading {
-    left:12px;
-    right:12px;
-    top:12px;
-    bottom:10px;
+    left:2%;
+    right:2%;
+    top:120px;
+    bottom:2%;
     position: absolute;
     width:auto;
   }
+  #fancybox-loading div {
+    margin:0;
+	}
   .artmaps-map-object-list-container-page-nav {
     width: auto;
     position: static;
@@ -2098,6 +2127,7 @@ body:before {
     height: 300px;
     border: 0px;
     background: #fff;
+    width:auto;
     clear:both;
     padding:2%;
     position:static;

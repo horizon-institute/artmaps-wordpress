@@ -1,5 +1,9 @@
 <div id="activity-sidebar">
-  <h2>Assignments</h2>
+
+  <div style="background:#666; color:#fff; margin: -20px -20px 20px; padding: 20px;">
+    <h2>Challenges</h2>
+    <p>This week's challenge is to lorem ipsum lorem ipsum lorem ipsum.</p>  
+  </div>
   
   <h2>Recent activity</h2>
   <ul class="commentlist">
@@ -18,7 +22,7 @@
 
 					<div class="comment-metadata">
 						<a href="http://artmaps.local/tate/object/78947/#comment-13">
-							<time datetime="2013-12-30T17:13:11+00:00" title="12/30/2013 5:13:11 PM">
+							commented on <?php echo get_the_title($comment->comment_post_ID); ?> <time datetime="2013-12-30T17:13:11+00:00" title="12/30/2013 5:13:11 PM">
 								<?php echo date(get_option('time_format'),$comment->comment_date); ?>
 						</time>
 						</a>

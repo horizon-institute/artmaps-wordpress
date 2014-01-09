@@ -54,7 +54,7 @@ jQuery(document).ready(function(){
            },
           "hide": { "duration": 0 },
           "width": 260,
-          "dialogClass": "artwork-results",
+          "dialogClass": "artwork-results activity-sidebar",
           "height": jQuery(window).height() - 160,
           "position": "right bottom",
           "resizable": false,
@@ -148,7 +148,7 @@ jQuery(document).ready(function(){
     	overlay : null
     },
     beforeShow : function() {
-      jQuery.dialog("close");
+      jQuery(".ui-dialog-content").dialog("close");
       jQuery('#welcome').fadeOut(300);
       jQuery("#overlay").fadeIn();
       jQuery("body").addClass("fancybox-lock");
