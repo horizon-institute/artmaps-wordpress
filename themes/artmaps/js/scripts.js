@@ -269,6 +269,8 @@ jQuery(document).ready(function(){
         }
         
         var displayArtworks = function(data) {
+            
+            
 
             var art_list = jQuery(document.createElement("ul"));
             art_list.addClass("artmaps-map-object-list-container-page-body");
@@ -449,7 +451,7 @@ jQuery(document).ready(function(){
             jQuery('#welcome').fadeOut(300);
             jQuery.ajax({
                 "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val(),
-                "dataType": "xml",
+                "dataType": "text",
                 "async": true,
                 "success": displayArtworks
             });
