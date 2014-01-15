@@ -198,7 +198,7 @@ i {
   line-height: 26px;
 }
 
-.artmaps-map-object-list-container-page-body a {
+.artwork-link {
   text-decoration: none;
   display: block;
   margin: 0px;
@@ -207,30 +207,20 @@ i {
   padding: 12px 40px 12px 91px;
 }
 
-.artmaps-map-object-list-container-page-body a:hover {
-  background: #009279;
-  color:#fff;
-}
-
-.artmaps-map-object-list-container-page-body a:hover img {
-  border: 2px solid #fff;
-  border-radius: 2px;
-}
-
-.artmaps-map-object-list-container-page-body a:hover em {
-  color:#fff;
-  color:rgba(255,255,255,0.7);
-}
-
-.artmaps-map-object-list-container-page-body a h2 {
+.artwork-link h2 {
   clear: none;
   font-size: 15px;
   line-height: 19px;
   font-weight: normal;
   margin-bottom: 5px;
+  color:#369;
 }
 
-.artmaps-map-object-list-container-page-body a em {
+.artwork-link:hover h2 {
+  text-decoration: underline;
+}
+
+.artwork-link em {
   font-style: normal;
   color:rgba(0,0,0,0.65);
   color: #666;
@@ -246,7 +236,7 @@ i {
   margin-left:2px;
 }
 
-.artmaps-map-object-list-container-page-body a .artmaps-map-object-container-suggestions {
+.artwork-link .artmaps-map-object-container-suggestions {
   font-size: 11px;
   font-weight: bold;
   display: block;
@@ -374,7 +364,7 @@ i {
     background-color: yellow;
 }
 
-.artmaps-map-object-container img {
+.artwork-link img {
   max-width: 65px;
   max-height: 80px;
   float:left;
@@ -395,24 +385,25 @@ i {
 .artmaps-map-object-list-container-page-nav {
   text-align: center;
   font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
+  border-top: 1px solid rgba(0,0,0,0.15);
   font-size: 12px;
-  padding: 0px 15px 0px;
+  padding: 10px 15px 10px;
   color: rgba(0,0,0,0.5);
-  background: rgba(220,220,220,0.75);
+  background: rgba(255,255,255,0.8);
   white-space: nowrap;
   line-height: 38px;
   overflow: hidden;
   position: fixed;
   bottom: 30px;
-  height: 38px;
   width: 31%;
   border-radius: 0px 0px 2px 2px;
-  box-sizing: border-box; -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 .artwork-results .artmaps-button {
-  color: #333;
-  background: #fff;
+  color: #fff;
+  background: #51626f;
   padding: 0px 17px;
   border-radius: 2px;
   margin-top: 6px;
@@ -434,6 +425,10 @@ i {
   line-height: 32px;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.7);
   display:none;
+}
+
+.on .log-in-popover, .on .log-out-popover {
+  display:block;
 }
 
 .log-out-popover {
@@ -607,16 +602,30 @@ html, body {
 
 .loading-indicator {
   color: #fff;
-  left: 4% !important;
-  top: 120px !important;
+  border-radius: 2px;
+  left: 4%;
+  text-align: center;
+  bottom: 30px;
   z-index: 51 !important;
-  background:url('images/loading.gif') left center no-repeat;
-  padding-left: 23px;
+  background: rgba(0,0,0,0.6);
+  box-sizing: border-box;
+  padding: 10px 20px;
   font-family: TateNewRegular;
-  font-size: 16px;
+  font-size: 15px;
+  opacity:1;
   position: absolute;
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.4);
-  -webkit-transition: opacity 0.2s linear;
+  -webkit-transition: opacity 0.3s linear;
+}
+
+.loading-indicator:before {
+  display:inline-block;
+  font-family: FontAwesome;
+  content: "\f021";
+  margin-right: 10px;
+  -webkit-animation: spin 1.5s infinite linear;
+  -moz-animation: spin 1.5s infinite linear;
+  -o-animation: spin 1.5s infinite linear;
+  animation: spin 1.5s infinite linear;
 }
 
 header {
@@ -633,6 +642,13 @@ header .logo {
   margin-top:20px;
   z-index: 100;
   position: relative;
+}
+
+header .logo img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
 header .logo:before {
@@ -679,7 +695,6 @@ header .menu li.log-in, header .menu li.log-out, header .menu .settings {
 header .menu .toggle {
   margin-top: 0px;
   margin-right: 10px;
-  border: 1px solid rgba(255,255,255,0.4);
   display: inline-block;
   font-size: 15px;
   padding: 0px 25px;
@@ -687,15 +702,20 @@ header .menu .toggle {
   text-decoration: none;
   border-radius: 2px;
   line-height: 36px;
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);
+  background: #51626f;
   z-index: 100;
   position: relative;
+  margin-bottom:10px;
+  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 header .menu .toggle:hover {
-  border:1px solid rgba(255,255,255,0.6);
+  background:#5C6F7E;
+}
+
+header .menu .toggle:active {
+  box-shadow: inset 0px 2px 0px rgba(0,0,0,0.2);
+  background: #475661;
 }
 
 header .menu .log-out .toggle {
@@ -744,13 +764,14 @@ body:before {
 .search-form a.switch {
   position: absolute;
   top: 0px;
-  background: #eee;
+  background: #51626f;
   border-radius: 2px 0px 0px 2px;
   bottom: 0px;
   padding-top: 8px;
   left: 0px;
+  box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1);
   padding-left: 10px;
-  color: #222;
+  color: #fff;
   text-decoration: none;
   font-size: 22px;
   padding-right: 12px;
@@ -786,6 +807,7 @@ body:before {
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
   border: none;
   margin:0;
+  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 #keyword-search-form .query-field {
@@ -847,15 +869,12 @@ body:before {
   display: block;
   padding: 0px;
   width: 38px;
-  height: 38px;
   box-sizing: border-box;
   font-size: 0px;
   line-height: 0px;
   border-radius: 2px;
-  border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);  cursor: pointer;
+  background: #51626f;
+  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select:none;
@@ -969,29 +988,52 @@ body:before {
 
 .about-page {
   background: #fff;
-  height: 100%;
-  margin: auto;
-  padding: 40px 40px 40px 340px;
-  box-sizing: border-box; -moz-box-sizing: border-box;
-  overflow: auto;
-  margin-right: 3px;
+  min-height: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
   border-radius: 2px;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: auto;
 }
 
-.about-page h2 {
+.about-page h1 {
   border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
-  font-size: 28px;
+  font-size: 34px;
   font-family: 'TateNewRegular',sans-serif;
-  margin-bottom: 20px;
+  margin: -30px -30px 30px;
+  background: #ccc;
+  padding: 40px 30px;
+  text-align: center;
 }
 
 .about-page p {
-  font-size: 14px;
-  font-family: sans-serif;
-  line-height: 20px;
-  margin-bottom: 15px;
-  margin-right:50px;
+  font-size: 13px;
+  line-height: 19px;
+  font-family: 'TateNewRegular', sans-serif;
+  margin-bottom: 10px;
+  color:#333;
+}
+
+.about-sidebar .ui-dialog-title, .artwork-results.about-sidebar:before, .activity-sidebar .ui-dialog-title, .artwork-results.activity-sidebar:before {
+  display: none;
+}
+
+.artwork-results.about-sidebar .ui-dialog-titlebar, .artwork-results.activity-sidebar .ui-dialog-titlebar {
+  border:none;
+}
+
+.artwork-results.about-sidebar .ui-dialog-titlebar-close, .artwork-results.activity-sidebar .ui-dialog-titlebar-close {
+  top: 70px;
+  color: #666;
+}
+
+.artwork-results.activity-sidebar .ui-dialog-titlebar-close {
+  color:#fff;
 }
 
 #wpadminbar {
@@ -1003,32 +1045,70 @@ body:before {
 }
 
 .artwork-results .mini-loading-indicator {
-  position:absolute;
-  top:0px !important;
-  left:0px !important;
-  right:0px !important;
-  bottom:39px !important;
+  position:fixed;
+  top:103px;
+  left:auto;
+  right:4% ;
+  bottom:30px;
   border-radius:2px;
-  width:100%;
-  height:100%;
+  width:31%;
+  height:auto;
   z-index:101;
-  background: white url('images/25x25.gif') center center no-repeat;
+  background: #fff;
   display:block;
+  text-align: center;
+}
+
+.artwork-results .mini-loading-indicator:after {
+  content:"Fetching artwork details...";
+  display:block;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  margin-top:10px;
+  left:0;
+  right:0;
+  color:#666;
+  font-size:15px;
+}
+
+.artwork-results .mini-loading-indicator:before {
+  display:inline-block;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  left:0;
+  right:0;
+  text-align: center;
+  color:#CCC;
+  font-size:100px;
+  line-height:100px;
+  margin-top:-100px;
+  font-family: FontAwesome;
+  content: "\f021";
+  -webkit-animation: spin 1.5s infinite linear;
+  -moz-animation: spin 1.5s infinite linear;
+  -o-animation: spin 1.5s infinite linear;
+  animation: spin 1.5s infinite linear;
 }
 
 .artwork-results {
   position: absolute;
   border-radius:2px;
-  top: 103px !important;
-  padding:0 !important;
-  right: 4% !important;
-  left: auto !important;
-  margin-right:-2px;
-  bottom: 30px !important;
-  width: 31% !important;
-  background: transparent !important;
+  top: 103px;
+  padding:0;
+  right: 4%;
+  left: auto;
+  bottom: 30px;
+  width: 31%;
+  background: transparent;
   z-index: 101 !important;
-  box-shadow:0px 3px 15px rgba(0,0,0,0.7);
+  box-shadow: 0px 10px 10px -7px rgba(0,0,0,0.35);
+  outline:none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
 .artwork-results:before {
@@ -1052,8 +1132,8 @@ body:before {
 }
 
 .artwork-results.artwork-results-keyword .ui-dialog-titlebar-close {
-  right: 14px;
-  top:12px;
+  right: 10px;
+  top:9px;
   color: #666;
 }
 
@@ -1061,7 +1141,7 @@ body:before {
   display: none;
 }
 
-.artwork-results ul {
+.artwork-results .artmaps-map-object-list-container-page-body {
   border-radius: 1px;
   overflow: hidden;
   background: rgba(255,255,255,0.9);
@@ -1086,15 +1166,15 @@ body:before {
 
 .artwork-results .ui-dialog-titlebar {
   background: #B93A4C;
-  border: 2px solid #851220;
+  box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1);
   position: relative;
   color: #fff;
   z-index: 99;
   font-size: 15px;
-  line-height: 38px;
+  line-height: 36px;
   border-radius: 2px;
   padding: 0px 8px;
-  margin: -61px -3px 0px;
+  margin: -58px 0px 0px 0px;
 }
 
 .artwork-results .ui-dialog-titlebar i {
@@ -1105,16 +1185,20 @@ body:before {
 }
 
 .artwork-results .ui-dialog-titlebar i.fa-map-marker {
-  margin-left:5px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  padding: 7px 25px 8px;
+  margin-left: -8px;
+  border-radius: 2px 0px 0px 2px;
 }
 
 .artwork-results .ui-dialog-titlebar-close {
-  right: 10px;
+  right: 8px;
   width: 20px;
   height: 20px;
   padding: 0;
   margin: 0;
-  top: 9px;
+  top: 8px;
   position: absolute;
   z-index: 999;
   color: #fff;
@@ -1129,30 +1213,56 @@ body:before {
   text-indent: 0px;
 }
 
+.artwork-results.about-sidebar, .artwork-results.activity-sidebar {
+  top: 45px;
+}
+
 #activity-sidebar {
   width: auto;
   min-height: 100% !important;
-  background: #fff;
-  margin-top: 19px;
+  margin-top: 58px;
   border-radius: 4px;
-  padding: 20px;
   box-sizing: border-box;
   display:none;
   overflow: auto;
 }
 
-.activity-sidebar .ui-dialog-titlebar {
-  background: #f78f1e;
-  border-color: #B66002;
+.activity-sidebar h1 {
+  padding:12px;
+  background: rgba(255,255,255,0.9);
 }
 
 .activity-sidebar .comment {
   overflow: hidden;
+  margin-bottom:0px;
+}
+
+.activity-sidebar .comment.even {
+  background: rgba(255,255,255,0.9);
+}
+
+.activity-sidebar .comment.odd {
+  background: #f6f6f6;
 }
 
 .activity-sidebar .comment-content img {
   float: right;
   clear: right;
+}
+
+.activity-sidebar .challenges {
+  padding:15px;
+  background:#9d4793;
+  color:#fff;
+  color:rgba(255,255,255,0.8);
+  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+}
+
+.activity-sidebar .challenges h1 {
+  background:none;
+  color:#fff;
+  margin-bottom:10px;
+  padding:0;
 }
 
 #artmaps-object-menu {
@@ -1166,7 +1276,7 @@ body:before {
   text-decoration: none;
   color: rgba(0,0,0,0.75);
   outline:none;
-  font-family: TateNewRegular;
+  font-family: 'TateNewRegular';
   background: #CCC;
   float: left;
   text-align: center;
@@ -1184,7 +1294,7 @@ body:before {
 
 .artmaps-map-object-list-container-page {
   position: relative;
-  padding-bottom: 38px;
+  padding-bottom: 59px;
   box-sizing: border-box; -moz-box-sizing: border-box;
   min-height: 100%;
   background: rgba(255,255,255,0.7);
@@ -1209,10 +1319,18 @@ body:before {
   z-index: 5;
 }
 
+/* Animate marker position updates */
 #artmaps-map-themap .cluster {
   -webkit-transition: all 0.1s ease-in-out;
 }
 
+/* Use Tate font for cluster labels */
+.cluster div {
+  font-family: 'TateNewRegular' !important;
+  letter-spacing: -1px;
+}
+
+/* For retina markers */
 #artmaps-map-themap .cluster img {
   max-width: 100% !important;
 }
@@ -1300,7 +1418,9 @@ body:before {
   background: #fff;
   position: absolute;
   right: 0px;
-  left: 0px;
+  left: 66.3%;
+  box-sizing: border-box;
+  width: 33.7%;
   bottom: 0px;
   top: 36px;
   text-align: center;
@@ -1322,19 +1442,46 @@ body:before {
 #fancybox-loading {
 	position: fixed;
 	top: 103px;
+	background:#fff;
   right:4%;
   width:31%;
   bottom:30px;
 	cursor: pointer;
+	text-align: center;
 	z-index: 99999;
 }
 
-#fancybox-loading div {
-	border-radius: 2px;
-	margin-right:-2px;
-	margin-left:2px;
-	height:100%;
-  background:rgba(255,255,255,0.8) url('images/25x25.gif') center center no-repeat;
+#fancybox-loading:after {
+  content:"Fetching artwork details...";
+  display:block;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  margin-top:10px;
+  left:0;
+  right:0;
+  color:#666;
+  font-size:15px;
+}
+
+#fancybox-loading:before {
+  display:inline-block;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  left:0;
+  right:0;
+  text-align: center;
+  color:#CCC;
+  font-size:100px;
+  line-height:100px;
+  margin-top:-100px;
+  font-family: FontAwesome;
+  content: "\f021";
+  -webkit-animation: spin 1.5s infinite linear;
+  -moz-animation: spin 1.5s infinite linear;
+  -o-animation: spin 1.5s infinite linear;
+  animation: spin 1.5s infinite linear;
 }
 
 .fancybox-backtoresults {
@@ -1508,7 +1655,6 @@ body:before {
   right: 4% !important;
   bottom: 30px !important;
   width: auto !important;
-  margin-right: -3px;
 }
 
 #artmaps-object-tabs {
@@ -1525,11 +1671,11 @@ body:before {
   top: 0px;
   right: 0px;
   bottom: 0px;
-  margin-top:34px;
+  margin-top:36px;
   width: 33.7%;
   overflow: auto;
   z-index: 999;
-  border-radius: 2px;
+  border-radius: 0px 0px 2px 0px;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
 }
 
@@ -1540,7 +1686,7 @@ body:before {
   box-sizing: border-box;
 }
 
-#artmaps-object-metadata h1 {
+h1 {
   font-family: TateNewRegular;
   font-size: 23px;
   line-height: 28px;
@@ -1554,6 +1700,8 @@ body:before {
   margin: -20px -20px 0px;
   text-align: center;
   padding: 18px 15px 15px;
+  min-height: 250px;
+  box-sizing: border-box;
 }
 
 .artmaps-object-image a:hover:after {
@@ -1634,10 +1782,10 @@ body:before {
   background:rgba(255,255,255,0.5);
   overflow: hidden;
   position: absolute;
-  left: 66.3%;
+  left: 66.5%;
   -webkit-transition:left 0.5s ease-out;
-  width:66.3%;
-  right: 33.7%;
+  width:66.5%;
+  right: 33.5%;
   bottom: 0px;
   top: 36px;
 }
@@ -1646,58 +1794,69 @@ body:before {
   left:0;
 }
 
-#artmaps-object-comments {
+.artmaps-object-comments {
   background: #f6f6f6;
   margin: 20px -20px 0px;
-  padding: 20px 20px 20px 70px;
+  padding: 20px;
   overflow: hidden;
 }
 
-#artmaps-object-comments h2 {
-  margin-left: -50px;
+.artmaps-object-comments h2 {
   margin-bottom: 15px;
   font-weight: normal;
   font-size: 18px;
 }
 
-#artmaps-object-comments .avatar {
+.artmaps-object-comments .comment-form-comment label {
+  display: none;
+}
+
+.comment {
+  margin-bottom:20px;
+  padding: 0px 20px 20px 60px;
+}
+
+.comment .comment-author {
+  line-height: 20px;
+  font-size: 15px;
+  float: left;
+}
+
+.comment .avatar {
   border-radius: 2px;
   margin-left:-50px;
   float:left;
 }
 
-#artmaps-object-comments .comment-form-comment label {
-  display: none;
-}
-
-.comment-list .comment {
-  margin-bottom:20px;
-}
-
-.comment-list .comment-author {
-  clear: both;
-  line-height: 20px;
-  font-size: 15px;
-}
-
-.comment-list .comment-author b {
+.comment .comment-author b {
   font-weight: normal;
 }
 
-.comment-list .comment-metadata a {
+.comment .comment-metadata a {
   text-decoration: none;
   color: #666;
   font-size: 11px;
+  line-height: 23px;
+  margin-left: 5px;
+  text-transform: uppercase;
 }
 
-.comment-content {
-  font-size: 13px;
-  line-height: 18px;
-  margin-top:15px;
+.comment .comment-content {
+  font-size: 14px;
+  line-height: 20px;
+  margin-top: 5px;
+  background: #fff;
+  padding: 10px 13px;
+  box-shadow: 0px 2px 0px rgba(0,0,0,0.1);
+  border-radius: 2px;
 }
 
 .comment .says {
   display:none;
+}
+
+.comment .artwork-link {
+  margin-left: -60px;
 }
 
 #respond textarea {
@@ -1717,7 +1876,6 @@ body:before {
 }
 
 #respond .not-logged-in {
-  margin-left:-50px;
   color:#666;
   font-size:15px;
 }
@@ -1811,19 +1969,14 @@ body:before {
   margin-top: 30px;
   margin-right: 20px;
   font-size: 21px;
-  border: 1px solid rgba(255,255,255,0.4);
   padding: 10px 30px;
   border-radius: 2px;
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.4);
+  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
 }
 
 #welcome ul a.primary {
   background: #009279;
-  box-shadow: 0px 1px 2px rgba(0,0,0,0.35);
-  text-shadow: 0px 1px 2px rgba(0,0,0,0.35);
-  text-shadow: none;
 }
 
 @media all and (max-width: 850px) {
@@ -1892,10 +2045,14 @@ body:before {
     padding:0px 25px;
     width:auto;
     height:auto;
+    font-size:13px;
+    line-height:36px;
   }
   #map-settings a.toggle:before {
     font-size:28px;
     line-height:36px;
+    float:left;
+    margin-right:7px;
   }
   header .menu .settings {
     right:0;
@@ -1906,31 +2063,40 @@ body:before {
     width:auto;
   }
   #how-it-works.toggle {
-    font-size:0px;
+    font-size:13px;
+    line-height:36px;
   }
   #how-it-works.toggle:before {
     content:"\f059";
     font-family: FontAwesome;
     font-size:28px;
     line-height: 36px;
+    margin-right:5px;
+    float:left;
   }
   #whats-new.toggle {
-    font-size:0px;
+    font-size:13px;
+    line-height:36px;
   }
   #whats-new.toggle:before {
     content:"\f0e6";
     font-family: FontAwesome;
     font-size:28px;
     line-height: 36px;
+    margin-right:7px;
+    float:left;
   }
   #log-in.toggle {
-    font-size:0px;
+    font-size:13px;
+    line-height:36px;
   }
   #log-in.toggle:before {
     content:"\f007";
     font-family: FontAwesome;
     font-size:28px;
     line-height: 36px;
+    margin-right:7px;
+    float:left;
   }
   header .menu li.log-in a, header .menu li.log-out a {
     line-height:25px;
@@ -1943,7 +2109,6 @@ body:before {
   }
   .about-page {
     padding: 5%;
-    margin:2%;
   }
   #welcome {
     background:rgba(0,0,0,0.7);
@@ -1990,35 +2155,42 @@ body:before {
   }
   .search-form {
     position: absolute !important;
-    margin-top: 50px;
+    margin-top: 48px;
     top:2%;
     width: auto;
     box-sizing: border-box; -moz-box-sizing: border-box;
     left: 2%;
     right: 2% !important;
-    opacity:1;
-    -webkit-transition: all 0.25s ease-in-out 0s;
+    -webkit-transition: margin-top 0.25s ease-in-out 0s;
   }
   .map-moving .search-form {
     margin-top: -50px;
-    opacity: 0;
-    -webkit-transition: all 0.5s ease-in-out 0.25s;
+    -webkit-transition: margin-top 0.5s ease-in-out 0.25s;
   }
   .artwork-results {
-    position: absolute !important;
+    position: absolute;
     margin: 0px;
-    width: auto !important;
-    height: auto !important;
-    top: 120px !important;
-    right: 2% !important;
-    left: 2% !important;
-    bottom: 2% !important;
-    opacity: 1 !important;
+    width: auto;
+    height: auto;
+    top: 98px;
+    right: 2%;
+    left: 2%;
+    bottom: 2%;
+    opacity: 1;
+  }
+  .artwork-results:before {
+    display:none;
+  }
+  .artwork-results.about-sidebar, .artwork-results.activity-sidebar {
+    top:61px;
+  }
+  .artwork-results.activity-sidebar {
+    margin-top:19px;
   }
   .fancybox-wrap.fancybox-type-ajax {
     padding:0;
     position: fixed !important;
-    top: 50px !important;
+    top: 52px !important;
     left: 0px !important;
     height: auto !important;
     right: 0px !important;
@@ -2031,7 +2203,7 @@ body:before {
   #fancybox-loading {
     left:2%;
     right:2%;
-    top:120px;
+    top:98px;
     bottom:2%;
     position: absolute;
     width:auto;
@@ -2050,10 +2222,24 @@ body:before {
     margin-bottom:0px;
   }
   .artwork-results .ui-dialog-titlebar {
-    margin:-61px -3px 19px;
+    margin:-38px 0px 19px;
+    border-radius: 2px 2px 0px 0px;
+  }
+  .artwork-results.about-sidebar .ui-dialog-titlebar-close, .artwork-results.activity-sidebar .ui-dialog-titlebar-close {
+    top:2%;
+    right:2%;
+    margin-top:55px;
   }
   .artwork-results .mini-loading-indicator {
-    position: absolute;
+    position: fixed;
+    width:auto;
+    top: 98px;
+    right: 2%;
+    left: 2%;
+    bottom: 2%;
+  }
+  .artmaps-map-object-list-container.ui-dialog-content {
+    border-radius:0px 0px 2px 2px;
   }
   .fancybox-backtoresults {
     left: 2%;
@@ -2069,6 +2255,7 @@ body:before {
     width:auto;
     position: static;
     margin:2% 2% 0 2%;
+    border-radius: 2px;
   }
   #artmaps-object-menu {
     top:0px;
@@ -2095,9 +2282,6 @@ body:before {
   }
   .fancybox-inner {
     border-radius: 0px;
-  }
-  #artmaps-object-metadata {
-    border-radius:0px;
   }
   .artwork-img {
     margin-top:0px;
@@ -2170,6 +2354,16 @@ body:before {
     padding: 0px 0px 0px 10px;
   }
   
+  #whats-new.toggle, #how-it-works.toggle, #map-settings a.toggle, header .menu .log-out .toggle, #log-in.toggle {
+    font-size:0px;
+    line-height:0px;
+  }
+  
+  #how-it-works.toggle:before, #whats-new.toggle:before, #map-settings a.toggle:before, #log-in.toggle:before, #log-out.toggle:before {
+    margin-right:0;
+    float:none;
+  }
+  
   #welcome h2 {
     font-size: 24px;
     line-height: 28px;
@@ -2187,4 +2381,3 @@ body:before {
   }
   
 }
-

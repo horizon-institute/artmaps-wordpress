@@ -28,7 +28,7 @@ class ArtMapsContent {
         wp_register_script('fastclick', $p . '/js/lib/fastclick.js');
         wp_register_script('jquery-scrollto', $p . '/js/lib/jquery.scrollTo.min.js');
         wp_register_script('fancybox', $p . '/js/lib/fancybox/jquery.fancybox.pack.js');
-        wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer.js');
+        wp_register_script('markerclusterer', $p . '/js/lib/markerclusterer_packed.js');
         wp_register_script('infobox', $p . '/js/lib/infobox.js');
         wp_register_script('geo', $p . '/js/lib/geo.js');
         wp_register_script('latlon', $p . '/js/lib/latlon.js');
@@ -69,7 +69,7 @@ class ArtMapsContent {
                         'SiteUrl' => site_url(),
                         'SearchUrl' => get_search_link(),
                         'PluginDirUrl' => $p,
-                        'ClusterIconUrl' => ArtMapsUtil::findThemeUri('content/cluster.png'),
+                        'ClusterIconUrl' => ArtMapsUtil::findThemeUri('content/'),
                         'MyLocationIconUrl' => ArtMapsUtil::findThemeUri('content/mylocation.gif'),
                         'LoadingIcon50x50Url' => ArtMapsUtil::findThemeUri('content/loading/50x50.gif'),
                         'LoadingIcon25x25Url' => ArtMapsUtil::findThemeUri('content/loading/25x25.gif'),

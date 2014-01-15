@@ -13,7 +13,7 @@ ArtMaps.Map.MapObject = function(container, config) {
       }
     ];
     
-    // Move zoom buttons to bottom on mobile
+    // Move zoom control to bottom on mobile
     if ( jQuery(window).width() > 850 ) {
       var zoom_pos = google.maps.ControlPosition.LEFT_CENTER;
     } else {
@@ -27,41 +27,60 @@ ArtMaps.Map.MapObject = function(container, config) {
             "minZoom": 3,
             "styles": styles,
             "maxZoom": 20,
-            "mapTypeId": google.maps.MapTypeId.ROADMAP,
+            "mapTypeId": google.maps.MapTypeId.TERRAIN,
             "zoomControlOptions": {
                 "position": zoom_pos
               },
             "panControl": false,
             "mapTypeControl": false
         };
-    
+        
+    var calculator = function(markers) {
+      var index = 0;
+      var count = markers.length;
+      var dv = count;
+      while (dv !== 0) {
+        dv = parseInt(dv / 10, 10);
+        index ++;
+      }
+      var stylesCount = clusterer.getStyles().length;
+      if (stylesCount < index) {
+        index = stylesCount;
+      }
+      return {
+        'text': count.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        'index': index
+      };
+    };
+
     var clusterconf = {
             "gridSize": 100,
             "averageCenter": true,
             "minimumClusterSize": 1,
             "enableRetinaIcons": true,
+            "calculator": calculator,
             "zoomOnClick": false,
             "imageSizes": [53],
             "styles": [{
-                "url": ArtMapsConfig.ClusterIconUrl,
+                "url": ArtMapsConfig.ClusterIconUrl+'marker_66.png',
                 "width": 33,
                 "height": 33,
-                "anchorText": [-5,0],
-                "anchorIcon": [21,53],
+                "anchorText": [-4,0],
+                "anchorIcon": [21,33],
                 "textColor": '#fff',
                 "textSize": 12
             },
             {
-                "url": ArtMapsConfig.ClusterIconUrl,
+                "url": ArtMapsConfig.ClusterIconUrl+'marker_86.png',
                 "width": 43,
                 "height": 43,
                 "anchorText": [-6,0],
-                "anchorIcon": [21,53],
+                "anchorIcon": [21,43],
                 "textColor": '#fff',
                 "textSize": 12
             },
             {
-                "url": ArtMapsConfig.ClusterIconUrl,
+                "url": ArtMapsConfig.ClusterIconUrl+'marker_106.png',
                 "width": 53,
                 "height": 53,
                 "anchorText": [-7,0],
@@ -75,25 +94,103 @@ ArtMaps.Map.MapObject = function(container, config) {
     var clusterer = new MarkerClusterer(map, [], jQuery.extend(true, clusterconf, config.cluster));
     var firstLoad = true;
         
-    // Maintain location when window resized
+    // Maintain center point when window resized
     google.maps.event.addDomListener(window, "resize", function() {
       var center = map.getCenter();
       google.maps.event.trigger(map, "resize");
       map.setCenter(center); 
     });
-        
+    
+    // Restore session
     (function() {
         var sessionstate = {};
         if(ArtMapsConfig.MapState) sessionstate = jQuery.deparam(ArtMapsConfig.MapState);
         if(sessionstate.cluster) {
             jQuery.bbq.pushState({ "cluster": sessionstate.cluster });
         }
+        
         var hashstate = jQuery.bbq.getState();
+        
         if(hashstate.maptype) {
             map.setMapTypeId(hashstate.maptype);
+            jQuery('option#mode_' + hashstate.maptype).attr('selected', true);
         } else if(sessionstate.maptype) {
             map.setMapTypeId(sessionstate.maptype);
+            jQuery('option#mode_' + sessionstate.maptype).attr('selected', true);
         }
+        
+        if(hashstate.object) {
+            var object_id = hashstate.object;
+            jQuery('#welcome').fadeOut(150);
+            jQuery.fancybox({
+              maxWidth	: 800,
+          		maxHeight	: 600,
+          		href      : ArtMapsConfig.SiteUrl + "/object/" + object_id,
+          		type      : 'ajax',
+          		fitToView	: false,
+          		width		  : '90%',
+          		height		: '90%',
+              autoDimensions : true,
+          		closeClick	: false,
+          		showEarly   : false,
+          		openEffect	: 'fade',
+          		closeEffect	: 'fade',
+          		helpers: {
+              	overlay : null
+              },
+              beforeShow : function() {
+                jQuery.bbq.pushState({ "object": object_id });
+                jQuery("#overlay").fadeIn();
+                jQuery("body").addClass("fancybox-lock");
+                jQuery("time").timeago();
+              },
+              beforeClose : function() {
+                jQuery("body").removeClass("fancybox-lock");
+                jQuery("#overlay").fadeOut();
+                jQuery.bbq.removeState("object");
+              },
+              tpl : {
+              	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+              	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+              }
+            });
+        } else if(sessionstate.object) {
+            var object_id = sessionstate.object;
+            jQuery('#welcome').fadeOut(150);
+            jQuery.fancybox({
+              maxWidth	: 800,
+          		maxHeight	: 600,
+          		href      : ArtMapsConfig.SiteUrl + "/object/" + object_id,
+          		type      : 'ajax',
+          		fitToView	: false,
+          		width		  : '90%',
+          		height		: '90%',
+              autoDimensions : true,
+          		closeClick	: false,
+          		showEarly   : false,
+          		openEffect	: 'fade',
+          		closeEffect	: 'fade',
+          		helpers: {
+              	overlay : null
+              },
+              beforeShow : function() {
+                jQuery.bbq.pushState({ "object": object_id });
+                jQuery("#overlay").fadeIn();
+                jQuery("body").addClass("fancybox-lock");
+                jQuery("time").timeago();
+              },
+              beforeClose : function() {
+                jQuery("body").removeClass("fancybox-lock");
+                jQuery("#overlay").fadeOut();
+                jQuery.bbq.removeState("object");
+              },
+              tpl : {
+              	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+              	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+              }
+            });
+        }
+        
         if(hashstate.zoom) {
             map.setCenter(new google.maps.LatLng(hashstate.lat, hashstate.lng));
             map.setZoom(parseInt(hashstate.zoom));
@@ -107,7 +204,7 @@ ArtMaps.Map.MapObject = function(container, config) {
         }
     })();
     
-    
+    // Show user geolocation as marker
     var myloc = new google.maps.Marker({
         "icon": ArtMapsConfig.MyLocationIconUrl,
         "optimized": false,
@@ -118,7 +215,7 @@ ArtMaps.Map.MapObject = function(container, config) {
          myloc.setPosition(pos);
     });
     
-    
+    // Update session when maptype changes
     (function() {
         map.on("maptypeid_changed", function() {
             var centre = map.getCenter();
@@ -209,8 +306,8 @@ ArtMaps.Map.MapObject = function(container, config) {
         jQuery("#artmaps-object-list-container-page").detach();
         clusterer.on("click", function(cluster) {            
             var markers = cluster.getMarkers();
-            jQuery('.popover').fadeOut(150);
-
+            jQuery(".popover").fadeOut(150);
+            
             cluster.custom_center = ( jQuery(window).width() * 0.12 );
             offsetCenter(new google.maps.LatLng( cluster.getCenter().lat(), cluster.getCenter().lng() ), -Math.abs(cluster.custom_center));
 
@@ -221,13 +318,12 @@ ArtMaps.Map.MapObject = function(container, config) {
             if(markers.length % pageSize != 0) totalPages++;
             
             if(!cluster.dialog) {
-                cluster.dialog = jQuery(document.createElement("div"))
-                        .addClass("artmaps-map-object-list-container");
+                cluster.dialog = jQuery(document.createElement("div")).addClass("artmaps-map-object-list-container");
                 cluster.pages = new Array();
                 cluster.dialog.otherOpening = false;
                 cluster.dialog.closeFunc = function() {
                     cluster.dialog.otherOpening = true;
-                    cluster.dialog.dialog("close"); 
+                    cluster.dialog.dialog("close");
                 };
             }
             
@@ -315,7 +411,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 }
             };
             
-            jQuery(".ui-dialog-content").not(cluster).dialog("close");
+            jQuery(".ui-dialog-content:visible").dialog("close");
             cluster.dialog.dialog({
                 "show": { 
                     "duration": 0,
@@ -330,13 +426,14 @@ ArtMaps.Map.MapObject = function(container, config) {
                 "closeText": "",
                 "draggable": false,
                 "open": function() {
-                    jQuery("#artmaps-search-results-artworks").dialog("close");
+                    jQuery(".ui-dialog:visible").removeAttr('style');
                     jQuery(ArtMaps).trigger("artmaps-dialog-opened");
                     jQuery(ArtMaps).on("artmaps-dialog-opened", cluster.dialog.closeFunc);
                 },
                 "close": function() {
                     jQuery(ArtMaps).off("artmaps-dialog-opened", cluster.dialog.closeFunc);
                     jQuery.fancybox.close();
+
                     if(!cluster.dialog.otherOpening) {
                       jQuery.bbq.removeState("cluster");
                       var centre = map.getCenter();
@@ -345,7 +442,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     }
                     cluster.dialog.otherOpening = false;
                 },
-                "title": '<i class="fa-map-marker"></i>Artwork at this location'
+                "title": '<i class="fa-map-marker"></i>At this location'
             });
         });
     })();
@@ -498,91 +595,8 @@ ArtMaps.Map.MapObject = function(container, config) {
         });
         
         jQuery('#map-settings .settings-inner').append( panel );
-        //map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
         
-        
-    
-    /*
-        var unlocated = jQuery(document.createElement("label")).text("Artworks without suggestions")
-            .append(
-                    jQuery(document.createElement("input"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-filter"
-                            })
-                            .click(function() {
-                                map.setFilter(function(m, l) {
-                                    if(m.ObjectOfInterest.SuggestionCount == 0)
-                                        l.push(m);
-                            });
-                    }));
-        
-        var located = jQuery(document.createElement("label")).text("Artworks with suggestions")
-            .append(
-                    jQuery(document.createElement("input"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-filter"
-                            })
-                            .click(function() {
-                                map.setFilter(function(m, l) {
-                                    if(m.ObjectOfInterest.SuggestionCount != 0)
-                                        l.push(m);
-                            });
-                    }));
-        
-        var comments = jQuery(document.createElement("label")).text("Artworks with comments")
-            .append(
-                    jQuery(document.createElement("input"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-filter"
-                            })
-                            .click(function() {
-                                map.setFilter(function(m, l) {
-                                    if(m.ObjectOfInterest.HasComments) l.push(m);
-                            });
-                    }));
-        
-        var nocomments = jQuery(document.createElement("label")).text("Artworks without comments")
-            .append(
-                    jQuery(document.createElement("input"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-filter"
-                            })
-                            .click(function() {
-                                map.setFilter(function(m, l) {
-                                    if(!m.ObjectOfInterest.HasComments) l.push(m);
-                            });
-                    }));
-        
-        var reset = jQuery(document.createElement("label")).text("All artworks")
-            .append(
-                    jQuery(document.createElement("input"))
-                            .attr({
-                                "type": "radio",
-                                "name": "artmaps-map-filter",
-                                "checked": "checked"
-                            })
-                            .click(function() {
-                                map.setFilter(function(m, l) {
-                                    l.push(m);
-                            });
-                    }));
-        
-        var panel = jQuery(document.createElement("div"))
-                .attr("id", "artmaps-filter-menu")
-                .append(jQuery('<h2 id="filter-toggle">Filter</h2>'))
-                .append(reset)
-                .append(located)
-                .append(unlocated)
-                .append(comments)
-                .append(nocomments);
-        
-        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(panel.get(0));
-    */
-    })();
+        })();
     
     function offsetCenter(latlng,offsetx,offsety) {
  
@@ -620,7 +634,7 @@ ArtMaps.Map.MapObject = function(container, config) {
         autoComplete.bindTo("bounds", map);
         google.maps.event.addListener(autoComplete, "place_changed", function() {
             jQuery.fancybox.close();
-            jQuery('#welcome').fadeOut(300);
+            jQuery('#welcome').fadeOut(150);
             if (jQuery("#artmaps-search-results-artworks").hasClass('ui-dialog-content')) {
               jQuery("#artmaps-search-results-artworks").dialog("close");
             }

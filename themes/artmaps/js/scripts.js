@@ -18,7 +18,7 @@ jQuery(document).ready(function(){
         ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
             var c = con.clone();
             c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
-            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-object-id", object.ID);
             if(typeof metadata.imageurl != "undefined") {
                 c.find("img").attr("src", "http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
             }
@@ -46,8 +46,9 @@ jQuery(document).ready(function(){
   
   var activity_button = jQuery('#whats-new');
   jQuery( activity_button ).click(function(event) {
+      jQuery(".popover").fadeOut(150);
       activity_button.dialog = jQuery('#activity-sidebar');
-      jQuery(".ui-dialog-content").not(activity_button).dialog("close");
+      jQuery(".ui-dialog-content:visible").dialog("close");
       activity_button.dialog.dialog({
           "show": { 
               "duration": 0,
@@ -61,7 +62,8 @@ jQuery(document).ready(function(){
           "closeText": "",
           "draggable": false,
           "open": function() {
-             
+             jQuery(".ui-dialog:visible").removeAttr('style');
+             jQuery("time").timeago();
           },
           "close": function() {
 
@@ -71,96 +73,75 @@ jQuery(document).ready(function(){
     event.preventDefault();
   });
   
-  
-  jQuery(".artwork-link").fancybox({
-    maxWidth	: 800,
-		maxHeight	: 600,
-		type      : 'ajax',
-		fitToView	: false,
-		width		  : '90%',
-		height		: '90%',
-    autoDimensions : true,
-		closeClick	: false,
-		showEarly   : false,
-		openEffect	: 'fade',
-		closeEffect	: 'fade',
-		helpers: {
-    	overlay : null
-    },
-    beforeShow : function() {
-      jQuery("#overlay").fadeIn();
-      jQuery("body").addClass("fancybox-lock");
-      jQuery("time").timeago();
-    },
-    beforeClose : function() {
-      jQuery("body").removeClass("fancybox-lock");
-      jQuery("#overlay").fadeOut();
-    },
-    tpl : {
-    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
-    	closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
-    }
+  var about_button = jQuery('#how-it-works');
+  jQuery( about_button ).click(function(event) {
+      jQuery(".popover").fadeOut(150);
+      about_button.dialog = jQuery('#about-sidebar');
+      jQuery(".ui-dialog-content:visible").dialog("close");
+      about_button.dialog.load('about').dialog({
+          "show": { 
+              "duration": 0,
+           },
+          "hide": { "duration": 0 },
+          "width": 260,
+          "dialogClass": "artwork-results about-sidebar",
+          "height": jQuery(window).height() - 160,
+          "position": "right bottom",
+          "resizable": false,
+          "closeText": "",
+          "draggable": false,
+          "open": function() {
+             jQuery(".ui-dialog:visible").removeAttr('style');
+          },
+          "close": function() {
+
+          },
+          "title": '<i class="fa-question-circle"></i>'+"About Artmaps"
+      });
+    event.preventDefault();
   });
   
-  jQuery(".artwork-link").fancybox({
-    maxWidth	: 800,
-		maxHeight	: 600,
-		type      : 'ajax',
-		fitToView	: false,
-		width		  : '90%',
-		height		: '90%',
-    autoDimensions : true,
-		closeClick	: false,
-		showEarly   : false,
-		openEffect	: 'fade',
-		closeEffect	: 'fade',
-		helpers: {
-    	overlay : null
-    },
-    beforeShow : function() {
-      jQuery("#overlay").fadeIn();
-      jQuery("body").addClass("fancybox-lock");
-      jQuery("time").timeago(); // Generate comment timestamps
-    },
-    beforeClose : function() {
-      jQuery("body").removeClass("fancybox-lock");
-      jQuery("#overlay").fadeOut();
-    },
-    tpl : {
-    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
-    	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
-    }
-  });
+  function show_object_modal(object_id) {
   
-  jQuery("#how-it-works").fancybox({
-    maxWidth	: 800,
-		maxHeight	: 600,
-		type      : 'ajax',
-		fitToView	: false,
-		width		  : '90%',
-		height		: '90%',
-    autoDimensions : true,
-		closeClick	: false,
-		showEarly   : false,
-		openEffect	: 'fade',
-		closeEffect	: 'fade',
-		helpers: {
-    	overlay : null
-    },
-    beforeShow : function() {
-      jQuery(".ui-dialog-content").dialog("close");
-      jQuery('#welcome').fadeOut(300);
-      jQuery("#overlay").fadeIn();
-      jQuery("body").addClass("fancybox-lock");
-    },
-    beforeClose : function() {
-      jQuery("body").removeClass("fancybox-lock");
-      jQuery("#overlay").fadeOut();
-    },
-    tpl : {
-    	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
-    	closeBtn : '<a title="Close" class="fancybox-item fancybox-close" href="javascript:;"><i class="fa-times"></i></a>',
-    }
+    jQuery.fancybox({
+      maxWidth	: 800,
+  		maxHeight	: 600,
+  		href      : ArtMapsConfig.SiteUrl + "/object/" + object_id,
+  		type      : 'ajax',
+  		fitToView	: false,
+  		width		  : '90%',
+  		height		: '90%',
+      autoDimensions : true,
+  		closeClick	: false,
+  		showEarly   : false,
+  		openEffect	: 'fade',
+  		closeEffect	: 'fade',
+  		helpers: {
+      	overlay : null
+      },
+      beforeShow : function() {
+        jQuery.bbq.pushState({ "object": object_id });
+        jQuery("#overlay").fadeIn();
+        jQuery("body").addClass("fancybox-lock");
+        jQuery("time").timeago();
+      },
+      beforeClose : function() {
+        jQuery("body").removeClass("fancybox-lock");
+        jQuery("#overlay").fadeOut();
+        jQuery.bbq.removeState("object");
+      },
+      tpl : {
+      	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+      	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+      }
+    });
+    
+  }
+    
+  jQuery(document).on("click",".artwork-link",function(event){
+    event.preventDefault();
+    var object_id = jQuery(this).attr('data-object-id');
+    show_object_modal(object_id);
   });
   
   jQuery(document).on('mousedown touchstart', function (e) {
@@ -217,7 +198,9 @@ jQuery(document).ready(function(){
               'security': jQuery('form#loginform #security').val() },
           success: function(data){
               if (data.loggedin == true){
-                  document.location.href = ajax_login_object.redirecturl;
+                  jQuery.fancybox.close();
+                  jQuery('.log-in-popover').hide();
+                  jQuery('form#loginform .loader').fadeOut();
               } else {
                 jQuery('form#loginform .loader').delay(750).fadeOut(function() {
                   jQuery('#log-in-popover p.status').text(data.message).slideDown();
@@ -385,6 +368,7 @@ jQuery(document).ready(function(){
                        "async": true,
                        "success": function(data) {
                           na.attr("href", ArtMapsConfig.SiteUrl + "/object/" + data.ID);
+                          na.attr("data-object-id", data.ID);
                        },
                        "error": function() {
                            na.remove();
@@ -423,6 +407,7 @@ jQuery(document).ready(function(){
               },
               "title": ''
             });
+            jQuery(".ui-dialog:visible").removeAttr('style');
             
         }
         

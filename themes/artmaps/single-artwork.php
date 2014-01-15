@@ -29,13 +29,13 @@ jQuery(function($) {
         map.addControl(autocomplete.get(0), google.maps.ControlPosition.RIGHT_TOP);
 
         var suggest = $("#artmaps-object-map-suggest");
-        if(ArtMapsConfig.IsUserLoggedIn) {
+        <?php if(is_user_logged_in()) { ?>
             suggest.click(function() {
                map.suggest();
             });
-        } else {
+        <?php } else { ?>
             suggest.hide();
-        }
+        <?php } ?>
 
         var showall = $("#artmaps-object-map-showall");
         showall.click(function() {
@@ -57,7 +57,7 @@ jQuery(function($) {
       <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
         <a href="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" class="fancybox"><img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" /></a>
       <?php } else { ?>
-        <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
+        <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/unavailable.png" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } ?>
     </div>
 
@@ -78,7 +78,7 @@ jQuery(function($) {
       <p>We've saved your suggested location. If other users agree with your choice, the coordinates will become part of Tate collection data.</p>
     </div>
 
-    <div id="artmaps-object-comments">
+    <div class="artmaps-object-comments">
       <?php comments_template(); ?>
     </div>
 

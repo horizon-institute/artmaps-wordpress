@@ -1,41 +1,49 @@
+<div id="about-sidebar"></div>
 <div id="activity-sidebar">
 
-  <div style="background:#666; color:#fff; margin: -20px -20px 20px; padding: 20px;">
-    <h2>Challenges</h2>
-    <p>This week's challenge is to lorem ipsum lorem ipsum lorem ipsum.</p>  
+  <div class="challenges">
+    <h1>Challenges</h1>
+    <p>Not sure where to start? Try helping with one of our regular community challenges.</p>
   </div>
-  
-  <h2>Recent activity</h2>
+  <h1>Recent activity</h1>
   <ul class="commentlist">
   <?php
   $args = array(
-  	'number' => '5'
+  	'number' => '20'
   );
   $comments = get_comments($args);
   
   foreach($comments as $comment) { ?>
-    <li id="comment-13" class="comment byuser comment-author-admin bypostauthor even thread-even depth-1">
-			<article id="div-comment-13" class="comment-body">
-				<footer class="comment-meta">
+    <li <?php comment_class('', $comment->comment_ID); ?>>
+			<article class="comment-body">
+				
+  				<?php if(get_post_meta($comment->comment_post_ID,"imageurl",true)) { ?>
+            <a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php echo $comment->comment_ID; ?>" class="artwork-link" data-object-id="<?php echo get_post_meta($comment->comment_post_ID,"object_id",true); ?>">
+              <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/<?php echo get_post_meta($comment->comment_post_ID,"imageurl",true); ?>" />
+              <h2 class="artmaps-map-object-container-title">
+                <?php if(get_post_meta($comment->comment_post_ID,"title",true)) { echo get_post_meta($comment->comment_post_ID,"title",true);} else { echo get_the_title($comment->comment_post_ID); } ?>
+              </h2>
+              <em>by <span class="artmaps-map-object-container-artist"><?php echo get_post_meta($comment->comment_post_ID,"artist",true); ?></span></em>
+            </a>
+          <?php } else { ?>
+            
+          <?php } ?>
+        <footer class="comment-meta">
 					<div class="comment-author vcard">
-						<img alt="" src="http://1.gravatar.com/avatar/9270438096ff635a48186cf12e67e141?s=32&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D32&amp;r=G" class="avatar avatar-32 photo" height="32" width="32">						<b class="fn">Bart Simpson</b> <span class="says">says:</span>					</div><!-- .comment-author -->
+						<?php echo get_avatar($comment->comment_author_email, "32") ?>
+						<b class="fn"><?php echo $comment->comment_author; ?></b>
+					</div>
 
 					<div class="comment-metadata">
-						<a href="http://artmaps.local/tate/object/78947/#comment-13">
-							commented on <?php echo get_the_title($comment->comment_post_ID); ?> <time datetime="2013-12-30T17:13:11+00:00" title="12/30/2013 5:13:11 PM">
-								<?php echo date(get_option('time_format'),$comment->comment_date); ?>
+						<a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php echo $comment->comment_ID; ?>" data-object-id="<?php echo get_post_meta($comment->comment_post_ID,"object_id",true); ?>">
+							commented <time datetime="<?php echo date("c",strtotime($comment->comment_date)); ?>" title="12/30/2013 5:13:11 PM">
+								<?php echo $comment->comment_date; ?>
 						</time>
 						</a>
-											</div><!-- .comment-metadata -->
+					</div>
 
-									</footer><!-- .comment-meta -->
-
-				<div class="comment-content">
-  				<?php if(get_post_meta($comment->comment_post_ID,"imageurl",true)) { ?>
-            <a href="<?php echo get_post_meta($comment->comment_post_ID,"imageurl",true); ?>" class="fancybox"><img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/60/<?php echo get_post_meta($comment->comment_post_ID,"imageurl",true); ?>" /></a>
-          <?php } else { ?>
-            <img src="{'/content/unavailable.jpg'|artmapsUri}" alt="{$metadata->title}" />
-          <?php } ?>
+				</footer>
+        <div class="comment-content">
 					<p><?php echo $comment->comment_content; ?></p>
 				</div>
 
@@ -43,8 +51,8 @@
     </li>
     
   <?php } ?>
+  </ul>
 </div>
-
 <div id="overlay"></div>
 
 <?php wp_footer(); ?>

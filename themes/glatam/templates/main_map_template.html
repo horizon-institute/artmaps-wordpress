@@ -10,7 +10,6 @@ jQuery(function($) {
     var map = new ArtMaps.Map.MapObject($("#artmaps-map-themap"), config);
     var autocomplete = $("#artmaps-map-autocomplete");
     map.bindAutocomplete(new google.maps.places.Autocomplete(autocomplete.get(0)));
-    //map.addControl(autocomplete.get(0));  
     
     (function() {
         var con = $("#artmaps-map-object-container").children().first();
@@ -18,7 +17,7 @@ jQuery(function($) {
         ArtMaps.Map.UI.formatMetadata = function(object, metadata) {
             var c = con.clone();
             c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
-            c.find("a.artwork-link").attr("data-fancybox-href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
+            c.find("a.artwork-link").attr("data-object-id", object.ID);
             
             c.find(".artmaps-map-object-container-title").text(metadata.Name);
             var ul = c.find(".artmaps-map-object-container-metadata");
@@ -79,7 +78,7 @@ jQuery(function($) {
     <div id="artmaps-map-object-container" style="display: none;">
        <li class="artmaps-map-object-container">
          <a class="fancybox.ajax artwork-link fancybox">
-            <img src="{'content/unavailable.jpg'|artmapsUri}" />
+            <img src="{'content/unavailable.png'|artmapsUri}" />
             <h2 class="artmaps-map-object-container-title"></h2>
             <ul class="artmaps-map-object-container-metadata"></ul>
             <span class="artmaps-map-object-container-suggestions"></span>
