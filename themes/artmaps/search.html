@@ -32,7 +32,7 @@
                     .text(a.label + (a.info ? " (" + a.info + ")" : ""))
                     .click(function() {
                         $.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&aid=" + a.id,
+                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&aid=" + a.id,
                             "dataType": "xml",
                             "async": true,
                             "success": displayArtworks
@@ -78,7 +78,7 @@
                     .text("Previous | ")
                     .one("click", function() {
                         $.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + (currentPage - 1),
+                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + (currentPage - 1),
                             "dataType": "xml",
                             "async": true,
                             "success": displayArtworks
@@ -91,7 +91,7 @@
                     .text(" 1 ")
                     .one("click", function() {
                         $.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=1",
+                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=1",
                             "dataType": "xml",
                             "async": true,
                             "success": displayArtworks
@@ -111,7 +111,7 @@
                         .text(" " + i + " ")
                         .one("click", function() {
                             $.ajax({
-                                "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + i,
+                                "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + i,
                                 "dataType": "xml",
                                 "async": true,
                                 "success": displayArtworks
@@ -125,7 +125,7 @@
                     .text(" " + totalPages + " ")
                     .one("click", function() {
                         $.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + totalPages,
+                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + totalPages,
                             "dataType": "xml",
                             "async": true,
                             "success": displayArtworks
@@ -138,7 +138,7 @@
                     .text("| Next")
                     .one("click", function() {
                         $.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val() + "&wp=" + (currentPage + 1),
+                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + (currentPage + 1),
                             "dataType": "xml",
                             "async": true,
                             "success": displayArtworks
@@ -219,7 +219,7 @@
         
         searchForm.submit(function() {
             $.ajax({
-                "url": "http://www.tate.org.uk/art/artworks?term=" + searchInput.val(),
+                "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val(),
                 "dataType": "xml",
                 "async": true,
                 "success": displayArtworks
