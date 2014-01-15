@@ -6,8 +6,6 @@
 google.maps.visualRefresh = true;
 jQuery(function($) {
 
-    jQuery( "#artmaps-object-tabs" ).tabs();
-
     ArtMapsConfig = ArtMapsConfig || {};
     ArtMapsConfig.ObjectID = "<?php echo get_post_meta(get_the_ID(),"object_id",true); ?>";
 
@@ -19,6 +17,7 @@ jQuery(function($) {
     };
     var map = new ArtMaps.Object.MapObject($("#artmaps-object-map"), config);
 
+    // Keep maptype matching main map
     window.main_map.addMapTypeListener(function(maptype) {
         map.setMapType(maptype);
     });

@@ -23,13 +23,13 @@ ArtMaps.Object.MapObject = function(container, config) {
             "zoomOnClick": true,
             "imageSizes": [53],
             "styles": [{
-                "url": ArtMapsConfig.ClusterIconUrl,
-                "width": 42,
+                "url": ArtMapsConfig.ClusterIconUrl+'marker_106.png',
+                "width": 53,
                 "height": 53,
-                "anchorText": ['-15px',0],
+                "anchorText": [-7,0],
                 "anchorIcon": [21,53],
-                "textColor": '#ffffff',
-                "textSize": 11
+                "textColor": '#fff',
+                "textSize": 14
             }]
     };
     
@@ -56,7 +56,7 @@ ArtMaps.Object.MapObject = function(container, config) {
         });
     });
     
-    var svSuggest = jQuery("<button type=\"button\">Suggest A Location</button>");
+    var svSuggest = jQuery("<button type=\"button\">Suggest a Location</button>");
     if(ArtMapsConfig.IsUserLoggedIn)
         streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));    
     

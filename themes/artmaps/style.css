@@ -142,6 +142,13 @@ img {
 	-ms-interpolation-mode: bicubic;
 }
 
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
 html,body {
   overflow: hidden;
 }
@@ -762,35 +769,52 @@ body:before {
   z-index: 100;
 }
 
-.search-form a.switch {
+.search-form .switch {
   position: absolute;
   top: 0px;
+  bottom: 0px;
+  left: 0px;
   background: #51626f;
   border-radius: 2px 0px 0px 2px;
-  bottom: 0px;
-  padding-top: 8px;
-  left: 0px;
   box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1);
   padding-left: 10px;
   color: #fff;
   text-decoration: none;
-  font-size: 22px;
+  font-size: 15px;
+  line-height:36px;
   padding-right: 12px;
 }
 
 .search-form a.switch i.fa-chevron-down {
   font-size: 8px;
   position: relative;
-  top: -3px;
+  top: -1px;
   left: 4px;
+  margin-right:1px;
+  color:rgba(255,255,255,0.7);
 }
 
 .search-form a.switch #search-label-art, .search-form a.switch #search-label-places {
   font-size: 15px;
-  margin-left: 5px;
+  margin-left: 4px;
   position: relative;
-  top: -1px;
+  top: 1px;
   font-weight: normal;
+}
+
+#search-mode {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: transparent;
+  text-indent: -9999px;
+  border: none;
+  -webkit-appearance: none;
+  z-index:50;
+  font-size: 13px;
+  outline:0;
 }
 
 #search-label-art {
@@ -800,10 +824,11 @@ body:before {
 .search-form .query-field {
   padding: 10px;
   font-size: 15px;
+  height:36px;
   width:100%;
   box-sizing:border-box;
   -moz-box-sizing:border-box;
-  background:#fff;
+  background:rgba(255,255,255,0.9);
   border-radius:2px;
   font-family:TateNewRegular, Arial, Helvetica, sans-serif;
   border: none;
@@ -812,11 +837,11 @@ body:before {
 }
 
 #keyword-search-form .query-field {
-  padding-left:87px;
+  padding-left:78px;
 }
 
 #location-search-form .query-field {
-  padding-left:109px;
+  padding-left:102px;
 }
 
 .search-form #location-search-form input[type=submit], .search-form #keyword-search-form input[type=submit] { 
@@ -828,7 +853,8 @@ body:before {
 }
 
 .search-form .query-field:focus {
-  outline: 2px solid #eee;
+  background: #fff;
+  outline: none;
 }
 
 .search-form #location-search-form { display:block; }
@@ -1338,7 +1364,7 @@ body:before {
 }
 
 /* For retina markers */
-#artmaps-map-themap .cluster img {
+#artmaps-object-map .cluster img, #artmaps-map-themap .cluster img {
   max-width: 100% !important;
 }
 

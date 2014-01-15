@@ -121,6 +121,7 @@ jQuery(document).ready(function(){
       },
       beforeShow : function() {
         jQuery.bbq.pushState({ "object": object_id });
+        
         jQuery("#overlay").fadeIn();
         jQuery("body").addClass("fancybox-lock");
         jQuery("time").timeago();
@@ -152,11 +153,30 @@ jQuery(document).ready(function(){
     }
   });
   
-  jQuery( "#search-form-toggle" ).click(function(event) {
+  /*jQuery( "#search-form-toggle" ).click(function(event) {
     jQuery('#location-search-form, #keyword-search-form, #search-label-places, #search-label-art').toggle();
     jQuery('#location-search-form .query-field, #keyword-search-form .query-field').val("");
     event.preventDefault();
+  });*/
+  
+  var search_mode_select = jQuery("#search-mode");
+  search_mode_select.change(function(){
+    var id = jQuery(this).find("option:selected").attr("id");
+    
+    switch (id) {
+      case "search-mode-places":
+        jQuery('#location-search-form, #search-label-places').show();
+        jQuery('#keyword-search-form, #search-label-art').hide();
+        jQuery('#location-search-form .query-field').focus();
+        break;
+      case "search-mode-artworks":
+        jQuery('#location-search-form, #search-label-places').hide();
+        jQuery('#keyword-search-form, #search-label-art').show();
+        jQuery('#keyword-search-form .query-field').focus();
+        break;
+    }
   });
+
   
   jQuery( "#log-in" ).click(function(event) {
     jQuery('.popover').fadeOut(150, function() {
