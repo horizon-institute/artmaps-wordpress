@@ -221,8 +221,8 @@ ArtMaps.Map.MapObject = function(container, config) {
             var centre = map.getCenter();
             jQuery.bbq.pushState({
                 "zoom": map.getZoom(),
-                "lat": centre.lat(),
-                "lng": centre.lng(),
+                "lat": (centre.lat()).toFixed(2),
+                "lng": (centre.lng()).toFixed(2),
                 "maptype": map.getMapTypeId() 
             }); 
         });

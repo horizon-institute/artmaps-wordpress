@@ -268,6 +268,7 @@ i {
   position: absolute !important;
   width:100% !important;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   top:0px;
   bottom:0px;
   border-radius:2px;
@@ -941,6 +942,10 @@ body:before {
   -moz-appearance: none;
 }
 
+#artmaps-filter-menu {
+  display:none; /* Currently disabled */
+}
+
 #artmaps-filter-menu:hover, #artmaps-map-mode:hover {
   text-decoration: underline;
 }
@@ -999,6 +1004,7 @@ body:before {
   left: 0px;
   right: 0px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .about-page h1 {
@@ -1225,6 +1231,7 @@ body:before {
   box-sizing: border-box;
   display:none;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .activity-sidebar h1 {
@@ -1674,6 +1681,7 @@ body:before {
   margin-top:36px;
   width: 33.7%;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   z-index: 999;
   border-radius: 0px 0px 2px 0px;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
@@ -2266,19 +2274,14 @@ h1 {
   }
   .loading-indicator {
     position: fixed;
-    bottom: 0px;
-    box-shadow:inset 0px -50px 45px -20px rgba(0,0,0,0.65);
-    text-align:center;
-    background-position:center 15px;
-    padding-left:0px;
-    padding-top:40px;
-    padding-bottom:10px;
-    left: 0px !important;
-    top:auto !important;
-    right: 0px;
+    bottom: 2%;
+    text-align: center;
+    left: 2%;
+    top: auto;
+    right: 2%;
     pointer-events: none;
-    -moz-pointer-events:none;
-    -webkit-pointer-events:none;
+    -moz-pointer-events: none;
+    -webkit-pointer-events: none;
   }
   .fancybox-inner {
     border-radius: 0px;
