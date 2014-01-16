@@ -51,6 +51,6 @@ return false;
   } else {
     $current_avatar = '';
   }
-  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please log in to post a comment.</p>');
+  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please <a href="#" class="log-in-trigger">log in</a> to post a comment.</p>');
   comment_form($args);
 ?>

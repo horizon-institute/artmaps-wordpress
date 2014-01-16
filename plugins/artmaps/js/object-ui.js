@@ -283,11 +283,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                 }
                                 input.attr("value", loc.ID);
                             }); 
-                    jQuery("#artmaps-object-suggestion-message").dialog({
-                        "modal": true,
-                        "width": 640,
-                        "title": "Thank You"
-                    });
+                    jQuery("#artmaps-object-suggestion-message").show();
                 },
                 function(jqXHR, textStatus, errorThrown) {
                     self.setContent(errorContent.get(0));

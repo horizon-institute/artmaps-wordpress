@@ -427,12 +427,13 @@ i {
   left: 50%;
   width: 260px;
   border-radius: 4px;
-  margin-left: -130px;
-  margin-top: 20px;
+  margin-left: -140px;
+  margin-top: 10px;
   font-size: 14px;
   line-height: 32px;
   box-shadow: 0px 3px 15px rgba(0,0,0,0.7);
   display:none;
+  box-sizing:border-box;
 }
 
 .on .log-in-popover, .on .log-out-popover {
@@ -440,7 +441,9 @@ i {
 }
 
 .log-out-popover {
+  margin-top: 0px;
   background: #fff;
+  margin-left: -138px;
 }
 
 .log-in-popover .loader {
@@ -455,27 +458,44 @@ i {
   display: none;
 }
 
-.log-in-popover p.status {
+.log-in-popover .lwa-status {
   background: #fff;
-  display:none;
+  display:block;
   text-align: center;
   padding: 0px 15px;
   margin-bottom: -5px;
   border-bottom: 1px solid #CCC;
   position: relative;
   font-size: 12px;
+  line-height: 20px;
   box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.15);
 }
 
-.log-in-popover form, .log-in-popover .wrap, .log-out-popover .wrap {
+.log-out-popover .wrap {
   border:15px solid #fff;
-  border-width: 15px 20px;
+  border-width: 15px 15px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.log-in-popover {
+  border: 15px solid #fff;
+  border-width: 15px 15px;
   border-radius: 2px;
 }
 
 .log-in-popover label {
   display:block;
   background:#fff;
+}
+
+.lwa-links-remember-cancel, .lwa-links-register-inline-cancel {
+  text-align: center;
+  display: block;
+  color: #369;
+  font-size: 13px;
+  line-height: 19px;
+  margin-top: 10px;
 }
 
 header .menu li.log-in .log-in-popover a.forgot-password {
@@ -502,6 +522,28 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   border-color: white transparent white;
 }
 
+.log-in-popover:before {
+  top:-30px;
+}
+
+.lwa-remember, .lwa-register {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: #fff;
+  padding: 0px 10px;
+}
+
+.lwa-remember strong, .lwa-register strong {
+  font-weight: normal;
+  text-align: center;
+  display: block;
+  font-size: 19px;
+  margin: 15px 0px;
+}
+
 .log-in-popover input {
   display: block;
   margin: -3px 0 0;
@@ -522,7 +564,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   padding: 9px;
 }
 
-.log-in-popover #wp-submit {
+.log-in-popover #lwa_wp-submit, .lwa-submit-button input {
   padding: 10px 13px;
   box-shadow: none;
   border:none;
@@ -539,7 +581,7 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   appearance: none;
 }
 
-.log-in-popover .login-remember {
+.log-in-popover .lwa-links label {
   font-size: 13px;
   line-height: 28px;
   color: #666;
@@ -547,16 +589,37 @@ header .menu li.log-in .log-in-popover a.forgot-password {
   padding: 5px 0px 7px;
 }
 
-.log-in-popover .login-remember input {
+.log-in-popover .lwa-links input.lwa-rememberme {
   float: left;
   position: relative;
-  margin:0;
+  margin: 0;
   margin-right: 6px;
-  bottom: -8px;
+  bottom: -13px;
+  box-shadow: none;
+  width: auto;
+}
+
+.log-in-popover .lwa-links br {
+  display:none;
 }
   
 .log-in-popover .login-remember input {
   width: auto;
+}
+
+.log-in-popover .lwa-submit-button {
+  padding-top: 15px;
+  background: #fff;
+}
+
+header .menu .lwa-links a {
+  text-align: center;
+  font-size: 13px;
+  background:#fff;
+  line-height: 20px;
+  display: block;
+  color: #369;
+  margin: 0;
 }
 
 header .menu .log-out-popover li {
@@ -679,7 +742,6 @@ header .menu {
   left: 250px;
   right: 35%;
   top: 20px;
-  margin-right:10px;
 }
 
 header .menu li {
@@ -707,6 +769,7 @@ header .menu .toggle {
   font-size: 15px;
   padding: 0px 25px;
   text-align: center;
+  color:#fff;
   text-decoration: none;
   border-radius: 2px;
   line-height: 36px;
@@ -727,26 +790,27 @@ header .menu .toggle:active {
 }
 
 header .menu .log-out .toggle {
-  padding:0px;
-  height: 36px;
-  width: 36px;
+  height: 32px;
+  width: 32px;
   overflow: hidden;
+  background: #51626f;
+  padding: 2px;
+  border-radius: 2px;
 }
 
 header .menu li.log-out img.avatar {
-  width: 36px;
-  height: 36px;
-  float:left;
-  margin-right:15px;
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin-right: 15px;
   border-radius: 1px;
-  background: rgba(255,255,255,0.5);
   display: block;
+  background:rgba(0,0,0,0.5);
 }
 
-header .menu a {
-  color:#fff;
-  font-size:18px;
-  margin-right:20px;
+header .menu li.log-out .log-out-popover img.avatar {
+  width: 64px;
+  height: 64px;
 }
 
 body:before {
@@ -815,6 +879,7 @@ body:before {
   z-index:50;
   font-size: 13px;
   outline:0;
+  cursor:pointer;
 }
 
 #search-label-art {
@@ -920,11 +985,11 @@ body:before {
   text-align: left;
   color: #222;
   top: 100%;
-  right: -130px;
+  right: -115px;
   width: 260px;
   border-radius: 4px;
   margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 0px;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
 }
 
@@ -936,7 +1001,7 @@ body:before {
   display: block;
   top: -15px;
   right: 50%;
-  margin-left: -12px;
+  margin-right: -15px;
   border: solid #fff;
   border-width: 0px 15px 15px;
   border-color: white transparent;
@@ -1262,7 +1327,7 @@ body:before {
 
 .activity-sidebar h1 {
   padding:12px;
-  background: rgba(255,255,255,0.9);
+  background: #fff;
 }
 
 .activity-sidebar .comment {
@@ -1271,7 +1336,7 @@ body:before {
 }
 
 .activity-sidebar .comment.even {
-  background: rgba(255,255,255,0.9);
+  background: #fff;
 }
 
 .activity-sidebar .comment.odd {
@@ -1734,7 +1799,6 @@ h1 {
   margin: -20px -20px 0px;
   text-align: center;
   padding: 18px 15px 15px;
-  min-height: 250px;
   box-sizing: border-box;
 }
 
@@ -1767,8 +1831,8 @@ h1 {
   color: #fff;
   margin: 20px -20px -20px;
   padding: 20px 20px 20px 50px;
-  font-size: 15px;
-  line-height: 19px;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 #artmaps-object-suggestion-message h2 {
@@ -1799,6 +1863,10 @@ h1 {
   padding: 10px 0px 0px 80px;
   line-height: 18px;
   font-size: 13px;
+}
+
+#artmaps-object-metadata dd .artist-lifetime {
+  color:#999;
 }
 
 #artmaps-object-metadata .artwork-external {
@@ -1843,6 +1911,33 @@ h1 {
 
 .artmaps-object-comments .comment-form-comment label {
   display: none;
+}
+
+.comment-form {
+  position: relative;
+}
+
+.comment-respond {
+  margin-left:50px;
+}
+
+.countdownbox input {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  text-align: right;
+  padding: 0;
+  background: transparent;
+  color: rgba(0,0,0,0.5);
+  font-family:TateNewRegular;
+}
+
+.countdownbox {
+  font-size: 0px;
+  line-height: 0px;
+  height: 0px;
+  display: block;
 }
 
 .comment {
@@ -1896,6 +1991,7 @@ h1 {
 #respond textarea {
   display: block;
   padding: 10px;
+  padding-right: 40px;
   width: 100%;
   font-size: 13px;
   line-height: 20px;
@@ -1927,11 +2023,13 @@ h1 {
   cursor: pointer;
   -webkit-font-smoothing: antialiased;
   text-decoration: none;
+  margin:0;
 }
 
 #respond .avatar {
   margin-left:-50px;
   float:left;
+  border-radius: 2px;
 }
 
 #artmaps-object-map {

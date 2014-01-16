@@ -54,7 +54,9 @@ jQuery(function($) {
 
     <div class="artmaps-object-image">
       <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
-        <a href="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" class="fancybox"><img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" /></a>
+        <!--<a href="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>">-->
+          <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
+        <!--</a>-->
       <?php } else { ?>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/unavailable.png" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } ?>
@@ -63,7 +65,7 @@ jQuery(function($) {
     <h1><?php if(get_post_meta(get_the_ID(),"title",true)) { echo get_post_meta(get_the_ID(),"title",true);} else { the_title(); } ?></h1>
     <dl>
       <dt>Artist</dt>
-        <dd><?php echo get_post_meta(get_the_ID(),"artist",true); ?> <?php echo get_post_meta(get_the_ID(),"artistdate",true); ?></dd>
+        <dd><?php echo get_post_meta(get_the_ID(),"artist",true); ?> <span class="artist-lifetime"><?php echo str_replace("‑","&ndash;",get_post_meta(get_the_ID(),"artistdate",true)); ?></span></dd>
       <dt>Date</dt>
         <dd><?php echo get_post_meta(get_the_ID(),"artworkdate",true); ?></dd>
       <dt></dt>

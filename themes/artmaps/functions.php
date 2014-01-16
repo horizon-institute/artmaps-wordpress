@@ -127,4 +127,11 @@ function ajax_login(){
 // Enable the user with no privileges to run ajax_login() in AJAX
 add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
 
+// Remove login with ajax plugin's default css
+function remove_login_with_ajax_css(){
+  wp_dequeue_style("login-with-ajax");
+}
+add_action('init', 'remove_login_with_ajax_css');
+
+
 ?>

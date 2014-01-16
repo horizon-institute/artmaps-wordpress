@@ -9,7 +9,9 @@
   <ul class="commentlist">
   <?php
   $args = array(
-  	'number' => '20'
+  	'number' => '20',
+  	'post_type' => 'artwork',
+  	'status' => 'approve'
   );
   $comments = get_comments($args);
   

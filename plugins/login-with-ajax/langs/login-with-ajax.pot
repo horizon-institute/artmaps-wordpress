@@ -1,0 +1,490 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Login With Ajax v3.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-05-20 19:08:13+0000\n"
+"Last-Translator: translate@netweblogic.com\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Arabic\n"
+"X-Poedit-Country: U.A.E.\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: login-with-ajax-admin.php:44
+#@ login-with-ajax
+msgid "New features in Login With AJAX (including registration!), check out the settings and widget pages!"
+msgstr ""
+
+#: login-with-ajax-admin.php:46
+#@ login-with-ajax
+msgid "Dismiss"
+msgstr ""
+
+#: login-with-ajax-admin.php:92
+#@ default
+msgid "Changes saved."
+msgstr ""
+
+#: login-with-ajax-admin.php:134
+#@ login-with-ajax
+msgid "General Settings"
+msgstr ""
+
+#: login-with-ajax-admin.php:139
+#@ login-with-ajax
+msgid "Default Template"
+msgstr ""
+
+#: login-with-ajax-admin.php:148
+#@ login-with-ajax
+msgid "Choose the default theme you'd like to use. This can be overriden in the widget, shortcode and template tags."
+msgstr ""
+
+#: login-with-ajax-admin.php:149
+#@ login-with-ajax
+msgid "Further documentation for this feature coming soon..."
+msgstr ""
+
+#: login-with-ajax-admin.php:155
+#@ login-with-ajax
+msgid "Disable refresh upon login?"
+msgstr ""
+
+#: login-with-ajax-admin.php:160
+#@ login-with-ajax
+msgid "If the user logs in and you check the button above, only the login widget will update itself without refreshing the page. Not a good idea if your site shows different content to users once logged in, as a refresh would be needed."
+msgstr ""
+
+#: login-with-ajax-admin.php:166
+#@ login-with-ajax
+msgid "Redirection Settings"
+msgstr ""
+
+#: login-with-ajax-admin.php:170
+#@ login-with-ajax
+msgid "Global Login Redirect"
+msgstr ""
+
+#: login-with-ajax-admin.php:174
+#@ login-with-ajax
+msgid "If you'd like to send the user to a specific URL after login, enter it here (e.g. http://wordpress.org/)"
+msgstr ""
+
+#: login-with-ajax-admin.php:175
+#, php-format
+#@ login-with-ajax
+msgid "Use %USERNAME% and it will be replaced with the username of person logging in."
+msgstr ""
+
+#: login-with-ajax-admin.php:197
+#: login-with-ajax-admin.php:249
+#@ login-with-ajax
+msgid "With WPML enabled you can provide different redirection destinations based on language too."
+msgstr ""
+
+#: login-with-ajax-admin.php:208
+#@ login-with-ajax
+msgid "Global Logout Redirect"
+msgstr ""
+
+#: login-with-ajax-admin.php:212
+#@ login-with-ajax
+msgid "If you'd like to send the user to a specific URL after logout, enter it here (e.g. http://wordpress.org/)"
+msgstr ""
+
+#: login-with-ajax-admin.php:213
+#, php-format
+#@ login-with-ajax
+msgid "Enter %LASTURL% to send the user back to the page they were previously on."
+msgstr ""
+
+#: login-with-ajax-admin.php:221
+#@ login-with-ajax
+msgid "Role-Based Custom Login Redirects"
+msgstr ""
+
+#: login-with-ajax-admin.php:224
+#@ login-with-ajax
+msgid "If you would like a specific user role to be redirected to a custom URL upon login, place it here (blank value will default to the global redirect)"
+msgstr ""
+
+#: login-with-ajax-admin.php:274
+#@ login-with-ajax
+msgid "Role-Based Custom Logout Redirects"
+msgstr ""
+
+#: login-with-ajax-admin.php:277
+#@ login-with-ajax
+msgid "If you would like a specific user role to be redirected to a custom URL upon logout, place it here (blank value will default to the global redirect)"
+msgstr ""
+
+#: login-with-ajax-admin.php:300
+#@ login-with-ajax
+msgid "Notification Settings"
+msgstr ""
+
+#: login-with-ajax-admin.php:302
+#@ login-with-ajax
+msgid "If you'd like to override the default Wordpress email users receive once registered, make sure you check the box below and enter a new email subject and message."
+msgstr ""
+
+#: login-with-ajax-admin.php:303
+#@ login-with-ajax
+msgid "If this feature doesn't work, please make sure that you don't have another plugin installed which also manages user registrations (e.g. BuddyPress and MU)."
+msgstr ""
+
+#: login-with-ajax-admin.php:308
+#@ login-with-ajax
+msgid "Override Default Email?"
+msgstr ""
+
+#: login-with-ajax-admin.php:316
+#@ login-with-ajax
+msgid "Subject"
+msgstr ""
+
+#: login-with-ajax-admin.php:321
+#, php-format
+#@ login-with-ajax
+msgid "Your registration at %BLOGNAME%"
+msgstr ""
+
+#: login-with-ajax-admin.php:325
+#, php-format
+#@ login-with-ajax
+msgid "<code>%USERNAME%</code> will be replaced with a username."
+msgstr ""
+
+#: login-with-ajax-admin.php:326
+#, php-format
+#@ login-with-ajax
+msgid "<code>%PASSWORD%</code> will be replaced with the user's password."
+msgstr ""
+
+#: login-with-ajax-admin.php:327
+#: login-with-ajax-admin.php:351
+#, php-format
+#@ login-with-ajax
+msgid "<code>%BLOGNAME%</code> will be replaced with the name of your blog."
+msgstr ""
+
+#: login-with-ajax-admin.php:328
+#: login-with-ajax-admin.php:352
+#, php-format
+#@ login-with-ajax
+msgid "<code>%BLOGURL%</code> will be replaced with the url of your blog."
+msgstr ""
+
+#: login-with-ajax-admin.php:333
+#@ login-with-ajax
+msgid "Message"
+msgstr ""
+
+#: login-with-ajax-admin.php:338
+#, php-format
+#@ login-with-ajax
+msgid ""
+"Thanks for signing up to our blog. \n"
+"\n"
+"You can login with the following credentials by visiting %BLOGURL%\n"
+"\n"
+"Username : %USERNAME%\n"
+"Password : %PASSWORD%\n"
+"\n"
+"We look forward to your next visit!\n"
+"\n"
+"The team at %BLOGNAME%"
+msgstr ""
+
+#: login-with-ajax-admin.php:360
+#@ default
+msgid "Save Changes"
+msgstr ""
+
+#: login-with-ajax-widget.php:8
+#: widget/default/widget_out.php:31
+#: widget/divs-only/widget_out.php:26
+#: widget/modal/widget_out.php:9
+#: widget/modal/widget_out.php:36
+#@ login-with-ajax
+msgid "Log In"
+msgstr ""
+
+#: login-with-ajax-widget.php:9
+#: widget/default/widget_in.php:13
+#@ login-with-ajax
+msgid "Hi"
+msgstr ""
+
+#: login-with-ajax-widget.php:15
+#@ login-with-ajax
+msgid "Login widget with AJAX capabilities."
+msgstr ""
+
+#: login-with-ajax-widget.php:55
+#: login-with-ajax-widget.php:59
+#, php-format
+#@ login-with-ajax
+msgid "Title (%s)"
+msgstr ""
+
+#: login-with-ajax-widget.php:55
+#@ login-with-ajax
+msgid "Logged In"
+msgstr ""
+
+#: login-with-ajax-widget.php:59
+#@ login-with-ajax
+msgid "Logged Out"
+msgstr ""
+
+#: login-with-ajax-widget.php:63
+#@ login-with-ajax
+msgid "Show profile link?"
+msgstr ""
+
+#: login-with-ajax-widget.php:67
+#@ login-with-ajax
+msgid "Recover Password?"
+msgstr ""
+
+#: login-with-ajax-widget.php:71
+#@ login-with-ajax
+msgid "AJAX Registration?"
+msgstr ""
+
+#: login-with-ajax-widget.php:76
+#@ login-with-ajax
+msgid "Template"
+msgstr ""
+
+#: login-with-ajax.php:157
+#@ login-with-ajax
+msgid "Login Successful, redirecting..."
+msgstr ""
+
+#: login-with-ajax.php:169
+#@ login-with-ajax
+msgid "Login successful, updating..."
+msgstr ""
+
+#: login-with-ajax.php:179
+#: login-with-ajax.php:233
+#@ login-with-ajax
+msgid "An undefined error has ocurred"
+msgstr ""
+
+#: login-with-ajax.php:183
+#@ login-with-ajax
+msgid "Please supply your username and password."
+msgstr ""
+
+#: login-with-ajax.php:203
+#@ login-with-ajax
+msgid "Registration complete. Please check your e-mail."
+msgstr ""
+
+#: login-with-ajax.php:224
+#@ login-with-ajax
+msgid "We have sent you an email"
+msgstr ""
+
+#: pluggable.php:24
+#, php-format
+#@ default
+msgid "New user registration on your blog %s:"
+msgstr ""
+
+#: pluggable.php:25
+#: pluggable.php:39
+#, php-format
+#@ default
+msgid "Username: %s"
+msgstr ""
+
+#: pluggable.php:26
+#, php-format
+#@ default
+msgid "E-mail: %s"
+msgstr ""
+
+#: pluggable.php:28
+#, php-format
+#@ default
+msgid "[%s] New User Registration"
+msgstr ""
+
+#: pluggable.php:40
+#, php-format
+#@ default
+msgid "Password: %s"
+msgstr ""
+
+#: pluggable.php:43
+#, php-format
+#@ default
+msgid "[%s] Your username and password"
+msgstr ""
+
+#: registration.php:18
+#@ default
+msgid "<strong>ERROR</strong>: Please enter a username."
+msgstr ""
+
+#: registration.php:20
+#@ default
+msgid "<strong>ERROR</strong>: This username is invalid because it uses illegal characters. Please enter a valid username."
+msgstr ""
+
+#: registration.php:23
+#@ default
+msgid "<strong>ERROR</strong>: This username is already registered. Please choose another one."
+msgstr ""
+
+#: registration.php:28
+#@ default
+msgid "<strong>ERROR</strong>: Please type your e-mail address."
+msgstr ""
+
+#: registration.php:30
+#@ default
+msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
+msgstr ""
+
+#: registration.php:33
+#@ default
+msgid "<strong>ERROR</strong>: This email is already registered, please choose another one."
+msgstr ""
+
+#: registration.php:46
+#, php-format
+#@ default
+msgid "<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a href=\"mailto:%s\">webmaster</a> !"
+msgstr ""
+
+#: widget/default/widget_in.php:25
+#: widget/default/widget_in.php:29
+#@ login-with-ajax
+msgid "Profile"
+msgstr ""
+
+#: widget/default/widget_in.php:35
+#@ login-with-ajax
+msgid "Log Out"
+msgstr ""
+
+#: widget/default/widget_in.php:40
+#@ login-with-ajax
+msgid "blog admin"
+msgstr ""
+
+#: widget/default/widget_out.php:14
+#: widget/default/widget_out.php:82
+#: widget/divs-only/widget_out.php:12
+#: widget/divs-only/widget_out.php:63
+#: widget/modal/widget_out.php:19
+#: widget/modal/widget_out.php:92
+#@ login-with-ajax
+msgid "Username"
+msgstr ""
+
+#: widget/default/widget_out.php:22
+#: widget/divs-only/widget_out.php:17
+#: widget/modal/widget_out.php:27
+#@ login-with-ajax
+msgid "Password"
+msgstr ""
+
+#: widget/default/widget_out.php:36
+#: widget/divs-only/widget_out.php:32
+#: widget/modal/widget_out.php:41
+#@ login-with-ajax
+msgid "Remember Me"
+msgstr ""
+
+#: widget/default/widget_out.php:39
+#: widget/divs-only/widget_out.php:35
+#: widget/modal/widget_out.php:44
+#@ login-with-ajax
+msgid "Password Lost and Found"
+msgstr ""
+
+#: widget/default/widget_out.php:39
+#: widget/divs-only/widget_out.php:35
+#: widget/modal/widget_out.php:44
+#@ login-with-ajax
+msgid "Lost your password?"
+msgstr ""
+
+#: widget/default/widget_out.php:43
+#: widget/default/widget_out.php:92
+#: widget/divs-only/widget_out.php:39
+#: widget/divs-only/widget_out.php:76
+#: widget/modal/widget_out.php:48
+#: widget/modal/widget_out.php:113
+#@ login-with-ajax
+msgid "Register"
+msgstr ""
+
+#: widget/default/widget_out.php:55
+#: widget/divs-only/widget_out.php:45
+#: widget/modal/widget_out.php:60
+#@ login-with-ajax
+msgid "Forgotten Password"
+msgstr ""
+
+#: widget/default/widget_out.php:60
+#: widget/divs-only/widget_out.php:47
+#: widget/modal/widget_out.php:65
+#@ login-with-ajax
+msgid "Enter username or email"
+msgstr ""
+
+#: widget/default/widget_out.php:67
+#: widget/divs-only/widget_out.php:52
+#: widget/modal/widget_out.php:72
+#@ login-with-ajax
+msgid "Get New Password"
+msgstr ""
+
+#: widget/default/widget_out.php:68
+#: widget/divs-only/widget_out.php:53
+#: widget/divs-only/widget_out.php:77
+#: widget/modal/widget_out.php:73
+#: widget/modal/widget_out.php:114
+#@ login-with-ajax
+msgid "Cancel"
+msgstr ""
+
+#: widget/default/widget_out.php:77
+#: widget/divs-only/widget_out.php:61
+#: widget/modal/widget_out.php:87
+#@ login-with-ajax
+msgid "Register For This Site"
+msgstr ""
+
+#: widget/default/widget_out.php:78
+#: widget/divs-only/widget_out.php:75
+#: widget/modal/widget_out.php:112
+#@ login-with-ajax
+#@ default
+msgid "A password will be e-mailed to you."
+msgstr ""
+
+#: widget/default/widget_out.php:86
+#: widget/divs-only/widget_out.php:67
+#: widget/modal/widget_out.php:98
+#@ login-with-ajax
+msgid "E-mail"
+msgstr ""
+

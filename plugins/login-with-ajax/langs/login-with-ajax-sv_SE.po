@@ -1,0 +1,441 @@
+# Translation of Login With Ajax in Swedish
+# This file is distributed under the same license as the Login With Ajax package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-05-20 21:09+0100\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"Project-Id-Version: Login With Ajax\n"
+"POT-Creation-Date: \n"
+"Last-Translator: Marcus Sykes <wp.plugins@netweblogic.com>\n"
+"Language-Team: \n"
+
+#: login-with-ajax-widget.php:55 login-with-ajax-widget.php:59
+msgid "Title (%s)"
+msgstr ""
+
+#: login-with-ajax-widget.php:55
+msgid "Logged In"
+msgstr ""
+
+#: login-with-ajax-widget.php:59
+msgid "Logged Out"
+msgstr ""
+
+#: login-with-ajax-admin.php:197 login-with-ajax-admin.php:249
+msgid ""
+"With WPML enabled you can provide different redirection destinations based "
+"on language too."
+msgstr ""
+"Med WPML aktiverat kan du också ange olika destinationer för "
+"omdirigeringarna baserat på språk."
+
+#: login-with-ajax-admin.php:302
+msgid ""
+"If you'd like to override the default Wordpress email users receive once "
+"registered, make sure you check the box below and enter a new email subject "
+"and message."
+msgstr ""
+"Om du vill åsidosätta det standardmail som Wordpress skickar ut till "
+"användare när de registrerar sig, kryssa i rutan nedan och ange en ny ämne "
+"och meddelande."
+
+#: login-with-ajax-admin.php:338
+msgid ""
+"Thanks for signing up to our blog. \n"
+"\n"
+"You can login with the following credentials by visiting %BLOGURL%\n"
+"\n"
+"Username : %USERNAME%\n"
+"Password : %PASSWORD%\n"
+"\n"
+"We look forward to your next visit!\n"
+"\n"
+"The team at %BLOGNAME%"
+msgstr ""
+"Tack för att du registrerar dig på vår blogg. \n"
+"\n"
+"Du loggar in genom att besöka sidan %BLOGURL% och använda nedanstående "
+"inloggningsuppgifter\n"
+"\n"
+"Användarnamn : %USERNAME%\n"
+"Lösenord : %PASSWORD%\n"
+"\n"
+"Vi ser fram emot ditt nästa besök!\n"
+"\n"
+"Teamet på %BLOGNAME%"
+
+#: login-with-ajax-widget.php:67
+msgid "Recover Password?"
+msgstr "Glömt ditt lösenord?"
+
+#: registration.php:18
+msgid "<strong>ERROR</strong>: Please enter a username."
+msgstr "<strong>FEL</strong>: Ange användarnamn."
+
+#: registration.php:20
+msgid ""
+"<strong>ERROR</strong>: This username is invalid because it uses illegal "
+"characters. Please enter a valid username."
+msgstr ""
+"<strong>FEL</strong>: Detta användarnamn är ogiltigt eftersom det använder "
+"ogiltiga tecken. Vänligen ange ett korrekt användarnamn."
+
+#: registration.php:23
+msgid ""
+"<strong>ERROR</strong>: This username is already registered. Please choose "
+"another one."
+msgstr ""
+"<strong>ERROR</strong>: Detta användarnamn används redan. Vänligen ange ett "
+"annat."
+
+#: registration.php:28
+msgid "<strong>ERROR</strong>: Please type your e-mail address."
+msgstr "<strong>FEL</strong>: Ange din e-postadress"
+
+#: registration.php:30
+msgid "<strong>ERROR</strong>: The email address isn&#8217;t correct."
+msgstr "<strong>FEL</strong>: Ogiltig e-postadress"
+
+#: registration.php:33
+msgid ""
+"<strong>ERROR</strong>: This email is already registered, please choose "
+"another one."
+msgstr ""
+"<strong>FEL</strong>: Denna e-postadress finns redan i systemet, vänligen "
+"ange en annan."
+
+#: registration.php:46
+msgid ""
+"<strong>ERROR</strong>: Couldn&#8217;t register you... please contact the <a "
+"href=\"mailto:%s\">webmaster</a> !"
+msgstr ""
+"<strong>FEL</strong>: Registrering kunde inte utföras... Vänligen kontakta "
+"<a href=\"mailto:%s\">webbmaster</a> !"
+
+#: login-with-ajax-widget.php:15
+msgid "Login widget with AJAX capabilities."
+msgstr "Inloggningswidget med AJAX"
+
+#: login-with-ajax-widget.php:63
+msgid "Show profile link?"
+msgstr "Visa profillänk?"
+
+#: login-with-ajax-widget.php:71
+msgid "AJAX Registration?"
+msgstr "AJAX-registrering?"
+
+#: login-with-ajax-widget.php:76
+msgid "Template"
+msgstr "Mall"
+
+#: login-with-ajax.php:157
+msgid "Login Successful, redirecting..."
+msgstr "Inloggningen lyckades, omdirigerar..."
+
+#: login-with-ajax.php:169
+msgid "Login successful, updating..."
+msgstr "Inloggningen lyckades, uppdaterar..."
+
+#: login-with-ajax.php:179 login-with-ajax.php:233
+msgid "An undefined error has ocurred"
+msgstr "En okänt fel uppstod"
+
+#: login-with-ajax.php:183
+msgid "Please supply your username and password."
+msgstr "Vänligen ange ditt användarnamn och lösenord."
+
+#: login-with-ajax.php:203
+msgid "Registration complete. Please check your e-mail."
+msgstr "Registrering klar, kontrollera din mailkorg för mer info."
+
+#: login-with-ajax.php:224
+msgid "We have sent you an email"
+msgstr "Vi har nu skickat dig ett e-postmeddelande"
+
+#: pluggable.php:24
+msgid "New user registration on your blog %s:"
+msgstr "Ny användarregistrering på din blog %s:"
+
+#: pluggable.php:25 pluggable.php:39
+msgid "Username: %s"
+msgstr "Användarnamn: %s"
+
+#: pluggable.php:26
+msgid "E-mail: %s"
+msgstr "E-post: %s"
+
+#: pluggable.php:28
+msgid "[%s] New User Registration"
+msgstr "[%s] Ny användarregistering"
+
+#: pluggable.php:40
+msgid "Password: %s"
+msgstr "Lösenord: %s"
+
+#: pluggable.php:43
+msgid "[%s] Your username and password"
+msgstr "[%s] Ditt användarnamn och lösenord"
+
+#: login-with-ajax-widget.php:9 widget/default/widget_in.php:13
+msgid "Hi"
+msgstr "Hej"
+
+#: widget/default/widget_in.php:25 widget/default/widget_in.php:29
+msgid "Profile"
+msgstr "Profil"
+
+#: widget/default/widget_in.php:35
+msgid "Log Out"
+msgstr "Logga ut"
+
+#: widget/default/widget_in.php:40
+msgid "blog admin"
+msgstr "blogg administratör"
+
+#: login-with-ajax-widget.php:8 widget/default/widget_out.php:31
+#: widget/divs-only/widget_out.php:26 widget/modal/widget_out.php:9
+#: widget/modal/widget_out.php:36
+msgid "Log In"
+msgstr "Logga in"
+
+#: widget/default/widget_out.php:14 widget/default/widget_out.php:82
+#: widget/divs-only/widget_out.php:12 widget/divs-only/widget_out.php:63
+#: widget/modal/widget_out.php:19 widget/modal/widget_out.php:92
+msgid "Username"
+msgstr "Användare"
+
+#: widget/default/widget_out.php:22 widget/divs-only/widget_out.php:17
+#: widget/modal/widget_out.php:27
+msgid "Password"
+msgstr "Lösenord"
+
+#: widget/default/widget_out.php:36 widget/divs-only/widget_out.php:32
+#: widget/modal/widget_out.php:41
+msgid "Remember Me"
+msgstr "Kom ihåg mig"
+
+#: widget/default/widget_out.php:39 widget/divs-only/widget_out.php:35
+#: widget/modal/widget_out.php:44
+msgid "Password Lost and Found"
+msgstr "Lösenord glömt och hittat"
+
+#: widget/default/widget_out.php:39 widget/divs-only/widget_out.php:35
+#: widget/modal/widget_out.php:44
+msgid "Lost your password?"
+msgstr "Glömt lösenordet?"
+
+#: widget/default/widget_out.php:43 widget/default/widget_out.php:92
+#: widget/divs-only/widget_out.php:39 widget/divs-only/widget_out.php:76
+#: widget/modal/widget_out.php:48 widget/modal/widget_out.php:113
+msgid "Register"
+msgstr "Registrera"
+
+#: widget/default/widget_out.php:55 widget/divs-only/widget_out.php:45
+#: widget/modal/widget_out.php:60
+msgid "Forgotten Password"
+msgstr "Glömt lösenord"
+
+#: widget/default/widget_out.php:60 widget/divs-only/widget_out.php:47
+#: widget/modal/widget_out.php:65
+msgid "Enter username or email"
+msgstr "Ange användarnamn eller e-post"
+
+#: widget/default/widget_out.php:67 widget/divs-only/widget_out.php:52
+#: widget/modal/widget_out.php:72
+msgid "Get New Password"
+msgstr "Få ett nytt lösenord"
+
+#: widget/default/widget_out.php:68 widget/divs-only/widget_out.php:53
+#: widget/divs-only/widget_out.php:77 widget/modal/widget_out.php:73
+#: widget/modal/widget_out.php:114
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: widget/default/widget_out.php:77 widget/divs-only/widget_out.php:61
+#: widget/modal/widget_out.php:87
+msgid "Register For This Site"
+msgstr "Registrera dig på denna sida"
+
+#: widget/default/widget_out.php:86 widget/divs-only/widget_out.php:67
+#: widget/modal/widget_out.php:98
+msgid "E-mail"
+msgstr "E-post"
+
+#: widget/default/widget_out.php:78 widget/divs-only/widget_out.php:75
+#: widget/modal/widget_out.php:112
+msgid "A password will be e-mailed to you."
+msgstr "Ett lösenord kommer att skickas till din e-postadress."
+
+#: login-with-ajax-admin.php:166
+msgid "Redirection Settings"
+msgstr "Omdirigeringssinställningar"
+
+#: login-with-ajax-admin.php:170
+msgid "Global Login Redirect"
+msgstr "Omdirigering för login globalt"
+
+#: login-with-ajax-admin.php:174
+msgid ""
+"If you'd like to send the user to a specific URL after login, enter it here "
+"(e.g. http://wordpress.org/)"
+msgstr ""
+"Om du vill att användaren ska skickas till en specifik URL efter inloggning, "
+"ange den här (ex. http://wordpress.org/)"
+
+#: login-with-ajax-admin.php:175
+msgid ""
+"Use %USERNAME% and it will be replaced with the username of person logging "
+"in."
+msgstr ""
+"Använd %USERNAME% som komemr ersättas av den inloggade användarens "
+"användarnamn."
+
+#: login-with-ajax-admin.php:208
+msgid "Global Logout Redirect"
+msgstr "Omdirigering för utloggning globalt"
+
+#: login-with-ajax-admin.php:212
+msgid ""
+"If you'd like to send the user to a specific URL after logout, enter it here "
+"(e.g. http://wordpress.org/)"
+msgstr ""
+"Om du vill att användaren ska skickas till en specifik URL efter utloggning, "
+"ange den här (ex. http://wordpress.org/)"
+
+#: login-with-ajax-admin.php:213
+msgid ""
+"Enter %LASTURL% to send the user back to the page they were previously on."
+msgstr ""
+"Ange %LASTURL% för att skicka användaren tillbaka till den sida den senast "
+"var på."
+
+#: login-with-ajax-admin.php:221
+msgid "Role-Based Custom Login Redirects"
+msgstr "Omdirigeringar för rollbaserade anpassade inloggningar"
+
+#: login-with-ajax-admin.php:224
+msgid ""
+"If you would like a specific user role to be redirected to a custom URL upon "
+"login, place it here (blank value will default to the global redirect)"
+msgstr ""
+"Om du vill att en specifik användarroll ska omdirigeras till en egen URL vid "
+"inloggning, ange den här (tomt fält använder global inställning)"
+
+#: login-with-ajax-admin.php:274
+msgid "Role-Based Custom Logout Redirects"
+msgstr "Omdirigeringar för rollbaserade anpassade utloggningar"
+
+#: login-with-ajax-admin.php:277
+msgid ""
+"If you would like a specific user role to be redirected to a custom URL upon "
+"logout, place it here (blank value will default to the global redirect)"
+msgstr ""
+"Om du vill att en specifik användarroll ska omdirigeras till en egen URL vid "
+"utloggning, ange den här (tomt fält använder global inställning)"
+
+#: login-with-ajax-admin.php:300
+msgid "Notification Settings"
+msgstr "Aviseringsinställningar"
+
+#: login-with-ajax-admin.php:303
+msgid ""
+"If this feature doesn't work, please make sure that you don't have another "
+"plugin installed which also manages user registrations (e.g. BuddyPress and "
+"MU)."
+msgstr ""
+"Se till att du inte har ett annat plugin installerat som också har hant om "
+"användarregistrering (ex.vis. BuddyPress och MU) ifall denna funktion inte "
+"fungerar som den ska."
+
+#: login-with-ajax-admin.php:308
+msgid "Override Default Email?"
+msgstr "Åsidosätt standardmail?"
+
+#: login-with-ajax-admin.php:316
+msgid "Subject"
+msgstr "Ämne"
+
+#: login-with-ajax-admin.php:321
+msgid "Your registration at %BLOGNAME%"
+msgstr "Din registrering på %BLOGNAME%"
+
+#: login-with-ajax-admin.php:325
+msgid "<code>%USERNAME%</code> will be replaced with a username."
+msgstr "<code>%USERNAME%</code> kommer att ersättas med ett användarnamn."
+
+#: login-with-ajax-admin.php:326
+msgid "<code>%PASSWORD%</code> will be replaced with the user's password."
+msgstr "<code>%PASSWORD%</code> kommer att ersättas utav användarens lösenord."
+
+#: login-with-ajax-admin.php:327 login-with-ajax-admin.php:351
+msgid "<code>%BLOGNAME%</code> will be replaced with the name of your blog."
+msgstr "<code>%BLOGNAME%</code> kommer att ersättas utav namnet på din blogg"
+
+#: login-with-ajax-admin.php:328 login-with-ajax-admin.php:352
+msgid "<code>%BLOGURL%</code> will be replaced with the url of your blog."
+msgstr ""
+"<code>%BLOGURL%</code> kommer att ersättas utav webbadressen till din blogg."
+
+#: login-with-ajax-admin.php:333
+msgid "Message"
+msgstr "Meddelande"
+
+#: login-with-ajax-admin.php:360
+msgid "Save Changes"
+msgstr "Spara ändringar"
+
+#: login-with-ajax-admin.php:44
+msgid ""
+"New features in Login With AJAX (including registration!), check out the "
+"settings and widget pages!"
+msgstr ""
+"Nya funktion i Login With AJAX (inkl. registrering!), kolla inställningar "
+"och widget-sidan!"
+
+#: login-with-ajax-admin.php:46
+msgid "Dismiss"
+msgstr "Avfärda"
+
+#: login-with-ajax-admin.php:92
+msgid "Changes saved."
+msgstr "Ändringarna sparade."
+
+#: login-with-ajax-admin.php:134
+msgid "General Settings"
+msgstr "Allmänna inställningar"
+
+#: login-with-ajax-admin.php:139
+msgid "Default Template"
+msgstr "Förvald mall"
+
+#: login-with-ajax-admin.php:148
+msgid ""
+"Choose the default theme you'd like to use. This can be overriden in the "
+"widget, shortcode and template tags."
+msgstr ""
+"Välj vilket förvalt tema du vill använda. Valet kan dock också sättas i "
+"widget, shortcode och temat."
+
+#: login-with-ajax-admin.php:149
+msgid "Further documentation for this feature coming soon..."
+msgstr "Mer dokumentation kring den här funktionen kommer snart..."
+
+#: login-with-ajax-admin.php:155
+msgid "Disable refresh upon login?"
+msgstr "Avaktivera omladdning vid inloggning?"
+
+#: login-with-ajax-admin.php:160
+msgid ""
+"If the user logs in and you check the button above, only the login widget "
+"will update itself without refreshing the page. Not a good idea if your site "
+"shows different content to users once logged in, as a refresh would be "
+"needed."
+msgstr ""
+"Om användaren loggar in och du har kryssat i boxen ovan, kommer endast "
+"inloggningsrutan att laddas om, inte hela sidan. Det är inte rekommenderat "
+"om din sida visar annat innehål för inloggade användare, då en omladdning "
+"krävs."

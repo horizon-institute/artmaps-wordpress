@@ -47,6 +47,7 @@ jQuery(document).ready(function(){
   var activity_button = jQuery('#whats-new');
   jQuery( activity_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
+      jQuery.fancybox.close();
       activity_button.dialog = jQuery('#activity-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
       activity_button.dialog.dialog({
@@ -73,9 +74,10 @@ jQuery(document).ready(function(){
     event.preventDefault();
   });
   
-  var about_button = jQuery('#how-it-works');
+  var about_button = jQuery('#how-it-works, #more-info');
   jQuery( about_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
+      jQuery.fancybox.close();
       about_button.dialog = jQuery('#about-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
       about_button.dialog.load('about').dialog({
@@ -125,6 +127,14 @@ jQuery(document).ready(function(){
         jQuery("#overlay").fadeIn();
         jQuery("body").addClass("fancybox-lock");
         jQuery("time").timeago();
+        jQuery( ".log-in-trigger" ).click(function(event) {
+          jQuery('.popover').fadeOut(150, function() {
+            jQuery( "#log-in-popover" ).show();
+            jQuery( "#user_login" ).focus();
+          });
+          event.preventDefault();
+        });
+        
       },
       beforeClose : function() {
         jQuery("body").removeClass("fancybox-lock");
@@ -177,6 +187,38 @@ jQuery(document).ready(function(){
     }
   });
 
+  jQuery( ".forgot-password" ).click(function(event) {
+    jQuery.fancybox({
+      maxWidth	: 800,
+  		maxHeight	: 600,
+  		type      : 'ajax',
+  		href      : this.href,
+  		fitToView	: false,
+  		width		  : '90%',
+  		height		: '90%',
+      autoDimensions : true,
+  		closeClick	: false,
+  		showEarly   : false,
+  		openEffect	: 'fade',
+  		closeEffect	: 'fade',
+  		helpers: {
+      	overlay : null
+      },
+      beforeShow : function() {
+        jQuery("#overlay").fadeIn();
+        jQuery("body").addClass("fancybox-lock");
+      },
+      beforeClose : function() {
+        jQuery("body").removeClass("fancybox-lock");
+        jQuery("#overlay").fadeOut();
+      },
+      tpl : {
+      	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
+      	closeBtn : '<a title="Close" class="fancybox-item fancybox-backtoresults" href="javascript:;"><i class="fa-chevron-left"></i> Back to results</a>',
+      }
+    });
+    event.preventDefault();
+  });
   
   jQuery( "#log-in" ).click(function(event) {
     jQuery('.popover').fadeOut(150, function() {
