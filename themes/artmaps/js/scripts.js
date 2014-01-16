@@ -1,3 +1,12 @@
+function set_page_title(title) {
+  var site_title = "ArtMaps";
+  if(title) {
+    document.title = title+" · "+site_title;
+  } else {
+    document.title = site_title;
+  }
+}
+
 jQuery(document).ready(function(){ 
 
   google.maps.visualRefresh = true;
@@ -65,9 +74,10 @@ jQuery(document).ready(function(){
           "open": function() {
              jQuery(".ui-dialog:visible").removeAttr('style');
              jQuery("time").timeago();
+             set_page_title("What's new?");
           },
           "close": function() {
-
+            set_page_title();
           },
           "title": '<i class="fa-comments-o"></i>'+"What's new?"
       });
@@ -94,9 +104,10 @@ jQuery(document).ready(function(){
           "draggable": false,
           "open": function() {
              jQuery(".ui-dialog:visible").removeAttr('style');
+             set_page_title("About");
           },
           "close": function() {
-
+            set_page_title();
           },
           "title": '<i class="fa-question-circle"></i>'+"About Artmaps"
       });
@@ -123,7 +134,6 @@ jQuery(document).ready(function(){
       },
       beforeShow : function() {
         jQuery.bbq.pushState({ "object": object_id });
-        
         jQuery("#overlay").fadeIn();
         jQuery("body").addClass("fancybox-lock");
         jQuery("time").timeago();
@@ -134,12 +144,14 @@ jQuery(document).ready(function(){
           });
           event.preventDefault();
         });
+        set_page_title(jQuery("#artmaps-object-metadata h1").text());
         
       },
       beforeClose : function() {
         jQuery("body").removeClass("fancybox-lock");
         jQuery("#overlay").fadeOut();
         jQuery.bbq.removeState("object");
+        set_page_title();
       },
       tpl : {
       	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
@@ -448,7 +460,7 @@ jQuery(document).ready(function(){
                 }
                 
                 nc.append(na);
-                na.append(jQuery("<h2>" + oc.find(".grid-work-text .title-and-date").first().text() + "</h2>"));
+                na.append(jQuery("<h2>" + oc.find(".grid-work-text .title-and-date .title").first().text() + "</h2>"));
                 na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + oc.find(".grid-work-text .artist").first().text() + '</span></em>'));
                 art_list.append(nc);  
             });
