@@ -60,7 +60,6 @@ function add_lost_password_link() {
   wp_nonce_field( 'ajax-login-nonce', 'security', true, false );
 }
 
-
 # Use HTML5 tags
 $args = array(
 	'search-form',
@@ -68,27 +67,6 @@ $args = array(
 	'comment-list',
 );
 add_theme_support( 'html5', $args );
-
-# Set up stripped-down object pages for AJAX
-function add_query_vars($vars){
-    $vars[] = "framed";
-    return $vars;
-}
-add_filter( 'query_vars', 'add_query_vars');
-add_rewrite_endpoint('framed', EP_PERMALINK);
-add_filter( 'single_template', 'project_attachments_template' );
-
-function project_attachments_template($templates = ""){
-	global $wp_query;
-
-	if(!isset( $wp_query->query['framed'] ))
-		return $templates;
-
-	$templates = locate_template( "object-framed.php", false );
-	if( empty($templates) ) { $templates = dirname(__FILE__).'/object-framed.php'; }
-
-	return $templates;
-}
 
 # Have admin bar overlay site instead of bump down
 function my_filter_head() {

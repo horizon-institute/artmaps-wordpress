@@ -1,13 +1,22 @@
 function set_page_title(title) {
   var site_title = "ArtMaps";
   if(title) {
-    document.title = title+" · "+site_title;
+    document.title = title+" \u00B7 "+site_title;
   } else {
     document.title = site_title;
   }
 }
 
 jQuery(document).ready(function(){ 
+
+  jQuery( "#home" ).click(function(event) {
+    set_page_title();
+    jQuery(".popover").fadeOut(150);
+    jQuery.fancybox.close();
+    jQuery(".ui-dialog-content:visible").dialog("close");
+    window.main_map.centerOnMyLocation();
+    event.preventDefault();
+  });
 
   google.maps.visualRefresh = true;
   var config = {
@@ -145,7 +154,6 @@ jQuery(document).ready(function(){
           event.preventDefault();
         });
         set_page_title(jQuery("#artmaps-object-metadata h1").text());
-        
       },
       beforeClose : function() {
         jQuery("body").removeClass("fancybox-lock");

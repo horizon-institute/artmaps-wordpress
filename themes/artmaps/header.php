@@ -18,7 +18,7 @@
   <body <?php body_class(); ?>>
   <header>
     <nav>
-      <a href="#" onclick="window.main_map.centerOnMyLocation(); return false;" class="logo">
+      <a href="#" id="home" class="logo">
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/artmaps-logo.png" alt="<?php bloginfo('title'); ?>" />
       </a>
       <ul class="menu">
@@ -42,6 +42,7 @@
         <li class="log-in">
           <a href="<?php echo wp_login_url( get_bloginfo('url') ); ?>" id="log-in" class="toggle">Log in</a>
           <div class="log-in-popover popover" id="log-in-popover">
+            <p class="intro">To suggest and discuss locations, please log in. You can use an existing account from the services below, or create an account now with your email address.</p>
             <?php echo do_shortcode("[lwa template=divs-only]"); ?>
           </div>
         </li>
@@ -68,7 +69,7 @@
     </nav>
   </header>
   <div class="search-form">
-    <a class="switch" href="#" id="search-form-toggle">
+    <span class="switch" id="search-form-toggle">
       <select id="search-mode">
         <optgroup label="Search by">
           <option id="search-mode-places">Place</option>
@@ -76,7 +77,7 @@
         </optgroup>
       </select>
       <i class="fa-search"></i><span id="search-label-places">Places</span><span id="search-label-art">Art</span><i class="fa-chevron-down"></i>
-    </a>
+    </span>
     <div id="location-search-form">
       <input id="artmaps-map-autocomplete" type="search" placeholder="Enter a location" autocorrect="off" autocapitalize="off" class="query-field" />
     </div>

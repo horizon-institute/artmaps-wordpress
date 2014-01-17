@@ -143,11 +143,13 @@ ArtMaps.Map.MapObject = function(container, config) {
                 jQuery("#overlay").fadeIn();
                 jQuery("body").addClass("fancybox-lock");
                 jQuery("time").timeago();
+                set_page_title(jQuery("#artmaps-object-metadata h1").text());
               },
               beforeClose : function() {
                 jQuery("body").removeClass("fancybox-lock");
                 jQuery("#overlay").fadeOut();
                 jQuery.bbq.removeState("object");
+                set_page_title();
               },
               tpl : {
               	error    : '<p class="fancybox-error">The requested content cannot be loaded.<br/>Please try again later.</p>',
