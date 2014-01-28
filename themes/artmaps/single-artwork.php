@@ -73,8 +73,15 @@ jQuery(function($) {
     </dl>
 
     <button id="artmaps-object-map-suggest" type="button">Suggest a location</button>
-
+    
+    <?php if(!is_user_logged_in()) { ?>
     <div id="artmaps-object-suggestion-message">
+        <h2><i class="fa-question-circle"></i> Where does this artwork belong?</h2>
+      <p>You can add a pin to the map, or agree with an existing pin. <a href="#" class="log-in-trigger">Log in</a> to get started.</p>
+    </div>
+    <?php } ?>
+
+    <div id="artmaps-object-suggestion-message" style="display:none">
       <h2><i class="fa-check"></i> Got it.</h2>
       <p>We've saved your suggested location. If other users agree with your choice, the coordinates will become part of Tate collection data.</p>
     </div>

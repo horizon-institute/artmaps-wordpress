@@ -2,7 +2,7 @@
 // AJAXified commenting system
 jQuery('document').ready(function($){
 var commentform=$('#commentform'); // find the comment form
-commentform.before('<div id="comment-status" ></div>'); // add info panel before the form to provide feedback or errors
+jQuery('#respond').before('<div id="comment-status" ></div>'); // add info panel before the form to provide feedback or errors
 var statusdiv=$('#comment-status'); // define the infopanel
 
 commentform.submit(function(){
@@ -18,15 +18,17 @@ type: 'post',
 url: formurl,
 data: formdata,
 error: function(XMLHttpRequest, textStatus, errorThrown){
-statusdiv.html('<p class="wdpajax-error" >You might have left one of the fields blank, or be posting too quickly.</p>');
+statusdiv.html('<p>You might have left one of the fields blank, or be posting too quickly.</p>');
 },
 success: function(data, textStatus){
-if(data=="success") {
-  statusdiv.html('<p class="ajax-success" >Thanks for your comment. We appreciate your response.</p>');
-  commentform.hide();
-} else {
-  statusdiv.html('<p class="ajax-error" >Please wait a while before posting your next comment.</p>');
-  commentform.find('textarea[name=comment]').val('');
+  if(data=="success") {
+    jQuery("#new-comment-content").text(jQuery("textarea#comment").val());
+    statusdiv.html('<p>Thanks! Your comment has been posted.</p>');
+    jQuery("#new-comment").show();
+    commentform.hide();
+  } else {
+    statusdiv.html('<p class="ajax-error" >Please wait a while before posting your next comment.</p>');
+    commentform.find('textarea[name=comment]').val('');
 }
 }
 });
@@ -51,6 +53,18 @@ return false;
   } else {
     $current_avatar = '';
   }
-  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please <a href="#" class="log-in-trigger">log in</a> to post a comment.</p>');
+  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please <a href="#" class="log-in-trigger">log in</a> to join the discussion.</p>');
   comment_form($args);
 ?>
+<div class="comment byuser thread-even depth-1" style="display:none" id="new-comment">
+	<article class="comment-body">
+		<footer class="comment-meta">
+			<div class="comment-author vcard">
+				<b class="fn" id="new-comment-name"><?php echo $current_user->display_name; ?></b>
+			</div>
+		</footer>
+		<div class="comment-content">
+		  <p id="new-comment-content">Test</p>
+		</div>
+	</article>
+</div>

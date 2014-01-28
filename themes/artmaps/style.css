@@ -12,21 +12,10 @@
 @font-face {
 	font-family: 'TateNewRegular';
 	src: url('fonts/tatenew-regular-webfont.eot');
-	src: url('fonts/tatenew-regular-webfont.eot?#iefix') format('embedded-opentype'),
+	src: url('fonts/tatenew-regular-webfont.svg#TateNewRegular') format('svg'),
+	  url('fonts/tatenew-regular-webfont.eot?#iefix') format('embedded-opentype'),
 	  url('fonts/tatenew-regular-webfont.woff') format('woff'), 
-	  url('fonts/tatenew-regular-webfont.ttf') format('truetype'), 
-	  url('fonts/tatenew-regular-webfont.svg#TateNewRegular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'TateNewThin';
-	src: url('fonts/tatenew-thin-webfont.eot');
-	src: url('fonts/tatenew-thin-webfont.eot?#iefix') format('embedded-opentype'),
-	  url('fonts/tatenew-thin-webfont.woff') format('woff'),
-	  url('fonts/tatenew-thin-webfont.ttf') format('truetype'),
-	  url('fonts/tatenew-thin-webfont.svg#TateNewThin') format('svg');
+	  url('fonts/tatenew-regular-webfont.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -1386,12 +1375,13 @@ body:before {
   box-sizing: border-box; -moz-box-sizing:border-box;
   display:none;
   overflow: auto;
+  background:#fff;
+  color:#222;
   -webkit-overflow-scrolling: touch;
 }
 
 .activity-sidebar h1 {
-  padding:12px;
-  background: #fff;
+  padding: 15px 15px 0px;
 }
 
 .activity-sidebar .comment {
@@ -1400,7 +1390,7 @@ body:before {
 }
 
 .activity-sidebar .comment.even {
-  background: #fff;
+  background: #eee;
 }
 
 .activity-sidebar .comment.odd {
@@ -1425,6 +1415,16 @@ body:before {
   color:#fff;
   margin-bottom:10px;
   padding:0;
+}
+
+.activity-sidebar .challenges p {
+  padding:0;
+}
+
+.activity-sidebar p.lead, .challenges p {
+  font-size: 15px;
+  line-height: 20px;
+  padding:5px 15px 15px;
 }
 
 #artmaps-object-menu {
@@ -1898,23 +1898,34 @@ h1 {
 
 #artmaps-object-suggestion-message {
   background: #009279;
-  display:none;
   color: #fff;
   margin: 20px -20px -20px;
-  padding: 20px 20px 20px 50px;
+  padding: 20px 20px 20px 55px;
   font-size: 18px;
   line-height: 24px;
 }
 
 #artmaps-object-suggestion-message h2 {
-  font-size: 24px;
-  line-height: 35px;
+  font-size: 23px;
+  line-height: 28px;
   margin-bottom: 5px;
+  font-weight: normal;
 }
 
 #artmaps-object-suggestion-message h2 i {
   margin-left: -36px;
   float: left;
+}
+
+#artmaps-object-suggestion-message p {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+#artmaps-object-suggestion-message a {
+  color:#fff;
+  text-decoration: none;
+  border-bottom:1px solid rgba(255,255,255,0.5);
 }
 
 #artmaps-object-metadata dl {
@@ -1944,6 +1955,16 @@ h1 {
   text-decoration: none;
   color: #369;
   border-bottom:1px solid rgba(51,102,153,0.5);
+}
+
+.artwork-external:after {
+  content: "\f08e";
+  font-family: FontAwesome;
+  background: #fff;
+  padding-bottom: 2px;
+  font-size: 11px;
+  padding-left: 5px;
+  color: rgba(51, 102, 153, 0.78);
 }
 
 .artwork-page {

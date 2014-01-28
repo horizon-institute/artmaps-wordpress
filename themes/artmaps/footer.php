@@ -3,9 +3,10 @@
 
   <div class="challenges">
     <h1>Challenges</h1>
-    <p>Not sure where to start? Try helping with one of our regular community challenges.</p>
+    <p>Not sure where to start? Try helping with one of our community challenges.</p>
   </div>
   <h1>Recent activity</h1>
+  <p class="lead">People are discussing where artworks belong on the map; here are the latest comments.</p>
   <ul class="commentlist">
   <?php
   $args = array(
