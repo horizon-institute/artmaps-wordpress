@@ -52,10 +52,14 @@
             global $current_user;
             get_currentuserinfo();
           ?>
-          <a href="#" id="log-in" class="toggle"><?php echo get_avatar( $current_user->ID, 32 ); ?></a>
+          <a href="#" id="log-in" class="toggle">
+            <span><?php echo $current_user->display_name[0]; ?>
+              <?php echo get_avatar( $current_user->ID, 32, get_stylesheet_directory_uri()."/images/no-avatar.png" ); ?>
+            </span>
+          </a>
           <div class="log-out-popover popover" id="log-in-popover">
             <div class="wrap">
-              <?php echo get_avatar( $current_user->ID, 64 ); ?>
+              <?php echo get_avatar( $current_user->ID, 64) ?>
               <?php $current_user = wp_get_current_user(); ?>
               <ul>
                 <li><?php echo $current_user->display_name; ?></li>

@@ -167,7 +167,9 @@ i {
 }
 
 .cancel-button {
-  background: #888;
+  background: none;
+  color:#666;
+  text-decoration: underline;
 }
 
 .popover {
@@ -209,7 +211,7 @@ i {
   margin: 0px;
   overflow: hidden;
   color:#222;
-  padding: 12px 40px 12px 91px;
+  padding: 12px 18px 12px 91px;
 }
 
 .artwork-link h2 {
@@ -244,7 +246,7 @@ i {
 .artwork-link .artmaps-map-object-container-suggestions {
   font-size: 11px;
   font-weight: bold;
-  display: block;
+  display: none;
   margin-top: -10px;
   color: #fff;
   background: rgba(0,0,0,0.2);
@@ -347,6 +349,20 @@ i {
   display:none;
 }
 
+.artmaps-object-infobox h2 {
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 24px;
+  margin: 5px 0px;
+}
+
+.artmaps-object-infobox p {
+  color: #666;
+  margin: 0px 10px 10px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
 .artmaps-object-infobox div, .artmaps-object-infobox span, .artmaps-object-infobox label {
   font-size:14px;
   line-height:20px;
@@ -355,10 +371,17 @@ i {
 
 .artmaps-object-infobox .artmaps-button {
   display: block;
-  float: left;
-  margin-right: 10px;
   margin-top: 10px;
   line-height: 27px;
+}
+
+.artmaps-object-infobox select {
+  display:block;
+  width:100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size:15px;
+  line-height:20px;
 }
 
 .artmaps-button.primary-button {
@@ -826,19 +849,33 @@ header .menu .log-out .toggle {
   border-radius: 2px;
 }
 
-header .menu li.log-out img.avatar {
+header .menu .log-out .toggle span {
+  width: 32px;
+  height: 32px;
+  display: block;
+  text-transform: uppercase;
+  line-height: 33px;
+  font-size: 20px;
+  position: relative;
+}
+
+header .menu li.log-out img.avatar-32 {
   width: 32px;
   height: 32px;
   float: left;
   margin-right: 15px;
   border-radius: 1px;
   display: block;
-  background:rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 
 header .menu li.log-out .log-out-popover img.avatar {
   width: 64px;
   height: 64px;
+  float: left;
+  margin-right: 15px;
 }
 
 body:before {
@@ -1873,7 +1910,7 @@ h1 {
   box-sizing: border-box; -moz-box-sizing:border-box;
 }
 
-.artmaps-object-image a:hover:after {
+.artwork-img:hover:after {
   content: "\f00e";
   text-align: center;
   left: 0px;
@@ -1891,9 +1928,18 @@ h1 {
   max-width:100% !important;
   max-height:250px;
   float:none !important;
+  cursor: pointer;
   padding:0;
   display:block;
   margin: 0 auto;
+}
+
+#full-image img {
+  max-width:90%;
+  max-height:90%;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0px 10px 10px -7px rgba(0,0,0,0.75);
 }
 
 #artmaps-object-suggestion-message {

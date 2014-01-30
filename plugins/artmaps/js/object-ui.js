@@ -16,13 +16,13 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
 
     var content = jQuery(document.createElement("div"));
     
-    var confirmed = jQuery(document.createElement("div"));
+    var confirmed = jQuery(document.createElement("h2"));
     var updateConfirmedText = function() {
         var text = location.Confirmations == 1 
                 ? "1 person agrees with this location"
                 : location.Confirmations + " people agree with this location";
         if(location.hasUserConfirmed(ArtMapsConfig.CoreUserID))
-            text += " (including you)";
+            text += " ,including you";
         confirmed.text(text);
     };
     updateConfirmedText();
@@ -106,7 +106,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 });
             });
         }
-        
+
         if(location.CommentID > -1 
                 && jQuery("#comment-" + location.CommentID).length > 0) {
             var e = jQuery("#comment-" + location.CommentID);
@@ -134,10 +134,11 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                         self.open(map, marker);
                         map.panTo(marker.getPosition());
                         map.setZoom(clusterer.getMaxZoom());
-                        jQuery.scrollTo("#artmaps-object-map");
                     });
             e.append(pin);
-        }
+       }
+    } else {
+      content.append(jQuery('<p>Log in to agree with this or add your own pin to the map.</p>'));
     }
         
     this.setContent(content.get(0));
@@ -181,14 +182,18 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
                     : ArtMapsConfig.IsUserLoggedIn && (ArtMapsConfig.CoreUserID == location.OwnerID)
                             ? ArtMaps.Object.UI.OwnerMarkerColor
                             : ArtMaps.Object.UI.UserMarkerColor;
-        color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
+        //color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
         return color;
     };
-    var marker = new StyledMarker({
-        "position": new google.maps.LatLng(location.Latitude, location.Longitude),
-        "styleIcon": new StyledIcon(
-                StyledIconTypes.MARKER,
-                {"color": getColor(), "starcolor": "000000"})
+    var marker_img = {
+      url: ArtMapsConfig.ClusterIconUrl+'marker_106.png',
+      scaledSize: new google.maps.Size(53,53)
+    };
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(location.Latitude, location.Longitude),
+        icon: marker_img,
+        animation: google.maps.Animation.DROP,
+        optimized: false
     });
     var iw = new ArtMaps.Object.UI.InfoWindow(map, marker, location, clusterer);
     marker.on("click", function() {
@@ -209,7 +214,7 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
 ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     var self = this;
     
-    var initialContent = jQuery("<div><div>Click and hold to drag the pin into position, select a reason why you chose this location and click finish when you are done.</div></div>");
+    var initialContent = jQuery("<div><h2>Your suggestion</h2><p>Drag the pin into position and choose a reason.</p></div>");
     var processingContent = jQuery("<div><img src=\"" + ArtMapsConfig.LoadingIcon50x50Url + "\" alt=\"\" /></div>");
     var errorContent = jQuery("<div>Sorry; an error occurred. Please close this popup and try again.</div>");
     var tooCloseContent = jQuery("<div><div>This is too close to an existing suggestion. Please consider agreeing with that suggestion instead or moving this pin further away.</div></div>");
@@ -222,7 +227,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
     }
     initialContent.append(reason);
     
-    initialContent.append(jQuery("<div class=\"artmaps-button primary-button\">Finish</div>").click(function() {
+    initialContent.append(jQuery("<div class=\"artmaps-button primary-button\"><i class=\"fa-check\"></i>&nbsp;Suggest this location</div>").click(function() {
         self.setContent(processingContent.get(0));
         object.Metadata(function(md) {
             jQuery("#artmaps-object-suggestion-message-other-actions")
@@ -292,10 +297,13 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
         })
     );
     
-    initialContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Cancel</div>")
+    initialContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Close</div>")
             .click(function() { marker.hide(); }));
     
-    tooCloseContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Cancel</div>")
+    tooCloseContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Close</div>")
+            .click(function() { marker.hide(); }));
+            
+    errorContent.append(jQuery("<div class=\"artmaps-button cancel-button\">Close</div>")
             .click(function() { marker.hide(); }));
         
     this.setContent(initialContent.get(0));
@@ -325,10 +333,13 @@ ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new InfoBox({
 });
 
 ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
-    var marker = new StyledMarker({
-        "styleIcon": new StyledIcon(
-                StyledIconTypes.MARKER,
-                {"color": ArtMaps.Object.UI.SuggestionMarkerColor, "starcolor": "000000"})
+    var marker_img = {
+      url: ArtMapsConfig.ClusterIconUrl+'marker_106.png',
+      scaledSize: new google.maps.Size(53,53)
+    };
+    var marker = new google.maps.Marker({
+      icon: marker_img,
+      animation: google.maps.Animation.BOUNCE
     });
     google.maps.event.addListener(marker, 'dragend', function() {
         map.panTo(marker.getPosition());

@@ -111,5 +111,4 @@ function remove_login_with_ajax_css(){
 }
 add_action('init', 'remove_login_with_ajax_css');
 
-
 ?>

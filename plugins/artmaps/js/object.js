@@ -10,7 +10,8 @@ ArtMaps.Object.MapObject = function(container, config) {
             "center": new google.maps.LatLng(0, 0),
             "streetViewControl": true,
             "zoom": 15,
-            "mapTypeId": google.maps.MapTypeId.SATELLITE,
+            "maxZoom": 25,
+            "mapTypeId": google.maps.MapTypeId.TERRAIN,
             "zoomControlOptions": {
                 "position": google.maps.ControlPosition.LEFT_TOP
             },

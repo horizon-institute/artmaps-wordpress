@@ -168,7 +168,21 @@ jQuery(document).ready(function(){
     });
     
   }
-    
+  
+  jQuery(document).on("click",".artwork-img",function(event){
+    var full_image = jQuery('<div id="full-image">');
+    var img = jQuery('<img class="full-image-img">');
+    img.attr('src', jQuery(this).data("full-image"));
+    full_image.appendTo('body');
+    img.appendTo('#full-image');
+    jQuery('#full-image').lightbox_me({
+        centered: true,
+        destroyOnClose: true,
+        zIndex: '99999999'
+        });
+    event.preventDefault();
+  });
+      
   jQuery(document).on("click",".artwork-link",function(event){
     event.preventDefault();
     var object_id = jQuery(this).attr('data-object-id');
