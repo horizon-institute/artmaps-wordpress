@@ -185,7 +185,7 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
         return color;
     };
     var marker_img = {
-      url: ArtMapsConfig.ClusterIconUrl+color+'.png',
+      url: ArtMapsConfig.ClusterIconUrl+getColor()+'.png',
       scaledSize: new google.maps.Size(53,53)
     };
     var marker = new google.maps.Marker({
