@@ -261,7 +261,7 @@ i {
 }
 
 .artmaps-highlighted-comment {
-  background-color: yellow;
+  background-color: #FFFF88;
   padding: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -389,7 +389,7 @@ i {
 }
 
 .artmaps-object-infobox-highlighted {
-    background-color: yellow;
+    background-color: #FFFF88;
 }
 
 .artwork-link img {

@@ -2,11 +2,11 @@
 ArtMaps.Object = ArtMaps.Object || {};
 ArtMaps.Object.UI = ArtMaps.Object.UI || {};
 
-ArtMaps.Object.UI.SystemMarkerColor = "#ff0000";
-ArtMaps.Object.UI.UserMarkerColor = "#00EEEE";
-ArtMaps.Object.UI.SuggestionMarkerColor = "#f78f1e";
-ArtMaps.Object.UI.OwnerMarkerColor = "#BF1BE0";
-ArtMaps.Object.UI.FinalMarkerColor = "#cee007";
+ArtMaps.Object.UI.SystemMarkerColor = "marker_106";
+ArtMaps.Object.UI.UserMarkerColor = "marker_106";
+ArtMaps.Object.UI.SuggestionMarkerColor = "marker_move";
+ArtMaps.Object.UI.OwnerMarkerColor = "marker_106";
+ArtMaps.Object.UI.FinalMarkerColor = "marker_final";
 
 ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
 
@@ -22,7 +22,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 ? "1 person agrees with this location"
                 : location.Confirmations + " people agree with this location";
         if(location.hasUserConfirmed(ArtMapsConfig.CoreUserID))
-            text += " ,including you";
+            text += ", including you";
         confirmed.text(text);
     };
     updateConfirmedText();
@@ -102,7 +102,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     jQuery.each(clusterer.getMarkers(), function(i, m) {
                        m.resetIcon(); 
                     });
-                    marker.styleIcon.set("color", ArtMaps.Object.UI.FinalMarkerColor); 
+                    marker.setIcon(ArtMapsConfig.ClusterIconUrl+'marker_final.png');
                 });
             });
         }
@@ -182,11 +182,10 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
                     : ArtMapsConfig.IsUserLoggedIn && (ArtMapsConfig.CoreUserID == location.OwnerID)
                             ? ArtMaps.Object.UI.OwnerMarkerColor
                             : ArtMaps.Object.UI.UserMarkerColor;
-        //color = jQuery.xcolor.darken(color, location.Confirmations, 10).getHex();
         return color;
     };
     var marker_img = {
-      url: ArtMapsConfig.ClusterIconUrl+'marker_106.png',
+      url: ArtMapsConfig.ClusterIconUrl+color+'.png',
       scaledSize: new google.maps.Size(53,53)
     };
     var marker = new google.maps.Marker({
@@ -206,7 +205,7 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
             iw.close();
     };
     marker.resetIcon = function() {
-        marker.styleIcon.set("color", getColor());
+        marker.setIcon("color");
     };
     return marker;
 };
@@ -334,7 +333,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow.prototype = new InfoBox({
 
 ArtMaps.Object.UI.SuggestionMarker = function(map, object, clusterer) {
     var marker_img = {
-      url: ArtMapsConfig.ClusterIconUrl+'marker_106.png',
+      url: ArtMapsConfig.ClusterIconUrl+'marker_move.png',
       scaledSize: new google.maps.Size(53,53)
     };
     var marker = new google.maps.Marker({
