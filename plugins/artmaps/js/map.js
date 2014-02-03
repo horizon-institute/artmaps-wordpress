@@ -117,6 +117,10 @@ ArtMaps.Map.MapObject = function(container, config) {
         } else if(sessionstate.maptype) {
             map.setMapTypeId(sessionstate.maptype);
             jQuery('option#mode_' + sessionstate.maptype).attr('selected', true);
+        } else if(ArtMaps.Util.isMobile()) {
+            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+        } else {
+            map.setMapTypeId(google.maps.MapTypeId.HYBRID);
         }
         
         if(hashstate.object) {
