@@ -84,6 +84,7 @@ jQuery(function($) {
     <div id="artmaps-object-suggestion-message" style="display:none">
       <h2><i class="fa-check"></i> Got it.</h2>
       <p>We've saved your suggested location. If other users agree with your choice, the coordinates will become part of Tate collection data.</p>
+      <a href="#" class="artmaps-button" id="artmaps-object-suggestion-message-comment-button">Explain your suggestion</a>
     </div>
 
     <div class="artmaps-object-comments">
