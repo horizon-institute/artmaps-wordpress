@@ -137,7 +137,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     self.setOptions({"boxClass": "artmaps-object-infobox-highlighted"});
                     self.open(map, marker);
                     map.panTo(marker.getPosition());
-                    //map.setZoom(clusterer.getMaxZoom());
+                    map.setZoom(15);
                 });
         e.append(pin);
     }
