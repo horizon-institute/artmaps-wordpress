@@ -1934,9 +1934,17 @@ h1 {
   margin: 0 auto;
 }
 
+#full-image {
+  bottom:40px;
+  top:40px;
+  left:40px;
+  right:40px;
+  cursor:pointer;
+}
+
 #full-image img {
-  max-width:90%;
-  max-height:90%;
+  max-width:100%;
+  max-height:100%;
   display: block;
   margin: 0 auto;
   box-shadow: 0px 10px 10px -7px rgba(0,0,0,0.75);

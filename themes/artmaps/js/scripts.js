@@ -186,6 +186,11 @@ jQuery(document).ready(function(){
         });
     event.preventDefault();
   });
+  
+  jQuery(document).on("click","#full-image",function(event){
+    jQuery(this).trigger('close');
+    event.preventDefault();
+  });
       
   jQuery(document).on("click",".artwork-link",function(event){
     event.preventDefault();
