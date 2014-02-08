@@ -44,7 +44,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         }
         
         if(ArtMapsConfig.CoreUserID == location.OwnerID) {
-            var remove = jQuery("<div class=\"artmaps-button\">Delete</div>");
+            var remove = jQuery("<div class=\"artmaps-button button-delete\">Delete</div>");
             content.append(remove);
             remove.click(function() {
                 remove.remove();
@@ -74,7 +74,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 var comment = jQuery("<div class=\"artmaps-button\" id=\"comment-on-new-suggestion\">Comment</div>");
                 content.append(comment);
                 comment.click(function() {
-                    jQuery.scrollTo("#respond");
+                    jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
                     var input = jQuery("#artmaps-location-id");
                     if(input.length == 0) {
                         input = jQuery(document.createElement("input")).attr({
@@ -116,25 +116,19 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         var e = jQuery("#comment-" + location.CommentID);
         var comment = jQuery("<div class=\"artmaps-button\">View associated comment</div>")
                 .click(function() {
-                    jQuery(".artmaps-highlighted-comment")
-                            .removeClass("artmaps-highlighted-comment");
-                    jQuery(".artmaps-object-infobox-highlighted")
-                            .removeClass("artmaps-object-infobox-highlighted")
-                            .addClass("artmaps-object-infobox");
-                    e.addClass("artmaps-highlighted-comment");
-                    self.setOptions({"boxClass": "artmaps-object-infobox-highlighted"});
-                    jQuery.scrollTo(e);
+                    jQuery(".highlighted")
+                            .removeClass("highlighted");
+                    e.addClass("highlighted");
+                    self.setOptions({"boxClass": "artmaps-object-infobox highlighted"});
+                    jQuery("#artmaps-object-metadata").scrollTo(e,250);
                 });
         content.append(comment);
         var pin = jQuery("<div class=\"artmaps-button\">View associated location</div>")
                 .click(function() {
-                    jQuery(".artmaps-highlighted-comment")
-                            .removeClass("artmaps-highlighted-comment");
-                    jQuery(".artmaps-object-infobox-highlighted")
-                            .removeClass("artmaps-object-infobox-highlighted")
-                            .addClass("artmaps-object-infobox");
-                    e.addClass("artmaps-highlighted-comment");
-                    self.setOptions({"boxClass": "artmaps-object-infobox-highlighted"});
+                    jQuery(".highlighted")
+                            .removeClass("highlighted");
+                    e.addClass("highlighted");
+                    self.setOptions({"boxClass": "artmaps-object-infobox highlighted"});
                     self.open(map, marker);
                     map.panTo(marker.getPosition());
                     map.setZoom(15);
@@ -276,7 +270,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                             .unbind("click")
                             .click(function() {
                                 jQuery("#artmaps-object-suggestion-message").dialog("close");
-                                jQuery.scrollTo("#respond");
+                                jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
                                 var input = jQuery("#artmaps-location-id");
                                 if(input.length == 0) {
                                     input = jQuery(document.createElement("input")).attr({

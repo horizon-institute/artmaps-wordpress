@@ -943,7 +943,6 @@ body:before {
   bottom: 0px;
   background: transparent;
   text-indent: -9999px;
-  color:#fff;
   border: none;
   -webkit-appearance: none;
   z-index:50;
@@ -1547,6 +1546,7 @@ body:before {
 	z-index: 99;
 	position: absolute;
 	background: rgba(0,0,0,0.4);
+	cursor:pointer;
 }
 
 /*! fancyBox v2.1.5 fancyapps.com | fancyapps.com/fancybox/#license */

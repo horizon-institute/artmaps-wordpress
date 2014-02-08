@@ -56,10 +56,7 @@ ArtMaps.Object.MapObject = function(container, config) {
             }
         });
     });
-    
-    var svSuggest = jQuery("<button type=\"button\">Suggest a Location</button>");
-    if(ArtMapsConfig.IsUserLoggedIn)
-        streetview.controls[google.maps.ControlPosition.TOP_RIGHT].push(svSuggest.get(0));    
+   
     
     var suggestionRequested = false;
         
@@ -82,13 +79,6 @@ ArtMaps.Object.MapObject = function(container, config) {
                 suggestionMarker.show();
             };
 			if(suggestionRequested) self.suggest();
-			
-			svSuggest.click(function() {
-	            var pos = streetview.getPosition();
-	            streetview.setVisible(false);
-	            self.suggest();
-	            suggestionMarker.setPosition(pos);
-	        });
 		}
 	);
 

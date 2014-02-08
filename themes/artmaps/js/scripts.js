@@ -9,6 +9,10 @@ function set_page_title(title) {
 
 jQuery(document).ready(function(){ 
 
+  jQuery( "#overlay" ).click(function(event) {
+    jQuery.fancybox.close();
+  });
+  
   jQuery( "#home" ).click(function(event) {
     set_page_title();
     jQuery(".popover").fadeOut(150);
