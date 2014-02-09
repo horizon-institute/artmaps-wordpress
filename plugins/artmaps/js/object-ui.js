@@ -8,14 +8,12 @@ ArtMaps.Object.UI.SuggestionMarkerColor = "marker_move";
 ArtMaps.Object.UI.OwnerMarkerColor = "marker_106";
 ArtMaps.Object.UI.FinalMarkerColor = "marker_final";
 
-ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
+ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {    
 
     var self = this;
-    
     var isOpen = false;
 
     var content = jQuery(document.createElement("div"));
-    
     var confirmed = jQuery(document.createElement("h2"));
     var updateConfirmedText = function() {
         var text = location.Confirmations == 1 
@@ -44,7 +42,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         }
         
         if(ArtMapsConfig.CoreUserID == location.OwnerID) {
-            var remove = jQuery("<div class=\"artmaps-button button-delete\">Delete</div>");
+            var remove = jQuery("<div class=\"artmaps-button button-delete\"><i class=\"fa-times\"></i>&nbsp;Delete</div>");
             content.append(remove);
             remove.click(function() {
                 remove.remove();
@@ -71,7 +69,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
             });
             
             if(location.CommentID < 0) {
-                var comment = jQuery("<div class=\"artmaps-button\" id=\"comment-on-new-suggestion\">Comment</div>");
+                var comment = jQuery("<div class=\"artmaps-button\" id=\"comment-on-new-suggestion\"><i class=\"fa-comment\"></i>&nbsp;Comment</div>");
                 content.append(comment);
                 comment.click(function() {
                     jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
@@ -87,6 +85,10 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     input.attr("value", location.ID); 
                 });
             }
+            
+            content.append(jQuery("<div class=\"artmaps-button cancel-button\">Close</div>")
+            .click(function() { marker.hide(); }));
+            
         }
         
         if(ArtMapsConfig.UserLevel.indexOf("administrator") > -1
