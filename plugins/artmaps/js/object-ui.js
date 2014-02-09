@@ -65,6 +65,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
             content.append(remove);
             remove.click(function() {
                 remove.remove();
+                jQuery("#artmaps-object-suggestion-message").hide();
                 ArtMaps.Util.removeLocation(location, 
                         function(action) {
                             location.addAction(action);
