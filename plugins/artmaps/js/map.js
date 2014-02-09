@@ -152,6 +152,7 @@ ArtMaps.Map.MapObject = function(container, config) {
               beforeClose : function() {
                 jQuery("body").removeClass("fancybox-lock");
                 jQuery("#overlay").fadeOut();
+                jQuery("#full-image").trigger('close');
                 jQuery.bbq.removeState("object");
                 set_page_title();
               },

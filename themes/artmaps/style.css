@@ -2548,6 +2548,9 @@ h1 {
   .fancybox-backtoresults:before {
     content:none;
   }
+  #full-image {
+    top:80px !important;
+  }
   #artmaps-object-metadata {
     width:auto;
     position: static;
