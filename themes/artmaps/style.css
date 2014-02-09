@@ -260,12 +260,8 @@ i {
   text-align: center;
 }
 
-.artmaps-highlighted-comment {
+.artmaps-highlighted-comment .comment-count {
   background-color: #FFFF88;
-  padding: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
 
 .artmaps-map-object-list-container.ui-dialog-content {
@@ -320,12 +316,11 @@ i {
   cursor:pointer;
 }
 
-.artmaps-object-infobox,
-.artmaps-object-infobox-highlighted {
+.artmaps-object-infobox, .artmaps-object-infobox-highlighted {
   background: #fff;
   width: 220px !important;
   margin-left: -130px !important;
-  padding: 10px 20px;
+  padding: 20px;
   text-align: center;
   margin-top: 15px;
   border-radius: 2px;
@@ -2115,7 +2110,7 @@ h1 {
 
 .comment {
   margin-bottom:20px;
-  padding: 0px 20px 20px 50px;
+  padding: 0px 0px 20px 50px;
 }
 
 .comment-metadata {

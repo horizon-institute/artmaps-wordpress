@@ -119,7 +119,7 @@ function artmaps_comment($comment, $args, $depth) {
 
     <div class="comment-content">
   		<?php comment_text(); ?>
-      <?php edit_comment_link(__('(Edit)'),'  ','' ); ?>
+      <?php //edit_comment_link(__('Edit'),'  ','' ); ?>
     </div>
     
 		<?php if ( 'div' != $args['style'] ) : ?>

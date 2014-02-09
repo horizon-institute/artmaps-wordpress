@@ -120,8 +120,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         var e = jQuery("#comment-" + location.CommentID);
         var comment = jQuery("<div class=\"artmaps-button\">Show explanation</div>")
                 .click(function() {
-                    jQuery(".highlighted")
-                            .removeClass("highlighted");
+                    jQuery(".highlighted").removeClass("highlighted");
                     e.addClass("highlighted");
                     self.setOptions({"boxClass": "artmaps-object-infobox highlighted"});
                     jQuery("#artmaps-object-metadata").scrollTo(e,250);
@@ -159,7 +158,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
         if(location.CommentID > -1 
                 && jQuery("#comment-" + location.CommentID).length > 0) {
             self.setOptions({"boxClass": "artmaps-object-infobox"});
-            jQuery("#comment-" + location.CommentID).removeClass("artmaps-highlighted-comment");;
+            jQuery("#comment-" + location.CommentID).removeClass("artmaps-highlighted-comment");
         }
         InfoBox.prototype.close.call(this);
     };
@@ -196,6 +195,10 @@ ArtMaps.Object.UI.Marker = function(location, map, clusterer) {
     });
     var iw = new ArtMaps.Object.UI.InfoWindow(map, marker, location, clusterer);
     marker.on("click", function() {
+        map.panTo(marker.getPosition());
+        jQuery.each(clusterer.getMarkers(), function(i, m){
+          m.close();
+        });
         iw.toggle(map, marker);
     });
     marker.close = function() { iw.close(); };
