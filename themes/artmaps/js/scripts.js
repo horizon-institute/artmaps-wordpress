@@ -85,12 +85,14 @@ jQuery(document).ready(function(){
           "closeText": "",
           "draggable": false,
           "open": function() {
-             jQuery(".ui-dialog:visible").removeAttr('style');
-             jQuery("time").timeago();
-             set_page_title("What's new?");
+            jQuery(".ui-dialog:visible").removeAttr('style');
+            jQuery("time").timeago();
+            set_page_title("What's new?");
+            jQuery.bbq.pushState({ "page": "activity" });
           },
           "close": function() {
             set_page_title();
+            jQuery.bbq.removeState("page");
           },
           "title": '<i class="fa-comments-o"></i>'+"What's new?"
       });
@@ -116,11 +118,13 @@ jQuery(document).ready(function(){
           "closeText": "",
           "draggable": false,
           "open": function() {
-             jQuery(".ui-dialog:visible").removeAttr('style');
-             set_page_title("About");
+              jQuery(".ui-dialog:visible").removeAttr('style');
+              set_page_title("About");
+              jQuery.bbq.pushState({ "page": "about" });
           },
           "close": function() {
             set_page_title();
+            jQuery.bbq.removeState("page");
           },
           "title": '<i class="fa-question-circle"></i>'+"About Artmaps"
       });

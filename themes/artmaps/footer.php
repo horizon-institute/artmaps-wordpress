@@ -18,7 +18,6 @@
   
   foreach($comments as $comment) { ?>
     <li <?php comment_class('', $comment->comment_ID); ?>>
-			<article class="comment-body">
 				
   				<?php if(get_post_meta($comment->comment_post_ID,"imageurl",true)) { ?>
             <a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php echo $comment->comment_ID; ?>" class="artwork-link" data-object-id="<?php echo get_post_meta($comment->comment_post_ID,"object_id",true); ?>">
@@ -31,26 +30,19 @@
           <?php } else { ?>
             
           <?php } ?>
-        <footer class="comment-meta">
 					<div class="comment-author vcard">
 						<?php echo get_avatar($comment->comment_author_email, "32") ?>
-						<b class="fn"><?php echo $comment->comment_author; ?></b>
+						<?php echo $comment->comment_author; ?>
 					</div>
 
-					<div class="comment-metadata">
-						<a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php echo $comment->comment_ID; ?>" data-object-id="<?php echo get_post_meta($comment->comment_post_ID,"object_id",true); ?>">
-							commented <time datetime="<?php echo date("c",strtotime($comment->comment_date)); ?>" title="12/30/2013 5:13:11 PM">
-								<?php echo $comment->comment_date; ?>
-						</time>
-						</a>
-					</div>
+					<time datetime="<?php echo date(DATE_W3C,strtotime($comment->comment_date)); ?>">
+							<?php echo $comment->comment_date; ?>
+					</time>
 
-				</footer>
         <div class="comment-content">
-					<p><?php echo $comment->comment_content; ?></p>
+					<?php echo $comment->comment_content; ?>
 				</div>
 
-			</article><!-- .comment-body -->
     </li>
     
   <?php } ?>

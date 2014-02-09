@@ -189,6 +189,7 @@ ArtMaps.Map.MapObject = function(container, config) {
               beforeClose : function() {
                 jQuery("body").removeClass("fancybox-lock");
                 jQuery("#overlay").fadeOut();
+                jQuery("#full-image").trigger('close');
                 jQuery.bbq.removeState("object");
               },
               tpl : {
@@ -209,7 +210,22 @@ ArtMaps.Map.MapObject = function(container, config) {
                 function(pos) { map.setCenter(pos); },
                 function() { });
         }
+        
+        if(hashstate.page) {
+          var restore_page = hashstate.page;
+        } else if(sessionstate.page) {
+          var restore_page = sessionstate.page;
+        }
+        console.log(restore_page);
+        if(restore_page == "about") {
+          jQuery('#how-it-works').click(); 
+        } else if(restore_page == "activity") {
+          jQuery('#whats-new').click();
+        }
+        
     })();
+    
+    
     
     // Show user geolocation as marker
     var myloc = new google.maps.Marker({
