@@ -54,6 +54,7 @@ function artmaps_theme_style() {
 }
 add_action( 'wp_enqueue_scripts', 'artmaps_theme_style' );
 
+# Hook forgot password link to login form
 add_action( 'login_form_middle', 'add_lost_password_link' );
 function add_lost_password_link() {
   return '<div class="loader"></div><a href="/wp-login.php?action=lostpassword" class="forgot-password">Forgot password?</a>'.
@@ -81,34 +82,50 @@ function theme_queue_js(){
 }
 add_action('wp_print_scripts', 'theme_queue_js');
 
-function ajax_login(){
-
-    // First check the nonce, if it fails the function will break
-    check_ajax_referer( 'ajax-login-nonce', 'security' );
-
-    // Nonce is checked, get the POST data and sign user on
-    $info = array();
-    $info['user_login'] = $_POST['username'];
-    $info['user_password'] = $_POST['password'];
-    $info['remember'] = true;
-
-    $user_signon = wp_signon( $info, false );
-    if ( is_wp_error($user_signon) ){
-        echo json_encode(array('loggedin'=>false, 'message'=>__('Wrong email or password.')));
-    } else {
-        echo json_encode(array('loggedin'=>true, 'message'=>__('Great! One moment please&hellip;')));
-    }
-
-    die();
-}
-
-// Enable the user with no privileges to run ajax_login() in AJAX
-add_action( 'wp_ajax_nopriv_ajaxlogin', 'ajax_login' );
-
 // Remove login with ajax plugin's default css
 function remove_login_with_ajax_css(){
   wp_dequeue_style("login-with-ajax");
 }
 add_action('init', 'remove_login_with_ajax_css');
+
+function artmaps_comment($comment, $args, $depth) {
+		$GLOBALS['comment'] = $comment;
+		extract($args, EXTR_SKIP);
+
+		if ( 'div' == $args['style'] ) {
+			$tag = 'div';
+			$add_below = 'comment';
+		} else {
+			$tag = 'li';
+			$add_below = 'div-comment';
+		}
+?>
+		<<?php echo $tag ?> <?php comment_class(empty( $args['has_children'] ) ? '' : 'parent') ?> id="comment-<?php comment_ID() ?>">
+		<?php if ( 'div' != $args['style'] ) : ?>
+		<div id="div-comment-<?php comment_ID() ?>" class="comment-body">
+		<?php endif; ?>
+		<div class="comment-author vcard">
+		<?php if ($args['avatar_size'] != 0) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+		<?php echo get_comment_author(); ?>
+		</div>
+<?php if ($comment->comment_approved == '0') : ?>
+		<em class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.') ?></em>
+		<br />
+<?php endif; ?>
+
+		<time datetime="<?php echo date(DATE_W3C,strtotime(get_comment_date()." ".get_comment_time())); ?>">
+			<?php printf( __('%1$s at %2$s'), get_comment_date(),  get_comment_time()); ?>
+		</time>
+
+    <div class="comment-content">
+  		<?php comment_text(); ?>
+      <?php edit_comment_link(__('(Edit)'),'  ','' ); ?>
+    </div>
+    
+		<?php if ( 'div' != $args['style'] ) : ?>
+		</div>
+		<?php endif; ?>
+<?php
+        }
 
 ?>

@@ -40,7 +40,8 @@ return false;
 <ul class="comment-list">
   <?php 
       $args = array(
-    	'avatar_size'       => 35
+    	'avatar_size'       => 35,
+    	'callback' => 'artmaps_comment'
     );
     wp_list_comments($args);
   ?>
