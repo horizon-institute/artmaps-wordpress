@@ -127,8 +127,8 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     jQuery("#artmaps-object-metadata").scrollTo(e,250);
                 });
         content.append(comment);
-        var pin = jQuery("<div class=\"artmaps-button\">View associated location</div>")
-                .click(function() {
+        var pin = jQuery("<a href=\"#\" class=\"location-link\">View associated location</a>")
+                .click(function(event) {
                     jQuery(".highlighted")
                             .removeClass("highlighted");
                     e.addClass("highlighted");
@@ -136,8 +136,9 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     self.open(map, marker);
                     map.panTo(marker.getPosition());
                     map.setZoom(15);
+                    event.preventDefault();
                 });
-        e.append(pin);
+        jQuery("#comment-" + location.CommentID + " .comment-content").append(pin);
     }
         
     this.setContent(content.get(0));

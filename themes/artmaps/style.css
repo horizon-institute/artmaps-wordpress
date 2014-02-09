@@ -728,6 +728,9 @@ html, body {
   opacity:1;
   position: absolute;
   -webkit-transition: opacity 0.3s linear;
+  -moz-transition: opacity 0.3s linear;
+  -ms-transition: opacity 0.3s linear;
+  transition: opacity 0.3s linear;
 }
 
 .loading-indicator:before {
@@ -737,7 +740,7 @@ html, body {
   margin-right: 10px;
   -webkit-animation: spin 1.5s infinite linear;
   -moz-animation: spin 1.5s infinite linear;
-  -o-animation: spin 1.5s infinite linear;
+  -ms-animation: spin 1.5s infinite linear;
   animation: spin 1.5s infinite linear;
 }
 
@@ -1002,11 +1005,17 @@ body:before {
 .fancybox-lock .gmnoprint {
   opacity: 0;
   -webkit-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -ms-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
 }
 
 .fancybox-lock .fancybox-wrap .gmnoprint {
   opacity: 1;
   -webkit-transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  -ms-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .pac-container {
@@ -1521,6 +1530,9 @@ body:before {
 /* Animate marker position updates */
 #artmaps-map-themap .cluster {
   -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select:none;
@@ -2017,10 +2029,10 @@ h1 {
   color:#999;
 }
 
-#artmaps-object-metadata .artwork-external {
+#artmaps-object-metadata .artwork-external, .location-link {
   text-decoration: none;
   color: #369;
-  border-bottom:1px solid rgba(51,102,153,0.5);
+  border-bottom:1px solid rgba(51,102,153,0.25);
 }
 
 .artwork-external:after {
@@ -2043,7 +2055,10 @@ h1 {
   overflow: hidden;
   position: absolute;
   left: 66.5%;
-  -webkit-transition:left 0.5s ease-out;
+  -webkit-transition:left 0.5s ease-out 0.25s;
+  -moz-transition:left 0.5s ease-out 0.25s;
+  -ms-transition:left 0.5s ease-out 0.25s;
+  transition:left 0.5s ease-out 0.25s;
   width:66.5%;
   right: 33.5%;
   bottom: 0px;
@@ -2183,6 +2198,20 @@ h1 {
   cursor: pointer;
   text-decoration: none;
   margin:0;
+}
+
+.location-link {
+  font-size:13px;
+  margin-top:10px;
+  margin-left:12px;
+  cursor: pointer;
+}
+
+.location-link:before {
+  content:'\f041';
+  font-family:FontAwesome;
+  padding-right:3px;
+  margin-left: -12px;
 }
 
 #respond .avatar {
@@ -2456,10 +2485,16 @@ h1 {
     left: 2%;
     right: 2% !important;
     -webkit-transition: margin-top 0.25s ease-in-out 0s;
+    -moz-transition: margin-top 0.25s ease-in-out 0s;
+    -ms-transition: margin-top 0.25s ease-in-out 0s;
+    transition: margin-top 0.25s ease-in-out 0s;
   }
   .map-moving .search-form {
     margin-top: -50px;
     -webkit-transition: margin-top 0.5s ease-in-out 0.25s;
+    -moz-transition: margin-top 0.5s ease-in-out 0.25s;
+    -ms-transition: margin-top 0.5s ease-in-out 0.25s;
+    transition: margin-top 0.5s ease-in-out 0.25s;
   }
   .artwork-results {
     position: absolute;
