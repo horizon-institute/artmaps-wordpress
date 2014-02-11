@@ -30,7 +30,10 @@ jQuery(function($) {
         var suggest = $("#artmaps-object-map-suggest");
         <?php if(is_user_logged_in()) { ?>
             suggest.click(function() {
-               map.suggest();
+                jQuery('.fancybox-type-ajax').animate({
+                  scrollTop: jQuery("#artmaps-object-detail").offset().top
+                }, 250);
+                map.suggest();
             });
         <?php } else { ?>
             suggest.hide();
