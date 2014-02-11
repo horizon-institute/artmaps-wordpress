@@ -3,4 +3,5 @@
 .compilation
 .configuration
 ._*
+debug.log
 /themes/twentytwelve/
