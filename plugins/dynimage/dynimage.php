@@ -47,7 +47,7 @@ class DynImage {
                 if(!$iData)
                     throw new Exception('Curl error: ' . curl_error($c));
                 $mimeType = curl_getinfo($c, CURLINFO_CONTENT_TYPE);
-                if($mimeType != 'image/jpeg')
+                if($mimeType != 'image/jpeg' && $mimeType != 'image/png')
                     throw new Exception("Unable to handle mime-type: '$mimeType'");
                 $source = imagecreatefromstring($iData);
                 if(!$source)
