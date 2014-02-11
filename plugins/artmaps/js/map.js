@@ -483,36 +483,40 @@ ArtMaps.Map.MapObject = function(container, config) {
                                 "id": "mode_map",
                                 "selected": "selected"
                             })
-                            .text('Map view');
+                            .text('Map');
 
         var mode_satellite = jQuery(document.createElement("option"))
                             .attr({
                                 "name": "artmaps-map-mode",
                                 "id": "mode_satellite",
                             })
-                            .text('Satellite view');
+                            .text('Satellite');
                             
         var mode_hybrid = jQuery(document.createElement("option"))
                             .attr({
                                 "name": "artmaps-map-mode",
                                 "id": "mode_hybrid",
                             })
-                            .text('Hybrid view');
+                            .text('Hybrid');
 
         var mode_terrain = jQuery(document.createElement("option"))
                             .attr({
                                 "name": "artmaps-map-mode",
                                 "id": "mode_terrain",
                             })
-                            .text('Terrain view');
-    
-        var map_mode_menu = jQuery(document.createElement("select"))
-                .attr("id", "artmaps-map-mode")
-                .attr("class", "gmnoprint")
+                            .text('Terrain');
+                                            
+        var map_mode_menu_items = jQuery(document.createElement("optgroup"))
+                .attr("label", "View as")
                 .append(mode_map)
                 .append(mode_satellite)
                 .append(mode_hybrid)
                 .append(mode_terrain);
+                
+        var map_mode_menu = jQuery(document.createElement("select"))
+                .attr("id", "artmaps-map-mode")
+                .attr("class", "gmnoprint")
+                .append(map_mode_menu_items);
                 
         map_mode_menu.change(function(){
           var id = jQuery(this).find("option:selected").attr("id");

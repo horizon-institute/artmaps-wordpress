@@ -39,12 +39,10 @@
         </li>
         <li class="settings">
           <div id="map-settings">
-            <a class="toggle">Settings</a>
-            <div class="settings popover">
-              <div class="settings-inner">
-    
-              </div>
-            </div>
+            <span class="toggle">
+              View
+              <div class="settings-inner"></div>
+            </span>
           </div>
         </li>
         <?php if ( !is_user_logged_in() ) { ?>

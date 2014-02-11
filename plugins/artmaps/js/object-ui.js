@@ -46,7 +46,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
             if(location.CommentID < 0) {
                 var comment = jQuery("<div class=\"artmaps-button\" id=\"comment-on-new-suggestion\"><i class=\"fa-comment\"></i>&nbsp;Explain with a comment</div>");
                 content.append(comment);
-                comment.click(function() {
+                comment.click(function(event) {
                     jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
                     var input = jQuery("#artmaps-location-id");
                     if(input.length == 0) {
@@ -56,8 +56,11 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                             "id": "artmaps-location-id"
                         }); 
                         jQuery("#commentform").append(input);
+
+                        jQuery("#commentform").append(input);
                     }
                     input.attr("value", location.ID); 
+                    event.preventDefault();
                 });
             }
             
@@ -274,9 +277,9 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                     var mkr = new ArtMaps.Object.UI.Marker(loc, map, clusterer);
                     clusterer.addMarkers([mkr]);
                     clusterer.repaint();
-                    jQuery("#artmaps-object-suggestion-message-comment-button").click(function() {
-                                jQuery("#artmaps-object-suggestion-message").dialog("close");
-                                jQuery("#artmaps-object-metadata").scrollTo("#artmaps-object-metadata",250);
+                    jQuery("#artmaps-object-suggestion-message-comment-button").click(function(event) {
+                                jQuery("#artmaps-object-suggestion-message").hide();
+                                jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
                                 var input = jQuery("#artmaps-location-id");
                                 if(input.length == 0) {
                                     input = jQuery(document.createElement("input")).attr({
@@ -285,6 +288,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                                         "id": "artmaps-location-id"
                                     }); 
                                     jQuery("#commentform").append(input);
+                                    event.preventDefault();
                                 }
                                 input.attr("value", loc.ID);
                             }); 

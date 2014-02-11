@@ -301,6 +301,7 @@ i {
   border-radius: 2px;
   margin-right: 20px;
   margin-top: 20px;
+  box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 #artmaps-object-map-suggest {
@@ -449,6 +450,7 @@ i {
   box-shadow: 0px 3px 15px rgba(0,0,0,0.7);
   display:none;
   box-sizing:border-box;
+  -moz-box-sizing:border-box;
 }
 
 .on .log-in-popover, .on .log-out-popover {
@@ -1048,8 +1050,8 @@ body:before {
   user-select:none;
 }
 
-#map-settings a.toggle:before {
-  content:"\f013";
+#map-settings .toggle:before {
+  content:"\f0ac";
   font-family: FontAwesome;
   font-size:15px;
   line-height: 36px;
@@ -1083,30 +1085,21 @@ body:before {
   border-color: white transparent;
 }
 
-#map-settings .settings-inner {
-  background: #fff;
-  border-radius: 2px;
-  padding:5px 15px;
-}
-
-#artmaps-filter-menu, #artmaps-map-mode {
-  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAEBAMAAACw6DhOAAAAA3NCSVQICAjb4U/gAAAAGFBMVEX///+ZmZmZmZmZmZmZmZmZmZmZmZmZmZlz4cG/AAAACHRSTlMAESIzzN3u/46eZYIAAAAJcEhZcwAACxIAAAsSAdLdfvwAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAAFXRFWHRDcmVhdGlvbiBUaW1lADMvMTIvMTM//LkXAAAAHElEQVQImWNwLy93YBApLxFgYEpPYmBgMDVgAAAt2AO1+xgAwAAAAABJRU5ErkJggg==') left center no-repeat;
-  text-align: left;
+#artmaps-map-mode {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: transparent;
+  text-indent: -9999px;
   border: none;
-  font-family: TateNewRegular, Arial, Helvetica, sans-serif;
-  padding: 0px;
-  padding-left:15px;
-  color: #222;
-  font-size: 15px;
-  line-height: 24px;
-  width: 100% !important;
-  box-sizing: border-box; -moz-box-sizing: border-box;
-  cursor: pointer;
-  outline: none;
-  margin:5px 0px;
-  appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  z-index:50;
+  font-size: 13px;
+  outline:0;
+  cursor:pointer;
+  width:100%;
 }
 
 #artmaps-filter-menu {
@@ -1658,6 +1651,7 @@ body:before {
 	cursor: pointer;
 	text-align: center;
 	z-index: 99999;
+	border-radius: 2px;
 }
 
 #fancybox-loading:after {
