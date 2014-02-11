@@ -13,6 +13,19 @@ jQuery(document).ready(function(){
     jQuery.fancybox.close();
   });
   
+  jQuery("#tabs li a").click(function(event){
+    var t = jQuery(this).attr('id');
+
+    if(jQuery(this).hasClass('inactive')){ //this is the start of our condition 
+      jQuery('#tabs li a').addClass('inactive');           
+      jQuery(this).removeClass('inactive');
+  
+      jQuery('.tab-container').hide();
+      jQuery('#'+ t + 'C').show();
+   }
+    event.preventDefault();
+  });
+  
   jQuery( "#home" ).click(function(event) {
     set_page_title();
     jQuery(".popover").fadeOut(150);

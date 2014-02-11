@@ -1208,10 +1208,11 @@ body:before {
 
 .artwork-results.about-sidebar .ui-dialog-titlebar, .artwork-results.activity-sidebar .ui-dialog-titlebar {
   border:none;
+  margin:0;
 }
 
 .artwork-results.about-sidebar .ui-dialog-titlebar-close, .artwork-results.activity-sidebar .ui-dialog-titlebar-close {
-  top: 70px;
+  top: 7px;
   color: #666;
 }
 
@@ -1403,7 +1404,6 @@ body:before {
 #activity-sidebar {
   width: auto;
   min-height: 100% !important;
-  margin-top: 58px;
   border-radius: 4px;
   box-sizing: border-box; -moz-box-sizing:border-box;
   display:none;
@@ -1420,6 +1420,7 @@ body:before {
 .activity-sidebar .comment {
   overflow: hidden;
   margin-bottom:0px;
+  padding: 0px 15px 15px 65px;
 }
 
 .activity-sidebar .comment.even {
@@ -1435,29 +1436,120 @@ body:before {
   clear: right;
 }
 
-.activity-sidebar .challenges {
-  padding:15px;
-  background:#9d4793;
-  color:#fff;
-  color:rgba(255,255,255,0.8);
-  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+.activity-sidebar .header {
+  background: #BBC0C4;
+  overflow: hidden;
+  box-shadow:inset 0px -2px 0px rgba(0,0,0,0.1);
 }
 
-.activity-sidebar .challenges h1 {
-  background:none;
-  color:#fff;
-  margin-bottom:10px;
-  padding:0;
+.activity-sidebar .header h2 {
+  text-align: center;
+  color: #fff;
+  font-weight: normal;
+  display: block;
+  font-size: 15px;
+  line-height: 36px;
 }
 
-.activity-sidebar .challenges p {
-  padding:0;
+.activity-sidebar .tabs {
+  margin:0 2%;
 }
 
-.activity-sidebar p.lead, .challenges p {
+.activity-sidebar .tabs li {
+  float: left;
+  display: block;
+  width: 48%;
+  margin: 0 1%;
+}
+
+.activity-sidebar .tabs a {
+  background: #fff;
+  display: block;
+  text-decoration: none;
+  text-align: center;
+  font-size: 13px;
+  padding: 10px 0px;
+  color: #333;
+  border-radius: 2px 2px 0px 0px;
+}
+
+.tab-container {
+  overflow: auto;
+  position: absolute;
+  bottom: 0;
+  left:0;
+  right:0;
+  top: 69px;
+  background: #fff;
+}
+
+.activity-sidebar .tabs a.inactive {
+  background: #eee;
+  box-shadow: inset 0px -2px 0px rgba(0,0,0,0.05);
+}
+
+.activity-sidebar p.lead {
   font-size: 15px;
   line-height: 20px;
   padding:5px 15px 15px;
+}
+
+.challenges li {
+  padding: 0px 15px 15px 45px;
+}
+
+.challenges li h2 {
+  clear:none;
+  font-weight: normal;
+  margin-bottom:5px;
+  color:#222;
+}
+
+.challenges li p {
+  margin-bottom:10px;
+  font-size:13px;
+  line-height:18px;
+  color:#444;
+  padding-right:10px;
+}
+
+.challenges li:before {
+  font-family: FontAwesome;
+  content:"\f005";
+  margin-left: -30px;
+  margin-right: 10px;
+  color:#f78f1e;
+  float:left;
+}
+
+.no-challenges {
+  display: block;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  line-height: 20px;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  width:100%;
+  padding-top:50px;
+}
+
+.no-challenges:before {
+  display:inline-block;
+  position: absolute;
+  top:50%;
+  bottom:50%;
+  left:0;
+  right:0;
+  text-align: center;
+  color:#CCC;
+  font-size:100px;
+  line-height:100px;
+  margin-top:-80px;
+  font-family: FontAwesome;
+  content: "\f05e";
+
 }
 
 #artmaps-object-menu {
@@ -2501,9 +2593,6 @@ h1 {
   .artwork-results.about-sidebar, .artwork-results.activity-sidebar {
     top:61px;
   }
-  .artwork-results.activity-sidebar {
-    margin-top:19px;
-  }
   .fancybox-wrap.fancybox-type-ajax {
     padding:0;
     position: fixed !important;
@@ -2543,9 +2632,8 @@ h1 {
     border-radius: 2px 2px 0px 0px;
   }
   .artwork-results.about-sidebar .ui-dialog-titlebar-close, .artwork-results.activity-sidebar .ui-dialog-titlebar-close {
-    top:2%;
-    right:2%;
-    margin-top:55px;
+    top:7px;
+    right:7px;
   }
   .artwork-results .mini-loading-indicator {
     position: fixed;
