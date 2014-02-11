@@ -85,7 +85,7 @@ class DynImage {
         }
         catch(Exception $e) {
             header("HTTP/1.1 404 Not Found");
-            error_log('Unable to dynamically load and resize image: ' . $e->getMessage());
+            error_log('Unable to dynamically load and resize image (' . $url . '): ' . $e->getMessage());
             die();
         }
     }
