@@ -12,7 +12,7 @@ class DynImage {
     private $config = array(
             'maxSize' => 2000,
             'quality' => 75,
-            'allowedDomains' => array("www.tate.org.uk", "dev.artmaps.org.uk", "www.artmaps.org.uk", "localhost"),
+            'allowedDomains' => array("www.tate.org.uk", "dev.artmaps.org.uk", "www.artmaps.org.uk", "localhost", "artmaps.tate.org.uk"),
             'cacheDir' => '/tmp/dynimage',
             'browserCacheTime' => 604800 // One week
     );
@@ -47,7 +47,7 @@ class DynImage {
                 if(!$iData)
                     throw new Exception('Curl error: ' . curl_error($c));
                 $mimeType = curl_getinfo($c, CURLINFO_CONTENT_TYPE);
-                if($mimeType != 'image/jpeg')
+                if($mimeType != 'image/jpeg' && $mimeType != 'image/png')
                     throw new Exception("Unable to handle mime-type: '$mimeType'");
                 $source = imagecreatefromstring($iData);
                 if(!$source)
@@ -85,7 +85,7 @@ class DynImage {
         }
         catch(Exception $e) {
             header("HTTP/1.1 404 Not Found");
-            error_log('Unable to dynamically load and resize image: ' . $e->getMessage());
+            error_log('Unable to dynamically load and resize image (' . $url . '): ' . $e->getMessage());
             die();
         }
     }
