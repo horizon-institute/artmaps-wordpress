@@ -2265,6 +2265,11 @@ h1 {
   margin-left:-50px;
 }
 
+#respond #comment-loc-indicator {
+  display:none;
+  cursor: pointer;
+}
+
 .comment-reply-link, #respond #submit {
   color: #fff;
   background: #009279;
@@ -2277,7 +2282,7 @@ h1 {
   font-weight: normal;
   cursor: pointer;
   text-decoration: none;
-  margin:0;
+  margin:10px 0 0;
 }
 
 .location-link {
@@ -2290,8 +2295,9 @@ h1 {
 .location-link:before {
   content:'\f041';
   font-family:FontAwesome;
-  padding-right:3px;
+  padding-right:5px;
   margin-left: -12px;
+  color:rgba(51, 102, 153, 0.78);
 }
 
 #respond .avatar {

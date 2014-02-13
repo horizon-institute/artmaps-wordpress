@@ -211,9 +211,14 @@ jQuery(document).ready(function(){
   });
       
   jQuery(document).on("click",".artwork-link",function(event){
-    event.preventDefault();
     var object_id = jQuery(this).attr('data-object-id');
     show_object_modal(object_id);
+    event.preventDefault();
+  });
+  
+  jQuery(document).on("click","#comment-loc-indicator",function(event){
+    var marker = jQuery("#artmaps-location-id").val();
+    event.preventDefault();
   });
   
   jQuery(document).on('mousedown touchstart', function (e) {
@@ -535,25 +540,6 @@ jQuery(document).ready(function(){
             jQuery(".ui-dialog:visible").removeAttr('style');
             
         }
-        
-        /*searchInput.bind("keyup", function() {
-            var term = sanitizeTerm(searchInput.val());
-            if(term.length < 3) return;
-            var tid = setTimeout(function() {
-                    var rq = jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/rulooking4-data?q=" + term.toLowerCase() + "&con=explorer&wv=",
-                        "dataType": "json",
-                        "async": true,
-                        "success": displayArtists
-                    });
-                    searchInput.one("keydown", function() {
-                        rq.abort();    
-                    });                
-                }, 60);
-            searchInput.one("keydown", function() {
-                clearTimeout(tid);    
-            });
-        });*/
         
         searchForm.submit(function() {
             jQuery('#welcome').fadeOut(300);

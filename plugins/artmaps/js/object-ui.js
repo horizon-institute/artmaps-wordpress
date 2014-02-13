@@ -47,7 +47,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                 var comment = jQuery("<div class=\"artmaps-button\" id=\"comment-on-new-suggestion\"><i class=\"fa-comment\"></i>&nbsp;Explain with a comment</div>");
                 content.append(comment);
                 comment.click(function(event) {
-                    jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
+                    jQuery("#artmaps-object-metadata").scrollTo(jQuery("#respond"),250);
                     var input = jQuery("#artmaps-location-id");
                     if(input.length == 0) {
                         input = jQuery(document.createElement("input")).attr({
@@ -56,9 +56,8 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                             "id": "artmaps-location-id"
                         }); 
                         jQuery("#commentform").append(input);
-
-                        jQuery("#commentform").append(input);
                     }
+                    jQuery("#comment-loc-indicator").show();
                     input.attr("value", location.ID); 
                     event.preventDefault();
                 });
@@ -129,7 +128,7 @@ ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {
                     jQuery("#artmaps-object-metadata").scrollTo(e,250);
                 });
         content.append(comment);
-        var pin = jQuery("<a href=\"#\" class=\"location-link\">View associated location</a>")
+        var pin = jQuery("<a href=\"#\" class=\"location-link\">Go to linked location</a>")
                 .click(function(event) {
                     jQuery(".highlighted")
                             .removeClass("highlighted");
@@ -279,7 +278,7 @@ ArtMaps.Object.UI.SuggestionInfoWindow = function(marker, object, clusterer) {
                     clusterer.repaint();
                     jQuery("#artmaps-object-suggestion-message-comment-button").click(function(event) {
                                 jQuery("#artmaps-object-suggestion-message").hide();
-                                jQuery("#artmaps-object-metadata").scrollTo("#respond",250);
+                                jQuery("#artmaps-object-metadata").scrollTo(jQuery("#respond"),250);
                                 var input = jQuery("#artmaps-location-id");
                                 if(input.length == 0) {
                                     input = jQuery(document.createElement("input")).attr({

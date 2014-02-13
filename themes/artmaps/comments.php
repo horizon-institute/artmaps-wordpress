@@ -35,7 +35,8 @@ success: function(data, textStatus){
 return false;
 
 });
-});</script>
+});
+</script>
 <h2>Discuss this artwork's location</h2>
 <ul class="comment-list">
   <?php 
@@ -54,7 +55,7 @@ return false;
   } else {
     $current_avatar = '';
   }
-  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '', 'must_log_in' => '<p class="not-logged-in">Please <a href="#" class="log-in-trigger">log in</a> to join the discussion.</p>');
+  $args = array('title_reply' => $current_avatar,  'logged_in_as' => '', 'comment_notes_before' => '', 'comment_notes_after' => '<span id="comment-loc-indicator" class="location-link">Linked location</span>', 'must_log_in' => '<p class="not-logged-in">Please <a href="#" class="log-in-trigger">log in</a> to join the discussion.</p>');
   comment_form($args);
 ?>
 <div class="comment byuser thread-even depth-1" style="display:none" id="new-comment">
