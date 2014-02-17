@@ -2691,6 +2691,7 @@ h1 {
   }
   #welcome {
     background:rgba(0,0,0,0.7);
+    top:50px;
   }
   #welcome h2 {
     font-size: 30px;

@@ -15,7 +15,7 @@
       <?php if(function_exists("oa_social_login_add_javascripts")) { oa_social_login_add_javascripts(); } ?>
   </head>
 
-  <body>
+  <body class="<?php if(is_user_logged_in()==true) { ?>logged-in<?php } else { ?>logged-out<?php } ?>">
   <!-- Google Tag Manager --> 
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WQPJ9H" 
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
