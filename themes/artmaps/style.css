@@ -2096,6 +2096,7 @@ h1 {
   position: absolute;
   line-height: 150px;
   color: rgba(255,255,255,0.25);
+  z-index: 0;
 }
 
 #artmaps-object-suggestion-message p {
@@ -2103,6 +2104,7 @@ h1 {
   line-height: 21px;
   font-family: sans-serif;
   color: rgba(255,255,255,0.9);
+  position: relative;
 }
 
 #artmaps-object-suggestion-message a {

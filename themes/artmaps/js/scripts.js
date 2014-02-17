@@ -178,6 +178,7 @@ jQuery(document).ready(function(){
         jQuery( ".log-in-trigger" ).click(function(event) {
           jQuery('.popover').fadeOut(150, function() {
             jQuery( "#log-in-popover" ).show();
+            jQuery("body").addClass("menu-expanded"); // Close responsive menu
             jQuery( "#user_login" ).focus();
           });
           event.preventDefault();
