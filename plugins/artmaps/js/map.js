@@ -520,7 +520,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                 
         map_mode_menu.change(function(){
           var id = jQuery(this).find("option:selected").attr("id");
-        
+          jQuery("body").removeClass("menu-expanded");
           switch (id) {
             case "mode_map":
               map.setMapTypeId(google.maps.MapTypeId.ROADMAP);

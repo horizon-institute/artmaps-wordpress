@@ -19,8 +19,8 @@ ArtMaps.Object.MapObject = function(container, config) {
     };
     
     var clusterconf = {
-            "gridSize": 100,
-            "minimumClusterSize": 0,
+            "gridSize": 50,
+            "minimumClusterSize": 4,
             "zoomOnClick": true,
             "imageSizes": [53],
             "styles": [{

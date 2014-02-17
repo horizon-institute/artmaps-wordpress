@@ -75,12 +75,36 @@ function my_filter_head() {
 }
 add_action('get_header', 'my_filter_head');
 
-# Comment reply script
-function theme_queue_js(){
-  if ( (!is_admin()) && is_singular() && comments_open() && get_option('thread_comments') )
-    wp_enqueue_script( 'comment-reply' );
+# Rename Posts to Challenges in backend
+function artmaps_change_post_label() {
+    global $menu;
+    global $submenu;
+    $menu[5][0] = 'Challenges';
+    $submenu['edit.php'][5][0] = 'Challenges';
+    $submenu['edit.php'][10][0] = 'Add Challenge';
+    $submenu['edit.php'][16][0] = 'Challenge Tags';
+    echo '';
 }
-add_action('wp_print_scripts', 'theme_queue_js');
+function artmaps_change_post_object() {
+    global $wp_post_types;
+    $labels = &$wp_post_types['post']->labels;
+    $labels->name = 'Challenge';
+    $labels->singular_name = 'Challenge';
+    $labels->add_new = 'Add Challenge';
+    $labels->add_new_item = 'Add Challenge';
+    $labels->edit_item = 'Edit Challenge';
+    $labels->new_item = 'Challenge';
+    $labels->view_item = 'View Challenge';
+    $labels->search_items = 'Search challenges';
+    $labels->not_found = 'No challenges found';
+    $labels->not_found_in_trash = 'No challenges found in Trash';
+    $labels->all_items = 'All Challenges';
+    $labels->menu_name = 'Challenges';
+    $labels->name_admin_bar = 'Challenge';
+}
+ 
+add_action( 'admin_menu', 'artmaps_change_post_label' );
+add_action( 'init', 'artmaps_change_post_object' );
 
 // Remove login with ajax plugin's default css
 function remove_login_with_ajax_css(){

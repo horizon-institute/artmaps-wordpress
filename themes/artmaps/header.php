@@ -15,7 +15,7 @@
       <?php if(function_exists("oa_social_login_add_javascripts")) { oa_social_login_add_javascripts(); } ?>
   </head>
 
-  <body <?php body_class(); ?>>
+  <body>
   <!-- Google Tag Manager --> 
   <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WQPJ9H" 
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> 
@@ -26,6 +26,8 @@
   })(window,document,'script','dataLayer','GTM-WQPJ9H');</script> 
   <!-- End Google Tag Manager -->
   <header>
+    <a href="#" id="menu-toggle">Menu</a>
+    <a href="#" id="search-toggle">Search</a>
     <nav>
       <a href="#" id="home" class="logo">
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/artmaps-logo.png" alt="<?php bloginfo('title'); ?>" />
@@ -40,10 +42,13 @@
         <li class="settings">
           <div id="map-settings">
             <span class="toggle">
-              View
+              <span>View mode</span>
               <div class="settings-inner"></div>
             </span>
           </div>
+        </li>
+        <li id="my-location">
+          <a href="#" class="toggle"><span>My location</span></a>
         </li>
         <?php if ( !is_user_logged_in() ) { ?>
         <li class="log-in">
@@ -97,6 +102,7 @@
         <input type="search" placeholder="Search by keyword" name="term" autocorrect="off" autocapitalize="off" value="" size="30" autocomplete="off" class="query-field"><input type="submit">
       </form>
     </div>
+    <span id="close-search">Close</span>
   </div>
   <span class="loading-indicator gmnoprint">Searching this area for art&hellip;</span>
 

@@ -34,6 +34,12 @@ jQuery(document).ready(function(){
     window.main_map.centerOnMyLocation();
     event.preventDefault();
   });
+  
+  jQuery( "#my-location" ).click(function(event) {
+    jQuery("body").removeClass("menu-expanded"); // Close responsive menu
+    window.main_map.centerOnMyLocation();
+    event.preventDefault();
+  });
 
   google.maps.visualRefresh = true;
   var config = {
@@ -82,6 +88,7 @@ jQuery(document).ready(function(){
   var activity_button = jQuery('#whats-new');
   jQuery( activity_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
+      jQuery("body").removeClass("menu-expanded"); // Close responsive menu
       jQuery.fancybox.close();
       activity_button.dialog = jQuery('#activity-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
@@ -115,6 +122,7 @@ jQuery(document).ready(function(){
   var about_button = jQuery('#how-it-works, #more-info');
   jQuery( about_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
+      jQuery("body").removeClass("menu-expanded"); // Close responsive menu
       jQuery.fancybox.close();
       about_button.dialog = jQuery('#about-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
@@ -203,6 +211,14 @@ jQuery(document).ready(function(){
         zIndex: '99999999'
         });
     event.preventDefault();
+  });
+  
+  jQuery(document).on("click","#menu-toggle",function(event){
+    jQuery("body").toggleClass("menu-expanded");
+  });
+  
+  jQuery(document).on("click","#search-toggle,#close-search",function(event){
+    jQuery(".search-form").toggle();
   });
   
   jQuery(document).on("click","#full-image",function(event){
