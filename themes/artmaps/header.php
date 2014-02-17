@@ -6,10 +6,13 @@
       <meta name="description" content="<?php bloginfo( 'description' ); ?>">
       
       <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui" />
-      <link rel="apple-touch-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/images/apple-touch-icon.png">
       <link rel="icon" href="<?php echo get_stylesheet_directory_uri(); ?>/images/favicon.ico" type="image/x-icon">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
       <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-title" content="<?php bloginfo('name'); ?>">
+      <link rel="apple-touch-icon" href="<?php echo get_stylesheet_directory_uri(); ?>/images/apple-touch-icon.png">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       
       <?php wp_head(); ?>
       <?php if(function_exists("oa_social_login_add_javascripts")) { oa_social_login_add_javascripts(); } ?>
@@ -42,13 +45,13 @@
         <li class="settings">
           <div id="map-settings">
             <span class="toggle">
-              <span>View mode</span>
+              <span class="menu-label">View mode</span>
               <div class="settings-inner"></div>
             </span>
           </div>
         </li>
         <li id="my-location">
-          <a href="#" class="toggle"><span>My location</span></a>
+          <a href="#" class="toggle"><span class="menu-label">My location</span></a>
         </li>
         <?php if ( !is_user_logged_in() ) { ?>
         <li class="log-in">

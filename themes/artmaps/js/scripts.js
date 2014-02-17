@@ -568,6 +568,17 @@ jQuery(document).ready(function(){
             });
             return false;
         });
-        
+    
+    // Fix iOS 7 browser bug
+    function fixHeightOnIOS7() {
+      var fixedHeight = Math.min(
+        jQuery(window).height(), // This is smaller on Desktop
+        window.innerHeight || Infinity // This is smaller on iOS7
+      );
+      jQuery('body').height(fixedHeight);
+    }
+
+    jQuery(window).on('resize orientationchange', fixHeightOnIOS7);
+    fixHeightOnIOS7();
 
 });

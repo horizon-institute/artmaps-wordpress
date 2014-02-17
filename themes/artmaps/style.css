@@ -150,6 +150,7 @@ body {
   z-index: 100;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing:antialiased;
+  background:#51626f;
 }
 
 i {
@@ -826,11 +827,11 @@ header .menu .toggle {
   box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
-header .menu .toggle span {
+header .menu .toggle span.menu-label {
   opacity:0;
 }
 
-header .menu .toggle:hover span {
+header .menu .toggle:hover span.menu-label {
   font-size: 12px;
   line-height: 16px;
   padding: 3px 10px;
@@ -1533,6 +1534,8 @@ body:before {
   font-weight: normal;
   margin-bottom:5px;
   color:#222;
+  font-size:17px;
+  line-height:20px;
 }
 
 .challenges li p {
@@ -1550,6 +1553,7 @@ body:before {
   margin-right: 10px;
   color:#f78f1e;
   float:left;
+  line-height:20px;
 }
 
 .no-challenges {
@@ -1985,7 +1989,6 @@ body:before {
   margin-top:36px;
   width: 33.7%;
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
   z-index: 999;
   border-radius: 0px 0px 2px 0px;
   box-shadow:0px 3px 15px rgba(0,0,0,0.7);
@@ -2424,10 +2427,11 @@ h1 {
   background: #009279;
 }
 
-@media all and (max-width: 850px) {
+@media all and (max-width: 1024px) {
   html,body {
     z-index: 0;
     -webkit-transition: 0.25s ease-in-out margin-left;
+    background:#51626f;
   }
   html {
     overflow: hidden;
@@ -2435,6 +2439,8 @@ h1 {
   body {
     overflow:visible;
     margin-left:0%;
+    position: fixed;
+    -webkit-text-size-adjust: 100%;
   }
   body.menu-expanded {
     margin-left: 70%;
@@ -2483,6 +2489,10 @@ h1 {
     font-size: 0px;
     text-decoration: none;
     z-index: 99999;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  header #menu-toggle:active {
+    text-shadow: 0px 0px 15px #fff;
   }
   header #menu-toggle:before {
     font-family: FontAwesome;
@@ -2514,7 +2524,7 @@ h1 {
   header .menu li {
     float:none;
   }
-  header .menu .toggle span {
+  header .menu .toggle span.menu-label {
     opacity:1;
   }
   .menu-expanded header .menu {
@@ -2529,6 +2539,10 @@ h1 {
     font-size: 0px;
     text-decoration: none;
     z-index: 9;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  header #search-toggle:active {
+    text-shadow: 0px 0px 15px #fff;
   }
   header #search-toggle:before {
     font-family: FontAwesome;
@@ -2708,9 +2722,9 @@ h1 {
   }
   #welcome ul {
     position: absolute;
-    bottom: 4%;
-    left: 4%;
-    right: 4%;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
   }
   #welcome ul a {
     float:none;
@@ -2820,7 +2834,7 @@ h1 {
 	}
   .artmaps-map-object-list-container-page-nav {
     width: auto;
-    position: fixed;
+    position: absolute;
     bottom:0;
     left:0;
     right:0;
@@ -2861,7 +2875,7 @@ h1 {
     top:83px;
   }
   .artwork-results .mini-loading-indicator {
-    position: fixed;
+    position: absolute;
     width:auto;
     top: 0px;
     right: 0;
@@ -2908,6 +2922,7 @@ h1 {
     position: static;
     margin:0;
     border-radius: 0;
+    box-shadow: none;
   }
   #artmaps-object-menu {
     top:0px;
@@ -2915,14 +2930,16 @@ h1 {
   .fancybox-inner {
     overflow: auto !important;
     height: auto !important;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform: translateZ(0);
   }
   .loading-indicator {
-    position: fixed;
-    bottom: 2%;
+    position: absolute;
     text-align: center;
-    left: 2%;
+    right: 30px;
+    left: 30px;
+    bottom: 30px;
     top: auto;
-    right: 2%;
     pointer-events: none;
     -moz-pointer-events: none;
     -webkit-pointer-events: none;
