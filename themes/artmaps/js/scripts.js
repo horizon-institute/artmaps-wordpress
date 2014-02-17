@@ -89,6 +89,7 @@ jQuery(document).ready(function(){
   jQuery( activity_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
       jQuery("body").removeClass("menu-expanded"); // Close responsive menu
+      jQuery('#welcome').fadeOut(300);
       jQuery.fancybox.close();
       activity_button.dialog = jQuery('#activity-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
@@ -123,6 +124,7 @@ jQuery(document).ready(function(){
   jQuery( about_button ).click(function(event) {
       jQuery(".popover").fadeOut(150);
       jQuery("body").removeClass("menu-expanded"); // Close responsive menu
+      jQuery('#welcome').fadeOut(300);
       jQuery.fancybox.close();
       about_button.dialog = jQuery('#about-sidebar');
       jQuery(".ui-dialog-content:visible").dialog("close");
