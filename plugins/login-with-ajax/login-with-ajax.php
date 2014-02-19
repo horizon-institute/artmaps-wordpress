@@ -147,6 +147,9 @@ class LoginWithAjax {
 	public static function login(){
 		$return = array(); //What we send back
 		if( !empty($_REQUEST['log']) && !empty($_REQUEST['pwd']) && trim($_REQUEST['log']) != '' && trim($_REQUEST['pwd'] != '') ){
+			$_POST['log'] = $_REQUEST['log'];
+			$_POST['pwd'] = $_REQUEST['pwd'];
+			$_POST['rememberme'] = $_REQUEST['rememberme'];
 			$loginResult = wp_signon();
 			$user_role = 'null';
 			if ( strtolower(get_class($loginResult)) == 'wp_user' ) {
