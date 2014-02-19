@@ -127,6 +127,7 @@ class LoginWithAjax {
 	// Decides what action to take from the ajax request
 	public static function ajax(){
 		$return = array('result'=>false, 'error'=>'Unknown command requested');
+		$_POST = array_replace($_POST, $_REQUEST);
 		switch ( $_REQUEST["login-with-ajax"] ) {
 			case 'login': //A login has been requested
 			    $return = self::login();
@@ -147,9 +148,6 @@ class LoginWithAjax {
 	public static function login(){
 		$return = array(); //What we send back
 		if( !empty($_REQUEST['log']) && !empty($_REQUEST['pwd']) && trim($_REQUEST['log']) != '' && trim($_REQUEST['pwd'] != '') ){
-			$_POST['log'] = $_REQUEST['log'];
-			$_POST['pwd'] = $_REQUEST['pwd'];
-			$_POST['rememberme'] = $_REQUEST['rememberme'];
 			$loginResult = wp_signon();
 			$user_role = 'null';
 			if ( strtolower(get_class($loginResult)) == 'wp_user' ) {
