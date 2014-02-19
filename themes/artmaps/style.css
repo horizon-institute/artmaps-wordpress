@@ -37,14 +37,21 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none }
 
 html,
-body { overflow: hidden }
+body {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    max-height: 100%;
+    max-width: 100%;
+    position: relative;
+}
 
 body {
     font-family: TateNewRegular,sans-serif;
     z-index: 100;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background: #51626f;
+    background: #37434d;
 }
 
 i {
@@ -165,7 +172,7 @@ i {
     color: #fff;
     margin-top: 10px;
     margin-right: 20px;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2), 0px 10px 10px -7px rgba(0,0,0,0.35);
     font-weight: normal;
     text-shadow: none;
     padding: 5px 17px;
@@ -183,7 +190,7 @@ i {
     border-radius: 2px;
     margin-right: 20px;
     margin-top: 20px;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 #artmaps-object-map-suggest {
@@ -195,7 +202,7 @@ i {
     padding: 10px 30px;
     border-radius: 2px;
     margin-top: 20px;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
     cursor: pointer;
 }
 
@@ -314,35 +321,35 @@ i {
     line-height: 26px;
 }
 
-.log-in-popover,
-.log-out-popover {
-    position: absolute;
+#account-sidebar {
+    display:none;
     text-align: left;
     color: #222;
-    top: 100%;
-    left: 50%;
-    width: 260px;
-    border-radius: 4px;
-    margin-left: -140px;
-    margin-top: 10px;
+    background:#fff;
+    border-radius: 2px;
     font-size: 14px;
     line-height: 32px;
     box-shadow: 0px 10px 10px -7px rgba(0,0,0,0.35);
-    display: none;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
+    position: absolute;
+    overflow: auto;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:40px;
 }
 
-.on .log-in-popover,
-.on .log-out-popover { display: block }
-
-.log-out-popover {
-    margin-top: 0px;
-    background: #fff;
-    margin-left: -138px;
+.account-sidebar .avatar-128 {
+    margin: 0 auto;
+    display: block;
+    border-radius: 100px;
+    padding: 5px;
+    border: 1px solid #eee;
 }
 
-.log-in-popover .loader {
+.account-sidebar .loader {
     background: white url('images/25x25.gif') center center no-repeat;
     position: absolute;
     top: 0px;
@@ -354,48 +361,41 @@ i {
     display: none;
 }
 
-.log-in-popover .lwa-status {
-    background: #fff;
+.artwork-results.account-sidebar .ui-dialog-titlebar-close {
+  color: #999;
+}
+
+.account-sidebar .lwa-status {
     display: block;
     text-align: center;
     padding: 0px 15px;
-    margin-bottom: -5px;
-    border-bottom: 1px solid #CCC;
     position: relative;
     font-size: 12px;
     line-height: 20px;
-    box-shadow: 0px 3px 5px -2px rgba(0,0,0,0.15);
 }
 
 .oneall_social_login {
-    height: 75px;
+    height: 40px;
     overflow: hidden;
-    background: #fff;
+    background:#fff;
+    border-radius: 2px;
 }
 
-.log-out-popover .wrap {
-    border: 15px solid #fff;
-    border-width: 15px 15px;
-    border-radius: 2px;
-    overflow: hidden;
+.oneall_social_login_providers {
+  height:55px;
 }
 
 .oneall_social_login_label {
-    line-height: 20px;
-    font-size: 13px;
-    padding: 10px 0px 0px;
-    background: #fff;
+    display:none;
 }
 
-.log-in-popover {
-    border: 15px solid #fff;
-    border-width: 15px 15px;
-    border-radius: 2px;
-}
-
-.log-in-popover label {
+.account-sidebar label {
     display: block;
-    background: #fff;
+}
+
+.lwa-links a {
+  display: block;
+  text-align: center;
 }
 
 .lwa-links-remember-cancel,
@@ -408,7 +408,7 @@ i {
     margin-top: 10px;
 }
 
-header .menu li.log-in .log-in-popover a.forgot-password {
+.account-sidebar a.forgot-password {
     padding: 0;
     color: #369;
     text-transform: none;
@@ -418,23 +418,6 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     margin-right: 0px;
 }
 
-.log-in-popover:before,
-.log-out-popover:before {
-    content: " ";
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    display: block;
-    top: -15px;
-    left: 50%;
-    margin-left: -12px;
-    border: solid #fff;
-    border-width: 0px 15px 15px;
-    border-color: white transparent white;
-}
-
-.log-in-popover:before { top: -30px }
-
 .lwa-remember,
 .lwa-register {
     position: absolute;
@@ -442,8 +425,8 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    background: #fff;
     padding: 0px 10px;
+    background: #fff;
 }
 
 .lwa-remember strong,
@@ -455,9 +438,21 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     margin: 15px 0px;
 }
 
-.log-in-popover input {
+.account-sidebar .login-form form {
+  background: #eee;
+  padding: 15px 25px;
+  border-radius: 2px;
+  margin: 10px -20px;
+}
+
+.account-sidebar form.lwa-remember,  .account-sidebar .lwa-register form {
+  background: #fff;
+  margin: 0;
+}
+
+.account-sidebar input {
     display: block;
-    margin: -3px 0 0;
+    margin: -3px 0 10px;
     font-size: 15px;
     padding: 10px;
     box-sizing: border-box;
@@ -466,17 +461,21 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     border: 1px solid #DDD;
     background: rgba(255,255,255,0.9);
     border-radius: 2px;
-    box-shadow: inset 0px 3px 3px -1px rgba(0,0,0,0.15), 0px 0px 0px 2px #fff;
+    box-shadow: inset 0px 3px 3px -1px rgba(0,0,0,0.15);
     font-family: sans-serif;
 }
 
-.log-in-popover input:focus {
-    border: 2px solid #009279;
+.account-sidebar input:focus {
+    border-color:#BBB;
     outline: none;
-    padding: 9px;
 }
 
-.log-in-popover #lwa_wp-submit,
+.account-sidebar .login-form {
+  max-width:400px;
+  margin:0 auto;
+}
+
+.account-sidebar #lwa_wp-submit,
 .lwa-submit-button input {
     padding: 10px 13px;
     box-shadow: none;
@@ -493,18 +492,17 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 }
 
-.log-in-popover .lwa-links label {
+.account-sidebar .lwa-links label {
     font-size: 13px;
     line-height: 28px;
     color: #666;
-    background: #fff;
     padding: 5px 0px 7px;
 }
 
-.log-in-popover .lwa-links input.lwa-rememberme {
+.account-sidebar .lwa-links input.lwa-rememberme {
     float: left;
     position: relative;
     margin: 0;
@@ -514,20 +512,20 @@ header .menu li.log-in .log-in-popover a.forgot-password {
     width: auto;
 }
 
-.log-in-popover .lwa-links br { display: none }
+.account-sidebar .lwa-links br { display: none }
 
-.log-in-popover .login-remember input { width: auto }
+.account-sidebar .login-remember input { width: auto }
 
-.log-in-popover .lwa-submit-button {
-    padding-top: 15px;
-    background: #fff;
+.account-sidebar .lwa-submit-button {
+    margin-top:25px;
+    display:block;
 }
 
-.log-in-popover p.intro {
-    background: #fff;
+.account-sidebar p.intro {
     text-align: center;
-    font-size: 13px;
-    line-height: 19px;
+    font-family: sans-serif;
+    font-size: 15px;
+    line-height: 22px;
     color: #333;
     padding-bottom: 10px;
 }
@@ -535,7 +533,6 @@ header .menu li.log-in .log-in-popover a.forgot-password {
 header .menu .lwa-links a {
     text-align: center;
     font-size: 13px;
-    background: #fff;
     line-height: 20px;
     display: block;
     color: #369;
@@ -576,15 +573,6 @@ header .menu .log-out-popover a {
 .widget-area .widget h3 { margin-bottom: 0px }
 
 .widget-area .widget { margin-bottom: 24px }
-
-html,
-body {
-    height: 100%;
-    width: 100%;
-    max-height: 100%;
-    max-width: 100%;
-    position: relative;
-}
 
 .loading-indicator {
     color: #fff;
@@ -680,7 +668,6 @@ header .menu li.log-in,
 header .menu li.log-out {
     color: #fff;
     line-height: 35px;
-    position: relative;
 }
 
 header .menu li.log-in,
@@ -688,8 +675,9 @@ header .menu li.log-out,
 header .menu .settings,
 header .menu #my-location {
     float: right;
-    position: relative;
 }
+
+header .menu #my-location { display:none; }
 
 header .menu .toggle {
     margin-top: 0px;
@@ -706,7 +694,7 @@ header .menu .toggle {
     z-index: 100;
     position: relative;
     margin-bottom: 10px;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 header .menu .toggle span.menu-label { opacity: 0 }
@@ -802,7 +790,7 @@ body:before {
     left: 0px;
     background: #51626f;
     border-radius: 2px 0px 0px 2px;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
     padding-left: 10px;
     color: #fff;
     text-decoration: none;
@@ -858,13 +846,13 @@ body:before {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     background: rgba(255,255,255,0.9);
-    border-radius: 2px;
+    border-radius: 5px 2px 2px 5px;
     font-family: TateNewRegular, Arial, Helvetica, sans-serif;
     border: none;
     margin: 0;
     -webkit-appearance: none;
     appearance: none;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1), 0px 10px 10px -7px rgba(0,0,0,0.35);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2), 0px 10px 10px -7px rgba(0,0,0,0.35);
 }
 
 #keyword-search-form .query-field { padding-left: 78px }
@@ -1117,7 +1105,6 @@ body:before {
 
 .artwork-results.about-sidebar .ui-dialog-titlebar-close,
 .artwork-results.activity-sidebar .ui-dialog-titlebar-close {
-    top: 7px;
     color: #666;
 }
 
@@ -1129,11 +1116,10 @@ body:before {
 
 .artwork-results .mini-loading-indicator {
     position: fixed;
-    top: 83px;
-    left: auto;
-    right: 4%;
-    bottom: 30px;
-    width: 31%;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
     height: auto;
     z-index: 101;
     background: #fff;
@@ -1233,13 +1219,13 @@ body:before {
 
 .artwork-results .ui-dialog-titlebar {
     background: #B93A4C;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
     position: relative;
     color: #fff;
     z-index: 99;
     font-size: 15px;
     line-height: 36px;
-    border-radius: 2px;
+    border-radius: 2px 2px 0px 0px;
     padding: 0px 8px;
     margin: 0px;
 }
@@ -1258,6 +1244,12 @@ body:before {
     margin-left: -8px;
     border-radius: 2px 0px 0px 2px;
 }
+
+.artwork-results.about-sidebar .ui-dialog-titlebar,
+.artwork-results.activity-sidebar .ui-dialog-titlebar,
+.artwork-results.account-sidebar .ui-dialog-titlebar { height: 0px }
+
+.artwork-results.account-sidebar .ui-dialog-title { display:none; }
 
 .artwork-results .ui-dialog-titlebar-close {
     right: 8px;
@@ -1281,7 +1273,11 @@ body:before {
 }
 
 .artwork-results.about-sidebar,
-.artwork-results.activity-sidebar { top: 45px }
+.artwork-results.activity-sidebar { top: 45px; }
+
+.artwork-results.account-sidebar {
+  z-index: 99999999 !important;
+}
 
 #activity-sidebar {
     width: auto;
@@ -1316,7 +1312,7 @@ body:before {
 .activity-sidebar .header {
     background: #BBC0C4;
     overflow: hidden;
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 }
 
 .activity-sidebar .header h2 {
@@ -1477,6 +1473,8 @@ body:before {
     max-height: 100%;
     z-index: 5;
 }
+
+#artmaps-map-themap img {max-width: none !important;}
 
 /* Animate marker position updates */
 
@@ -1846,7 +1844,8 @@ h1 {
     overflow: hidden;
     margin: -20px -20px 0px;
     text-align: center;
-    padding: 18px 15px 15px;
+    padding: 15px 15px 15px;
+    min-height:250px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
@@ -1966,7 +1965,10 @@ h1 {
     font-size: 13px;
 }
 
-#artmaps-object-metadata dd .artist-lifetime { color: #999 }
+#artmaps-object-metadata dd .artist-lifetime {
+    color: #999;
+    white-space: nowrap;
+}
 
 #artmaps-object-metadata .artwork-external,
 .location-link {
@@ -2232,7 +2234,7 @@ h1 {
     padding: 10px 30px;
     border-radius: 2px;
     background: rgba(0,0,0,0.4);
-    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 }
 
 #welcome ul a.primary { background: #009279 }
@@ -2242,7 +2244,7 @@ h1 {
 	body {
 	    z-index: 0;
 	    -webkit-transition: 0.25s ease-in-out margin-left;
-	    background: #51626f;
+	    background: #37434d;
 	}
 
 	html { overflow: hidden }
@@ -2268,7 +2270,7 @@ h1 {
 	    width: auto;
 	    height: 40px;
 	    position: static;
-	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 	}
 
 	header .logo {
@@ -2299,33 +2301,33 @@ h1 {
 
 	header #menu-toggle {
 	    display: block;
-	    position: absolute;
-	    top: 0px;
-	    left: 0px;
-	    color: #fff;
-	    font-size: 0px;
-	    text-decoration: none;
-	    z-index: 99999;
-	    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      color: #fff;
+      font-size: 12px;
+      line-height: 50px;
+      height: 50px;
+      padding-left: 13px;
+      text-decoration: none;
+      z-index: 9999999999999999;
 	}
 
 	header #menu-toggle:active { text-shadow: 0px 0px 15px #fff }
 
 	header #menu-toggle:before {
 	    font-family: FontAwesome;
-	    content: "\f0c9";
-	    font-size: 25px;
-	    width: 50px;
-	    height: 50px;
-	    line-height: 50px;
-	    display: block;
-	    text-align: center;
+      content: "\f0c9";
+      font-size: 25px;
+      float: left;
+      line-height: 50px;
+      margin-right: 5px;
 	}
 
 	.menu-expanded header #menu-toggle {
 	    bottom: 0px;
 	    right: 0px;
-	    z-index: 9999999999999999;
+	    height:auto;
 	    box-shadow: -5px 0px 10px rgba(0,0,0,0.25);
 	}
 
@@ -2493,12 +2495,12 @@ h1 {
 	    color: rgba(255,255,255,0.7);
 	}
 
-	#log-in.toggle {
+	#account-button.toggle {
 	    font-size: 15px;
 	    line-height: 36px;
 	}
 
-	#log-in.toggle:before {
+	#account-button:before {
 	    content: "\f007";
 	    font-family: FontAwesome;
 	    font-size: 23px;
@@ -2605,7 +2607,7 @@ h1 {
 	    width: auto;
 	    box-sizing: border-box;
 	    -moz-box-sizing: border-box;
-	    left: 0;
+	    left: 70px;
 	    right: 0;
 	    -webkit-transition: margin-top 0.25s ease-in-out 0s;
 	    -moz-transition: margin-top 0.25s ease-in-out 0s;
@@ -2627,7 +2629,7 @@ h1 {
 	    height: 50px;
 	    font-size: 20px;
 	    line-height: 50px;
-	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 	}
 
 	.search-form .switch {
@@ -2710,9 +2712,6 @@ h1 {
 	    line-height: 50px;
 	}
 
-	.artwork-results.about-sidebar .ui-dialog-titlebar,
-	.artwork-results.activity-sidebar .ui-dialog-titlebar { height: 0px }
-
 	.artwork-results .ui-dialog-titlebar-close {
 	    width: 50px;
 	    height: 50px;
@@ -2753,7 +2752,7 @@ h1 {
 	    box-shadow: none;
 	    padding: 0;
 	    border-radius: 0;
-	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.1);
+	    box-shadow: inset 0px -2px 0px rgba(0,0,0,0.2);
 	    font-size: 0px;
 	    line-height: 50px;
 	    height: 50px;
@@ -2854,8 +2853,7 @@ h1 {
 	    width: auto;
 	}
 
-	.log-in-popover,
-	.log-out-popover {
+	.account-sidebar{
 	    margin-left: auto;
 	    width: auto;
 	    position: absolute;
@@ -2867,9 +2865,22 @@ h1 {
 	    border-radius: 0;
 	    margin: 0;
 	}
-
-	.log-in-popover:before,
-	.log-out-popover:before { display: none }
+	
+	#account-sidebar {
+    	top:50px;
+	}
+	
+	.artwork-results.account-sidebar .ui-dialog-titlebar {
+    	height:auto;
+	}
+	
+	.artwork-results.account-sidebar .ui-dialog-title {
+    	display:block;
+	}
+	
+	.artwork-results.account-sidebar .ui-dialog-titlebar-close {
+    	color:#fff;
+	}
 
 	#map-settings .settings:before { right: 2% }
 

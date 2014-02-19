@@ -216,7 +216,6 @@ ArtMaps.Map.MapObject = function(container, config) {
         } else if(sessionstate.page) {
           var restore_page = sessionstate.page;
         }
-        console.log(restore_page);
         if(restore_page == "about") {
           jQuery('#how-it-works').click(); 
         } else if(restore_page == "activity") {
@@ -441,10 +440,7 @@ ArtMaps.Map.MapObject = function(container, config) {
                     "complete": function() { showPage(0); }
                  },
                 "hide": { "duration": 0 },
-                "width": 260,
                 "dialogClass": "artwork-results",
-                "height": jQuery(window).height() - 160,
-                "position": "right bottom",
                 "resizable": false,
                 "closeText": "",
                 "draggable": false,
@@ -520,7 +516,8 @@ ArtMaps.Map.MapObject = function(container, config) {
                 
         map_mode_menu.change(function(){
           var id = jQuery(this).find("option:selected").attr("id");
-          jQuery("body").removeClass("menu-expanded");
+          jQuery("body").removeClass("menu-expanded"); // Close responsive menu
+          jQuery(".ui-dialog-content:visible").dialog("close"); // Close dialogs
           switch (id) {
             case "mode_map":
               map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
