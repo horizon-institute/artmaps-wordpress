@@ -57,7 +57,7 @@ jQuery(function($) {
 
     <div class="artmaps-object-image">
       <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
-        <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" data-full-image="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
+        <img src="//artmaps.tate.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" data-full-image="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } else { ?>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/unavailable.png" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } ?>
