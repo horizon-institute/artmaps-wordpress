@@ -66,7 +66,7 @@ jQuery(document).ready(function(){
           c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
           c.find("a.artwork-link").attr("data-object-id", object.ID);
           if(typeof metadata.imageurl != "undefined") {
-              c.find("img").attr("src", "http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
+              c.find("img").attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
           }
           c.find(".artmaps-map-object-container-title").text(metadata.title);
           c.find(".artmaps-map-object-container-artist").text(metadata.artist);
@@ -432,7 +432,7 @@ jQuery(document).ready(function(){
             if(oi.length > 0) {
                 oi = oi.first();
                 var ni = jQuery(document.createElement("img"));
-                ni.attr("src", "http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.attr("src"));
+                ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.attr("src"));
                 na.append(ni);
             }
             
