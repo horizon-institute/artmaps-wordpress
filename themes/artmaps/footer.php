@@ -54,7 +54,7 @@
   				
     				<?php if(get_post_meta($comment->comment_post_ID,"imageurl",true)) { ?>
               <a href="<?php echo get_permalink($comment->comment_post_ID); ?>#comment-<?php echo $comment->comment_ID; ?>" class="artwork-link" data-object-id="<?php echo get_post_meta($comment->comment_post_ID,"object_id",true); ?>">
-                <img src="http://dev.artmaps.org.uk/artmaps/tate/dynimage/x/65/<?php echo get_post_meta($comment->comment_post_ID,"imageurl",true); ?>" />
+                <img src="//www.artmaps.org.uk/artmaps/tate/dynimage/x/65/<?php echo get_post_meta($comment->comment_post_ID,"imageurl",true); ?>" />
                 <h2 class="artmaps-map-object-container-title">
                   <?php if(get_post_meta($comment->comment_post_ID,"title",true)) { echo get_post_meta($comment->comment_post_ID,"title",true);} else { echo get_the_title($comment->comment_post_ID); } ?>
                 </h2>
