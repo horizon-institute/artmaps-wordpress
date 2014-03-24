@@ -416,7 +416,7 @@ jQuery(document).ready(function(){
             nc.addClass("artmaps-map-object-container");
                var acno = oc.find(".acno").first().text();
                jQuery.ajax({
-                   "url": "http://devservice.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://" + acno,
+                   "url": "http://service.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://" + acno,
                    "dataType": "json",
                    "async": true,
                    "success": function(data) {
