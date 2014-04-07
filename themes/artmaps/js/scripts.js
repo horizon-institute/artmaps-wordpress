@@ -178,7 +178,7 @@ jQuery(document).ready(function(){
     var full_image = jQuery('<div id="full-image">');
     var img = jQuery('<img class="full-image-img">');
     img.attr('src', jQuery(this).data("full-image"));
-    _gaq.push(["_trackEvent", "Image", "Zoom", "URL", jQuery(this).data("full-image")]);
+    _gaq.push(["_trackEvent", "Image", "Zoom", jQuery(this).data("full-image")]);
     full_image.appendTo('body');
     img.appendTo('#full-image');
     jQuery('#full-image').lightbox_me({
@@ -466,6 +466,7 @@ jQuery(document).ready(function(){
     }
     
     searchForm.submit(function() {
+    	_gaq.push("Search", "Keyword", searchInput.val());
         jQuery('#welcome').fadeOut(300);
         jQuery.ajax({
             "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val(),
