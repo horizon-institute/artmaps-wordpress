@@ -663,6 +663,9 @@ ArtMaps.Map.MapObject = function(container, config) {
               jQuery("#artmaps-search-results-artworks").dialog("close");
             }
             var place = autoComplete.getPlace();
+            if(_gaq) {
+            	_gaq.push(["_trackEvent", "Search", "Place", place.name]);
+            }
             if(place.id) {
                 if(place.geometry.viewport) {
                     map.fitBounds(place.geometry.viewport);
