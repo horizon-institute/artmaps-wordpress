@@ -178,6 +178,7 @@ jQuery(document).ready(function(){
     var full_image = jQuery('<div id="full-image">');
     var img = jQuery('<img class="full-image-img">');
     img.attr('src', jQuery(this).data("full-image"));
+    _gaq.push(["_trackEvent", "Image", "Zoom", "URL", jQuery(this).data("full-image")]);
     full_image.appendTo('body');
     img.appendTo('#full-image');
     jQuery('#full-image').lightbox_me({
