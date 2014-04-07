@@ -466,7 +466,7 @@ jQuery(document).ready(function(){
     }
     
     searchForm.submit(function() {
-    	_gaq.push("Search", "Keyword", searchInput.val());
+    	_gaq.push(["_trackEvent", "Search", "Keyword", searchInput.val()]);
         jQuery('#welcome').fadeOut(300);
         jQuery.ajax({
             "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val(),
