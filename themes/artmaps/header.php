@@ -28,6 +28,17 @@
   '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); 
   })(window,document,'script','dataLayer','GTM-WQPJ9H');</script> 
   <!-- End Google Tag Manager -->
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26241256-1']);
+  _gaq.push(['_setDomainName', 'tate.org.uk']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>  
   <header>
     <a href="#" id="menu-toggle">Menu</a>
     <a href="#" id="search-toggle">Search</a>
