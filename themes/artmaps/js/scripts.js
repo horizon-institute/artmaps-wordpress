@@ -118,6 +118,7 @@ jQuery(document).ready(function(){
     
   // Activity button
   jQuery("#whats-new").click(function(event) {
+	_gaq.push(["Click", "What's New"]);
     jQuery(".ui-dialog-content:visible").dialog("close"); // Close other dialogs
     jQuery.fancybox.close(); // Close artwork page
     show_page("activity", "What's new?");
@@ -126,6 +127,7 @@ jQuery(document).ready(function(){
   
   // About button
   jQuery("#how-it-works, #more-info").click(function(event) {
+	_gaq.push(["Click", "About"]);
     jQuery(".ui-dialog-content:visible").dialog("close"); // Close other dialogs
     jQuery.fancybox.close(); // Close artwork page
     jQuery("#about-sidebar").html("").load("about"); // Load content
