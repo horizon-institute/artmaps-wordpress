@@ -9,6 +9,10 @@ function set_page_title(title) {
 
 jQuery(document).ready(function(){ 
 
+	$(window).bind( 'hashchange', function() {
+		_gaq.push(['_trackPageview',location.pathname + location.search  + location.hash]);
+	});
+	
   jQuery( "#overlay" ).click(function(event) {
     jQuery.fancybox.close();
   });
