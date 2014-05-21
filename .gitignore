@@ -5,3 +5,6 @@
 ._*
 debug.log
 /themes/twentytwelve/
+.buildpath
+.project
+.settings
