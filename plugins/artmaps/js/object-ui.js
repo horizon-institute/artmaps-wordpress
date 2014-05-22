@@ -3,9 +3,9 @@ ArtMaps.Object = ArtMaps.Object || {};
 ArtMaps.Object.UI = ArtMaps.Object.UI || {};
 
 ArtMaps.Object.UI.SystemMarkerColor = "marker_106";
-ArtMaps.Object.UI.UserMarkerColor = "marker_106";
+ArtMaps.Object.UI.UserMarkerColor = "marker_106-blue";
 ArtMaps.Object.UI.SuggestionMarkerColor = "marker_move";
-ArtMaps.Object.UI.OwnerMarkerColor = "marker_106";
+ArtMaps.Object.UI.OwnerMarkerColor = "marker_106-yellow";
 ArtMaps.Object.UI.FinalMarkerColor = "marker_final";
 
 ArtMaps.Object.UI.InfoWindow = function(map, marker, location, clusterer) {    
