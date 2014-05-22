@@ -9,7 +9,7 @@ function set_page_title(title) {
 
 jQuery(document).ready(function(){ 
 
-	$(window).bind( 'hashchange', function() {
+	jQuery(window).bind( 'hashchange', function() {
 		_gaq.push(['_trackPageview',location.pathname + location.search  + location.hash]);
 	});
 	
