@@ -145,6 +145,12 @@ jQuery(document).ready(function(){
     jQuery( "#user_login" ).focus(); // Place cursor in email field
     event.preventDefault();
   });
+  
+  var hashstate = jQuery.bbq.getState();
+  switch(hashstate.page) {
+  case "about" :  jQuery("#how-it-works, #more-info").click();
+  case "activity" : jQuery("#whats-new").click();
+  };
     
   // Artwork page
   function show_object_modal(object_id) {

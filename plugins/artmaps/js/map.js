@@ -123,6 +123,10 @@ ArtMaps.Map.MapObject = function(container, config) {
             map.setMapTypeId(google.maps.MapTypeId.HYBRID);
         }
         
+        if(hashstate.hidewelcome) {
+        	jQuery('#welcome').fadeOut(150);
+        }
+        
         if(hashstate.skipsession) {
         	
         } else if(hashstate.object) {
