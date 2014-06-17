@@ -123,7 +123,9 @@ ArtMaps.Map.MapObject = function(container, config) {
             map.setMapTypeId(google.maps.MapTypeId.HYBRID);
         }
         
-        if(hashstate.object) {
+        if(hashstate.skipsession) {
+        	
+        } else if(hashstate.object) {
             var object_id = hashstate.object;
             jQuery('#welcome').fadeOut(150);
             jQuery.fancybox({
