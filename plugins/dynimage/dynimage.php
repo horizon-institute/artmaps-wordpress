@@ -18,7 +18,8 @@ class DynImage {
             		"dev.artmaps.org.uk",
             		"www.artmaps.org.uk",
             		"localhost",
-            		"artmaps.tate.org.uk"),
+            		"artmaps.tate.org.uk",
+            		"www.nottingham.ac.uk"),
             'cacheDir' => '/tmp/dynimage',
             'browserCacheTime' => 604800 // One week
     );
