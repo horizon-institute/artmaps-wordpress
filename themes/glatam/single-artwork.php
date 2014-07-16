@@ -1,3 +1,9 @@
+<!DOCTYPE div PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+</head>
+<body>
 <?php //get_header(); ?>
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <div class="artwork-page">
@@ -117,3 +123,5 @@ jQuery(function($) {
 <?php endwhile; endif; ?>
 
 <?php // get_footer(); ?>
+</body>
+</html>
