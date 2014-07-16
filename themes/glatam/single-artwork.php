@@ -1,5 +1,4 @@
 <?php //get_header(); ?>
-
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 <div class="artwork-page">
 <script type="text/javascript">
@@ -53,24 +52,35 @@ jQuery(function($) {
 });
 </script>
 <div id="artmaps-object-metadata">
-  <div class="content">
-
-    <div class="artmaps-object-image">
-      <?php if(get_post_meta(get_the_ID(),"imageurl",true)) { ?>
-        <img src="//artmaps.tate.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" data-full-image="<?php echo get_post_meta(get_the_ID(),"imageurl",true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
+	<div class="content">
+	
+		<div class="artmaps-object-image">
+      <?php if(get_post_meta(get_the_ID(),"ImageFile", true)) { ?>
+      <img src="//artmaps.tate.org.uk/artmaps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(), "ImageFile", true); ?>"
+      		data-full-image="<?php echo get_post_meta(get_the_ID(), "ImageFile", true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } else { ?>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/unavailable.png" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } ?>
     </div>
 
-    <h1><?php if(get_post_meta(get_the_ID(),"title",true)) { echo get_post_meta(get_the_ID(),"title",true);} else { the_title(); } ?></h1>
+    <h1><?php if(get_post_meta(get_the_ID(), "Name", true)) { echo get_post_meta(get_the_ID(), "Name", true);} else { the_title(); } ?></h1>
     <dl>
-      <dt>Artist</dt>
-        <dd><?php echo get_post_meta(get_the_ID(),"artist",true); ?> <span class="artist-lifetime"><?php echo str_replace("‑","&ndash;",get_post_meta(get_the_ID(),"artistdate",true)); ?></span></dd>
-      <dt>Date</dt>
-        <dd><?php echo get_post_meta(get_the_ID(),"artworkdate",true); ?></dd>
-      <dt></dt>
-        <dd><a href="http://www.tate.org.uk/art/artworks/<?php echo get_post_meta(get_the_ID(),"reference",true); ?>" target="_blank" class="artwork-external">View on Tate Online</a></dd>
+      <dt>Allegiance</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "Allegiance", true); ?></dd>
+      <dt>Biography</dt>
+      <dd><a href="<?php echo get_post_meta(get_the_ID(), "Biography", true); ?>" target="_blank">Link</a></dd>
+      <dt>English Notes</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "English Notes", true); ?></dd>
+      <dt>EventType</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "EventType", true); ?></dd>
+      <dt>Place Name</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "Place Name", true); ?></dd>
+      <dt>Spanish Notes</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "Spanish Notes", true); ?></dd>
+      <dt>SpanishEventType</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "SpanishEventType", true); ?></dd>
+      <dt>Year</dt>
+      <dd><?php echo get_post_meta(get_the_ID(), "Year", true); ?></dd>
     </dl>
 
     <button id="artmaps-object-map-suggest" type="button">Suggest a location</button>
@@ -84,7 +94,7 @@ jQuery(function($) {
 
     <div id="artmaps-object-suggestion-message" style="display:none">
       <h2><i class="fa-check"></i> Got it.</h2>
-      <p>We've saved your suggested location. If other users agree with your choice, the coordinates will become part of Tate collection data.</p>
+      <p>We've saved your suggested location.</p>
       <a href="#" class="artmaps-button" id="artmaps-object-suggestion-message-comment-button">Explain your suggestion</a>
     </div>
 

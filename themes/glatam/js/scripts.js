@@ -69,13 +69,13 @@ jQuery(document).ready(function(){
           var c = con.clone();
           c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
           c.find("a.artwork-link").attr("data-object-id", object.ID);
-          if(typeof metadata.imageurl != "undefined") {
-              c.find("img").attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
+          if(typeof metadata.ImageFile != "undefined" && metadata.ImageFile != "") {
+              c.find("img").attr("src", "//artmaps.tate.org.uk/artmaps/glatam/dynimage/x/65/" + metadata.ImageFile);
           }
-          c.find(".artmaps-map-object-container-title").text(metadata.title);
-          c.find(".artmaps-map-object-container-artist").text(metadata.artist);
-          //c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
-          c.find(".artmaps-map-object-container-suggestions").html('<i class="fa-question"></i>');
+          c.find(".artmaps-map-object-container-name").text(metadata.Name);
+          c.find(".artmaps-map-object-container-allegiance").text(metadata.Allegiance);
+          c.find(".artmaps-map-object-container-eventtype").text(metadata.EventType);
+          c.find(".artmaps-map-object-container-year").text(metadata.Year);
           return c;
       };
   })();

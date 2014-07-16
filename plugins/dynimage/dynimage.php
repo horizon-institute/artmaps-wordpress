@@ -50,6 +50,7 @@ class DynImage {
             if(!file_exists($cacheFile)) {
                 $c = curl_init($url);
                 curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
                 $iData = curl_exec($c);
                 if(!$iData)
                     throw new Exception('Curl error: ' . curl_error($c));
