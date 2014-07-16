@@ -62,6 +62,7 @@ class ArtMapsTemplating {
         $smarty->assign('objectID', $objectID);
         $smarty->assign('link', $link);
         $smarty->assign('metadata', $metadata);
+        $smarty->assign('site_url', get_site_url());
         return $smarty->fetch($tpl, $objectID);
     }
 

@@ -90,6 +90,16 @@ jQuery(function($) {
     </dl>
 
     <button id="artmaps-object-map-suggest" type="button">Suggest a location</button>
+    <?php if(class_exists('ArtMapsCore') && isset($ArtMapsCore)) { ?>
+    <div>
+    	<h1>Blog This</h1>
+    	<p>Copy the code below to your blog</p>
+    	<textarea rows="10" cols="40"><?php
+    		$c = new ArtMapsRpc();
+    		echo $c->generateCommentTemplate(get_post_meta(get_the_ID(),"object_id",true));	
+    	?></textarea>
+    </div>
+    <?php } ?>
     
     <?php if(!is_user_logged_in()) { ?>
     <div id="artmaps-object-suggestion-message">

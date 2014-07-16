@@ -106,6 +106,7 @@ class ArtMapsCore {
 if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
     global $ArtMapsCore;
     $ArtMapsCore = new ArtMapsCore();
+    require_once('classes/ArtMapsRpc.php');
 
     register_activation_hook(__FILE__,  function() {
         global $ArtMapsCore;
