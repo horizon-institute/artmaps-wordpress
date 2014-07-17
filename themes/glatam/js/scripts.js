@@ -1,7 +1,7 @@
 function set_page_title(title) {
   var site_title = "ArtMaps";
   if(title) {
-    document.title = title+" \u00B7 "+site_title;
+    document.title = title + " \u00B7 " + site_title;
   } else {
     document.title = site_title;
   }
@@ -9,9 +9,6 @@ function set_page_title(title) {
 
 jQuery(document).ready(function(){ 
 
-	jQuery(window).bind( 'hashchange', function() {
-		_gaq.push(['_trackPageview',location.pathname + location.search  + location.hash]);
-	});
 	
   jQuery( "#overlay" ).click(function(event) {
     jQuery.fancybox.close();
@@ -122,7 +119,6 @@ jQuery(document).ready(function(){
     
   // Activity button
   jQuery("#whats-new").click(function(event) {
-	_gaq.push(["_trackEvent", "Click", "What's New"]);
     jQuery(".ui-dialog-content:visible").dialog("close"); // Close other dialogs
     jQuery.fancybox.close(); // Close artwork page
     show_page("activity", "What's new?");
@@ -131,7 +127,6 @@ jQuery(document).ready(function(){
   
   // About button
   jQuery("#how-it-works, #more-info").click(function(event) {
-	_gaq.push(["_trackEvent", "Click", "About"]);
     jQuery(".ui-dialog-content:visible").dialog("close"); // Close other dialogs
     jQuery.fancybox.close(); // Close artwork page
     jQuery("#about-sidebar").html("").load("about"); // Load content
@@ -190,7 +185,6 @@ jQuery(document).ready(function(){
     var full_image = jQuery('<div id="full-image">');
     var img = jQuery('<img class="full-image-img">');
     img.attr('src', jQuery(this).data("full-image"));
-    _gaq.push(["_trackEvent", "Image", "Zoom", jQuery(this).data("full-image")]);
     full_image.appendTo('body');
     img.appendTo('#full-image');
     jQuery('#full-image').lightbox_me({
@@ -222,7 +216,6 @@ jQuery(document).ready(function(){
   });
   
   jQuery(document).on("click","#comment-loc-indicator",function(event){
-    var marker = jQuery("#artmaps-location-id").val();
     event.preventDefault();
   });
   
@@ -248,211 +241,64 @@ jQuery(document).ready(function(){
     jQuery('#welcome').fadeOut(300);
     event.preventDefault();
   });
-
-  // Perform AJAX login on form submit
-  /* jQuery('form#loginform').on('submit', function(e){
-      jQuery('form#loginform .loader').fadeIn();
-
-      jQuery.ajax({
-          type: 'POST',
-          dataType: 'json',
-          url: ajax_login_object.ajaxurl,
-          data: { 
-              'action': 'ajaxlogin', //calls wp_ajax_nopriv_ajaxlogin
-              'username': jQuery('form#loginform #user_login').val(), 
-              'password': jQuery('form#loginform #user_pass').val(), 
-              'security': jQuery('form#loginform #security').val() },
-          success: function(data){
-              if (data.loggedin == true){
-                  jQuery.fancybox.close();
-                  jQuery('.account-panel').hide();
-                  jQuery('form#loginform .loader').fadeOut();
-              } else {
-                jQuery('form#loginform .loader').delay(750).fadeOut(function() {
-                  jQuery('#account-panel p.status').text(data.message).slideDown();
-                });
-              }
-          },
-          error: function(data){
-              jQuery('form#loginform .loader').fadeOut();
-              jQuery('#account-panel p.status').text("Could not connect!").slideDown();
-          }
-      });
-      e.preventDefault();
-  });*/
-          
+  
+  /* Keyword search */
+  (function () {        
     var searchInput = jQuery("#keyword-search-form input.query-field");
     var searchForm = jQuery("#keyword-search-form form");
-    var artistResults = jQuery("#artmaps-search-results-artists");
     var artworkResults = jQuery("#artmaps-search-results-artworks");
     
-    var sanitizeTerm = function(term) {
-        return term.replace(/[-,";:\(\).!\[\]\t\n]/g, " ")
-                .replace(/(^')/gm, "")
-                .replace(/('$)/gm, " ")
-                .replace(/('\s)/g, " ")
-                .replace(/(\s')/g, " ")
-                .replace(/\s+/g, " ")
-                .replace(/\*+/g, "*");
-    }
-    
-    var displayArtists = function(data) {
-        var list = artistResults.find("ul");
-        list.empty();
-        if(typeof data.artistsData == "undefined") return;
-        jQuery.each(data.artistsData, function(i, a) {
-            var link = jQuery(document.createElement("a"))
-                .text(a.label + (a.info ? " (" + a.info + ")" : ""))
-                .click(function() {
-                    jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&aid=" + a.id,
-                        "dataType": "xml",
-                        "async": true,
-                        "success": displayArtworks
-                    });
-                });
-            var li = jQuery(document.createElement("li"));
-            li.append(link);
-            list.append(li); 
-        });
-    }
-    
-    var displayArtworks = function(data) {
+    var displayArtworks = function(data, currentPage) {
 
         var art_list = jQuery(document.createElement("ul"));
         art_list.addClass("artmaps-map-object-list-container-page-body");
-        artworkResults.empty().append(art_list);
-
-        var doc = jQuery(data);
-        var noresults = doc.find(".noresults").length > 0;
-        if(noresults) return;
-        
-        var showing = doc.find(".listData").first().text();
-        var currentPage = 1;
-        if(doc.find(".pager-current").length > 0)
-            currentPage = parseInt(doc.find(".pager-current").first().text().replace(",", ""));
-        var totalPages = 1;
-        doc.find(".pager-item").each(function(i, e) {
-            var v = parseInt(jQuery(e).text().replace(",", ""));
-            if(v > totalPages)
-                totalPages = v;
-        });
+        artworkResults.empty().append(art_list);        
         
         var nav = jQuery(document.createElement("div"));
         nav.addClass("artmaps-map-object-list-container-page-nav");
-        
-        //nav.append(showing);
-        nav.append('<span class="artmaps-map-object-list-container-page-current">Page ' + currentPage + " of " + totalPages + '</span>');
-        
-        var prevPage = jQuery(document.createElement("a"))
-                .addClass("artmaps-map-object-list-container-page-previous artmaps-button")
-                .text("Prev")
-                .one("click", function() {
-                    jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + (currentPage - 1),
-                        "dataType": "xml",
-                        "async": true,
-                        "success": displayArtworks
-                    });
-                });
-        if(currentPage > 1) nav.append(prevPage);
-        
-        var firstPage = jQuery(document.createElement("a"))
-                .addClass("search-page")
-                .text(" 1 ")
-                .one("click", function() {
-                    jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=1",
-                        "dataType": "xml",
-                        "async": true,
-                        "success": displayArtworks
-                    });
-                });
-        //pagenav.append(firstPage);
-        
-        var min = Math.max(currentPage - 3, 2);
-        var max = Math.min(min + 6, totalPages);
-        var vals = new Array();
-        for(var i = min; i <= max; i++) {
-            vals.push(i);
-        }
-        jQuery.each(vals, function(e, i) {
-            var page = jQuery(document.createElement("a"))
-                    .addClass("search-page")
-                    .text(" " + i + " ")
-                    .one("click", function() {
-                        jQuery.ajax({
-                            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + i,
-                            "dataType": "xml",
-                            "async": true,
-                            "success": displayArtworks
-                        });
-                    });
-            //pagenav.append(page);
-        });
-        
-        var lastPage = jQuery(document.createElement("a"))
-                .addClass("search-page")
-                .text(" " + totalPages + " ")
-                .one("click", function() {
-                    jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + totalPages,
-                        "dataType": "xml",
-                        "async": true,
-                        "success": displayArtworks
-                    });
-                });
-        //if(totalPages > 1) pagenav.append(lastPage);
-        
-        var nextPage = jQuery(document.createElement("a"))
-                .addClass("artmaps-map-object-list-container-page-next artmaps-button")
-                .text("Next")
-                .one("click", function() {
-                    jQuery.ajax({
-                        "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val() + "&wp=" + (currentPage + 1),
-                        "dataType": "xml",
-                        "async": true,
-                        "success": displayArtworks
-                    });
-                });
-        if(currentPage < totalPages) nav.append(nextPage);
-        
+        nav.append("<span class=\"artmaps-map-object-list-container-page-current\">Page " + (currentPage + 1) + "</span>");
         artworkResults.append(nav);
         
+        if(currentPage > 0) 
+          nav.append(jQuery(document.createElement("a"))
+              .addClass("artmaps-map-object-list-container-page-previous artmaps-button")
+              .text("Prev")
+              .one("click", function() {
+                  jQuery.ajax({
+                    "url": ArtMapsConfig.CoreServerPrefix + "external/search?p=" + (currentPage - 1) + "&s=artmaps://" + searchInput.val(),
+                    "dataType": "json",
+                    "async": true,
+                    "success": function(data) { displayArtworks(data, currentPage - 1); }
+                  });
+          }));
         
-        var artworks = doc.find(".grid-work");
-        artworks.each(function(i, e) {
-        var oc = jQuery(e);
-    		var na = jQuery(document.createElement("a"));
-    		na.addClass("artwork-link").attr("href", "#");
-            var nc = jQuery(document.createElement("li"));
-            nc.addClass("artmaps-map-object-container");
-               var acno = oc.find(".acno").first().text();
-               jQuery.ajax({
-                   "url": "http://service.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://" + acno,
-                   "dataType": "json",
-                   "async": true,
-                   "success": function(data) {
-                      na.attr("href", ArtMapsConfig.SiteUrl + "/object/" + data.ID);
-                      na.attr("data-object-id", data.ID);
-                   },
-                   "error": function() {
-                       na.remove();
-                   }
-               });
-            
-            var oi = oc.find(".grid-work-image img");
-            if(oi.length > 0) {
-                oi = oi.first();
-                var ni = jQuery(document.createElement("img"));
-                ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.attr("src"));
-                na.append(ni);
-            }
-            
-            nc.append(na);
-            na.append(jQuery("<h2>" + oc.find(".grid-work-text .title-and-date .title").first().text() + "</h2>"));
-            na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + oc.find(".grid-work-text .artist").first().text() + '</span></em>'));
-            art_list.append(nc);  
+        nav.append(jQuery(document.createElement("a"))
+            .addClass("artmaps-map-object-list-container-page-next artmaps-button")
+            .text("Next")
+            .one("click", function() {
+                jQuery.ajax({
+                  "url": ArtMapsConfig.CoreServerPrefix + "external/search?p=" + (currentPage + 1) + "&s=artmaps://" + searchInput.val(),
+                  "dataType": "json",
+                  "async": true,
+                  "success": function(data) { displayArtworks(data, currentPage + 1); }
+                });
+        }));
+        
+        jQuery.each(data, function(i, o) {
+          var na = jQuery(document.createElement("a"));
+          na.addClass("artwork-link").attr("href", "#");
+          var nc = jQuery(document.createElement("li"));
+          nc.addClass("artmaps-map-object-container");
+          na.attr("href", ArtMapsConfig.SiteUrl + "/object/" + o.ID);
+          na.attr("data-object-id", o.ID);
+          if(o.metadata.ImageFile != "") {
+        	var ni = jQuery(document.createElement("img"));
+        	ni.attr("src", "//artmaps.tate.org.uk/artmaps/glatam/dynimage/x/65/" + o.metadata.ImageFile);
+            na.append(ni);
+          }            
+          nc.append(na);
+          na.append(jQuery("<h2>" + o.metadata.Name + " (" + o.metadata.EventType + ")</h2>"));
+          art_list.append(nc);
         });
         
         jQuery(".ui-dialog-content").not("#artmaps-search-results-artworks").dialog("close");
@@ -464,41 +310,42 @@ jQuery(document).ready(function(){
           "resizable": false,
           "closeText": "",
           "draggable": false,
-          "open": function() {
-            
-          },
+          "open": function() {},
           "close": function() {
             jQuery("#keyword-search-form input.query-field").val("");
             jQuery.fancybox.close();
           },
-          "title": ''
+          "title": ""
         });
-        jQuery(".ui-dialog:visible").removeAttr('style');
-        
-    }
-    
-    searchForm.submit(function() {
-    	_gaq.push(["_trackEvent", "Search", "Keyword", searchInput.val()]);
-        jQuery('#welcome').fadeOut(300);
-        jQuery.ajax({
-            "url": "http://www.tate.org.uk/art/artworks?q=" + searchInput.val(),
-            "dataType": "text",
-            "async": true,
-            "success": displayArtworks
-        });
-        return false;
-    });
-    
-    // Fix iOS 7 browser bug
-    function fixHeightOnIOS7() {
-      var fixedHeight = Math.min(
-        jQuery(window).height(), // This is smaller on Desktop
-        window.innerHeight || Infinity // This is smaller on iOS7
-      );
-      jQuery('body').height(fixedHeight);
-    }
+        jQuery(".ui-dialog:visible").removeAttr("style");        
+    };
 
-    jQuery(window).on('resize orientationchange', fixHeightOnIOS7);
+    searchForm.submit(function() {
+      jQuery('#welcome').fadeOut(300);
+      jQuery.ajax({
+        "url": ArtMapsConfig.CoreServerPrefix + "external/search?p=0&s=artmaps://" + searchInput.val(),
+        "dataType": "json",
+        "async": true,
+        "success": function(data) { displayArtworks(data, 0); }
+      });
+	  return false;
+    });
+
+  })();
+  /* End keyword search */
+    
+  /* Fix iOS 7 browser bug */
+  (function () {
+	function fixHeightOnIOS7() {
+	  var fixedHeight = Math.min(
+	      jQuery(window).height(), // This is smaller on Desktop
+	      window.innerHeight || Infinity // This is smaller on iOS7
+      );
+      jQuery("body").height(fixedHeight);
+    }
+    jQuery(window).on("resize orientationchange", fixHeightOnIOS7);
     fixHeightOnIOS7();
+  });
+  /* End fix iOS 7 browser bug */
 
 });
