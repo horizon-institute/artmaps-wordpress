@@ -62,7 +62,7 @@ jQuery(function($) {
 	
 		<div class="artmaps-object-image">
       <?php if(get_post_meta(get_the_ID(),"ImageFile", true)) { ?>
-      <img src="//www.artmaps.org.uk/maps/tate/dynimage/y/250/<?php echo get_post_meta(get_the_ID(), "ImageFile", true); ?>"
+      <img src="//www.artmaps.org.uk/maps/glatam/dynimage/y/250/<?php echo get_post_meta(get_the_ID(), "ImageFile", true); ?>"
       		data-full-image="<?php echo get_post_meta(get_the_ID(), "ImageFile", true); ?>" alt="<?php the_title(); ?>" class="artwork-img" />
       <?php } else { ?>
         <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/unavailable.png" alt="<?php the_title(); ?>" class="artwork-img" />
