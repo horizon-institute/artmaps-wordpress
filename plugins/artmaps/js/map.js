@@ -697,5 +697,36 @@ ArtMaps.Map.MapObject = function(container, config) {
             listener(map.getMapTypeId()); 
         });
     };
+    
+    this.addNewObject = (function() {
+    	var con = jQuery(document.createElement("div"));
+    	var marker = new google.maps.Marker({
+    		"draggable" : true
+    	});
+    	var iw = new google.maps.InfoWindow({
+    		"content" : con.get(0)
+    	});
+    	var ok = jQuery(document.createElement("a"));
+    	ok.text("OK").attr("href", "#").click(function() {
+    		iw.close();
+    		var pos = marker.getPosition();
+    		marker.setMap(null);
+    		window.alert(ArtMapsConfig.SiteUrl + "/newobject?lat=" + pos.lat() + "&lng=" + pos.lng());
+    	});
+    	var cancel = jQuery(document.createElement("a"));
+    	cancel.text("Cancel").attr("href", "#").click(function() {
+    		iw.close();
+    		marker.setMap(null);
+    	});    	
+    	con.append(ok).append(jQuery("<span> | </span>")).append(cancel);
+    	google.maps.event.addListener(iw, "closeclick", function() {
+    		marker.setMap(null);
+    	});
+    	return function(callback) {
+    		marker.setMap(map);
+    		marker.setPosition(map.getCenter());
+        	iw.open(map, marker);
+        }; 
+    })();
        
 };

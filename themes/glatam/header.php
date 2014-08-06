@@ -33,6 +33,9 @@
         <li class="about">
           <a href="#" class="toggle" id="how-it-works">About</a>
         </li>
+        <li class="add">
+          <a href="#" class="toggle" id="add-new-object">Add</a>
+        </li>
         <li class="settings">
           <div id="map-settings">
             <span class="toggle">

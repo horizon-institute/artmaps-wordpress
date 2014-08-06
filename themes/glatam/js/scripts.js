@@ -345,7 +345,15 @@ jQuery(document).ready(function(){
     }
     jQuery(window).on("resize orientationchange", fixHeightOnIOS7);
     fixHeightOnIOS7();
-  });
+  })();
   /* End fix iOS 7 browser bug */
+  
+  /* Add new object */
+  (function () {
+	  jQuery("#add-new-object").click(function () {
+		  window.main_map.addNewObject(function() {});
+	  });
+  })();
+  /* End add new object */
 
 });
