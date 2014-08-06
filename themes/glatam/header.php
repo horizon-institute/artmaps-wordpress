@@ -84,7 +84,7 @@
     </div>
     <span id="close-search">Close</span>
   </div>
-  <span class="loading-indicator gmnoprint">Searching this area for art&hellip;</span>
+  <span class="loading-indicator gmnoprint">Searching this area&hellip;</span>
   
   <div class="account-sidebar" id="account-sidebar">
   <?php if ( !is_user_logged_in() ) { ?>
