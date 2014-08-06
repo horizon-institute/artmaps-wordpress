@@ -623,7 +623,7 @@ header .logo img {
     -webkit-user-drag: none;
 }
 
-header .logo:before {
+/*header .logo:before {
     background: url('images/tate-tag.png') center center no-repeat;
     width: 51px;
     height: 20px;
@@ -634,7 +634,7 @@ header .logo:before {
     top: -26px;
     left: -3px;
     opacity: 0.7;
-}
+}*/
 
 header #menu-toggle,
 header #search-toggle,
@@ -2278,7 +2278,7 @@ h1 {
 	    display: block;
 	}
 
-	header .logo:before {
+	/*header .logo:before {
 	    background: url('images/tate-tag.png') center center no-repeat;
 	    width: 33px;
 	    height: 16px;
@@ -2289,7 +2289,7 @@ h1 {
 	    position: static;
 	    margin: 0 auto 2px;
 	    opacity: 0.7;
-	}
+	}*/
 
 	header #menu-toggle {
 	    display: block;
