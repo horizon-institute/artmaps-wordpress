@@ -69,7 +69,7 @@
       <select id="search-mode">
         <optgroup label="Search by">
           <option id="search-mode-places">Place</option>
-          <option id="search-mode-artworks">Art</option>
+          <option id="search-mode-artworks">Keyword</option>
         </optgroup>
       </select>
       <i class="fa-search"></i><span id="search-label-places">Places</span><span id="search-label-art">Art</span><i class="fa-chevron-down"></i>
