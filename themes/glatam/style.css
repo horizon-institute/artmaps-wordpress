@@ -9,14 +9,6 @@
 
 @charset "UTF-8";
 
-@font-face {
-    font-family: 'TateNewRegular';
-    src: url('fonts/tatenew-regular-webfont.eot');
-    src: url('fonts/tatenew-regular-webfont.svg#TateNewRegular') format('svg'), url('fonts/tatenew-regular-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/tatenew-regular-webfont.woff') format('woff'), url('fonts/tatenew-regular-webfont.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 /* Reset */
 a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}caption,td,th{font-weight:400;text-align:left}h1,h2,h3,h4,h5,h6{clear:both}html{overflow-y:scroll;font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}a:focus{outline:thin dotted}article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none}del{color:#333}ins{background:#fff9c0;text-decoration:none}hr{background-color:#ccc;border:0;height:1px;margin:24px;margin-bottom:1.714285714rem}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}small{font-size:smaller}
 
@@ -47,7 +39,7 @@ body {
 }
 
 body {
-    font-family: TateNewRegular,sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     z-index: 100;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
@@ -178,14 +170,14 @@ i {
     padding: 5px 17px;
     border-radius: 2px;
     font-size: 13px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     cursor: pointer;
 }
 
 #artmaps-object-map-autocomplete {
     border: none;
     padding: 5px 10px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 13px;
     border-radius: 2px;
     margin-right: 20px;
@@ -196,7 +188,7 @@ i {
 #artmaps-object-map-suggest {
     background: #009279;
     border: 0;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     color: #fff;
     font-size: 18px;
     padding: 10px 30px;
@@ -253,7 +245,7 @@ i {
 .artmaps-object-infobox label {
     font-size: 14px;
     line-height: 20px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .artmaps-object-infobox .artmaps-button {
@@ -285,7 +277,7 @@ i {
 
 .artmaps-map-object-container {
     position: relative;
-    font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 13px;
 }
 
@@ -293,7 +285,7 @@ i {
 
 .artmaps-map-object-list-container-page-nav {
     text-align: center;
-    font-family: "TateNewRegular", Helvetica, Arial, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     border-top: 1px solid rgba(0,0,0,0.15);
     font-size: 12px;
     padding: 10px 15px 10px;
@@ -481,7 +473,7 @@ i {
     box-shadow: none;
     border: none;
     font-weight: normal;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 16px;
     background: #009279;
     color: #fff;
@@ -585,7 +577,7 @@ header .menu .log-out-popover a {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     padding: 10px 20px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 15px;
     opacity: 1;
     position: absolute;
@@ -650,7 +642,7 @@ header #search-toggle,
 
 header .menu {
     display: block;
-    font-family: TateNewRegular, Arial, Helvetica, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     position: absolute;
     left: 23%;
     right: 35%;
@@ -847,7 +839,7 @@ body:before {
     -moz-box-sizing: border-box;
     background: rgba(255,255,255,0.9);
     border-radius: 5px 2px 2px 5px;
-    font-family: TateNewRegular, Arial, Helvetica, sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     border: none;
     margin: 0;
     -webkit-appearance: none;
@@ -902,7 +894,7 @@ body:before {
     z-index: 99999 !important;
 }
 
-.pac-item { font-family: TateNewRegular }
+.pac-item { font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif; }
 
 .pac-item-query {
     color: #666;
@@ -1058,7 +1050,7 @@ body:before {
 
 .about-page h1 {
     font-size: 34px;
-    font-family: 'TateNewRegular',sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     margin: -30px -30px 30px;
     background: #46c3d3;
     padding: 40px 30px;
@@ -1070,7 +1062,7 @@ body:before {
 .about-page li {
     font-size: 13px;
     line-height: 19px;
-    font-family: 'TateNewRegular', sans-serif;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     margin-bottom: 10px;
     color: #333;
 }
@@ -1434,7 +1426,7 @@ body:before {
     text-decoration: none;
     color: rgba(0,0,0,0.75);
     outline: none;
-    font-family: 'TateNewRegular';
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     background: #CCC;
     float: left;
     text-align: center;
@@ -1491,7 +1483,7 @@ body:before {
 /* Use Tate font for cluster labels */
 
 .cluster div {
-    font-family: 'TateNewRegular' !important;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif !important;
     letter-spacing: -1px;
 }
 
@@ -1669,7 +1661,7 @@ body:before {
     z-index: 8040;
     line-height: 37px;
     font-size: 15px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     box-shadow: inset 0px -5px 14px -5px rgba(0,0,0,0.2);
 }
 
@@ -1832,7 +1824,7 @@ body:before {
 }
 
 h1 {
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 23px;
     line-height: 28px;
     font-weight: normal;
@@ -2043,7 +2035,7 @@ h1 {
     padding: 0;
     background: transparent;
     color: rgba(0,0,0,0.5);
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 }
 
 .countdownbox {
@@ -2106,7 +2098,7 @@ h1 {
     width: 100%;
     font-size: 13px;
     line-height: 20px;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     max-width: 100%;
     height: 100px;
     box-sizing: border-box;
@@ -2137,7 +2129,7 @@ h1 {
     font-size: 15px;
     line-height: 30px;
     border: 0;
-    font-family: TateNewRegular;
+    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-weight: normal;
     cursor: pointer;
     text-decoration: none;
