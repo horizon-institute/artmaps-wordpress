@@ -67,7 +67,7 @@ jQuery(document).ready(function(){
           c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
           c.find("a.artwork-link").attr("data-object-id", object.ID);
           if(typeof metadata.ImageFile != "undefined" && metadata.ImageFile != "") {
-              c.find("img").attr("src", "//artmaps.tate.org.uk/artmaps/glatam/dynimage/x/65/" + metadata.ImageFile);
+              c.find("img").attr("src", "//www.artmaps.org.uk/maps/glatam/dynimage/x/65/" + metadata.ImageFile);
           }
           c.find(".artmaps-map-object-container-name").text(metadata.Name);
           c.find(".artmaps-map-object-container-allegiance").text(metadata.Allegiance);
@@ -293,7 +293,7 @@ jQuery(document).ready(function(){
           na.attr("data-object-id", o.ID);
           if(o.metadata.ImageFile != "") {
         	var ni = jQuery(document.createElement("img"));
-        	ni.attr("src", "//artmaps.tate.org.uk/artmaps/glatam/dynimage/x/65/" + o.metadata.ImageFile);
+        	ni.attr("src", "//www.artmaps.org.uk/maps/glatam/dynimage/x/65/" + o.metadata.ImageFile);
             na.append(ni);
           }            
           nc.append(na);
