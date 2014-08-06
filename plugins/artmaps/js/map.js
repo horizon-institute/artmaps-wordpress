@@ -711,7 +711,7 @@ ArtMaps.Map.MapObject = function(container, config) {
     		iw.close();
     		var pos = marker.getPosition();
     		marker.setMap(null);
-    		window.alert(ArtMapsConfig.SiteUrl + "/newobject?pos={" + pos.lat() + "," + pos.lng() +"}");
+    		window.alert(ArtMapsConfig.SiteUrl + "/newobject/" + pos.lat() + "/" + pos.lng() +"/");
     	});
     	var cancel = jQuery(document.createElement("a"));
     	cancel.text("Cancel").attr("href", "#").click(function() {
