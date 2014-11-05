@@ -304,8 +304,7 @@ jQuery(document).ready(function(){
         }
         
         artworkResults.append(nav);
-        
-        data.results.each(function(i, e) {
+        jQuery.each(data.results,function(i, e) {
         	var na = jQuery(document.createElement("a"));
     			na.addClass("artwork-link").attr("href", "#");
     		var nc = jQuery(document.createElement("li"));
@@ -322,15 +321,12 @@ jQuery(document).ready(function(){
     				na.remove();
     			}
     		});
-    		/*
-			var oi = oc.find(".grid-item-image img");
-			if(oi.length > 0) {
-				oi = oi.first();
+    		if(results.masterImages.length > 0) {
+    			oi = results.masterImages[0];
 				var ni = jQuery(document.createElement("img"));
-				ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.attr("src"));
+				ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.url);
 				na.append(ni);
 			}
-			*/
 			nc.append(na);
 			na.append(jQuery("<h2>" + e.title + "</h2>"));
             na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + e.all_artists + '</span></em>'));
