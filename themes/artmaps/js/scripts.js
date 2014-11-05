@@ -322,7 +322,7 @@ jQuery(document).ready(function(){
     			}
     		});
     		if(e.masterImages.length > 0) {
-    			oi = results.masterImages[0];
+    			oi = e.masterImages[0];
 				var ni = jQuery(document.createElement("img"));
 				ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.url);
 				na.append(ni);
