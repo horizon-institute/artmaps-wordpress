@@ -321,12 +321,14 @@ jQuery(document).ready(function(){
     				na.remove();
     			}
     		});
-    		if(e.masterImages.length > 0) {
-    			oi = e.masterImages[0];
-				var ni = jQuery(document.createElement("img"));
-				ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk" + oi.url);
-				na.append(ni);
-			}
+    		try {
+    			if(e.masterImages.length > 0) {
+    				var oi = e.masterImages[0];
+    				var ni = jQuery(document.createElement("img"));
+    				ni.attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk/art/images/work/" + oi.sizes[0].file);
+                    na.append(ni);
+                }
+    		} catch(err) {}
 			nc.append(na);
 			na.append(jQuery("<h2>" + e.title + "</h2>"));
             na.append(jQuery('<em>by <span class="artmaps-map-object-container-artist">' + e.all_artists + '</span></em>'));
