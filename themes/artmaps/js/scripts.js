@@ -257,7 +257,7 @@ jQuery(document).ready(function(){
    
     var formatSearchUrl = function(queryTerm, page) {
         page = typeof page !== 'undefined' ? page : 1;
-        return "http://www.tate.org.uk/art/search.json?type=artwork&limit=6&q=" + queryTerm + "&page=" + page;
+        return "http://www.tate.org.uk/art/search.json?limit=6&q=" + queryTerm + "&page=" + page;
     };
  
     var displayArtworks = null;
