@@ -73,9 +73,9 @@ jQuery(function($) {
       	<?php
       		$reference = get_post_meta(get_the_ID(),"reference",true);
       		if((strpos(strtolower($reference), "tga")) === 0) {
-      			$link = "http://www.tate.org.uk/art/artworks/$reference";
-      		} else {
       			$link = "http://www.tate.org.uk/art/archive/$reference";
+      		} else {
+      			$link = "http://www.tate.org.uk/art/artworks/$reference";
       		}
       	?>
         <dd><a href="<?php echo $link; ?>" target="_blank" class="artwork-external">View on Tate Online</a></dd>
