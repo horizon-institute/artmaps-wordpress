@@ -70,7 +70,15 @@ jQuery(function($) {
       <dt>Date</dt>
         <dd><?php echo get_post_meta(get_the_ID(),"artworkdate",true); ?></dd>
       <dt></dt>
-        <dd><a href="http://www.tate.org.uk/art/artworks/<?php echo get_post_meta(get_the_ID(),"reference",true); ?>" target="_blank" class="artwork-external">View on Tate Online</a></dd>
+      	<?php
+      		$reference = get_post_meta(get_the_ID(),"reference",true);
+      		if((strpos(strtolower($reference), "tga")) === 0) {
+      			$link = "http://www.tate.org.uk/art/artworks/$reference";
+      		} else {
+      			$link = "http://www.tate.org.uk/art/archive/$reference";
+      		}
+      	?>
+        <dd><a href="<?php echo $link; ?>" target="_blank" class="artwork-external">View on Tate Online</a></dd>
     </dl>
 
     <button id="artmaps-object-map-suggest" type="button">Suggest a location</button>
