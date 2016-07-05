@@ -70,6 +70,7 @@ jQuery(document).ready(function(){
           c.find("a").attr("href", ArtMapsConfig.SiteUrl + "/object/" + object.ID);
           c.find("a.artwork-link").attr("data-object-id", object.ID);
           if(typeof metadata.imageurl != "undefined") {
+        	  metadata.imageurl = metadata.imageurl.substring(22);
               c.find("img").attr("src", "//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/"+metadata.imageurl);
           }
           c.find(".artmaps-map-object-container-title").text(metadata.title);
