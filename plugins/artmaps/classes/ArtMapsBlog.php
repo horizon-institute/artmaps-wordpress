@@ -129,6 +129,8 @@ class ArtMapsBlog {
         $pageID = wp_insert_post($post);
         update_post_meta($pageID, 'object_id', $objectID);
         foreach($metadata as $key => $value) {
+        	$value = str_replace('http://www.tate.org.ukhttp://www.tate.org.uk', 
+        			'http://www.tate.org.uk', $value);
             update_post_meta($pageID, $key, $value);
         }
         wp_set_post_terms($pageID, $this->getPostCategories(), 'category');
