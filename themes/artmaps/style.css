@@ -302,10 +302,10 @@ i {
     white-space: nowrap;
     line-height: 38px;
     overflow: hidden;
-    position: absolute;
+    /*position: absolute;
     bottom: 0;
     left: 0;
-    right: 0;
+    right: 0;*/
     border-radius: 0px 0px 2px 2px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1452,7 +1452,7 @@ body:before {
 
 .artmaps-map-object-list-container-page {
     position: relative;
-    padding-bottom: 59px;
+    /*padding-bottom: 59px;*/
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     min-height: 100%;
@@ -2690,10 +2690,6 @@ h1 {
 
 	.artmaps-map-object-list-container-page-nav {
 	    width: auto;
-	    position: absolute;
-	    bottom: 0;
-	    left: 0;
-	    right: 0;
 	}
 
 	.artmaps-map-object-list-container-page { padding-bottom: 0px }
