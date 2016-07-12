@@ -255,12 +255,6 @@ jQuery(document).ready(function(){
     var searchInput = jQuery("#keyword-search-form input.query-field");
     var searchForm = jQuery("#keyword-search-form form");
     var artworkResults = jQuery("#artmaps-search-results-artworks");
-   
-    var formatSearchUrl = function(queryTerm, page) {
-        page = typeof page !== 'undefined' ? page : 1;
-        return "http://www.tate.org.uk/art/search.json?limit=6&q=" + queryTerm + "&page=" + page;
-    };
- 
     var displayArtworks = null;
     displayArtworks = function(data) {
         var art_list = jQuery(document.createElement("ul"));
@@ -358,9 +352,16 @@ jQuery(document).ready(function(){
     searchForm.submit(function() {
     	_gaq.push(["_trackEvent", "Search", "Keyword", searchInput.val()]);
         jQuery('#welcome').fadeOut(300);
-        jQuery.ajax({
-            "url": formatSearchUrl(searchInput.val(), 1),
-            "dataType": "json",
+        jQuery.ajax(ArtMapsConfig.AjaxUrl, {
+        	"type": "post",
+        	"data": {
+        		"action": "artmaps.tateSearch",
+        		"data": { 
+        			"term": searchInput.val(),
+        			"page": 1
+        		}
+        	},
+        	"dataType": "json",
             "async": true,
             "success": displayArtworks
         });

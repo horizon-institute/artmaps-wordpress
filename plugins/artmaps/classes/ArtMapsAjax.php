@@ -40,5 +40,16 @@ class ArtMapsAjax {
         wp_delete_comment($commentID);
         return json_encode(true);
     }
+    
+    public function tateSearch($term, $page) {
+    	$c = curl_init();
+    	$url = 'http://api.tate.org.uk/search?facets=type:archive,artwork&q='
+    			. urlencode($term) . '&page=' . intval($page);
+    	curl_setopt($c, CURLOPT_URL, $url);
+    	$data = curl_exec($c);
+    	unset($c);
+    	return $data;
+    }
+    
 }}
 ?>

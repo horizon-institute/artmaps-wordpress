@@ -244,6 +244,16 @@ if(class_exists('ArtMapsCore') && !isset($ArtMapsCore)) {
     }
     add_action('wp_ajax_artmaps.storeMapState', 'storeMapState');
     add_action('wp_ajax_nopriv_artmaps.storeMapState', 'storeMapState');
+    
+    function tateSearch() {
+    	require_once('classes/ArtMapsAjax.php');
+    	$ajax = new ArtMapsAjax();
+    	header('Content-Type: application/json');
+    	echo $ajax->tateSearch($_POST['data']['term'], $_POST['data']['page']);
+    	exit;
+    }
+    add_action('wp_ajax_artmaps.tateSearch', 'tateSearch');
+    add_action('wp_ajax_nopriv_artmaps.tateSearch', 'tateSearch');
 
     add_action('wp_ajax_artmaps.deleteComment', function() {
         require_once('classes/ArtMapsAjax.php');
