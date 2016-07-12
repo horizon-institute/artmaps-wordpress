@@ -46,6 +46,7 @@ class ArtMapsAjax {
     	$url = 'http://api.tate.org.uk/search?facets=type:archive,artwork&q='
     			. urlencode($term) . '&page=' . intval($page);
     	curl_setopt($c, CURLOPT_URL, $url);
+    	curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
     	$data = curl_exec($c);
     	unset($c);
     	return $data;
