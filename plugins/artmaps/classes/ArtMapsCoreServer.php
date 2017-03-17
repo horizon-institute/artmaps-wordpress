@@ -90,7 +90,7 @@ class ArtMapsCoreServer {
     public function fetchObjectMetadata($objectID) {
         $c = curl_init();
         $obj = $this->fetchObject($objectID);
-        $acno = str_replace('tatecollection://', '', trim( $obj['URI'] ) );
+        $acno = str_replace('tatecollection://', '', strtolower( trim( $obj['URI'] ) ) );
         if($c === false)
             throw new ArtMapsCoreServerException('Error initialising Curl');
         $url = "https://artmaps.tate.org.uk/metadata/$acno";
@@ -104,6 +104,11 @@ class ArtMapsCoreServer {
         curl_close($c);
         unset($c);
         $jd = json_decode($data);
+        $jd['artist'] = $jd['all_artists'];
+        $jd['artistdate'] = $jd[''];
+        $jd['artworkdate'] = $jd['dateRange']['text'];
+        $jd['imageurl'] = $jd['thumbnailUrl'];
+        $jd['reference'] = $jd['acno'];
         if($jd === null)
             throw new ArtMapsCoreServerException(
                     'Error decoding JSON data: ' . json_last_error());
