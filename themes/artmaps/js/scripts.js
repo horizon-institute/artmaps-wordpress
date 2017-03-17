@@ -92,18 +92,16 @@ jQuery(document)
 											+ object.ID);
 							c.find("a.artwork-link").attr("data-object-id",
 									object.ID);
-							if (typeof metadata.imageurl != "undefined") {
-								metadata.imageurl = metadata.imageurl
-										.substring(22);
+							if (typeof metadata.thumbnailUrl != "undefined") {
 								c.find("img").attr(
 										"src",
 										"//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/"
-												+ metadata.imageurl);
+												+ metadata.thumbnailUrl);
 							}
 							c.find(".artmaps-map-object-container-title").text(
 									metadata.title);
 							c.find(".artmaps-map-object-container-artist")
-									.text(metadata.artist);
+									.text(metadata.all_artists);
 							// c.find(".artmaps-map-object-container-suggestions").text(object.SuggestionCount);
 							c.find(".artmaps-map-object-container-suggestions")
 									.html('<i class="fa-question"></i>');

@@ -1,6 +1,6 @@
 /* Namespace: ArtMaps */
 var ArtMaps = ArtMaps || (function(){
-    
+
     /* Extend google.maps.MVCObject */
     google.maps.MVCObject.prototype.on = function(eventName, handler) {
         return google.maps.event.addListener(this, eventName, handler);
@@ -26,7 +26,7 @@ var ArtMaps = ArtMaps || (function(){
 ArtMaps.WorkerRunOnce = function(script) {
     var workers = new Array(new Worker(script));
     var queuedTask = false;
-    
+
     var runTask = function(worker, data, pre, callback) {
         pre();
         var l = null;
@@ -43,7 +43,7 @@ ArtMaps.WorkerRunOnce = function(script) {
         worker.addEventListener("message", l, false);
         worker.postMessage(data);
     };
-    
+
     this.queueTask = function(data, pre, callback) {
         var w = workers.pop();
         if (w) {
@@ -61,7 +61,7 @@ ArtMaps.WorkerRunOnce = function(script) {
 ArtMaps.AltRunOnce = function(func) {
     var workers = new Array(func);
     var queuedTask = false;
-    
+
     var runTask = function(worker, data, pre, callback) {
         pre();
         worker(data, function(msg) {
@@ -74,7 +74,7 @@ ArtMaps.AltRunOnce = function(func) {
             queuedTask = false;
         });
     };
-    
+
     this.queueTask = function(data, pre, callback) {
         var w = workers.pop();
         if (w) {
@@ -96,7 +96,7 @@ ArtMaps.RunOnce = function(workerScript, altFunc) {
     } else {
         inner = new ArtMaps.WorkerRunOnce(workerScript);
     }
-    
+
     this.queueTask = function(data, pre, callback) {
         inner.queueTask(data, pre, callback);
     };
@@ -179,7 +179,7 @@ ArtMaps.WorkerPool = function(size, workerScript, altFunc) {
     } else {
         inner = new ArtMaps.WorkerWorkerPool(size, workerScript);
     }
-    
+
     this.queueTask = function(data, pre, callback) {
         inner.queueTask(data, pre, callback);
     };
@@ -202,7 +202,7 @@ ArtMaps.Location = function(l, o, as) {
     this.IsSuggestion = false;
     this.IsFinal = false;
     this.FinalAction = null;
-    
+
     var refresh = function() {
         var l = as.length;
         for(var i = 0; i < l; i++) {
@@ -225,27 +225,27 @@ ArtMaps.Location = function(l, o, as) {
         }
     };
     refresh();
-    
+
     this.addAction = function(action) {
         self.Actions[self.Actions.length] = action;
         refresh();
         self.ObjectOfInterest.refresh();
     };
-    
+
     this.hasUserConfirmed = function(userID) {
         return jQuery.inArray(parseInt(userID), this.UsersWhoConfirmed) > -1;
     };
 };
 
 ArtMaps.ObjectOfInterest = function(o) {
-    
+
     var self = this;
     this.ID = o.ID;
     this.URI = o.URI;
     this.Locations = [];
     this.SuggestionCount = 0;
     this.HasComments = false;
-    
+
     // Sort actions by location
     var abl = {};
     var re = /^.*LocationID"\s*:\s*(\d+).*$/;
@@ -269,7 +269,7 @@ ArtMaps.ObjectOfInterest = function(o) {
         var as = abl[loc.ID] ? abl[loc.ID] : [];
         this.Locations[this.Locations.length] = new ArtMaps.Location(loc, this, as);
     }
-    
+
     this.refresh = function() {
         // Count active suggestions
         // Find the most recent finalisation action
@@ -292,29 +292,30 @@ ArtMaps.ObjectOfInterest = function(o) {
             if(finalloc.FinalAction != null && loc.FinalAction != null
                     && loc.FinalAction.datetime > finalloc.FinalAction.datetime) {
                 finalloc = loc;
-                continue;                        
+                continue;
             }
         }
         if(finalloc != null && finalloc.FinalAction != null)
             finalloc.IsFinal = true;
     };
     this.refresh();
-    
+
     this.Metadata = function(func) {
+        var acno = o.URI.replace("tatecollection://", "").toLowerCase();
         this.workerPool.queueTask(
-                ArtMapsConfig.CoreServerPrefix + "objectsofinterest/" + o.ID + "/metadata",
+                "/metadata/" + acno,
                 function(data) {
                     self.metadata = data;
                     self.Metadata = function(f) {
                         f(self.metadata);
                     };
-                    func(data); 
+                    func(data);
                 }
         );
     };
 };
 /* N.B Some versions of Firefox (e.g. 24.0) appear to have a maximum limit of 20 webworkers */
-ArtMaps.ObjectOfInterest.prototype.workerPool = 
+ArtMaps.ObjectOfInterest.prototype.workerPool =
         new ArtMaps.WorkerPool(15, ArtMapsConfig.PluginDirUrl + "/js/do-get.js",
                 function(data, callback) {
                     jQuery.getJSON(data, function(j) {
