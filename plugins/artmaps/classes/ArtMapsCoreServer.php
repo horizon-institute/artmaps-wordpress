@@ -66,11 +66,34 @@ class ArtMapsCoreServer {
         return $this->prefix;
     }
 
-    public function fetchObjectMetadata($objectID) {
+    public function fetchObject($objectID) {
         $c = curl_init();
         if($c === false)
             throw new ArtMapsCoreServerException('Error initialising Curl');
-        $url = $this->prefix . "objectsofinterest/$objectID/metadata";
+        $url = $this->prefix . "objectsofinterest/$objectID";
+        if(!curl_setopt($c, CURLOPT_URL, $url))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
+            throw new ArtMapsCoreServerException(curl_error($c));
+        $data = curl_exec($c);
+        if($data === false)
+            throw new ArtMapsCoreServerException(curl_error($c));
+        curl_close($c);
+        unset($c);
+        $jd = json_decode($data);
+        if($jd === null)
+            throw new ArtMapsCoreServerException(
+                    'Error decoding JSON data: ' . json_last_error());
+        return $jd;
+    }
+
+    public function fetchObjectMetadata($objectID) {
+        $c = curl_init();
+        $obj = $this->fetchObject($objectID);
+        $acno = str_replace('tatecollection://', '', trim( $obj['URI'] ) );
+        if($c === false)
+            throw new ArtMapsCoreServerException('Error initialising Curl');
+        $url = "https://artmaps.tate.org.uk/metadata/$acno";
         if(!curl_setopt($c, CURLOPT_URL, $url))
             throw new ArtMapsCoreServerException(curl_error($c));
         if(!curl_setopt($c, CURLOPT_RETURNTRANSFER, 1))
