@@ -104,13 +104,13 @@ class ArtMapsCoreServer {
         curl_close($c);
         unset($c);
         $jd = json_decode($data);
-        $jd['artist'] = $jd['contributors'][0]['birthYear'];
-        $jd['artistdate'] = $jd[''];
-        $jd['artworkdate'] = $jd['dateRange']['text'];
-        if ( $jd['thumbnailUrl'] ) {
-            $jd['imageurl'] = $jd['thumbnailUrl'];
+        $jd->artist = $jd->all_artists;
+        $jd->artistdate = $jd->contributors[0]->birthYear;
+        $jd->artworkdate = $jd->dateRange->text;
+        if ( $jd->thumbnailUrl ) {
+            $jd->imageurl = $jd->thumbnailUrl;
         }
-        $jd['reference'] = $jd['acno'];
+        $jd->reference = $jd->acno;
         if($jd === null)
             throw new ArtMapsCoreServerException(
                     'Error decoding JSON data: ' . json_last_error());
