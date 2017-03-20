@@ -108,7 +108,8 @@ class ArtMapsCoreServer {
             throw new ArtMapsCoreServerException(
                     'Error decoding JSON data: ' . json_last_error());
         $response = array();
-        $response['artists'] = $jd->all_artists;
+        $response['title'] = $jd->title;
+        $response['artist'] = $jd->all_artists;
         $response['artistdate'] = $jd->contributors[0]->birthYear;
         $response['artworkdate'] = $jd->dateRange->text;
         if ( $jd->thumbnailUrl ) {
