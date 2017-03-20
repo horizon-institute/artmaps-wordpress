@@ -92,7 +92,7 @@ jQuery(document)
 											+ object.ID);
 							c.find("a.artwork-link").attr("data-object-id",
 									object.ID);
-							if (typeof metadata.thumbnailUrl != "undefined") {
+							if (typeof metadata.thumbnailUrl != "undefined" && metadata.thumbnailUrl != null) {
 								c.find("img").attr(
 										"src",
 										"//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/"

@@ -104,10 +104,12 @@ class ArtMapsCoreServer {
         curl_close($c);
         unset($c);
         $jd = json_decode($data);
-        $jd['artist'] = $jd['all_artists'];
+        $jd['artist'] = $jd['contributors'][0]['birthYear'];
         $jd['artistdate'] = $jd[''];
         $jd['artworkdate'] = $jd['dateRange']['text'];
-        $jd['imageurl'] = $jd['thumbnailUrl'];
+        if ( $jd['thumbnailUrl'] ) {
+            $jd['imageurl'] = $jd['thumbnailUrl'];
+        }
         $jd['reference'] = $jd['acno'];
         if($jd === null)
             throw new ArtMapsCoreServerException(
