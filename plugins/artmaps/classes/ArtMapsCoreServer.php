@@ -90,7 +90,7 @@ class ArtMapsCoreServer {
     public function fetchObjectMetadata($objectID) {
         $c = curl_init();
         $obj = $this->fetchObject($objectID);
-        $acno = str_replace('tatecollection://', '', strtolower( trim( $obj['URI'] ) ) );
+        $acno = str_replace('tatecollection://', '', strtolower( trim( $obj->URI ) ) );
         if($c === false)
             throw new ArtMapsCoreServerException('Error initialising Curl');
         $url = "https://artmaps.tate.org.uk/metadata/$acno";
