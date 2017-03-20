@@ -106,6 +106,7 @@ class ArtMapsCoreServer {
         $jd = json_decode($data);
         $jd->artist = $jd->all_artists;
         $jd->artistdate = $jd->contributors[0]->birthYear;
+        unset($jd->contributors);
         $jd->artworkdate = $jd->dateRange->text;
         if ( $jd->thumbnailUrl ) {
             $jd->imageurl = $jd->thumbnailUrl;
