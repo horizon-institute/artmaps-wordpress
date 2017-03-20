@@ -104,18 +104,18 @@ class ArtMapsCoreServer {
         curl_close($c);
         unset($c);
         $jd = json_decode($data);
-        $jd->artist = $jd->all_artists;
-        $jd->artistdate = $jd->contributors[0]->birthYear;
-        unset($jd->contributors);
-        $jd->artworkdate = $jd->dateRange->text;
-        if ( $jd->thumbnailUrl ) {
-            $jd->imageurl = $jd->thumbnailUrl;
-        }
-        $jd->reference = $jd->acno;
         if($jd === null)
             throw new ArtMapsCoreServerException(
                     'Error decoding JSON data: ' . json_last_error());
-        return $jd;
+        $response = array();
+        $response['artists'] = $jd->all_artists;
+        $response['artistdate'] = $jd->contributors[0]->birthYear;
+        $response['artworkdate'] = $jd->dateRange->text;
+        if ( $jd->thumbnailUrl ) {
+            $response['imageurl'] = $jd->thumbnailUrl;
+        }
+        $response['reference'] = $jd->acno;
+        return $response;
     }
 
     public function fetchCoreUserID(ArtMapsUser $user) {
