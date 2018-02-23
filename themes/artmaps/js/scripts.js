@@ -454,7 +454,7 @@ jQuery(document)
 													.addClass("artmaps-map-object-container");
 											jQuery
 													.ajax({
-														"url" : "http://service.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://"
+														"url" : "https://service.artmaps.org.uk/service/tate/rest/v1/objectsofinterest/searchbyuri?URI=tatecollection://"
 																+ e.source.acno,
 														"dataType" : "json",
 														"async" : true,
@@ -483,7 +483,7 @@ jQuery(document)
 													ni
 															.attr(
 																	"src",
-																	"//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/http://www.tate.org.uk/art/images/work/"
+																	"//artmaps.tate.org.uk/artmaps/tate/dynimage/x/65/https://www.tate.org.uk/art/images/work/"
 																			+ oi.sizes[0].file);
 													na.append(ni);
 												}
@@ -567,3 +567,4 @@ jQuery(document)
 					fixHeightOnIOS7();
 
 				});
+
